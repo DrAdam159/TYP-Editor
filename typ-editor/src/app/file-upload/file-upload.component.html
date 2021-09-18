@@ -1,0 +1,8 @@
+<input type="file" class="file-input" (change)="onFileSelected()" #fileUpload>
+
+<div class="file-upload">
+    {{fileName || "No file uploaded yet."}}
+     <button mat-mini-fab  class="upload-btn" (click)="fileUpload.click()">
+        <mat-icon class="white-icon">attach_file</mat-icon>
+     </button>
+ </div>

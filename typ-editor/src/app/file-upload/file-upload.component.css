@@ -1,0 +1,19 @@
+.file-input {
+    display: none;
+  }
+
+  .file-upload {
+    margin: 10px 50px;
+  }
+
+  .upload-btn {
+    padding: 10px 30px;
+    background: rgb(0, 119, 255);
+    border: none;
+    border-radius: 15px 15px;
+    margin: 50px 50px;
+  }
+
+  .white-icon {
+    color: white;
+}
