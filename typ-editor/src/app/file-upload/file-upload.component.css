@@ -16,4 +16,10 @@
 
   .white-icon {
     color: white;
-}
+  }
+
+  .borderexample {
+    border-style:solid;
+    border-color:#287EC7;
+    overflow-wrap: anywhere;
+   }

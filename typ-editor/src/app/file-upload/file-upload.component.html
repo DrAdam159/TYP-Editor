@@ -1,4 +1,4 @@
-<input type="file" class="file-input" (change)="onFileSelected()" #fileUpload>
+<input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
 
 <div class="file-upload">
     {{fileName || "No file uploaded yet."}}
@@ -6,3 +6,10 @@
         <mat-icon class="white-icon">attach_file</mat-icon>
      </button>
  </div>
+
+ {{fileContent}}
+ <p class="borderexample">
+    {{fileContent2}}
+ </p>
+
+ 
