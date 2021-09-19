@@ -9,14 +9,12 @@ export class FileUploadComponent implements OnInit {
 
   fileName: string;
   fileToUpload: File | null;
-  fileContent: string;
-  fileContent2: Uint8Array | null;
+  fileContent: Uint8Array | null;
 
   constructor() { 
     this.fileToUpload = null;
     this.fileName = '';
-    this.fileContent = '';
-    this.fileContent2 = null;
+    this.fileContent = null;
   }
 
   onFileSelected(): void{
@@ -28,18 +26,15 @@ export class FileUploadComponent implements OnInit {
 
     if (this.fileToUpload) {
       this.fileName = this.fileToUpload.name;
-      console.log(this.fileToUpload);
 
       var reader = new FileReader();
+      //cteni pomoci readAsArrayBuffer, aby na binarni data nebyl aplikovan encoding
       reader.readAsArrayBuffer(this.fileToUpload);
-      //reader.readAsText(this.fileToUpload);
 
       reader.onload = () => {
-        //this.fileContent = reader.result as string;
-        //console.log(this.fileContent);
-
+        //vysledkem je pole cisel, kde kazde cislo reprezentuje jeden byte
         var buffer = reader.result as ArrayBuffer;
-        this.fileContent2 = new Uint8Array(buffer);
+        this.fileContent = new Uint8Array(buffer);
       };
 
       reader.onerror = () => {
