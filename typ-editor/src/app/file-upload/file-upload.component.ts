@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Header } from 'src/TYP_File_lib/header';
+import { TypFile } from 'src/TYP_File_lib/TypFile';
+
 
 @Component({
   selector: 'app-file-upload',
@@ -9,12 +12,13 @@ export class FileUploadComponent implements OnInit {
 
   fileName: string;
   fileToUpload: File | null;
-  fileContent: Uint8Array | null;
+  fileHeader!: Header;
+  typFile: TypFile;
 
   constructor() { 
     this.fileToUpload = null;
     this.fileName = '';
-    this.fileContent = null;
+    this.typFile = new TypFile();
   }
 
   onFileSelected(): void{
@@ -32,9 +36,10 @@ export class FileUploadComponent implements OnInit {
       reader.readAsArrayBuffer(this.fileToUpload);
 
       reader.onload = () => {
-        //vysledkem je pole cisel, kde kazde cislo reprezentuje jeden byte
         var buffer = reader.result as ArrayBuffer;
-        this.fileContent = new Uint8Array(buffer);
+        var view = new DataView(buffer);
+
+        this.typFile.readHeader(view);
       };
 
       reader.onerror = () => {
