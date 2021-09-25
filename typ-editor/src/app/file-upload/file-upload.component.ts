@@ -11,12 +11,11 @@ export class FileUploadComponent implements OnInit {
 
   fileName: string;
   fileToUpload: File | null;
-  typFile: TypFile;
+  typFile!: TypFile;
 
   constructor() { 
     this.fileToUpload = null;
     this.fileName = '';
-    this.typFile = new TypFile();
   }
 
   onFileSelected(): void{
@@ -37,7 +36,7 @@ export class FileUploadComponent implements OnInit {
         var buffer = reader.result as ArrayBuffer;
         var view = new DataView(buffer);
 
-        this.typFile.readHeader(view);
+        this.typFile = new TypFile(view);
       };
 
       reader.onerror = () => {
