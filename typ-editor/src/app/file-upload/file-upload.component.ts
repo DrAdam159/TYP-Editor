@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Header } from 'src/TYP_File_lib/header';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
 
 
@@ -12,7 +11,6 @@ export class FileUploadComponent implements OnInit {
 
   fileName: string;
   fileToUpload: File | null;
-  fileHeader!: Header;
   typFile: TypFile;
 
   constructor() { 
