@@ -1,9 +1,10 @@
 import { DataBlock } from './dataBlock';
 import { DataBlockWithSize } from './dataBlockWithSize';
-import { readString, readUint16, readUint32 } from '../Utils/binUtils';
-import { OffsetValuesHeader } from './offsetValues';
+import { BinReader } from '../Utils/binUtils_reader';
 
 export class Header {
+    reader: BinReader;
+
     headerLen!: number;
     unknown_0x01!: number;
     garminTYPSignature!: string;
@@ -40,50 +41,39 @@ export class Header {
     NT_unknown_0x9A!: number;
 
     constructor(view: DataView) {
+        this.reader = new BinReader(view);
         this.read(view);
     }
 
     read(view: DataView): void {
-        this.headerLen = view.getUint8(OffsetValuesHeader.headerLen_Offset);
-        this.unknown_0x01 = view.getUint8(OffsetValuesHeader.unknown_0x01_Offset);
-        this.garminTYPSignature = readString(10, view, OffsetValuesHeader.garminTYPSignature_Offset);
-        this.unknown_0x0C = view.getUint8(OffsetValuesHeader.unknown_0x0C_Offset);
-        this.unknown_0x0D = view.getUint8(OffsetValuesHeader.unknown_0x0D_Offset);
+        this.headerLen = this.reader.readUint8();
+        this.unknown_0x01 = this.reader.readUint8();
+        this.garminTYPSignature = this.reader.readString(10);
+        this.unknown_0x0C = this.reader.readUint8();
+        this.unknown_0x0D = this.reader.readUint8();
 
-        this.creationDate = new Date(readUint16(OffsetValuesHeader.creationDateYear_Offset, view),
-                    view.getInt8(OffsetValuesHeader.creationDateMonth_Offset), 
-                    view.getInt8(OffsetValuesHeader.creationDateDay_Offset), 
-                    view.getInt8(OffsetValuesHeader.creationDateHours_Offset), 
-                    view.getInt8(OffsetValuesHeader.creationDateMinutes_Offset), 
-                    view.getInt8(OffsetValuesHeader.creationDateSeconds_Offset));
-        this.Codepage = readUint16(OffsetValuesHeader.codepage_Offset, view);
+        this.creationDate = new Date(this.reader.readUint16(),
+                    this.reader.readUint8(), 
+                    this.reader.readUint8(), 
+                    this.reader.readUint8(), 
+                    this.reader.readUint8(), 
+                    this.reader.readUint8());
+        this.Codepage = this.reader.readUint16();
 
-        this.POIDataBlock = new DataBlock(view, OffsetValuesHeader.POIDataBlockOffset_Offset, OffsetValuesHeader.POIDataBlockLen_Offset);
-        this.PolylineDataBlock = new DataBlock(view, OffsetValuesHeader.PolylineDataBlockOffset_Offset, OffsetValuesHeader.PolylineDataBlockLen_Offset);
-        this.PolygoneDataBlock = new DataBlock(view, OffsetValuesHeader.PolygoneDataBlockOffset_Offset, OffsetValuesHeader.PolygoneDataBlockLen_Offset);
+        this.POIDataBlock = new DataBlock(this.reader);
+        this.PolylineDataBlock = new DataBlock(this.reader);
+        this.PolygoneDataBlock = new DataBlock(this.reader);
 
-        this.familyID = readUint16(OffsetValuesHeader.familyID_Offset, view);
-        this.productCode = readUint16(OffsetValuesHeader.productCode_Offset, view);  
+        this.familyID = this.reader.readUint16();
+        this.productCode = this.reader.readUint16();  
         
-        this.POITableBlock = new DataBlockWithSize(view, 
-                            OffsetValuesHeader.POITableBlockOffset_Offset, 
-                            OffsetValuesHeader.POITableBlockLen_Offset,
-                            OffsetValuesHeader.POITableBlockSize_Offset);
+        this.POITableBlock = new DataBlockWithSize(this.reader);
         
-        this.PolylineTableBlock = new DataBlockWithSize(view, 
-                            OffsetValuesHeader.PolylineTableBlockOffset_Offset, 
-                            OffsetValuesHeader.PolylineTableBlockLen_Offset,
-                            OffsetValuesHeader.PolylineTableBlockSize_Offset);
+        this.PolylineTableBlock = new DataBlockWithSize(this.reader);
 
-        this.PolygoneTableBlock = new DataBlockWithSize(view, 
-                            OffsetValuesHeader.PolygoneTableBlockOffset_Offset, 
-                            OffsetValuesHeader.PolygoneTableBlockLen_Offset,
-                            OffsetValuesHeader.PolygoneTableBlockSize_Offset);
+        this.PolygoneTableBlock = new DataBlockWithSize(this.reader);
         
-        this.PolygoneDraworderTableBlock = new DataBlockWithSize(view, 
-                            OffsetValuesHeader.PolygoneDraworderTableBlockOffset_Offset, 
-                            OffsetValuesHeader.PolygoneDraworderTableBlockLen_Offset,
-                            OffsetValuesHeader.PolygoneDraworderTableBlockSize_Offset);
+        this.PolygoneDraworderTableBlock = new DataBlockWithSize(this.reader);
 
         //Mozna nejake data z NT
         if (this.headerLen > 0x5B){
@@ -106,32 +96,21 @@ export class Header {
     }
 
     readHeader_6E(view: DataView): void {
-        this.ExtraPOITableBlock = new DataBlockWithSize(view, 
-        OffsetValuesHeader.ExtraPOITableBlockOffset_Offset, 
-        OffsetValuesHeader.ExtraPOITableBlockLen_Offset,
-        OffsetValuesHeader.ExtraPOITableBlockSize_Offset);
+        this.ExtraPOITableBlock = new DataBlockWithSize(this.reader);
 
-        this.NT_unknown_0x65 = view.getInt8(OffsetValuesHeader.NT_unknown_0x65_Offset);
-        this.NT_POIDataBlock = new DataBlock(view, 
-                        OffsetValuesHeader.NT_POIDataBlockOffset_Offset, 
-                        OffsetValuesHeader.NT_POIDataBlockLen_Offset);
+        this.NT_unknown_0x65 = this.reader.readUint8();
+        this.NT_POIDataBlock = new DataBlock(this.reader);
     }
 
     readHeader_9C(view: DataView): void {
-        this.NT_unknown_0x6E = readUint32(OffsetValuesHeader.NT_unknown_0x6E_Offset, view);
-        this.NT_PointLabelblock = new DataBlock(view, 
-                            OffsetValuesHeader.NT_PointLabelblockOffset_Offset, 
-                            OffsetValuesHeader.NT_PointLabelblockLen_Offset); 
-        this.NT_unknown_0x7A = readUint32(OffsetValuesHeader.NT_unknown_0x7A_Offset, view);
-        this.NT_unknown_0x7E = readUint32(OffsetValuesHeader. NT_unknown_0x7E_Offset, view);
-        this.NT_LabelblockTable1 = new DataBlock(view,
-                             OffsetValuesHeader.NT_LabelblockTable1Offset_Offset, 
-                             OffsetValuesHeader.NT_LabelblockTable1Len_Offset);
-        this.NT_unknown_0x8A = readUint32(OffsetValuesHeader.NT_unknown_0x8A_Offset, view); 
-        this.NT_unknown_0x8E = readUint32(OffsetValuesHeader.NT_unknown_0x8E_Offset, view); 
-        this.NT_LabelblockTable2 = new DataBlock(view, 
-                            OffsetValuesHeader.NT_LabelblockTable2Offset_Offset, 
-                            OffsetValuesHeader.NT_LabelblockTable2Len_Offset); 
-        this.NT_unknown_0x9A = readUint16(OffsetValuesHeader.NT_unknown_0x9A_Offset, view);
+        this.NT_unknown_0x6E = this.reader.readUint32();
+        this.NT_PointLabelblock = new DataBlock(this.reader); 
+        this.NT_unknown_0x7A = this.reader.readUint32();
+        this.NT_unknown_0x7E = this.reader.readUint32();
+        this.NT_LabelblockTable1 = new DataBlock(this.reader);
+        this.NT_unknown_0x8A = this.reader.readUint32(); 
+        this.NT_unknown_0x8E = this.reader.readUint32();
+        this.NT_LabelblockTable2 = new DataBlock(this.reader); 
+        this.NT_unknown_0x9A = this.reader.readUint16();
     }
 }

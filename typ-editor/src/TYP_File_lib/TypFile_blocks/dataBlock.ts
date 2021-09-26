@@ -1,15 +1,15 @@
-import { readUint32 } from '../Utils/binUtils';
+import { BinReader } from '../Utils/binUtils_reader';
 
 export class DataBlock {
     offset!: number;
     length!: number;
 
-    constructor(view: DataView, blockOffset: number, lenOffset: number) {
-        this.readDataBlock(view, blockOffset, lenOffset);
+    constructor(reader: BinReader) {
+        this.readDataBlock(reader);
     }
 
-    readDataBlock(view: DataView, blockOffset: number, lenOffset: number): void {
-        this.offset = readUint32(blockOffset, view);
-        this.length = readUint32(lenOffset, view);
+    readDataBlock(reader: BinReader): void {
+        this.offset = reader.readUint32();
+        this.length = reader.readUint32();
     }
 }
