@@ -1,4 +1,4 @@
-import { BinReader } from '../Utils/binUtils_reader';
+import { BinReader } from '../../Utils/BinReaderWriter';
 
 export class DataBlock {
     offset!: number;

@@ -1,4 +1,4 @@
-import { BinReader } from "../Utils/binUtils_reader";
+import { BinReader } from "../../Utils/BinReaderWriter";
 
 export class DataBlockWithSize{
     offset!: number;
@@ -13,5 +13,9 @@ export class DataBlockWithSize{
         this.offset = reader.readUint32();
         this.recordSize = reader.readUint16();
         this.length = reader.readUint32();
+    }
+
+    count(): number {
+        return this.recordSize > 0 ? this.length / this.recordSize : 0;
     }
 }

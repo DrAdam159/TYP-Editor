@@ -100,7 +100,6 @@ export class BinReader {
         let list: Array<number> = new Array();
     
         for(let i = 0; i < len; i++){
-            console.log(this.position);
             list.push(this.buffer.getUint8(this.position + i));
         }
         this.position += len;
@@ -147,4 +146,38 @@ export class BinReader {
         }
         return String.fromCharCode.apply(String, list);
     }
+
+    read3U(): number{
+        let v = this.readUint16();
+        v += this.readUint8() << 16;
+        return v;
+    }
+
+    readBytes(count: number): Array<number> {
+        let list = new Array;
+        for(let i = 0; i < count; i++) {
+            list.push(this.readUint8());
+        }
+        return list; 
+    }
+
+    seek(offsetOrigin: number) {
+        this.position = offsetOrigin;
+    }
+
+    readStringWithUndefinedLen(len: number = 0): string {
+        len = len > 0 ? len : Number.MAX_SAFE_INTEGER;
+        let list: Array<number> = new Array();
+        let b: number;
+        do {
+            b = this.readUint8();
+            if(b != 0) {
+                list.push(b);
+            }
+            len--;
+        } while(b != 0 && len > 0);
+        return String.fromCharCode.apply(String, list);
+    }
+
+
 }

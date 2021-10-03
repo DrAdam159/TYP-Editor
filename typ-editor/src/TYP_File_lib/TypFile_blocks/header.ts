@@ -1,6 +1,6 @@
-import { DataBlock } from './dataBlock';
-import { DataBlockWithSize } from './dataBlockWithSize';
-import { BinReader } from '../Utils/binUtils_reader';
+import { DataBlock } from './GeneralDataBlocks/dataBlock';
+import { DataBlockWithSize } from './GeneralDataBlocks/dataBlockWithSize';
+import { BinReader } from '../Utils/BinReaderWriter';
 
 export class Header {
     reader: BinReader;
