@@ -17,6 +17,25 @@ export class TypFile {
         //this.decodePolygoneData(view);
     }
 
+    decodePolylineData(view: DataView): void {
+
+        if(this.header.PolylineTableBlock.count() > 0) {
+            this.PolylineTableItems = new Array();
+            this.PolylineList = new Array();
+            let reader = new BinReader(view);
+            reader.seek(this.header.PolylineTableBlock.offset);
+            for(let i = 0; i < this.header.PolylineTableBlock.count(); i++) {
+                this.PolylineTableItems.push(new TableItem(reader, this.header.PolylineTableBlock.recordSize));
+            }
+            for(let i = 0; i < this.PolylineTableItems.length; i++) {
+                reader.seek(this.PolylineTableItems[i].offset + this.header.PolylineDataBlock.offset);
+                let p = new Polyline( this.PolylineTableItems[i].type, this.PolylineTableItems[i].subType);
+                p.read(reader);
+                this.PolylineList.push(p);
+            }
+        }
+    }
+
     //dodelat
     /*decodePolygoneData(view: DataView): void {
         if(this.header.PolygoneTableBlock.count() > 0) {
@@ -44,24 +63,5 @@ export class TypFile {
             }
         }
     }*/
-
-    decodePolylineData(view: DataView): void {
-
-        if(this.header.PolylineTableBlock.count() > 0) {
-            this.PolylineTableItems = new Array();
-            this.PolylineList = new Array();
-            let reader = new BinReader(view);
-            reader.seek(this.header.PolylineTableBlock.offset);
-            for(let i = 0; i < this.header.PolylineTableBlock.count(); i++) {
-                this.PolylineTableItems.push(new TableItem(reader, this.header.PolylineTableBlock.recordSize));
-            }
-            for(let i = 0; i < this.PolylineTableItems.length; i++) {
-                reader.seek(this.PolylineTableItems[i].offset + this.header.PolylineDataBlock.offset);
-                let p = new Polyline( this.PolylineTableItems[i].type, this.PolylineTableItems[i].subType);
-                p.read(reader);
-                this.PolylineList.push(p);
-            }
-        }
-    }
       
 }

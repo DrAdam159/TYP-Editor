@@ -15,6 +15,21 @@ enum PolylineType {
     NoBorder_Day1_Night1 = 7
  };
 
+ enum Fontdata {
+   Default = 0x0,
+   Nolabel = 0x1,
+   Small = 0x2,
+   Normal = 0x3,
+   Large = 0x4
+}
+
+enum FontColours {
+   No = 0x0,
+   Day = 0x8,
+   Night = 0x10,
+   DayAndNight = 0x18
+}
+
 export class Polyline extends GraphicElement{
     type: number;
     subtype: number;
@@ -102,7 +117,6 @@ export class Polyline extends GraphicElement{
                break;
            }
         } else {
-           //console.log("new Pixmap");
            let color: Array<Color> = new Array();
            color.push(new Color(255,255,255));
            this.bitmapDay = new PixMap(32, this.bitmapHeight, color.length, 0xfffe);
@@ -111,11 +125,21 @@ export class Polyline extends GraphicElement{
         if(this.withString) {
            this.text = new MultiText(reader);
         }
-        /*if(this.withExtOptions) {
+        if(this.withExtOptions) {
            this.extOptions = reader.readUint8();
-
-        }*/
-
-
+           this.fontColType = this.extOptions & 0x18;
+           this.fontType = this.extOptions & 0x7;
+           switch (this.fontColType) {
+            case FontColours.Day:
+               this.colFontColour.push(BinaryColor.readColor(reader));
+               break;
+            case FontColours.Night:
+               this.colFontColour.push(BinaryColor.readColor(reader));
+               break;
+            case FontColours.DayAndNight:
+               this.colFontColour = BinaryColor.readColorTable(reader, 2);
+               break;
+           }
+        }
     }
 }

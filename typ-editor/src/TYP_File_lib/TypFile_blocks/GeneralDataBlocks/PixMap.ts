@@ -43,7 +43,7 @@ export class PixMap {
             this.data.setAllBits();
 
         if(reader) {
-            if (iColors == 0) {        // keine Farbtabelle, d.h. Pixel sind direkt durch ihre Farben definiert
+            if (iColors == 0) {        
                 //this.colorTable = new Color[0];
                 switch (this.colorMode) {
                    case BitmapColorMode.POI_SIMPLE:
