@@ -125,6 +125,10 @@ export class Polyline extends GraphicElement{
         if(this.withString) {
            this.text = new MultiText(reader);
         }
+        else {
+           this.text = new MultiText();
+        }
+        
         if(this.withExtOptions) {
            this.extOptions = reader.readUint8();
            this.fontColType = this.extOptions & 0x18;

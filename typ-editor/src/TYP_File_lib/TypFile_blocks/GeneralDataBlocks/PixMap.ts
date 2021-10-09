@@ -99,6 +99,14 @@ export class PixMap {
         }
     }
 
+    constructor3(xpm: PixMap) {
+       this.data = new PixData(xpm.width, xpm.height, xpm.bitsPerPixel);
+       this.data.copyIMGData(xpm.data);
+       this.colorMode = xpm.colorMode;
+       this.colorTable = new Array();
+       this.colorTable = [...xpm.colorTable];
+    }
+
     bitsPerPixel4BitmapColorMode(bitmapColorMode: BitmapColorMode, cols: number): number {
         let iBpp = 0;
         if (cols > 255)
@@ -158,5 +166,40 @@ export class PixMap {
               throw new Error("Unknown ColorMode for bitmap");
         }
         return iBpp;
+    }
+
+    setNewColors(colorList: Array<Color>): void {
+         this.colorTable = new Array();
+         this.colorTable = [...colorList];
+    }
+
+    setNewColor(idx: number, newColor: Color): void {
+         if(idx >= this.colorTable.length) {
+            throw new Error("Index out of range");
+         }
+         this.colorTable[idx] = newColor;
+    }
+
+    getColor(idx: number): Color {
+      if (idx >= this.colorTable.length)
+         throw new Error("Wrong index value");
+      return this.colorTable[idx];
+    }
+
+    changeColorMode(mode: BitmapColorMode): void {
+       switch(this.colorMode) {
+         case BitmapColorMode.POI_SIMPLE:
+         case BitmapColorMode.POI_TR:
+         case BitmapColorMode.POI_ALPHA:
+            if (this.bitsPerPixel > 1 && (mode == BitmapColorMode.POLY1TR || mode == BitmapColorMode.POLY2))
+               throw new Error("The color mode cannot be changed");
+            break;
+         case BitmapColorMode.POLY1TR:
+         case BitmapColorMode.POLY2:
+            break;
+       }
+
+       this.colorMode = mode;
+
     }
 }

@@ -25,7 +25,7 @@ export class GraphicElement {
     colFontColour: Array<Color>;
     options: number;
     extOptions: number;
-    text: MultiText | null;
+    text: MultiText ;
     bitmapDay: PixMap | null;
     bitmapNight: PixMap | null;
     fontColType: FontColours;
@@ -39,10 +39,38 @@ export class GraphicElement {
         this.colFontColour= new Array();
         this.options = 0;
         this.extOptions = 0;
-        this.text = null;
+        this.text = {} as MultiText;
         this.bitmapDay = null;
         this.bitmapNight = null;
         this.fontColType = 0;
         this.fontType = 0;
+    }
+
+    setDayColor1(color: Color): void {
+        this.colDayColor[0] = color;
+        if(this.bitmapDay) {
+            this.bitmapDay.setNewColor(0, color);
+        }
+    }
+
+    setDayColor2(color: Color): void {
+        this.colDayColor[0] = color;
+        if(this.bitmapDay && this.bitmapDay.colorTable.length > 1) {
+            this.bitmapDay.setNewColor(1, color);
+        }
+    }
+
+    setNightColor1(color: Color): void {
+        this.colNightColor[0] = color;
+        if(this.bitmapNight) {
+            this.bitmapNight.setNewColor(0, color);
+        }
+    }
+
+    setNightColor2(color: Color): void {
+        this.colNightColor[0] = color;
+        if(this.bitmapNight && this.bitmapNight.colorTable.length > 1) {
+            this.bitmapNight.setNewColor(1, color);
+        }
     }
 }

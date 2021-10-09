@@ -11,14 +11,18 @@ export class BinReader {
     }
 
     readUint8(): number{
-        if (this.buffLen < 1) {
-            return 0;
+        if(this.position < this.buffLen) {
+            if (this.buffLen < 1) {
+                return 0;
+            }
+    
+            let byte = this.buffer.getUint8(this.position);
+            this.position++;
+    
+            return byte;
         }
-
-        let byte = this.buffer.getUint8(this.position);
-        this.position++;
-
-        return byte;
+        return 0;
+        
     }
 
     readUint16(): number{

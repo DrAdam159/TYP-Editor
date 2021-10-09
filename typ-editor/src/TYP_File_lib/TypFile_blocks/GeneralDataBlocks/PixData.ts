@@ -17,6 +17,10 @@ export class PixData {
         }
     }
 
+    copyIMGData(pix: PixData) {
+        this.rawIMGData = [...pix.rawIMGData];
+    }
+
     read(reader: BinReader): void {
         this.rawIMGData = reader.readBytes(this.bytesForBitmapLine(this.width, this.bitsPerPixel) * this.height);
     }

@@ -49,21 +49,27 @@ export class MultiText {
     //textArr!: {[key in LanguageCode]: number}
     textArr: Array<KeyValuePair>;
 
-    constructor(reader: BinReader) {
+    constructor(reader?: BinReader) {
         this.textArr = new Array();
-        let len = reader.readUint8();
+        if(reader){
+            let len = reader.readUint8();
         
-        if ((len & 0x1) == 0x1)       // liché -> pouze 1 byte pro identifikátor délky
-            len >>= 1;
-         else {                        // sudé -> 2 byty pro identifikaci délky
-            len += reader.readUint8() << 8;
-            len >>= 2;
-         }
-         while (len > 0) {
-            let t = new Text(reader);
-            this.set(t);
-            len -= t.text.length + 2;
-         }
+            if ((len & 0x1) == 0x1)       // liché -> pouze 1 byte pro identifikátor délky
+                len >>= 1;
+             else {                        // sudé -> 2 byty pro identifikaci délky
+                len += reader.readUint8() << 8;
+                len >>= 2;
+             }
+             while (len > 0) {
+                let t = new Text(reader);
+                this.set(t);
+                len -= t.text.length + 2;
+             }
+        }
+        else {
+            this.set(new Text());
+        }
+        
     }
 
     set(iText: Text): void {
