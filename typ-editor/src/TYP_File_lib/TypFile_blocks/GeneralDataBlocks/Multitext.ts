@@ -51,6 +51,7 @@ export class MultiText {
 
     constructor(reader?: BinReader) {
         this.textArr = new Array();
+        let t = new Text();
         if(reader){
             let len = reader.readUint8();
         
@@ -61,10 +62,11 @@ export class MultiText {
                 len >>= 2;
              }
              while (len > 0) {
-                let t = new Text(reader);
+                t = new Text(reader);
                 this.set(t);
                 len -= t.text.length + 2;
              }
+             this.set(t);
         }
         else {
             this.set(new Text());

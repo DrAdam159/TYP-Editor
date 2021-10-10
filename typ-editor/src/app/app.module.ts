@@ -14,6 +14,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PolylineComponent } from './polyline/polyline.component';
 import { HeaderComponent } from './header/header.component';
 import { PolylineDetailComponent } from './polyline-detail/polyline-detail.component';
+import { PoiComponent } from './poi/poi.component';
+import { PoiDetailComponent } from './poi-detail/poi-detail.component';
+import { PolygoneComponent } from './polygone/polygone.component';
+import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { PolylineDetailComponent } from './polyline-detail/polyline-detail.compo
     FileUploadComponent,
     PolylineComponent,
     HeaderComponent,
-    PolylineDetailComponent
+    PolylineDetailComponent,
+    PoiComponent,
+    PoiDetailComponent,
+    PolygoneComponent,
+    PolygoneDetailComponent
   ],
   imports: [
     BrowserModule,

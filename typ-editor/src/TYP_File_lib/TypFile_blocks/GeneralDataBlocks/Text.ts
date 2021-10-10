@@ -43,6 +43,8 @@ export class Text {
     text: string;
 
     constructor(reader?: BinReader) {
+        this.language = 0;
+        this.text = " ";
         if(reader) {
             this.language = reader.readUint8();
             this.text = reader.readStringWithUndefinedLen(0);

@@ -79,6 +79,9 @@ export class POI extends GraphicElement{
         if(this.withString) {
             this.text = new MultiText(reader);
         }
+        else {
+            this.text = new MultiText();
+         }
         /*if (WithExtendedOptions) {
             ExtOptions = br.ReadByte();
             switch (FontColType) {

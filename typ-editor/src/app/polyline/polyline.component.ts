@@ -11,7 +11,7 @@ import { PolylineDetailComponent } from '../polyline-detail/polyline-detail.comp
 export class PolylineComponent implements OnInit {
 
 
-  @Input() polylineList!: Array<Polyline>
+  @Input() polylineList!: Array<Polyline>;
 
   constructor(private matDialog: MatDialog) { }
 

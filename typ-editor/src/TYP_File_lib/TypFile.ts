@@ -23,8 +23,8 @@ export class TypFile {
     constructor(view: DataView) {
         this.header = new Header(view);
         this.decodePolylineData(view);
-       //this.decodePOIData(view);
-        //this.decodePolygoneData(view);
+        this.decodePOIData(view);
+        this.decodePolygoneData(view);
     }
 
     decodePolylineData(view: DataView): void {

@@ -1,8 +1,5 @@
 <mat-nav-list>
     <mat-list-item *ngFor="let polyline of polylineList">
-        <!-- <a mat-list-item href="https://google.com">
-            <h3 matLine>{{polyline.text.textArr[0].value}}</h3>
-        </a> -->
         <a (click)="openPolylineDetail(polyline)">
             <h3 matLine>{{polyline.text.textArr[0].value | uppercase}}</h3>
         </a>

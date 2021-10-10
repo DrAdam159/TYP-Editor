@@ -185,6 +185,9 @@ export class Polygon extends GraphicElement{
          if (this.withString) {
             this.text = new MultiText(reader);
          }
+         else {
+            this.text = new MultiText();
+         }
 
          if (this.withExtendedOptions) {    
             this.extOptions = reader.readUint8();
