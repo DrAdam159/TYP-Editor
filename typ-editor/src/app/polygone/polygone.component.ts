@@ -20,7 +20,7 @@ export class PolygoneComponent implements OnInit {
   openPolygoneDetail(polygoneItem: Polygon): void {
     this.matDialog.open( PolygoneDetailComponent, {
       data: {
-        poi: polygoneItem
+        polygone: polygoneItem
       }
     });
   }

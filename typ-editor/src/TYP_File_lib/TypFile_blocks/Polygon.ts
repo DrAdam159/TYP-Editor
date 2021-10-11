@@ -116,7 +116,7 @@ export class Polygon extends GraphicElement{
             case ColorType.BM_Day2_Night2:    // 4 colors + 1x pixel data
                this.colDayColor = BinaryColor.readColorTable(reader, 2);
                this.colNightColor = BinaryColor.readColorTable(reader, 2);
-               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2, reader);
+               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2);
                this.bitmapDay.constructor2(this.colDayColor, reader);
                this.bitmapNight = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);
                this.bitmapNight.constructor3(this.bitmapDay);
@@ -127,7 +127,7 @@ export class Polygon extends GraphicElement{
                this.colDayColor.push(BinaryColor.readColor(reader));
                this.colDayColor.push(new Color(255,255,255,0));
                this.colNightColor = BinaryColor.readColorTable(reader, 2);
-               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2, reader);
+               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2);
                this.bitmapDay.constructor2(this.colDayColor, reader);
                this.bitmapNight = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);
                this.bitmapNight.constructor3(this.bitmapDay);
@@ -139,7 +139,7 @@ export class Polygon extends GraphicElement{
                this.colDayColor = BinaryColor.readColorTable(reader, 2);
                this.colNightColor.push(BinaryColor.readColor(reader));
                this.colNightColor.push(new Color(255,255,255,0));
-               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2, reader);
+               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2);
                this.bitmapDay.constructor2(this.colDayColor, reader);
                this.bitmapNight = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);
                this.bitmapNight.constructor3(this.bitmapDay)
@@ -148,11 +148,12 @@ export class Polygon extends GraphicElement{
                break;
 
             case ColorType.BM_Day1:           // 1 color + 1x pixel data
-               this.colDayColor.push(BinaryColor.readColor(reader));
-               this.colNightColor.push(BinaryColor.readColor(reader));
+               let color = BinaryColor.readColor(reader);
+               this.colDayColor.push(color);
+               this.colNightColor.push(color);
                this.colDayColor.push(new Color(255,255,255,0));
                this.colNightColor.push(new Color(255,255,255,0));
-               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2, reader);
+               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length , BitmapColorMode.POLY1TR);
                this.bitmapDay.constructor2(this.colDayColor, reader);
                break;
 
@@ -161,7 +162,7 @@ export class Polygon extends GraphicElement{
                this.colDayColor.push(new Color(255,255,255,0));
                this.colNightColor.push(BinaryColor.readColor(reader));
                this.colNightColor.push(new Color(255,255,255,0));
-               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY2, reader);
+               this.bitmapDay = new PixMap(32, 32, this.colDayColor.length, BitmapColorMode.POLY1TR);
                this.bitmapDay.constructor2(this.colDayColor, reader);
                this.bitmapNight = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);
                this.bitmapNight.constructor3(this.bitmapDay)

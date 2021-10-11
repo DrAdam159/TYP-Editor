@@ -72,6 +72,7 @@ export class POI extends GraphicElement{
         this.withString = Bit.isSet(this.options, 2);
         this.withExtendedOptions = Bit.isSet(this.options, 3);
         this.bitmapDay = new PixMap(this.width, this.height, this.colsDay, this.colorModeDay, reader);
+        
         if (this.withNightXpm) {
             this.colsNight = reader.readUint8();
             this.colorModeNight = reader.readUint8();
