@@ -151,14 +151,14 @@ export class BinReader {
         return String.fromCharCode.apply(String, list);
     }
 
-    read3U(): number{
+    read3U(): number {
         let v = this.readUint16();
         v += this.readUint8() << 16;
         return v;
     }
 
     readBytes(count: number): Array<number> {
-        let list = new Array;
+        let list = new Array();
         for(let i = 0; i < count; i++) {
             list.push(this.readUint8());
         }
@@ -169,8 +169,8 @@ export class BinReader {
         this.position = offsetOrigin;
     }
 
-    readStringWithUndefinedLen(len: number = 0): string {
-        len = len > 0 ? len : Number.MAX_SAFE_INTEGER;
+    readStringWithUndefinedLen(maxLen: number = 0): string {
+        let len = maxLen > 0 ? maxLen : Number.MAX_SAFE_INTEGER;
         let list: Array<number> = new Array();
         let b: number;
         do {

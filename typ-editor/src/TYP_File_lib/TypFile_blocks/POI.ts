@@ -3,6 +3,7 @@ import { PixMap } from "./GeneralDataBlocks/PixMap";
 import { BinReader } from "../Utils/BinReaderWriter";
 import { Bit } from "../Utils/Bit";
 import { MultiText } from "./GeneralDataBlocks/Multitext";
+import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
 
 enum BitmapColorMode {
     POI_SIMPLE = 0,
@@ -22,6 +23,13 @@ enum BitmapColorMode {
     unknown = 0xffff
  }
 
+ enum FontColours {
+    No = 0x0,
+    Day = 0x8,
+    Night = 0x10,
+    DayAndNight = 0x18
+ }
+
 export class POI extends GraphicElement{
     width: number;
     height: number;
@@ -34,6 +42,7 @@ export class POI extends GraphicElement{
     withNightXpm: boolean; 
     nightXPMHasData: boolean;
     withString: boolean;
+    withExtendedOptions: boolean;
 
     constructor(type: number, subtype: number) {
         super();
@@ -49,6 +58,7 @@ export class POI extends GraphicElement{
         this.withNightXpm = false;
         this.nightXPMHasData = true;
         this.withString = false;
+        this.withExtendedOptions = false;
     }
 
     read(reader: BinReader): void {
@@ -57,44 +67,41 @@ export class POI extends GraphicElement{
         this.height = reader.readUint8();
         this.colsDay = reader.readUint8();
         this.colorModeDay = reader.readUint8();
-        this.bitmapDay = new PixMap(this.width, this.height, this.colsDay, this.colorModeDay, reader);
         this.nightXPMHasData = Bit.isSet(this.options, 0);
         this.withNightXpm = Bit.isSet(this.options, 1);
         this.withString = Bit.isSet(this.options, 2);
-
-        if(this.withNightXpm) {
+        this.withExtendedOptions = Bit.isSet(this.options, 3);
+        this.bitmapDay = new PixMap(this.width, this.height, this.colsDay, this.colorModeDay, reader);
+        if (this.withNightXpm) {
             this.colsNight = reader.readUint8();
             this.colorModeNight = reader.readUint8();
-            if(!this.nightXPMHasData) {
-                /*Color[] col = BinaryColor.ReadColorTable(br, colsnight);
-                XBitmapNight = new PixMap(XBitmapDay);
-                XBitmapNight.SetNewColors(col);*/
-                console.log("here");
-            }
-            else {
-                console.log("here");
-                //XBitmapNight = new PixMap(Width, Height, colsnight, ColormodeNight, br);
-            }
-        }
+            if (!this.nightXPMHasData) {
+               let col = BinaryColor.readColorTable(reader, this.colsNight);
+               this.bitmapNight = new PixMap(this.width, this.height, this.colsDay, this.colorModeDay);
+               this.bitmapNight.constructor3(this.bitmapDay);
+               this.bitmapNight.setNewColors(col);
+            } else
+               this.bitmapNight = new PixMap(this.width, this.height, this.colsNight, this.colorModeNight, reader);
+         }
         if(this.withString) {
             this.text = new MultiText(reader);
         }
         else {
             this.text = new MultiText();
          }
-        /*if (WithExtendedOptions) {
-            ExtOptions = br.ReadByte();
-            switch (FontColType) {
+        if (this.withExtendedOptions) {
+            this.extOptions = reader.readUint8();
+            switch (this.fontColType) {
                case FontColours.Day:
-                  colFontColour[0] = BinaryColor.ReadColor(br);
+                  this.colFontColour.push(BinaryColor.readColor(reader));
                   break;
                case FontColours.Night:
-                  colFontColour[1] = BinaryColor.ReadColor(br);
+                  this.colFontColour.push(BinaryColor.readColor(reader));
                   break;
                case FontColours.DayAndNight:
-                  colFontColour = BinaryColor.ReadColorTable(br, 2);
+                  this.colFontColour = BinaryColor.readColorTable(reader, 2);
                   break;
             }
-         }*/
+         }
     }
 }

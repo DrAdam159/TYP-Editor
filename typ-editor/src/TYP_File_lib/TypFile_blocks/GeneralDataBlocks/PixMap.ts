@@ -44,7 +44,6 @@ export class PixMap {
 
         if(reader) {
             if (iColors == 0) {        
-                //this.colorTable = new Color[0];
                 switch (this.colorMode) {
                    case BitmapColorMode.POI_SIMPLE:
                       this.data = new PixData(iWidth, iHeight, this.bitsPerPixel, reader);
@@ -81,7 +80,7 @@ export class PixMap {
                    case BitmapColorMode.POLY2:
                       if (iColors != 2)
                          throw new Error("Only two colors can be read in this color mode");
-                       this.colorTable = BinaryColor.readColorTable(reader, 2, false);
+                     this.colorTable = BinaryColor.readColorTable(reader, 2, false);
                       break;
                    default:
                       throw new Error("Unknown ColorMode for bitmap");

@@ -46,7 +46,6 @@ interface KeyValuePair {
 
 
 export class MultiText {
-    //textArr!: {[key in LanguageCode]: number}
     textArr: Array<KeyValuePair>;
 
     constructor(reader?: BinReader) {

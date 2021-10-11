@@ -65,7 +65,6 @@ export class TypFile {
                 p.read(reader);
                 this.POIList.push(p);
             }
-
         }
     }
 
@@ -102,15 +101,15 @@ export class TypFile {
                 reader.seek(this.PolygonTableItems[i].offset + this.header.PolygoneDataBlock.offset);
                 let p = new Polygon(this.PolygonTableItems[i].type, this.PolygonTableItems[i].subType);
                 p.read(reader);
-                /*for (int j = 0; j < PolygonDraworderTableItems.Count; j++) {
-                    if (p.Type == PolygonDraworderTableItems[j].Type) // Haupttyp gefunden
-                       for (int k = 0; k < PolygonDraworderTableItems[j].Subtypes.Count; k++)
-                          if (p.Subtype == PolygonDraworderTableItems[j].Subtypes[k]) { // auch Subtyp gefunden
-                             p.Draworder = PolygonDraworderTableItems[j].Level;
-                             j = PolygonDraworderTableItems.Count;       // 2. Schleifenabbruch
+                for (let j = 0; j < this.PolygonDraworderTableItems.length; j++) {
+                    if (p.type == this.PolygonDraworderTableItems[j].type) 
+                       for (let k = 0; k < this.PolygonDraworderTableItems[j].subTypes.length; k++)
+                          if (p.subtype == this.PolygonDraworderTableItems[j].subTypes[k]) { 
+                             p.drawOrder = this.PolygonDraworderTableItems[j].level;
+                             j = this.PolygonDraworderTableItems.length;    
                              break;
                           }
-                 }*/
+                 }
                 this.PolygonList.push(p);
             }
         }
