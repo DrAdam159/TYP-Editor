@@ -74,11 +74,9 @@ export class MultiText {
     }
 
     set(iText: Text): void {
-           /*if (iText.language in iText) {
-               // this.txt[code] = txt;
-           } else {
-              this.textArr.push({key: iText.language, value: iText.text});
-           }*/
-           this.textArr.push({key: iText.language, value: iText.text});
+       
+        if(!(this.textArr.some(e => e.key == iText.language))) {
+            this.textArr.push({key: iText.language, value: iText.text});
+          }
      }
 }
