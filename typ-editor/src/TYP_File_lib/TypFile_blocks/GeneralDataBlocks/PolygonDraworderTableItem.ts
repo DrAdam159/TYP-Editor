@@ -24,7 +24,7 @@ export class PolygonDraworderTableItem {
          }
 
          if (this.subTypes.length == 0)
-         this.subTypes.push(0);
+            this.subTypes.push(0);
          else
             this.type += 0x100;
     }

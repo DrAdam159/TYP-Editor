@@ -28,7 +28,7 @@ export class PixData {
     //určuje počet bajtů požadovaných pro bitmapový řádek
     bytesForBitmapLine(width: number, bitsPerPixel: number): number {
         let bytesForLine  = width * bitsPerPixel;
-        return bytesForLine / 8 + (bytesForLine % 8 > 0 ? 1 : 0);
+        return ((bytesForLine / 8) | 0) + (bytesForLine % 8 > 0 ? 1 : 0);
     }
 
     //nastaveni vsech bitu na 1
