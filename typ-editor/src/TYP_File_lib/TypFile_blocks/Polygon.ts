@@ -1,5 +1,6 @@
 import { BinReader } from "../Utils/BinReaderWriter";
 import { Bit } from "../Utils/Bit";
+import { Bitmap } from "../Utils/Bitmap";
 import { Color } from "../Utils/Color";
 import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
 import { GraphicElement } from "./GeneralDataBlocks/GraphicElement";
@@ -205,4 +206,55 @@ export class Polygon extends GraphicElement{
             }
          }
     }
+
+    asBitmap(dayOrNight: boolean): Bitmap {
+      if (dayOrNight) {
+         if (this.bitmapDay != null)
+            return this.bitmapDay.asBitmap();
+         else
+            return this.getDummyXPixMap(BitmapColorMode.POLY1TR, true).asBitmap(); ;
+      } else {
+         if (this.bitmapNight != null)
+            return this.bitmapNight.asBitmap();
+         else
+            return this.getDummyXPixMap(BitmapColorMode.POLY1TR, false).asBitmap(); ;
+      }
+    }
+
+    getDummyXPixMap(bcm: BitmapColorMode, dayOrNight: boolean, old?: PixMap ): PixMap {
+      if (old != null) {
+         if (old.colorMode != bcm) {
+            switch (old.colorMode) {
+               case BitmapColorMode.POLY1TR:
+                  old.changeColorMode(BitmapColorMode.POLY2);
+                  old.invertBits();
+                  old.setNewColors([old.getColor(0), new Color(255,255,255,255)]);      
+                  break;
+
+               case BitmapColorMode.POLY2:
+                  old.changeColorMode(BitmapColorMode.POLY1TR);
+                  old.invertBits();
+                  old.setNewColors([old.getColor(0)]);
+                  break;
+            }
+         }
+         return old;
+      }
+
+      let pic = new PixMap(32, 32, 2, bcm);
+      //pic.fillDummyData();
+      if (dayOrNight) {
+         pic.setNewColor(0, this.colDayColor[0]);
+         if (bcm == BitmapColorMode.POLY2) {
+            pic.setNewColor(1, this.colDayColor[1]);
+         } 
+      } else {
+         pic.setNewColor(0, this.colNightColor[0]);
+         if (bcm == BitmapColorMode.POLY2) {
+            pic.setNewColor(1, this.colNightColor[1]);
+         } 
+      }
+      return pic;
+    }
+   
 }

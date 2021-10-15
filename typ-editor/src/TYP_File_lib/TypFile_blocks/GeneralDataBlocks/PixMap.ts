@@ -175,7 +175,7 @@ export class PixMap {
     }
 
     setNewColor(idx: number, newColor: Color): void {
-         if(idx >= this.colorTable.length) {
+         if(idx > this.colorTable.length) {
             throw new Error("Index out of range");
          }
          this.colorTable[idx] = newColor;

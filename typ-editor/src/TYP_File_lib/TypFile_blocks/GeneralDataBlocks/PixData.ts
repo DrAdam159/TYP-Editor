@@ -35,6 +35,10 @@ export class PixData {
 
     //nastaveni vsech bitu na 1
     setAllBits(): void {
+       if(this.rawIMGData.length == 0){
+         for (let i = 0; i < this.width * this.height; i++)
+         this.rawIMGData.push(0xff);
+       }
         for (let i = 0; i < this.rawIMGData.length; i++)
         this.rawIMGData[i] = 0xff;
      }
@@ -51,6 +55,7 @@ export class PixData {
         let colDummy = new Color(255,255,255,0);
 
         if (colorTable != null && colorTable.length > 0) {
+           
 
             let pixel4byte = 8 / this.bitsPerPixel;
             let bytes4line = this.bytesForBitmapLine(this.width, this.bitsPerPixel);
@@ -63,8 +68,9 @@ export class PixData {
                          let dat = this.rawIMGData[linestart + ((x / 8) | 0)];
                          dat >>= x % 8;
                          let  idx = dat & 0x1;
-                         if (colorTable.length == 1)
-                            bmp.setPixel(x, y, idx == 1 ? colorTable[0] : colDummy);
+                         if (colorTable.length == 1){
+                           bmp.setPixel(x, y, idx == 1 ? colorTable[0] : colDummy);
+                         } 
                          else
                             bmp.setPixel(x, y, idx < colorTable.length ? (idx == 1 ? colorTable[0] : colorTable[1]) : colDummy);
                       }
