@@ -23,7 +23,7 @@ export class Color {
                     this.r = parseInt(res[1], 10);
                     this.g = parseInt(res[2], 10);
                     this.b = parseInt(res[3], 10);
-                    this.a = res[5] ? parseFloat(res[5]) : 1;
+                    this.a = res[5] ? parseFloat(res[5]) : 255;
                 }
                 
             }
@@ -32,7 +32,7 @@ export class Color {
                 this.r = r;
                 this.g = g;
                 this.b = b;
-                this.a = a || 1;
+                this.a = a || 255;
             }
         }
     }

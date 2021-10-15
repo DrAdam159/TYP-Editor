@@ -18,6 +18,7 @@ import { PoiComponent } from './poi/poi.component';
 import { PoiDetailComponent } from './poi-detail/poi-detail.component';
 import { PolygoneComponent } from './polygone/polygone.component';
 import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.compo
     PoiComponent,
     PoiDetailComponent,
     PolygoneComponent,
-    PolygoneDetailComponent
+    PolygoneDetailComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,

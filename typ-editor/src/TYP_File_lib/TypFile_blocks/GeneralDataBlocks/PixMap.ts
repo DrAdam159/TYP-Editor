@@ -2,6 +2,7 @@ import { BinReader } from "src/TYP_File_lib/Utils/BinReaderWriter";
 import { PixData } from "./PixData";
 import { Color } from "src/TYP_File_lib/Utils/Color";
 import { BinaryColor } from "./BinaryColor";
+import { Bitmap } from "src/TYP_File_lib/Utils/Bitmap";
 
 enum BitmapColorMode {
     POI_SIMPLE = 0,
@@ -198,8 +199,10 @@ export class PixMap {
          case BitmapColorMode.POLY2:
             break;
        }
-
        this.colorMode = mode;
+    }
 
+    asBitmap(): Bitmap {
+       return this.data.convertDataToBitmap(this.colorTable);
     }
 }

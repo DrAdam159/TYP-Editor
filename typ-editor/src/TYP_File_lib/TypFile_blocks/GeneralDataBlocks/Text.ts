@@ -44,14 +44,14 @@ export class Text {
 
     constructor(reader?: BinReader) {
         this.language = 0;
-        this.text = " ";
+        this.text = "undefined";
         if(reader) {
             this.language = reader.readUint8();
             this.text = reader.readStringWithUndefinedLen(0);
         }
-        else {
+        /*else {
             this.language = 0;
             this.text = "undefined";
-        }
+        }*/
     }
 }

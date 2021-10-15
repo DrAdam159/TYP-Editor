@@ -5,6 +5,7 @@ import { Bit } from "../Utils/Bit";
 import { MultiText } from "./GeneralDataBlocks/Multitext";
 import { PixMap } from "./GeneralDataBlocks/PixMap";
 import { Color } from "../Utils/Color";
+import { Bitmap } from "../Utils/Bitmap";
 
 enum PolylineType {
     Day2 = 0,
@@ -40,9 +41,7 @@ export class Polyline extends GraphicElement{
     borderWidth: number;
     polylineType: PolylineType;
     bitmapHeight: number;
-    //sirka - konstantni
     width: number;
-    //vyska (tloustka) 
     height: number;
 
     constructor(type: number, subtype: number) {
@@ -146,4 +145,61 @@ export class Polyline extends GraphicElement{
            }
         }
     }
+
+    asBitmap(dayOrNightBMP: boolean): Bitmap {
+       let bmp = new Bitmap(this.width, this.height);
+       
+       if(this.bitmapDay != null) {
+          let tmp = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);
+          tmp.constructor3(this.bitmapDay);
+
+          if(dayOrNightBMP) {
+            switch (this.polylineType) {
+               case PolylineType.Day2:
+               case PolylineType.Day2_Night2:
+               case PolylineType.NoBorder_Day2_Night1:
+                  tmp.setNewColors(this.colDayColor);
+                  break;
+   
+               case PolylineType.Day1_Night2:
+               case PolylineType.NoBorder_Day1:
+               case PolylineType.NoBorder_Day1_Night1:
+                  tmp.setNewColor(0, this.colDayColor[0]);
+                  break;
+            }
+          } else {
+            switch (this.polylineType) {
+               case PolylineType.Day2:
+               case PolylineType.NoBorder_Day1:
+                  //tmp = null;
+                  break;
+
+               case PolylineType.Day1_Night2:
+               case PolylineType.Day2_Night2:
+                  tmp.setNewColors(this.colNightColor);
+                  break;
+
+               case PolylineType.NoBorder_Day2_Night1:
+               case PolylineType.NoBorder_Day1_Night1:
+                  tmp.setNewColor(0, this.colNightColor[0]);
+                  break;
+            }
+          }
+          if (tmp != null)
+               bmp = tmp.asBitmap();
+       } else {
+         bmp = new Bitmap(32, (this.innerWidth + 2 * this.borderWidth));
+         for (let y = 0; y < bmp.height; y++) {
+            let bBorder = y < this.borderWidth || y >= (this.innerWidth + this.borderWidth);
+            let col = new Color();
+            if (dayOrNightBMP)
+               col = bBorder ? this.colDayColor[1] : this.colDayColor[0];
+            else
+               col = bBorder ? this.colNightColor[1] : this.colNightColor[0];
+            for (let x = 0; x < bmp.width; x++)
+               bmp.setPixel(x, y, col);
+       }
+    }
+    return bmp;
+   }
 }

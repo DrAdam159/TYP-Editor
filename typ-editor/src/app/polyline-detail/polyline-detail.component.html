@@ -3,10 +3,11 @@
     <pre>
         {{polyline | json}}
     </pre>
+    <canvas #canvas width="600" height="300"></canvas>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Edit</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="openEditor()">Edit</button>
   </mat-dialog-actions>
 
 
