@@ -53,7 +53,7 @@ export class PixData {
                    for (let y = 0; y < this.height; y++) {
                       let linestart = bytes4line * y;
                       for (let x = 0; x < this.width; x++) {
-                         let dat = this.rawIMGData[linestart + x / 8];
+                         let dat = this.rawIMGData[linestart + ((x / 8) | 0)];
                          dat >>= x % 8;
                          let  idx = dat & 0x1;
                          if (colorTable.length == 1)

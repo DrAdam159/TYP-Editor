@@ -43,9 +43,9 @@ export class TypFile {
                 reader.seek(this.PolylineTableItems[i].offset + this.header.PolylineDataBlock.offset);
                 let p = new Polyline(this.PolylineTableItems[i].type, this.PolylineTableItems[i].subType);
                 p.read(reader);
-                /*if(i == 7){
+                if(i == 2){
                     console.log(p.asBitmap(true));
-                } */
+                }
                 this.PolylineList.push(p);
             }
         }
