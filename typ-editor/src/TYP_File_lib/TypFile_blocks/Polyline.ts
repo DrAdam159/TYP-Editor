@@ -145,6 +145,24 @@ export class Polyline extends GraphicElement{
            }
         }
     }
+    copy(iPolyline: Polyline) {
+      this.options = iPolyline.options;
+      this.options2 = iPolyline.options2;
+      this.polylineType = iPolyline.polylineType;
+      this.bitmapHeight = iPolyline.bitmapHeight;
+      this.height = iPolyline.height;
+      this.withExtOptions = iPolyline.withExtOptions;
+      this.withString = this.withString;
+      this.colDayColor = iPolyline.colDayColor;
+      this.text = iPolyline.text;
+      this.bitmapDay = iPolyline.bitmapDay;
+      this.bitmapDay = iPolyline.bitmapDay;
+      this.extOptions = iPolyline.extOptions;
+      this.fontType = iPolyline.fontType;
+      this.withString = iPolyline.withString;
+      this.borderWidth = iPolyline.borderWidth;
+      this.innerWidth = iPolyline.innerWidth;
+    }
 
     asBitmap(dayOrNightBMP: boolean): Bitmap {
        let bmp = new Bitmap(this.width, this.height);

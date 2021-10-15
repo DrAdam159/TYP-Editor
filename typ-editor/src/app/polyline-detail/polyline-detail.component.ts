@@ -1,8 +1,7 @@
 import { Component, AfterViewInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
-import { Router, NavigationExtras } from '@angular/router';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-polyline-detail',
@@ -41,13 +40,7 @@ export class PolylineDetailComponent implements AfterViewInit {
   }
 
   openEditor(): void {
-    /*let navigationExtras: NavigationExtras = {
-      queryParams: {
-          data: this.polyline
-      }
-    }
-    this.router.navigate(['editor'], navigationExtras);*/
-    this.router.navigateByUrl('/editor', { state: { data: this.polyline } });
+    this.router.navigate(['/editor'], {state:{...this.polyline} });
   }
 
 }

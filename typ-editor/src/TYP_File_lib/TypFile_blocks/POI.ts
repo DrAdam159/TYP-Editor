@@ -4,6 +4,7 @@ import { BinReader } from "../Utils/BinReaderWriter";
 import { Bit } from "../Utils/Bit";
 import { MultiText } from "./GeneralDataBlocks/Multitext";
 import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
+import { Bitmap } from "../Utils/Bitmap";
 
 enum BitmapColorMode {
     POI_SIMPLE = 0,
@@ -104,5 +105,25 @@ export class POI extends GraphicElement{
                   break;
             }
          }
+    }
+
+    asBitmap(dayOrNight: boolean): Bitmap {
+      if(dayOrNight && this.bitmapDay != null) {
+         let tmp = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);
+         tmp.constructor3(this.bitmapDay);
+
+         if(tmp.colorTable.length > 0) {
+            tmp.invertBits();
+         }
+         return tmp.asBitmap();
+      }
+      if (!dayOrNight && this.bitmapNight != null) {
+         let tmp = new PixMap(this.bitmapNight.width, this.bitmapNight.height, this.bitmapNight.colorCount, this.bitmapNight.colorMode);
+         tmp.constructor3(this.bitmapNight);
+         if (tmp.colorTable.length > 0)
+            tmp.invertBits();
+         return tmp.asBitmap();
+      }
+      return new Bitmap(this.width, this.height);
     }
 }

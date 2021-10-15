@@ -39,6 +39,13 @@ export class PixData {
         this.rawIMGData[i] = 0xff;
      }
 
+     invertBits(): void {
+        if(this.bitsPerPixel == 1){
+            for (let i = 0; i < this.rawIMGData.length; i++)
+            this.rawIMGData[i] = ~this.rawIMGData[i];
+        }
+     }
+
     convertDataToBitmap(colorTable: Array<Color>): Bitmap {
         let bmp = new Bitmap(this.width, this.height);
         let colDummy = new Color(255,255,255,0);
@@ -68,7 +75,7 @@ export class PixData {
                   for (let y = 0; y < this.height; y++) {
                      let linestart = bytes4line * y;
                      for (let x = 0; x < this.width; x++) {
-                        let dat = this.rawIMGData[linestart + x / 4];
+                        let dat = this.rawIMGData[linestart + ((x / 4) | 0)];
                         let idx = 0;
                         switch (x % 4) {
                            case 0: idx = dat & 0x3; break;           // Bit 0, 1
@@ -85,7 +92,7 @@ export class PixData {
                   for (let y = 0; y < this.height; y++) {
                      let linestart = bytes4line * y;
                      for (let x = 0; x < this.width; x++) {
-                        let dat = this.rawIMGData[linestart + x / 2];
+                        let dat = this.rawIMGData[linestart + ((x / 2)| 0)];
                         let idx = x % 2 == 0 ? (dat & 0xf) : (dat >> 4);
                         bmp.setPixel(x, y, idx < colorTable.length ? colorTable[idx] : colDummy);
                      }

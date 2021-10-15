@@ -205,4 +205,10 @@ export class PixMap {
     asBitmap(): Bitmap {
        return this.data.convertDataToBitmap(this.colorTable);
     }
+
+    invertBits(): void {
+       if(this.data != null) {
+          this.data.invertBits();
+       }
+    }
 }
