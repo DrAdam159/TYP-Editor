@@ -25,15 +25,13 @@ export class PolylineDetailComponent implements AfterViewInit {
     this.context = this.myCanvas.nativeElement.getContext('2d');
 
     if(this.context) {
-      this.context.rect(0, 0, 600, 300);
-      this.context.fillStyle = "#ccd5e3";
-      this.context.fill();
       let bmp = this.polyline.asBitmap(true);
-      //this.context.putImageData(bmp.getImageData(), 300, 150);
+      this.context.canvas.width = bmp.width *10;
+      this.context.canvas.height = bmp.height *10;
 
       createImageBitmap(bmp.getImageData()).then((imgBitmap) => {
         if(this.context) {
-          this.context.drawImage(imgBitmap, 20, 20, bmp.width * 10, bmp.height * 10);
+          this.context.drawImage(imgBitmap, 0, 0, bmp.width * 10, bmp.height * 10);
         }
     });
     }

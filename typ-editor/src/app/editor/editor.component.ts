@@ -31,16 +31,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
       let bmp = this.tmp.asBitmap(true);
       this.context.canvas.width = bmp.width *40;
       this.context.canvas.height = bmp.height *40;
-      this.context.rect(0, 0, bmp.width *40, bmp.height *40);
+      /*this.context.rect(0, 0, bmp.width *40, bmp.height *40);
       this.context.fillStyle = "#ccd5e3";
-      this.context.fill();
-    //   console.log(bmp.getImageData());
+      this.context.fill();*/
 
-    //   createImageBitmap(bmp.getImageData()).then((imgBitmap) => {
-    //     if(this.context) {
-    //       this.context.drawImage(imgBitmap, 20, 20, bmp.width * 10, bmp.height * 10);
-    //     }
-    // });
     for(let y = 0; y < bmp.height; y++) {
       for(let x = 0; x < bmp.width; x++) {
         this.context.beginPath();
