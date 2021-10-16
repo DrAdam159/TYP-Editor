@@ -25,4 +25,13 @@ export class Bitmap {
     getImageData(): ImageData {
         return new ImageData(this.pixelArr, this.width, this.height);
     }
+
+    getPixelColor(x: number, y: number): Color {
+        let idx = this.width * y * this.pixelOffset + x * this.pixelOffset;
+        let tmpColor = new Color(this.pixelArr[idx + 0], 
+                                this.pixelArr[idx + 1], 
+                                this.pixelArr[idx + 2],
+                                this.pixelArr[idx + 3]); 
+        return tmpColor;
+    }
 }
