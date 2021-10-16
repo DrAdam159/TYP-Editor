@@ -1,7 +1,5 @@
-<mat-nav-list>
-    <mat-list-item *ngFor="let poi of poiList">
-        <a (click)="openPOIDetail(poi)">
-            <h3 matLine>{{poi.text.textArr[0].value | uppercase}}</h3>
-        </a>
-    </mat-list-item>
-</mat-nav-list>
+<mat-grid-list cols="4" rowHeight="100px">
+    <mat-grid-tile *ngFor="let poi of poiList" (click)="openPOIDetail(poi)">
+        <h3 matLine>{{poi.text.textArr[0].value | uppercase}}</h3>
+    </mat-grid-tile>
+</mat-grid-list>

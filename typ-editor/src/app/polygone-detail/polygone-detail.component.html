@@ -1,8 +1,13 @@
-<h2 mat-dialog-title>DETAIL:</h2>
+<h2 mat-dialog-title>PREVIEW:</h2>
 <mat-dialog-content class="mat-typography">
-    <pre>
+    <!-- <pre>
         {{polygone | json}}
-    </pre>
+    </pre> -->
+    <mat-list>
+        <mat-list-item *ngFor="let text of polygone.text.textArr"> 
+            {{text.value}}
+        </mat-list-item>
+    </mat-list>
     <div class="canvas-container">
         <canvas #canvas width="600" height="300"></canvas>
     </div>

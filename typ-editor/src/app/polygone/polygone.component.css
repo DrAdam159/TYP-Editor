@@ -1,0 +1,9 @@
+mat-grid-tile {
+    background: rgb(103, 58, 183);
+    color: white;
+    cursor: pointer;
+}
+
+mat-grid-list {
+    margin: 10px;
+}

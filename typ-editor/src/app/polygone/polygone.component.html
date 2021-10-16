@@ -1,7 +1,5 @@
-<mat-nav-list>
-    <mat-list-item *ngFor="let polygone of polygoneList">
-        <a (click)="openPolygoneDetail(polygone)">
-            <h3 matLine>{{polygone.text.textArr[0].value | uppercase}}</h3>
-        </a>
-    </mat-list-item>
-</mat-nav-list>
+<mat-grid-list cols="4" rowHeight="100px">
+    <mat-grid-tile *ngFor="let polygone of polygoneList" (click)="openPolygoneDetail(polygone)">
+        <h3 matLine>{{polygone.text.textArr[0].value | uppercase}}</h3>
+    </mat-grid-tile>
+</mat-grid-list>
