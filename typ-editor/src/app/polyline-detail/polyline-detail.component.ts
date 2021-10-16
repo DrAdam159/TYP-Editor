@@ -38,7 +38,7 @@ export class PolylineDetailComponent implements AfterViewInit {
   }
 
   openEditor(): void {
-    this.router.navigate(['/editor'], {state:{...this.polyline} });
+    this.router.navigate(['/editor'], {state:{polyline: this.polyline, poi: null, polygone: null} });
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
 
 @Component({
@@ -16,7 +17,7 @@ export class PolygoneDetailComponent implements AfterViewInit {
 
   context!: CanvasRenderingContext2D | null;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: {polygone: Polygon}) { 
+  constructor(@Inject(MAT_DIALOG_DATA) private data: {polygone: Polygon}, private router: Router) { 
     this.polygone = data.polygone;
   }
 
@@ -24,17 +25,21 @@ export class PolygoneDetailComponent implements AfterViewInit {
     this.context = this.myCanvas.nativeElement.getContext('2d');
 
     if(this.context) {
-      this.context.rect(0, 0, 600, 400);
-      this.context.fillStyle = "#ccd5e3";
-      this.context.fill();
       let bmp = this.polygone.asBitmap(true);
-      //this.context.putImageData(bmp.getImageData(), 300, 150);
+      this.context.canvas.width = bmp.width *10;
+      this.context.canvas.height = bmp.height *10;
+      
 
       createImageBitmap(bmp.getImageData()).then((imgBitmap) => {
         if(this.context) {
-          this.context.drawImage(imgBitmap, 20, 20, bmp.width * 10, bmp.height * 10);
+          this.context.drawImage(imgBitmap, 0, 0, bmp.width * 10, bmp.height * 10);
         }
     });
     }
+  }
+
+  openEditor(): void {
+    //this.router.navigate(['/editor'], {state:{...this.polyline} });
+    this.router.navigate(['/editor'], {state:{polyline: null, poi: null, polygone: this.polygone} });
   }
 }

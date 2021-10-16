@@ -107,6 +107,30 @@ export class POI extends GraphicElement{
          }
     }
 
+    copy(iPOI: POI) {
+      this.options = iPOI.options;
+      this.height = iPOI.height;
+      this.withExtendedOptions = iPOI.withExtendedOptions;
+      this.withString = iPOI.withString;
+      this.colDayColor = iPOI.colDayColor;
+      this.text = iPOI.text;
+      this.extOptions = iPOI.extOptions;
+      this.fontType = iPOI.fontType;
+      this.colsDay = iPOI.colsDay;
+      this.colsNight = iPOI.colsNight;
+      this.colorModeDay = iPOI.colorModeDay;
+      this.colorModeNight = iPOI.colorModeNight;
+      this.withString = iPOI.withString;
+      this.withNightXpm = iPOI.withNightXpm;
+      this.nightXPMHasData = iPOI.nightXPMHasData;
+      this.width = iPOI.width;
+      this.height = iPOI.height;
+      if(iPOI.bitmapDay) {
+         this.bitmapDay = new PixMap(iPOI.bitmapDay.width, iPOI.bitmapDay.height, iPOI.bitmapDay.colorCount, iPOI.bitmapDay.colorMode);
+         this.bitmapDay.constructor3(iPOI.bitmapDay);
+      }
+    }
+
     asBitmap(dayOrNight: boolean): Bitmap {
       if(dayOrNight && this.bitmapDay != null) {
          let tmp = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);

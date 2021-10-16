@@ -207,6 +207,27 @@ export class Polygon extends GraphicElement{
          }
     }
 
+    copy(iPolygone: Polygon) {
+      this.options = iPolygone.options;
+      this.width = iPolygone.width;
+      this.height = iPolygone.height;
+      this.withString = iPolygone.withString;
+      this.colDayColor = iPolygone.colDayColor;
+      this.colNightColor = iPolygone.colNightColor;
+      this.text = iPolygone.text;
+      //this.bitmapDay = iPolygone.bitmapDay;
+      this.extOptions = iPolygone.extOptions;
+      this.fontType = iPolygone.fontType;
+      this.withString = iPolygone.withString;
+      this.colorType = iPolygone.colorType;
+      this.drawOrder = iPolygone.drawOrder;
+      this.withExtendedOptions = iPolygone.withExtendedOptions;
+     if(iPolygone.bitmapDay) {
+         this.bitmapDay = new PixMap(iPolygone.bitmapDay.width, iPolygone.bitmapDay.height, iPolygone.bitmapDay.colorCount, iPolygone.bitmapDay.colorMode);
+         this.bitmapDay.constructor3(iPolygone.bitmapDay);
+      }
+    }
+
     asBitmap(dayOrNight: boolean): Bitmap {
       if (dayOrNight) {
          if (this.bitmapDay != null)
