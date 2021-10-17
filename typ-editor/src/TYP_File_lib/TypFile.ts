@@ -1,6 +1,6 @@
-import { Header } from './TypFile_blocks/header';
+import { Header } from './TypFile_blocks/Header';
 import { TableItem } from './TypFile_blocks/GeneralDataBlocks/TableItem';
-import { BinReader } from './Utils/BinReaderWriter';
+import { BinReaderWriter } from './Utils/BinReaderWriter';
 import { Polyline } from './TypFile_blocks/Polyline';
 import { POI } from './TypFile_blocks/POI';
 import { PolygonDraworderTableItem } from './TypFile_blocks/GeneralDataBlocks/PolygonDraworderTableItem';
@@ -25,6 +25,7 @@ export class TypFile {
         this.decodePolylineData(view);
         this.decodePOIData(view);
         this.decodePolygoneData(view);
+        this.encodeAndWrite();
     }
 
     decodePolylineData(view: DataView): void {
@@ -32,7 +33,7 @@ export class TypFile {
         if(this.header.PolylineTableBlock.count() > 0) {
             this.PolylineTableItems = new Array();
             this.PolylineList = new Array();
-            let reader = new BinReader(view);
+            let reader = new BinReaderWriter(view);
             reader.seek(this.header.PolylineTableBlock.offset);
 
             for(let i = 0; i < this.header.PolylineTableBlock.count(); i++) {
@@ -52,7 +53,7 @@ export class TypFile {
         if(this.header.POITableBlock.count() > 0) {
             this.POITableItems = new Array();
             this.POIList = new Array();
-            let reader = new BinReader(view);
+            let reader = new BinReaderWriter(view);
             reader.seek(this.header.POITableBlock.offset);
 
             for(let i = 0; i < this.header.POITableBlock.count(); i++) {
@@ -70,7 +71,7 @@ export class TypFile {
 
     decodePolygoneData(view: DataView): void {
         if(this.header.PolygoneTableBlock.count() > 0) {
-            let reader = new BinReader(view);
+            let reader = new BinReaderWriter(view);
             this.PolygonTableItems = new Array();
             this.PolygonList = new Array();
             reader.seek(this.header.PolygoneTableBlock.offset);
@@ -114,5 +115,12 @@ export class TypFile {
             }
         }
     }
-      
+
+    encodeAndWrite(): void {
+        let writer = new BinReaderWriter(new DataView(new ArrayBuffer(40000)));
+        this.header.write(writer);
+        console.log(writer.getBuffer());
+        // writer.seek(0);
+        // console.log(writer.readUint8());
+    }   
 }

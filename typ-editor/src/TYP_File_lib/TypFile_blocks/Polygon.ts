@@ -1,4 +1,4 @@
-import { BinReader } from "../Utils/BinReaderWriter";
+import { BinReaderWriter } from "../Utils/BinReaderWriter";
 import { Bit } from "../Utils/Bit";
 import { Bitmap } from "../Utils/Bitmap";
 import { Color } from "../Utils/Color";
@@ -91,7 +91,7 @@ export class Polygon extends GraphicElement{
         this.withNightBitmap = false;
     }
 
-    read(reader: BinReader): void {
+    read(reader: BinReaderWriter): void {
         this.options = reader.readUint8();
         this.withString = Bit.isSet(this.options, 4);
         this.withExtendedOptions = Bit.isSet(this.options, 5);

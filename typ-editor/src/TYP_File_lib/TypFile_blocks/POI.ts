@@ -1,6 +1,6 @@
 import { GraphicElement } from "./GeneralDataBlocks/GraphicElement";
 import { PixMap } from "./GeneralDataBlocks/PixMap";
-import { BinReader } from "../Utils/BinReaderWriter";
+import { BinReaderWriter } from "../Utils/BinReaderWriter";
 import { Bit } from "../Utils/Bit";
 import { MultiText } from "./GeneralDataBlocks/Multitext";
 import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
@@ -62,7 +62,7 @@ export class POI extends GraphicElement{
         this.withExtendedOptions = false;
     }
 
-    read(reader: BinReader): void {
+    read(reader: BinReaderWriter): void {
         this.options = reader.readUint8();
         this.width = reader.readUint8();
         this.height = reader.readUint8();

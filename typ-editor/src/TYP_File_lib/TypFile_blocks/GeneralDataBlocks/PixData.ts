@@ -1,4 +1,4 @@
-import { BinReader } from "src/TYP_File_lib/Utils/BinReaderWriter";
+import { BinReaderWriter } from "src/TYP_File_lib/Utils/BinReaderWriter";
 import { Bitmap } from "src/TYP_File_lib/Utils/Bitmap";
 import { Color } from "src/TYP_File_lib/Utils/Color";
 
@@ -8,7 +8,7 @@ export class PixData {
     bitsPerPixel: number;
     rawIMGData: Array<number>;
 
-    constructor(width: number, height: number, bitsPerPixel: number, reader?: BinReader) {
+    constructor(width: number, height: number, bitsPerPixel: number, reader?: BinReaderWriter) {
         this.width = width;
         this.height = height;
         this.bitsPerPixel = bitsPerPixel;
@@ -23,7 +23,7 @@ export class PixData {
         this.rawIMGData = [...pix.rawIMGData];
     }
 
-    read(reader: BinReader): void {
+    read(reader: BinReaderWriter): void {
         this.rawIMGData = reader.readBytes(this.bytesForBitmapLine(this.width, this.bitsPerPixel) * this.height);
     }
 

@@ -1,4 +1,4 @@
-import { BinReader } from "src/TYP_File_lib/Utils/BinReaderWriter";
+import { BinReaderWriter } from "src/TYP_File_lib/Utils/BinReaderWriter";
 
 enum LanguageCode {
     unspecified = 0x00,
@@ -42,7 +42,7 @@ export class Text {
     language: LanguageCode;
     text: string;
 
-    constructor(reader?: BinReader) {
+    constructor(reader?: BinReaderWriter) {
         this.language = 0;
         this.text = "undefined";
         if(reader) {

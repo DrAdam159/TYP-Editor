@@ -1,9 +1,10 @@
-import { DataBlock } from './GeneralDataBlocks/dataBlock';
-import { DataBlockWithSize } from './GeneralDataBlocks/dataBlockWithSize';
-import { BinReader } from '../Utils/BinReaderWriter';
+import { DataBlock } from './GeneralDataBlocks/DataBlock';
+import { DataBlockWithSize } from './GeneralDataBlocks/DataBlockWithSize';
+import { BinReaderWriter } from '../Utils/BinReaderWriter';
+import { OffsetValuesHeader } from './GeneralDataBlocks/offsetValues';
 
 export class Header {
-    reader: BinReader;
+    reader: BinReaderWriter;
 
     headerLen!: number;
     unknown_0x01!: number;
@@ -41,7 +42,7 @@ export class Header {
     NT_unknown_0x9A!: number;
 
     constructor(view: DataView) {
-        this.reader = new BinReader(view);
+        this.reader = new BinReaderWriter(view);
         this.read(view);
     }
 
@@ -112,5 +113,15 @@ export class Header {
         this.NT_unknown_0x8E = this.reader.readUint32();
         this.NT_LabelblockTable2 = new DataBlock(this.reader); 
         this.NT_unknown_0x9A = this.reader.readUint16();
+    }
+
+    write(writer: BinReaderWriter): void {
+        writer.seek(OffsetValuesHeader.headerLen_Offset);
+        writer.writeUint8(this.headerLen);
+        writer.writeUint8(this.unknown_0x01);
+        writer.writeString(this.garminTYPSignature);
+        writer.writeUint8(this.unknown_0x0C);
+        writer.writeUint8(this.unknown_0x0D);
+        writer.writeUint16(this.creationDate.getFullYear());
     }
 }

@@ -1,4 +1,4 @@
-import { BinReader } from "src/TYP_File_lib/Utils/BinReaderWriter";
+import { BinReaderWriter } from "src/TYP_File_lib/Utils/BinReaderWriter";
 import { Text } from "./Text";
 
 enum LanguageCode {
@@ -48,7 +48,7 @@ interface KeyValuePair {
 export class MultiText {
     textArr: Array<KeyValuePair>;
 
-    constructor(reader?: BinReader) {
+    constructor(reader?: BinReaderWriter) {
         this.textArr = new Array();
         let t = new Text();
         if(reader){

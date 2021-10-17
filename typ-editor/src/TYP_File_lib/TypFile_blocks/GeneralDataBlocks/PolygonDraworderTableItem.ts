@@ -1,11 +1,11 @@
-import { BinReader } from '../../Utils/BinReaderWriter';
+import { BinReaderWriter } from '../../Utils/BinReaderWriter';
 
 export class PolygonDraworderTableItem {
     type!: number;
     subTypes!: Array<number>;
     level!: number;
 
-    constructor(reader: BinReader, len: number, level: number) {
+    constructor(reader: BinReaderWriter, len: number, level: number) {
         this.subTypes = new Array();
         if (len > 9)
             throw new Error("A PolygonDraworderTableItem can be a maximum of 9 bytes long.");

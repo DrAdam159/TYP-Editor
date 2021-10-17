@@ -1,4 +1,4 @@
-import { BinReader } from "../Utils/BinReaderWriter";
+import { BinReaderWriter } from "../Utils/BinReaderWriter";
 import { GraphicElement } from "./GeneralDataBlocks/GraphicElement";
 import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
 import { Bit } from "../Utils/Bit";
@@ -59,7 +59,7 @@ export class Polyline extends GraphicElement{
         this.withString = false;
     }
 
-    read(reader: BinReader): void {
+    read(reader: BinReaderWriter): void {
         this.options = reader.readUint8();
         this.options2 = reader.readUint8();
         this.polylineType = this.options & 0x7;

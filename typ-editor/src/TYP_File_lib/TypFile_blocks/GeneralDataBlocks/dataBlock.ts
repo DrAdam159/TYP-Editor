@@ -1,14 +1,14 @@
-import { BinReader } from '../../Utils/BinReaderWriter';
+import { BinReaderWriter } from '../../Utils/BinReaderWriter';
 
 export class DataBlock {
     offset!: number;
     length!: number;
 
-    constructor(reader: BinReader) {
+    constructor(reader: BinReaderWriter) {
         this.readDataBlock(reader);
     }
 
-    readDataBlock(reader: BinReader): void {
+    readDataBlock(reader: BinReaderWriter): void {
         this.offset = reader.readUint32();
         this.length = reader.readUint32();
     }

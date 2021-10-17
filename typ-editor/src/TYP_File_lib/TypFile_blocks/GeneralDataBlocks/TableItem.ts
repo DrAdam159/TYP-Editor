@@ -1,4 +1,4 @@
-import { BinReader } from '../../Utils/BinReaderWriter';
+import { BinReaderWriter } from '../../Utils/BinReaderWriter';
 
 export class TableItem {
     type!: number;
@@ -6,7 +6,7 @@ export class TableItem {
     offset!: number;
     rawType!: number;
 
-    constructor(reader: BinReader, itemLen: number) {
+    constructor(reader: BinReaderWriter, itemLen: number) {
         this.rawType = reader.readUint16();
         this.type = this.rawType >> 5;
         this.subType = this.rawType & 0x1f;

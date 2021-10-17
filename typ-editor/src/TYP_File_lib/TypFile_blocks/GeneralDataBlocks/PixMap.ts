@@ -1,4 +1,4 @@
-import { BinReader } from "src/TYP_File_lib/Utils/BinReaderWriter";
+import { BinReaderWriter } from "src/TYP_File_lib/Utils/BinReaderWriter";
 import { PixData } from "./PixData";
 import { Color } from "src/TYP_File_lib/Utils/Color";
 import { BinaryColor } from "./BinaryColor";
@@ -32,7 +32,7 @@ export class PixMap {
     colorTable: Array<Color>;
     bitsPerPixel: number;
 
-    constructor(iWidth: number, iHeight: number, iColors: number, bitmapColorMode: BitmapColorMode, reader?: BinReader) {
+    constructor(iWidth: number, iHeight: number, iColors: number, bitmapColorMode: BitmapColorMode, reader?: BinReaderWriter) {
         this.data = new PixData(iWidth, iHeight, this.bitsPerPixel4BitmapColorMode(bitmapColorMode,  iColors));
         this.width = this.data.width;
         this.height = this.data.height;
@@ -92,7 +92,7 @@ export class PixMap {
         }
     }
 
-    constructor2(color: Array<Color>, reader?: BinReader) {
+    constructor2(color: Array<Color>, reader?: BinReaderWriter) {
         //this(iWidth, iHeight, color.length, bitmapColorMode);
         this.colorTable = [...color];
         if(reader) {

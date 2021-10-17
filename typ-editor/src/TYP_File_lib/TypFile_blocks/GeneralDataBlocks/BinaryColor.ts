@@ -1,9 +1,9 @@
 import { Color } from "../../Utils/Color";
-import { BinReader } from "../../Utils/BinReaderWriter";
+import { BinReaderWriter } from "../../Utils/BinReaderWriter";
 
 export class BinaryColor {
 
-    static readColorTable(reader: BinReader, tableCols: number = 1, bWithAlpha: boolean = false): Array<Color>{
+    static readColorTable(reader: BinReaderWriter, tableCols: number = 1, bWithAlpha: boolean = false): Array<Color>{
         let colorList = new Array();
 
         if(!bWithAlpha) {
@@ -38,7 +38,7 @@ export class BinaryColor {
         return colorList; 
     }
 
-    static readColor(reader: BinReader, bWithAlpha: boolean = false) {
+    static readColor(reader: BinReaderWriter, bWithAlpha: boolean = false) {
         return this.readColorTable(reader, 1, false)[0];
     }
 }

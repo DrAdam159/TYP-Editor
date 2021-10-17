@@ -1,15 +1,15 @@
-import { BinReader } from "../../Utils/BinReaderWriter";
+import { BinReaderWriter } from "../../Utils/BinReaderWriter";
 
 export class DataBlockWithSize{
     offset!: number;
     length!: number;
     recordSize!: number;
 
-    constructor(reader: BinReader) {
+    constructor(reader: BinReaderWriter) {
         this.readDataBlockWithSize(reader);
     }
 
-    readDataBlockWithSize(reader: BinReader): void {
+    readDataBlockWithSize(reader: BinReaderWriter): void {
         this.offset = reader.readUint32();
         this.recordSize = reader.readUint16();
         this.length = reader.readUint32();
