@@ -1,6 +1,22 @@
-<div *ngIf="drawableItem" class="canvas-container">
-    <canvas #canvas width="1500" height="600"></canvas>
-</div>
+<mat-tab-group> 
+    <mat-tab label="Icon editor">
+        <div *ngIf="drawableItem" class="canvas-container">
+            <canvas #canvas width="1500" height="600"></canvas>
+        </div>
+    </mat-tab>
+    <mat-tab label="Other options"> 
+        <div *ngIf="drawableItem">
+            <mat-list-item *ngFor="let text of drawableItem.text.textArr"> 
+                {{text.value}}
+            </mat-list-item>
+            <pre>
+                {{drawableItem | json}}
+            </pre>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+
 
 
 

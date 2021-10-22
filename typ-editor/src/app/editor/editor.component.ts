@@ -32,7 +32,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
       default:
         new Error("No item type supplied!");
     }
-    
   }
 
   ngAfterViewInit(): void {
@@ -62,7 +61,5 @@ export class EditorComponent implements OnInit, AfterViewInit {
         }
       }
     }
-    
   }
-
 }
