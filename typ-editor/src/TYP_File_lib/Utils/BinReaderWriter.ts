@@ -242,8 +242,8 @@ export class BinReaderWriter {
         for(let i = 0; i < byteArr.length; i++) {
             this.writeUint8(byteArr[i]);
         }
-        console.log(value);
-        console.log(byteArr);
+        //console.log(value);
+        //console.log(byteArr);
     }
 
     getBuffer(): DataView {

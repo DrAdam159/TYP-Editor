@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,16 @@ export class HeaderComponent implements OnInit {
 
   typFile!: TypFile;
 
-  constructor() { 
+  constructor(private fileService: FileService) {
+    if(this.fileService.getFile()) {
+      this.typFile = fileService.getFile();
+    } 
   }
 
-  handleFileLoadedEvent(newFile: any): void {
-    this.typFile = newFile;
+  handleFileLoadedEvent(): void {
+    if(this.fileService.getFile()) {
+      this.typFile = this.fileService.getFile();
+    }
   }
 
   ngOnInit(): void {

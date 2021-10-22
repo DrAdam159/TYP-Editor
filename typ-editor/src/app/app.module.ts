@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import {MatIconModule} from '@angular/material/icon';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTreeModule} from '@angular/material/tree';
@@ -12,6 +13,9 @@ import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+
 import { PolylineComponent } from './polyline/polyline.component';
 import { HeaderComponent } from './header/header.component';
 import { PolylineDetailComponent } from './polyline-detail/polyline-detail.component';
@@ -20,6 +24,8 @@ import { PoiDetailComponent } from './poi-detail/poi-detail.component';
 import { PolygoneComponent } from './polygone/polygone.component';
 import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component';
 import { EditorComponent } from './editor/editor.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -32,7 +38,8 @@ import { EditorComponent } from './editor/editor.component';
     PoiDetailComponent,
     PolygoneComponent,
     PolygoneDetailComponent,
-    EditorComponent
+    EditorComponent,
+    MainNavComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,10 @@ import { EditorComponent } from './editor/editor.component';
     MatListModule,
     MatDialogModule,
     MatButtonModule,
-    MatGridListModule
+    MatGridListModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

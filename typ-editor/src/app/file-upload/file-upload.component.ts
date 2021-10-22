@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
+import { FileService } from '../services/file.service';
 
 
 @Component({
@@ -10,15 +11,21 @@ import { TypFile } from 'src/TYP_File_lib/TypFile';
 export class FileUploadComponent implements OnInit {
 
   fileName: string;
-  fileToUpload: File | null;
+  fileToUpload!: File;
   typFile!: TypFile;
 
   @Output() fileLoadedEvent: EventEmitter<TypFile>;
 
-  constructor() {
+  constructor(private fileService: FileService) {
     this.fileLoadedEvent = new EventEmitter<TypFile>();
-    this.fileToUpload = null;
-    this.fileName = '';
+    //this.fileToUpload = null;
+
+    if(this.fileService.getFileName()) {
+      this.fileName = this.fileService.getFileName();
+    }
+    else {
+      this.fileName = '';
+    }
   }
 
   handleFileInput(event: any): void {
@@ -34,9 +41,12 @@ export class FileUploadComponent implements OnInit {
       reader.onload = () => {
         var buffer = reader.result as ArrayBuffer;
         var view = new DataView(buffer);
-        console.log(buffer);
+        //console.log(buffer);
+        
+
         this.typFile = new TypFile(view);
-        this.fileLoadedEvent.emit(this.typFile);
+        this.fileService.setFile(this.typFile, this.fileName, buffer);
+        this.fileLoadedEvent.emit();
       };
 
       reader.onerror = () => {
