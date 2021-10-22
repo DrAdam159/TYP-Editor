@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { POI } from 'src/TYP_File_lib/TypFile_blocks/POI';
-import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
-import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
+import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-editor',
@@ -10,42 +9,38 @@ import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 })
 export class EditorComponent implements OnInit, AfterViewInit {
 
-  polyline!: Polyline;
-  poi!: POI;
-  polygone!: Polygon;
-  tmp!: Polyline | POI | Polygon;
+  drawableItem!: GraphicElement;
 
   @ViewChild('canvas', {static: false}) 
   myCanvas!: ElementRef<HTMLCanvasElement>;
 
   context!: CanvasRenderingContext2D | null;
 
-  constructor() { }
+  constructor(private fileService: FileService) { }
 
   ngOnInit(): void {
-    if (window.history.state.polyline) {
-      this.polyline = window.history.state.polyline;
-      this.tmp = new Polyline(this.polyline.type, this.polyline.subtype);
-      this.tmp.copy(this.polyline);
-    } 
-    else if(window.history.state.poi) {
-      this.poi = window.history.state.poi;
-      this.tmp = new POI(this.poi.type, this.poi.subtype);
-      this.tmp.copy(this.poi);
-    } 
-    else if(window.history.state.polygone) {
-      this.polygone = window.history.state.polygone;
-      this.tmp = new Polygon(this.polygone.type, this.polygone.subtype);
-      this.tmp.copy(this.polygone);
+    switch(window.history.state.itemType) {
+      case 'polyline':
+        this.drawableItem = this.fileService.getPolyline(window.history.state.type, window.history.state.subtype);
+        break;
+      case 'polygone':
+        this.drawableItem = this.fileService.getPolygone(window.history.state.type, window.history.state.subtype);
+        break;
+      case 'poi':
+        this.drawableItem = this.fileService.getPOI(window.history.state.type, window.history.state.subtype);
+        break;
+      default:
+        new Error("No item type supplied!");
     }
+    
   }
 
   ngAfterViewInit(): void {
-    if(this.tmp) {
+    if(this.drawableItem) {
       this.context = this.myCanvas.nativeElement.getContext('2d');
 
       if(this.context) {
-        let bmp = this.tmp.asBitmap(true);
+        let bmp = this.drawableItem.asBitmap(true);
         this.context.canvas.width = bmp.width *40;
         this.context.canvas.height = bmp.height *40;
 

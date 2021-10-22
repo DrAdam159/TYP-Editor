@@ -24,7 +24,7 @@ export class PoiDetailComponent implements OnInit {
   ngOnInit(): void { }
 
   openEditor(): void {
-    this.router.navigate(['/editor'], {state:{polyline: null, poi: this.poi, polygone: null} });
+    this.router.navigate(['/editor'], {state:{itemType: "poi", type: this.poi.type, subtype: this.poi.subtype} });
   }
 
 }

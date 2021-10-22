@@ -24,7 +24,8 @@ export class PolylineDetailComponent implements OnInit {
   ngOnInit(): void { }
 
   openEditor(): void {
-    this.router.navigate(['/editor'], {state:{polyline: this.polyline, poi: null, polygone: null} });
+    // this.router.navigate(['/editor'], {state:{polyline: this.polyline, poi: null, polygone: null} });
+    this.router.navigate(['/editor'], {state:{itemType: "polyline", type: this.polyline.type, subtype: this.polyline.subtype} });
   }
 
 }

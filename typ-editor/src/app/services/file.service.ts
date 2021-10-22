@@ -82,6 +82,27 @@ export class FileService {
     return this.typFile.header;
   }
 
+  getPolyline(type: number, subType: number): Polyline {
+    if(!this.typFile) {
+      this.getFile();
+    }
+    return this.typFile.PolylineList.find(x => x.type === type && x.subtype == subType) || new Polyline(0,0);
+  }
+
+  getPolygone(type: number, subType: number): Polygon {
+    if(!this.typFile) {
+      this.getFile();
+    }
+    return this.typFile.PolygonList.find(x => x.type === type && x.subtype == subType) || new Polygon(0,0);
+  }
+
+  getPOI(type: number, subType: number): POI {
+    if(!this.typFile) {
+      this.getFile();
+    }
+    return this.typFile.POIList.find(x => x.type === type && x.subtype == subType) || new POI(0,0);
+  }
+
   arrayBufferToBase64( buffer: ArrayBuffer ) {
     var binary = '';
     var bytes = new Uint8Array( buffer );
