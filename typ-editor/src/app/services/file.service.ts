@@ -4,6 +4,7 @@ import { POI } from 'src/TYP_File_lib/TypFile_blocks/POI';
 import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 import { BehaviorSubject } from 'rxjs';
+import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +73,13 @@ export class FileService {
       this.getFile();
     }
     return this.typFile.PolygonList;
+  }
+
+  getHeader(): Header {
+    if(!this.typFile) {
+      this.getFile();
+    }
+    return this.typFile.header;
   }
 
   arrayBufferToBase64( buffer: ArrayBuffer ) {
