@@ -17,7 +17,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { PolylineComponent } from './polyline/polyline.component';
-import { HeaderComponent } from './header/header.component';
+import { MainPageComponent } from './main-page/main-page.component';
 import { PolylineDetailComponent } from './polyline-detail/polyline-detail.component';
 import { PoiComponent } from './poi/poi.component';
 import { PoiDetailComponent } from './poi-detail/poi-detail.component';
@@ -32,7 +32,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     AppComponent,
     FileUploadComponent,
     PolylineComponent,
-    HeaderComponent,
+    MainPageComponent,
     PolylineDetailComponent,
     PoiComponent,
     PoiDetailComponent,
