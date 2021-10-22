@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
 import { PolygoneDetailComponent } from '../polygone-detail/polygone-detail.component';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-polygone',
@@ -10,9 +11,13 @@ import { PolygoneDetailComponent } from '../polygone-detail/polygone-detail.comp
 })
 export class PolygoneComponent implements OnInit {
 
-  @Input() polygoneList!: Array<Polygon>;
+  polygoneList!: Array<Polygon>;
 
-  constructor(private matDialog: MatDialog) { }
+  constructor(private fileService: FileService, private matDialog: MatDialog) { 
+    if(this.fileService.getPOIList()) {
+      this.polygoneList = this.fileService.getPolygoneList();
+    }
+  }
 
   ngOnInit(): void {
   }

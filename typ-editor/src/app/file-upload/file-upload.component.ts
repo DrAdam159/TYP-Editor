@@ -46,7 +46,7 @@ export class FileUploadComponent implements OnInit {
 
         this.typFile = new TypFile(view);
         this.fileService.setFile(this.typFile, this.fileName, buffer);
-        this.fileLoadedEvent.emit();
+        this.refreshAnotherComponent();
       };
 
       reader.onerror = () => {
@@ -55,6 +55,12 @@ export class FileUploadComponent implements OnInit {
     }
     
   }
+
+  refreshAnotherComponent() {
+    this.fileService.notifyOther({
+       refresh: true
+    });
+ }
 
   ngOnInit(): void {
   }

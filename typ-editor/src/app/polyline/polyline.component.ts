@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 import { PolylineDetailComponent } from '../polyline-detail/polyline-detail.component';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-polyline',
@@ -10,12 +11,20 @@ import { PolylineDetailComponent } from '../polyline-detail/polyline-detail.comp
 })
 export class PolylineComponent implements OnInit {
 
+  polylineList!: Array<Polyline>;
 
-  @Input() polylineList!: Array<Polyline>;
-
-  constructor(private matDialog: MatDialog) { }
+  constructor(private fileService: FileService, private matDialog: MatDialog) { 
+    if(this.fileService.getPOIList()) {
+      this.polylineList = this.fileService.getPolylineList();
+    }
+  }
 
   ngOnInit(): void {
+    this.fileService.notifyObservable$.subscribe(res => {
+      if (res.refresh) {
+         this.polylineList = this.fileService.getPolylineList();
+      }
+   })
   }
 
   openPolylineDetail(polylineItem: Polyline): void {

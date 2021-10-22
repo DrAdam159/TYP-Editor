@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { POI } from 'src/TYP_File_lib/TypFile_blocks/POI';
 import { PoiDetailComponent } from '../poi-detail/poi-detail.component';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-poi',
@@ -10,9 +11,13 @@ import { PoiDetailComponent } from '../poi-detail/poi-detail.component';
 })
 export class PoiComponent implements OnInit {
 
-  @Input() poiList!: Array<POI>;
+  poiList!: Array<POI>;
 
-  constructor(private matDialog: MatDialog) { }
+  constructor(private fileService: FileService, private matDialog: MatDialog) { 
+   if(this.fileService.getPOIList()) {
+      this.poiList = this.fileService.getPOIList();
+    }
+  }
 
   ngOnInit(): void {
   }

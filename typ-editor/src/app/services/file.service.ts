@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
+import { POI } from 'src/TYP_File_lib/TypFile_blocks/POI';
+import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
+import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +13,17 @@ export class FileService {
   fileName!: string;
   typFile!: TypFile;
 
+  public notify = new BehaviorSubject<any>('');
+  notifyObservable$ = this.notify.asObservable();
+  
+
   constructor() { }
+
+  public notifyOther(data: any) {
+    if (data) {
+      this.notify.next(data);
+    }
+  }
 
   setFile(typFile: TypFile, fileName: string, buffer: ArrayBuffer): void {
     this.typFile = typFile;
@@ -21,6 +35,9 @@ export class FileService {
   }
 
   getFile(): TypFile {
+    if(this.typFile) {
+      return this.typFile;
+    }
     let tempBuff = this.base64ToArrayBuffer(localStorage.getItem('file') || "");
     this.typFile = new TypFile(new DataView(tempBuff));
 
@@ -29,8 +46,32 @@ export class FileService {
   }
 
   getFileName(): string {
+    if(this.fileName) {
+      return this.fileName;
+    }
     this.fileName = localStorage.getItem('filename') || "";
     return this.fileName;
+  }
+
+  getPolylineList(): Array<Polyline> {
+    if(!this.typFile) {
+      this.getFile();
+    }
+    return this.typFile.PolylineList;
+  }
+
+  getPOIList(): Array<POI> {
+    if(!this.typFile) {
+      this.getFile();
+    }
+    return this.typFile.POIList;
+  }
+
+  getPolygoneList(): Array<Polygon> {
+    if(!this.typFile) {
+      this.getFile();
+    }
+    return this.typFile.PolygonList;
   }
 
   arrayBufferToBase64( buffer: ArrayBuffer ) {

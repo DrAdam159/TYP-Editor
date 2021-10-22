@@ -1,15 +1,5 @@
-<app-file-upload (fileLoadedEvent)="handleFileLoadedEvent()"></app-file-upload>
+<app-file-upload></app-file-upload>
 
-<mat-tab-group *ngIf="typFile">
-    <mat-tab label="Polylines"> 
-        <app-polyline [polylineList]="typFile.PolylineList"></app-polyline>
-    </mat-tab>
+<app-polyline></app-polyline>
 
-    <mat-tab label="POIs">
-        <app-poi [poiList]="typFile.POIList"></app-poi>
-    </mat-tab>
 
-    <mat-tab label="Polygones"> 
-        <app-polygone [polygoneList]="typFile.PolygonList"></app-polygone>
-    </mat-tab>
-  </mat-tab-group>
