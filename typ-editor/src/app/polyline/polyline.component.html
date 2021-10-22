@@ -1,5 +1,7 @@
-<mat-grid-list cols="4" rowHeight="100px">
+<mat-grid-list cols="5" rowHeight="1:1"  [gutterSize]="'10px'">
     <mat-grid-tile *ngFor="let polyline of polylineList" (click)="openPolylineDetail(polyline)">
-        <h3 matLine>{{polyline.text.textArr[0].value | uppercase}}</h3>
+        <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]=10></app-bitmap-canvas>
+        <mat-grid-tile-footer>{{polyline.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
     </mat-grid-tile>
+    
 </mat-grid-list>

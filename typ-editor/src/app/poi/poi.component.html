@@ -1,5 +1,6 @@
-<mat-grid-list cols="4" rowHeight="100px">
+<mat-grid-list cols="5" rowHeight="1:1" [gutterSize]="'10px'">
     <mat-grid-tile *ngFor="let poi of poiList" (click)="openPOIDetail(poi)">
-        <h3 matLine>{{poi.text.textArr[0].value | uppercase}}</h3>
+        <app-bitmap-canvas [drawableItem]="poi" [scaleValue]=10></app-bitmap-canvas>
+        <mat-grid-tile-footer>{{poi.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
     </mat-grid-tile>
 </mat-grid-list>
