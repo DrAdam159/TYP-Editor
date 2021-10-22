@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 import { PolylineDetailComponent } from '../polyline-detail/polyline-detail.component';
 import { FileService } from '../services/file.service';

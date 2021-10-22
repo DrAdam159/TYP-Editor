@@ -1,11 +1,3 @@
-<!-- <mat-nav-list>
-    <mat-list-item *ngFor="let polyline of polylineList">
-        <a (click)="openPolylineDetail(polyline)">
-            <h3 matLine>{{polyline.text.textArr[0].value | uppercase}}</h3>
-        </a>
-    </mat-list-item>
-</mat-nav-list> -->
-
 <mat-grid-list cols="4" rowHeight="100px">
     <mat-grid-tile *ngFor="let polyline of polylineList" (click)="openPolylineDetail(polyline)">
         <h3 matLine>{{polyline.text.textArr[0].value | uppercase}}</h3>

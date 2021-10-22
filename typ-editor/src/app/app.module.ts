@@ -26,6 +26,7 @@ import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.compo
 import { EditorComponent } from './editor/editor.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { BitmapCanvasComponent } from './bitmap-canvas/bitmap-canvas.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     PolygoneComponent,
     PolygoneDetailComponent,
     EditorComponent,
-    MainNavComponent
+    MainNavComponent,
+    BitmapCanvasComponent
   ],
   imports: [
     BrowserModule,

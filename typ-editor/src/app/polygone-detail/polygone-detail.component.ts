@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component,  OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
@@ -8,7 +8,7 @@ import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
   templateUrl: './polygone-detail.component.html',
   styleUrls: ['./polygone-detail.component.css']
 })
-export class PolygoneDetailComponent implements AfterViewInit {
+export class PolygoneDetailComponent implements OnInit {
 
   polygone: Polygon;
 
@@ -21,22 +21,7 @@ export class PolygoneDetailComponent implements AfterViewInit {
     this.polygone = data.polygone;
   }
 
-  ngAfterViewInit(): void {
-    this.context = this.myCanvas.nativeElement.getContext('2d');
-
-    if(this.context) {
-      let bmp = this.polygone.asBitmap(true);
-      this.context.canvas.width = bmp.width *10;
-      this.context.canvas.height = bmp.height *10;
-      
-
-      createImageBitmap(bmp.getImageData()).then((imgBitmap) => {
-        if(this.context) {
-          this.context.drawImage(imgBitmap, 0, 0, bmp.width * 10, bmp.height * 10);
-        }
-    });
-    }
-  }
+  ngOnInit(): void { }
 
   openEditor(): void {
     //this.router.navigate(['/editor'], {state:{...this.polyline} });

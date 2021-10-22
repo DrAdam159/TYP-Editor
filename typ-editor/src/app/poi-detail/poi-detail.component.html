@@ -8,9 +8,7 @@
             {{text.value}}
         </mat-list-item>
     </mat-list>
-    <div class="canvas-container">
-        <canvas #canvas width="600" height="300"></canvas>
-    </div>
+    <app-bitmap-canvas [drawableItem]="poi" [scaleValue]=10></app-bitmap-canvas>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>

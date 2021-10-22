@@ -1,6 +1,7 @@
 import { Color } from "src/TYP_File_lib/Utils/Color";
 import { PixMap } from "./PixMap";
 import { MultiText } from "./Multitext";
+import { Bitmap } from "src/TYP_File_lib/Utils/Bitmap";
 
 enum Fontdata {
     Default = 0x0,
@@ -72,5 +73,9 @@ export class GraphicElement {
         if(this.bitmapNight && this.bitmapNight.colorTable.length > 1) {
             this.bitmapNight.setNewColor(1, color);
         }
+    }
+
+    asBitmap(dayOrNightBMP: boolean): Bitmap {
+        return new Bitmap(0,0);
     }
 }
