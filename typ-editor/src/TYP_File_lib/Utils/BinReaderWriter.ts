@@ -26,17 +26,19 @@ export class BinReaderWriter {
     }
 
     readUint16(): number{
-        if (this.buffLen < 2) {
-            return 0;
-        }
-
         let list: Array<number> = new Array();
+        if(this.position < this.buffLen) {
+            if (this.buffLen < 2) {
+                return 0;
+            }
     
-        for(let i = 0; i < 2; i++){
-            list.push(this.buffer.getUint8(this.position + i));
+            
+        
+            for(let i = 0; i < 2; i++){
+                list.push(this.buffer.getUint8(this.position + i));
+            }
+            this.position += 2;
         }
-        this.position += 2;
-    
         return (list[0]| list[1] << 8);
     }
 

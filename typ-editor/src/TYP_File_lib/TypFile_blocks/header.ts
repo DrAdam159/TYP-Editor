@@ -41,6 +41,9 @@ export class Header {
     NT_LabelblockTable2!: DataBlock;
     NT_unknown_0x9A!: number;
 
+    NT_unknown_0x9C!: Array<number>;
+    NT_unknown_0xA4!: Array<number>;
+
     constructor(view: DataView) {
         this.reader = new BinReaderWriter(view);
         this.read(view);
@@ -86,10 +89,11 @@ export class Header {
 
                 //Indexovani POIs
                 if (this.headerLen > 0x9C) {
+                    this.NT_unknown_0x9C = this.reader.readBytes(8);
 
                     //Active routing
                     if (this.headerLen > 0xA4) {
-
+                        this.NT_unknown_0xA4 = this.reader.readBytes(10);
                     }
                 }
             }

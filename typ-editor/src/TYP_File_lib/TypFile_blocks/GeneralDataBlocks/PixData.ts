@@ -98,7 +98,7 @@ export class PixData {
                   for (let y = 0; y < this.height; y++) {
                      let linestart = bytes4line * y;
                      for (let x = 0; x < this.width; x++) {
-                        let dat = this.rawIMGData[linestart + ((x / 2)| 0)];
+                        let dat = this.rawIMGData[linestart + ((x / 2) | 0)];
                         let idx = x % 2 == 0 ? (dat & 0xf) : (dat >> 4);
                         bmp.setPixel(x, y, idx < colorTable.length ? colorTable[idx] : colDummy);
                      }

@@ -15,7 +15,7 @@ export class BinaryColor {
             }
         }else {
             //urceni delky tabulky barev
-            let tableLen = tableCols *3 + tableCols/2;
+            let tableLen = tableCols *3 + (tableCols/2) | 0;
             if (tableCols % 2 == 1) tableLen++;
 
             let colorTable = reader.readBytes(tableLen);
