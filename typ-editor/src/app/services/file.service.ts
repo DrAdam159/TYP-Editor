@@ -32,7 +32,7 @@ export class FileService {
     localStorage.setItem('file', this.arrayBufferToBase64(buffer));
     localStorage.setItem('filename', fileName);
 
-    // localStorage.setItem('rawFile', JSON.stringify(this.typFile));
+    localStorage.setItem('rawFile', JSON.stringify(this.typFile));
   }
 
   getFile(): TypFile {
@@ -42,7 +42,6 @@ export class FileService {
     let tempBuff = this.base64ToArrayBuffer(localStorage.getItem('file') || "");
     this.typFile = new TypFile(new DataView(tempBuff));
 
-    // this.typFile = JSON.parse(localStorage.getItem('rawFile') || "");
     return this.typFile;
   }
 

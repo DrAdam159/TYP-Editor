@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from '../services/file.service';
 
@@ -10,28 +11,39 @@ import { FileService } from '../services/file.service';
 export class EditorComponent implements OnInit, AfterViewInit {
 
   drawableItem!: GraphicElement;
+  sub: any;
 
   @ViewChild('canvas', {static: false}) 
   myCanvas!: ElementRef<HTMLCanvasElement>;
 
   context!: CanvasRenderingContext2D | null;
 
-  constructor(private fileService: FileService) { }
+  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    switch(window.history.state.itemType) {
-      case 'polyline':
-        this.drawableItem = this.fileService.getPolyline(window.history.state.type, window.history.state.subtype);
-        break;
-      case 'polygone':
-        this.drawableItem = this.fileService.getPolygone(window.history.state.type, window.history.state.subtype);
-        break;
-      case 'poi':
-        this.drawableItem = this.fileService.getPOI(window.history.state.type, window.history.state.subtype);
-        break;
-      default:
-        new Error("No item type supplied!");
-    }
+    
+    this.sub = this.Activatedroute.paramMap.subscribe(params => { 
+      console.log(params);
+      let itemType = params.get('id');
+      let typeID = params.get('id1');
+      let subTypeID = params.get('id2');
+
+      if(itemType && typeID && subTypeID) {
+        switch(itemType) {
+          case 'polyline':
+            this.drawableItem = this.fileService.getPolyline(~~typeID, ~~subTypeID);
+            break;
+          case 'polygone':
+            this.drawableItem = this.fileService.getPolygone(~~typeID, ~~subTypeID);
+            break;
+          case 'poi':
+            this.drawableItem = this.fileService.getPOI(~~typeID, ~~subTypeID);
+            break;
+          default:
+            new Error("No item type supplied!");
+        }
+      }
+   });
   }
 
   ngAfterViewInit(): void {

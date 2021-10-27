@@ -25,6 +25,7 @@ export class PolygoneDetailComponent implements OnInit {
 
   openEditor(): void {
     //this.router.navigate(['/editor'], {state:{...this.polyline} });
-    this.router.navigate(['/editor'], {state:{itemType: "polygone", type: this.polygone.type, subtype: this.polygone.subtype} });
+    //this.router.navigate(['/editor'], {state:{itemType: "polygone", type: this.polygone.type, subtype: this.polygone.subtype} });
+    this.router.navigate(['editor',"polygone", this.polygone.type, this.polygone.subtype ]);
   }
 }

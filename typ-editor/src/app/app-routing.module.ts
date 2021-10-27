@@ -9,7 +9,7 @@ import { FileHeaderComponent } from './file-header/file-header.component';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent},
-  {path: 'editor', component: EditorComponent},
+  {path: 'editor/:id/:id1/:id2', component: EditorComponent},
   {path: 'poi', component: PoiComponent},
   {path: 'polyline', component: PolylineComponent},
   {path: 'polygone', component: PolygoneComponent},
