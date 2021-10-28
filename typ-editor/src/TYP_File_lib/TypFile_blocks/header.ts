@@ -127,5 +127,47 @@ export class Header {
         writer.writeUint8(this.unknown_0x0C);
         writer.writeUint8(this.unknown_0x0D);
         writer.writeUint16(this.creationDate.getFullYear());
+        writer.writeUint8(this.creationDate.getMonth());
+        writer.writeUint8(this.creationDate.getDay());
+        writer.writeUint8(this.creationDate.getHours());
+        writer.writeUint8(this.creationDate.getMinutes());
+        writer.writeUint8(this.creationDate.getSeconds());
+
+        writer.writeUint16(this.Codepage);
+
+        this.POIDataBlock.writeDataBlock(writer);
+        this.PolylineDataBlock.writeDataBlock(writer);
+        this.PolygoneDataBlock.writeDataBlock(writer);
+
+        writer.writeUint16(this.familyID);
+        writer.writeUint16(this.productCode);
+
+        this.POITableBlock.writeDataBlockWithSize(writer);
+        this.PolylineTableBlock.writeDataBlockWithSize(writer);
+        this.PolygoneTableBlock.writeDataBlockWithSize(writer);
+        this.PolygoneDraworderTableBlock.writeDataBlockWithSize(writer);
+
+        if (this.headerLen > 0x5b) {
+            this.ExtraPOITableBlock.writeDataBlockWithSize(writer);
+            writer.writeUint8(this.NT_unknown_0x65);
+            this.NT_POIDataBlock.writeDataBlock(writer);
+
+            if (this.headerLen > 0x6E) {
+               writer.writeUint32(this.NT_unknown_0x6E);
+               this.NT_PointLabelblock.writeDataBlock(writer);
+               writer.writeUint32(this.NT_unknown_0x7A);
+               writer.writeUint32(this.NT_unknown_0x7E);
+               this.NT_LabelblockTable1.writeDataBlock(writer);
+               writer.writeUint32(this.NT_unknown_0x8A);
+               writer.writeUint32(this.NT_unknown_0x8E);
+               this.NT_LabelblockTable2.writeDataBlock(writer);
+               writer.writeUint32(this.NT_unknown_0x9A);
+               writer.writeBytes(this.NT_unknown_0x9C);
+
+               if (this.headerLen > 0xA4) {
+                  writer.writeBytes(this.NT_unknown_0xA4);
+               }
+            }
+        }
     }
 }

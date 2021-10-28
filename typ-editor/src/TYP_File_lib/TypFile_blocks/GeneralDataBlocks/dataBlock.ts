@@ -12,4 +12,9 @@ export class DataBlock {
         this.offset = reader.readUint32();
         this.length = reader.readUint32();
     }
+
+    writeDataBlock(writer: BinReaderWriter) {
+        writer.writeUint32(this.offset);
+        writer.writeUint32(this.length);
+    }
 }

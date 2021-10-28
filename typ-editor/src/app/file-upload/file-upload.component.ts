@@ -41,7 +41,7 @@ export class FileUploadComponent implements OnInit {
       reader.onload = () => {
         var buffer = reader.result as ArrayBuffer;
         var view = new DataView(buffer);
-        //console.log(buffer);
+        console.log(buffer);
         
 
         this.typFile = new TypFile(view);

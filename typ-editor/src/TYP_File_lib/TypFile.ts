@@ -119,8 +119,6 @@ export class TypFile {
     encodeAndWrite(): void {
         let writer = new BinReaderWriter(new DataView(new ArrayBuffer(40000)));
         this.header.write(writer);
-        //console.log(writer.getBuffer());
-        // writer.seek(0);
-        // console.log(writer.readUint8());
+        console.log(writer.getBuffer());
     }   
 }

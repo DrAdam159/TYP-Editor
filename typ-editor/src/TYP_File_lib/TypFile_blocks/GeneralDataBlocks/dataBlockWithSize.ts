@@ -15,6 +15,12 @@ export class DataBlockWithSize{
         this.length = reader.readUint32();
     }
 
+    writeDataBlockWithSize(writer: BinReaderWriter): void {
+        writer.writeUint32(this.offset);
+        writer.writeUint16(this.recordSize);
+        writer.writeUint32(this.length);
+    }
+
     count(): number {
         return this.recordSize > 0 ? this.length / this.recordSize : 0;
     }

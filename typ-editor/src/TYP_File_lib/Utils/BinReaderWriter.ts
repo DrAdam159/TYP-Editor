@@ -248,6 +248,25 @@ export class BinReaderWriter {
         //console.log(byteArr);
     }
 
+    writeUint32(value: number): void {
+        let byte1 = value & 0xFF;
+        let byte2 = (value >> 8)  & 0xFF;
+        let byte3 = (value >> 16)  & 0xFF;
+        let byte4 = (value >> 24)  & 0xFF;
+        let byteArr = [byte1, byte2, byte3, byte4];
+        for(let i = 0; i < byteArr.length; i++) {
+            this.writeUint8(byteArr[i]);
+        }
+        // console.log(value);
+        // console.log(byteArr);
+    }
+
+    writeBytes(bytes: Array<number>): void {
+        for(let i = 0; i < bytes.length; i++) {
+            this.writeUint8(bytes[i]);
+        } 
+    }
+
     getBuffer(): DataView {
         return this.buffer;
     }
