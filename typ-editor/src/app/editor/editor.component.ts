@@ -23,7 +23,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     
     this.sub = this.Activatedroute.paramMap.subscribe(params => { 
-      console.log(params);
       let itemType = params.get('id');
       let typeID = params.get('id1');
       let subTypeID = params.get('id2');

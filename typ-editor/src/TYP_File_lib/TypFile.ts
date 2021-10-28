@@ -120,5 +120,16 @@ export class TypFile {
         let writer = new BinReaderWriter(new DataView(new ArrayBuffer(40000)));
         this.header.write(writer);
         console.log(writer.getBuffer());
-    }   
+    }
+    
+    encodePolygoneData(writer: BinReaderWriter): void {
+        this.header.PolygoneTableBlock.recordSize = 5;
+        this.header.PolygoneDataBlock.offset = writer.getPosition();
+
+        for (const Polygone of this.PolygonList) {
+            let tableItem = new TableItem();
+            
+        }
+
+    }
 }

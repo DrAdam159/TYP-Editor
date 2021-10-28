@@ -162,11 +162,14 @@ export class Header {
                writer.writeUint32(this.NT_unknown_0x8E);
                this.NT_LabelblockTable2.writeDataBlock(writer);
                writer.writeUint32(this.NT_unknown_0x9A);
-               writer.writeBytes(this.NT_unknown_0x9C);
-
-               if (this.headerLen > 0xA4) {
-                  writer.writeBytes(this.NT_unknown_0xA4);
+               if (this.headerLen > 0x9C) {
+                 writer.writeBytes(this.NT_unknown_0x9C);
+                 
+                 if (this.headerLen > 0xA4) {
+                    writer.writeBytes(this.NT_unknown_0xA4);
+                 }
                }
+
             }
         }
     }

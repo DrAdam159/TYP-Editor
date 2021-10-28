@@ -271,4 +271,8 @@ export class BinReaderWriter {
         return this.buffer;
     }
 
+    getPosition(): number {
+        return this.position;
+    }
+
 }
