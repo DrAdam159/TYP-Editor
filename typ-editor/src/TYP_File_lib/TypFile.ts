@@ -122,9 +122,12 @@ export class TypFile {
         writer.seek(this.header.headerLen);
         this.encodePolygoneData(writer);
         console.log(writer.getPosition());
-        this.header.write(writer);
-        console.log(writer.getBuffer());
+        this.encodePolylineData(writer);
         console.log(writer.getPosition());
+        this.header.write(writer);
+        console.log(writer.getPosition());
+        console.log(writer.getBuffer());
+        
     }
     
     encodePolygoneData(writer: BinReaderWriter): void {
@@ -150,4 +153,27 @@ export class TypFile {
         this.header.PolygoneTableBlock.length = writer.getPosition() - this.header.PolygoneTableBlock.offset;
 
     }
+
+    encodePolylineData(writer: BinReaderWriter) {
+        let table: Array<TableItem> = new Array();
+
+        this.header.PolylineTableBlock.recordSize = 5;
+        this.header.PolylineDataBlock.offset = writer.getPosition();
+
+        for (const p of this.PolylineList) {
+           let tableitem = new TableItem();
+           tableitem.type = p.type;
+           tableitem.subType = p.subtype;
+           tableitem.offset = writer.getPosition() - this.header.PolylineDataBlock.offset;
+           table.push(tableitem);
+           p.write(writer, this.header.Codepage);
+        }
+        this.header.PolylineDataBlock.length = writer.getPosition() - this.header.PolylineDataBlock.offset;
+
+        this.header.PolylineTableBlock.offset = writer.getPosition();    
+        for (let i = 0; i < table.length; i++) {
+            table[i].write(writer, this.header.PolylineTableBlock.recordSize);
+        }
+        this.header.PolylineTableBlock.length = writer.getPosition() - this.header.PolylineTableBlock.offset;
+     }
 }

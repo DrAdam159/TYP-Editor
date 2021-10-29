@@ -223,4 +223,75 @@ export class Polyline extends GraphicElement{
     }
     return bmp;
    }
+
+   write(writer: BinReaderWriter, codepage: number): void {
+      writer.writeUint8(this.options);
+      writer.writeUint8(this.options2);
+      switch (this.polylineType) {
+         case PolylineType.Day2:
+            BinaryColor.writeColorTable(writer, this.colDayColor);
+            break;
+
+         case PolylineType.Day2_Night2:
+            BinaryColor.writeColorTable(writer, this.colDayColor);
+            BinaryColor.writeColorTable(writer, this.colNightColor);
+            break;
+
+         case PolylineType.Day1_Night2:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            BinaryColor.writeColorTable(writer, this.colNightColor);
+            break;
+
+         case PolylineType.NoBorder_Day2_Night1:
+            BinaryColor.writeColorTable(writer, this.colDayColor);
+            BinaryColor.writeColor(writer, this.colNightColor[0]);
+            break;
+
+         case PolylineType.NoBorder_Day1:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            break;
+
+         case PolylineType.NoBorder_Day1_Night1:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            BinaryColor.writeColor(writer, this.colNightColor[0]);
+            break;
+      }
+
+      if (this.bitmapHeight == 0) { 
+         switch (this.polylineType) {
+            case PolylineType.Day2:
+            case PolylineType.Day2_Night2:
+            case PolylineType.Day1_Night2:
+               writer.writeUint8(this.innerWidth);
+               if (this.innerWidth > 0)
+                  writer.writeUint8(2 * this.borderWidth + this.innerWidth);
+               break;
+
+            case PolylineType.NoBorder_Day2_Night1:
+            case PolylineType.NoBorder_Day1:
+            case PolylineType.NoBorder_Day1_Night1:
+               writer.writeUint8(this.innerWidth);
+               break;
+         }
+      } else
+         this.bitmapDay?.writeRawData(writer);
+
+      if (this.withString)
+         this.text.write(writer, codepage);
+
+      if (this.withExtOptions) {   
+         writer.writeUint8(this.extOptions);
+         switch (this.fontColType) {
+            case FontColours.Day:
+               BinaryColor.writeColor(writer, this.colFontColour[0]);
+               break;
+            case FontColours.Night:
+               BinaryColor.writeColor(writer, this.colFontColour[1]);
+               break;
+            case FontColours.DayAndNight:
+               BinaryColor.writeColorTable(writer, this.colFontColour);
+               break;
+         }
+      }
+   }
 }
