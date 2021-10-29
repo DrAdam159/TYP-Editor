@@ -277,5 +277,68 @@ export class Polygon extends GraphicElement{
       }
       return pic;
     }
-   
+
+   write(writer: BinReaderWriter, codePage: number): void {
+      writer.writeUint8(this.options);
+      switch (this.colorType) {
+         case ColorType.Day1:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            break;
+
+         case ColorType.Day1_Night1:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            BinaryColor.writeColor(writer, this.colNightColor[0]);
+            break;
+
+         case ColorType.BM_Day2:
+               this.bitmapDay?.writeColorTable(writer);
+               this.bitmapDay?.writeRawData(writer);
+            break;
+
+         case ColorType.BM_Day2_Night2:
+            BinaryColor.writeColorTable(writer, this.colDayColor);
+            BinaryColor.writeColorTable(writer, this.colNightColor);
+            this.bitmapDay?.writeRawData(writer);
+            break;
+
+         case ColorType.BM_Day1_Night2:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            BinaryColor.writeColorTable(writer, this.colNightColor);
+            this.bitmapDay?.writeRawData(writer);
+            break;
+
+         case ColorType.BM_Day2_Night1:
+            BinaryColor.writeColorTable(writer, this.colDayColor);
+            BinaryColor.writeColor(writer, this.colNightColor[0]);
+            this.bitmapDay?.writeRawData(writer);
+            break;
+
+         case ColorType.BM_Day1:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            this.bitmapDay?.writeRawData(writer);
+            break;
+
+         case ColorType.BM_Day1_Night1:
+            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            BinaryColor.writeColor(writer, this.colNightColor[0]);
+            this.bitmapDay?.writeRawData(writer);
+            break;
+      }
+      if (this.withString)
+         this.text.write(writer, codePage);
+      if (this.withExtendedOptions) {    
+         writer.writeUint8(this.extOptions);
+         switch (this.fontColType) {
+            case FontColours.Day:
+               BinaryColor.writeColor(writer, this.colFontColour[0]);
+               break;
+            case FontColours.Night:
+               BinaryColor.writeColor(writer, this.colFontColour[1]);
+               break;
+            case FontColours.DayAndNight:
+               BinaryColor.writeColorTable(writer, this.colFontColour);
+               break;
+         }
+      }
+   } 
 }

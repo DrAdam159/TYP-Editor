@@ -74,9 +74,40 @@ export class MultiText {
     }
 
     set(iText: Text): void {
-       
         if(!(this.textArr.some(e => e.key == iText.language))) {
             this.textArr.push({key: iText.language, value: iText.text});
           }
+     }
+
+     getRealLength(): number {
+        let len = 0;
+        for(const t of this.textArr) {
+            len += t.value.length + 2;  
+        }   
+        return len;
+     }
+
+     getIdentificationLength(): number {
+        let len = this.getRealLength();
+        len = 2 * len + 1;      
+        if (len > 0xFF)
+           len *= 2;           
+        return len;
+     }
+
+     write(writer: BinReaderWriter, codePage: number): void {
+        let len = this.getIdentificationLength();
+        if (len <= 0xff) {
+            writer.writeUint8(0xFF & len);
+        }
+        else {
+            writer.writeUint16(0xFFFF & len);
+        }
+        for(const t of this.textArr) {
+            let tempText = new Text();
+            tempText.language = t.key;
+            tempText.text = t.value;
+            tempText.write(writer, codePage);
+        }
      }
 }

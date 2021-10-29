@@ -54,4 +54,11 @@ export class Text {
             this.text = "undefined";
         }*/
     }
+
+    write(writer: BinReaderWriter, codepage: number): void {
+        writer.writeUint8(this.language);
+        //let txt = Encoding.Convert(Encoding.Unicode, Encoding.GetEncoding(codepage), Encoding.Unicode.GetBytes(Txt));
+        writer.writeString(this.text);
+        writer.writeUint8(0);
+     }
 }

@@ -211,4 +211,12 @@ export class PixMap {
           this.data.invertBits();
        }
     }
+
+    writeColorTable(writer: BinReaderWriter): void {
+      BinaryColor.writeColorTable(writer, this.colorTable, false);
+    }
+
+    writeRawData(writer: BinReaderWriter): void {
+      this.data.write(writer);
+    }
 }

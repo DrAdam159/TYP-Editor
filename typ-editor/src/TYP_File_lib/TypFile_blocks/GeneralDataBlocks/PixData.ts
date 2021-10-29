@@ -157,4 +157,8 @@ export class PixData {
         }
         return bmp;
     }
+
+    write(writer: BinReaderWriter): void {
+       writer.writeBytes(this.rawIMGData);
+    }
 }

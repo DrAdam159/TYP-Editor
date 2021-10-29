@@ -33,4 +33,39 @@ export class TableItem {
         }
         
     }
+
+    setType(type: number): void {
+        this.type = type;
+    }
+
+    setSubType(subType: number): void {
+        this.subType = subType;
+    }
+
+    setOffset(offset: number): void {
+        this.offset = offset;
+    }
+
+    setRawType(rawType: number): void {
+        this.rawType = rawType;
+    }
+
+    write(writer: BinReaderWriter, recordSize: number): void {
+        let type = ((this.type << 5) | this.subType) & 0xFFFF;
+         writer.writeUint16(type);
+         switch (recordSize) {
+            case 3: 
+                writer.writeUint8(this.offset & 0xFF); 
+                break;
+            case 4:
+                writer.writeUint16(this.offset & 0xFFFF); 
+                break;
+            case 5:
+               writer.writeUint16(this.offset & 0xFFFF);
+               writer.writeUint8((this.offset >> 16) & 0xFF);
+               break;
+        }
+    }
+
+    
 }

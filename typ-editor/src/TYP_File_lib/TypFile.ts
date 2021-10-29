@@ -117,19 +117,37 @@ export class TypFile {
     }
 
     encodeAndWrite(): void {
-        let writer = new BinReaderWriter(new DataView(new ArrayBuffer(40000)));
+        let writer = new BinReaderWriter(new DataView(new ArrayBuffer(100000)));
+
+        writer.seek(this.header.headerLen);
+        this.encodePolygoneData(writer);
+        console.log(writer.getPosition());
         this.header.write(writer);
         console.log(writer.getBuffer());
+        console.log(writer.getPosition());
     }
     
     encodePolygoneData(writer: BinReaderWriter): void {
+        let table: Array<TableItem> = new Array();
+
         this.header.PolygoneTableBlock.recordSize = 5;
         this.header.PolygoneDataBlock.offset = writer.getPosition();
 
-        for (const Polygone of this.PolygonList) {
+        for (const p of this.PolygonList) {
             let tableItem = new TableItem();
-            
+            tableItem.type = p.type;
+            tableItem.subType = p.subtype;
+            tableItem.offset = writer.getPosition() - this.header.PolygoneDataBlock.offset;
+            table.push(tableItem);
+            p.write(writer, this.header.Codepage); 
         }
+        this.header.PolygoneDataBlock.length = writer.getPosition() - this.header.PolygoneDataBlock.offset;
+
+        this.header.PolygoneTableBlock.offset = writer.getPosition();  
+        for (let i = 0; i < table.length; i++) {
+            table[i].write(writer, this.header.PolygoneTableBlock.recordSize);
+        }
+        this.header.PolygoneTableBlock.length = writer.getPosition() - this.header.PolygoneTableBlock.offset;
 
     }
 }

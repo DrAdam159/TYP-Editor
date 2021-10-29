@@ -41,4 +41,41 @@ export class BinaryColor {
     static readColor(reader: BinReaderWriter, bWithAlpha: boolean = false) {
         return this.readColorTable(reader, 1, false)[0];
     }
+
+    static writeColorTable(writer: BinReaderWriter, coltable: Array<Color>, bWithAlpha: boolean = false): void {
+        if (!bWithAlpha) {
+           for (let i = 0; i < coltable.length; i++) {
+              writer.writeUint8(coltable[i].b);
+              writer.writeUint8(coltable[i].g);
+              writer.writeUint8(coltable[i].r);
+           }
+        } else {
+           // Urceni delky tabulky barev
+           let len = coltable.length * 3 + (coltable.length / 2) | 0;
+           if (coltable.length % 2 == 1) len++;
+           // Generovani tabulky barev
+           let colortable = new Array()[len];
+
+           let halfbytetable = new Array()[2 * len];
+           for (let i = 0, j = 0; i < coltable.length; i++) {
+              halfbytetable[j++] = (coltable[i].b & 0xF) & 0xFF;
+              halfbytetable[j++] = (coltable[i].b >> 4) & 0xFF;
+              halfbytetable[j++] = (coltable[i].g & 0xF) & 0xFF;
+              halfbytetable[j++] = (coltable[i].g >> 4) & 0xFF;
+              halfbytetable[j++] = (coltable[i].r & 0xF) & 0xFF;
+              halfbytetable[j++] = (coltable[i].r >> 4) & 0xFF;
+              halfbytetable[j++] = (0xF - ((coltable[i].a / 0xFF) | 0) * 0xF);
+           }
+           for (let i = 0; i < colortable.length; i++) {
+              colortable[i] = (halfbytetable[2 * i] | (halfbytetable[2 * i + 1] << 4)) & 0xFF;
+           }
+           writer.writeBytes(colortable);
+        }
+     }
+
+    static writeColor(writer: BinReaderWriter, col: Color): void {
+        let tempCol: Array<Color> = new Array();
+        tempCol.push(col);
+        this.writeColorTable(writer, tempCol);
+     }
 }
