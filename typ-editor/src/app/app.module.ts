@@ -28,6 +28,8 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { BitmapCanvasComponent } from './bitmap-canvas/bitmap-canvas.component';
 import { FileHeaderComponent } from './file-header/file-header.component';
+import { FileDownloadComponent } from './file-download/file-download.component';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { FileHeaderComponent } from './file-header/file-header.component';
     EditorComponent,
     MainNavComponent,
     BitmapCanvasComponent,
-    FileHeaderComponent
+    FileHeaderComponent,
+    FileDownloadComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,7 @@ import { FileHeaderComponent } from './file-header/file-header.component';
     MatGridListModule,
     MatToolbarModule,
     MatSidenavModule,
-    LayoutModule
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

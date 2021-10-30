@@ -25,7 +25,7 @@ export class TypFile {
         this.decodePolylineData(view);
         this.decodePOIData(view);
         this.decodePolygoneData(view);
-        this.encodeAndWrite();
+        //this.encodeAndWrite();
     }
 
     decodePolylineData(view: DataView): void {
@@ -116,7 +116,7 @@ export class TypFile {
         }
     }
 
-    encodeAndWrite(): void {
+    encodeAndWrite(): Blob {
         let writer = new BinReaderWriter(new DataView(new ArrayBuffer(100000)));
 
         writer.seek(this.header.headerLen);
@@ -129,6 +129,8 @@ export class TypFile {
         this.header.write(writer);
         console.log(writer.getPosition());
         console.log(writer.getBuffer());
+
+        return new Blob([writer.getBuffer().buffer]);
         
     }
     
@@ -200,5 +202,67 @@ export class TypFile {
             table[i].write(writer, this.header.POITableBlock.recordSize);
         }
         this.header.POITableBlock.length = writer.getPosition() - this.header.POITableBlock.offset;
+    }
+
+    encodeDraworder(writer: BinReaderWriter) {
+    //     interface KeyValuePair1 {
+    //         key: number;
+    //         value: number;
+    //     }
+
+    //     interface KeyValuePair2 {
+    //         key: number;
+    //         value: Array<KeyValuePair1>;
+    //     }
+        
+    //     interface KeyValuePair {
+    //         key: number;
+    //         value: Array<KeyValuePair2>;
+    //     }
+
+    //     // list typu + list subtypu pro kazdy typ
+    //     let tempDrawOrderList  = new Array<KeyValuePair>();
+    //    // SortedList<uint, SortedList<uint, SortedList<uint, uint>>> draworderlist = new SortedList<uint, SortedList<uint, SortedList<uint, uint>>>();
+    //     for (const p of this.PolygonList) {
+    //         let typeList: Array<KeyValuePair1>
+    //        //SortedList<uint, SortedList<uint, uint>> typelist;
+
+    //        if (!tempDrawOrderList.TryGetValue(p.drawOrder, out typelist)) {
+    //           typelist = new SortedList<uint, SortedList<uint, uint>>();
+    //           draworderlist.Add(p.Draworder, typelist);
+    //        }
+    //        SortedList<uint, uint> subtypelist;
+    //        if (!typelist.TryGetValue(p.Type, out subtypelist)) {
+    //           subtypelist = new SortedList<uint, uint>();
+    //           typelist.Add(p.Type, subtypelist);
+    //        }
+    //        subtypelist.Add(p.Subtype, 0);
+
+    //     }
+
+    //     PolygoneDraworderTableBlock.Recordsize = 5;
+    //     PolygoneDraworderTableBlock.Offset = (uint)bw.Position;
+    //     uint olddraworder = 0;
+
+    //     foreach (uint draworder in draworderlist.Keys) {
+    //        while (olddraworder > 0 &&
+    //               draworder != olddraworder) {                  // Kennung für Erhöhung der Draworder schreiben
+    //           new PolygonDraworderTableItem(0, 0).Write(bw, PolygoneDraworderTableBlock.Recordsize);
+    //           olddraworder++;
+    //        }
+    //        olddraworder = draworder;
+
+    //        SortedList<uint, SortedList<uint, uint>> typelist = draworderlist[draworder];
+    //        foreach (uint type in typelist.Keys) {                // für jeden Typ dieser Draworder einen Tabelleneintrag erzeugen
+    //           PolygonDraworderTableItem ti = new PolygonDraworderTableItem(type, draworder);
+    //           // ev. vorhandene Subtypes ergänzen
+    //           SortedList<uint, uint> subtypelist = typelist[type];
+
+    //           foreach (uint subtype in subtypelist.Keys)
+    //              ti.Subtypes.Add(subtype);
+    //           ti.Write(bw, PolygoneDraworderTableBlock.Recordsize);
+    //        }
+    //     }
+    //     PolygoneDraworderTableBlock.Length = (uint)bw.Position - PolygoneDraworderTableBlock.Offset;
      }
 }

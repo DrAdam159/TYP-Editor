@@ -11,14 +11,16 @@ import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
 })
 export class FileService {
 
-  fileName!: string;
+  fileName: string;
   typFile!: TypFile;
 
   public notify = new BehaviorSubject<any>('');
   notifyObservable$ = this.notify.asObservable();
   
 
-  constructor() { }
+  constructor() { 
+    this.fileName = "";
+  }
 
   public notifyOther(data: any) {
     if (data) {
@@ -32,7 +34,7 @@ export class FileService {
     localStorage.setItem('file', this.arrayBufferToBase64(buffer));
     localStorage.setItem('filename', fileName);
 
-    localStorage.setItem('rawFile', JSON.stringify(this.typFile));
+    //localStorage.setItem('rawFile', JSON.stringify(this.typFile));
   }
 
   getFile(): TypFile {
@@ -120,5 +122,14 @@ export class FileService {
         bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes.buffer;
+  }
+
+  getBLOB(): Blob {
+    if(!this.typFile) {  
+      if(!(this.getFile())) {
+        return new Blob;
+      }
+    }
+    return this.typFile.encodeAndWrite();
   }
 }
