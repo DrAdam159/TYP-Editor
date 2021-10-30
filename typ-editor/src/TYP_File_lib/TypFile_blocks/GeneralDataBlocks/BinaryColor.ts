@@ -54,9 +54,10 @@ export class BinaryColor {
            let len = coltable.length * 3 + (coltable.length / 2) | 0;
            if (coltable.length % 2 == 1) len++;
            // Generovani tabulky barev
-           let colortable = new Array()[len];
+           let colortable = new Array<number>(len);
 
-           let halfbytetable = new Array()[2 * len];
+           let halfbytetable = new Array<number>(2 * len);
+         
            for (let i = 0, j = 0; i < coltable.length; i++) {
               halfbytetable[j++] = (coltable[i].b & 0xF) & 0xFF;
               halfbytetable[j++] = (coltable[i].b >> 4) & 0xFF;

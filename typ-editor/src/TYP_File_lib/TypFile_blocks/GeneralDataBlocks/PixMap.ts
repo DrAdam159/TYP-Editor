@@ -219,4 +219,30 @@ export class PixMap {
     writeRawData(writer: BinReaderWriter): void {
       this.data.write(writer);
     }
+
+    writeAsPoi(writer: BinReaderWriter): void {
+      switch (this.colorMode) {
+         case BitmapColorMode.POI_SIMPLE:
+         case BitmapColorMode.POI_TR:
+            writer.writeUint8(this.width);
+            writer.writeUint8(this.height);
+            writer.writeUint8(this.colorTable.length);
+            writer.writeUint8(this.colorMode);
+            BinaryColor.writeColorTable(writer, this.colorTable, false);
+            this.data.write(writer);
+            break;
+
+         case BitmapColorMode.POI_ALPHA:
+            writer.writeUint8(this.width);
+            writer.writeUint8(this.height);
+            writer.writeUint8(this.colorTable.length);
+            writer.writeUint8(this.colorMode);
+            BinaryColor.writeColorTable(writer, this.colorTable, true);
+            this.data.write(writer);
+            break;
+
+         default:
+            throw new Error("Invalid ColorMode for bitmap");
+      }
+   }
 }

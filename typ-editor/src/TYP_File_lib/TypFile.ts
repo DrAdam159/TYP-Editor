@@ -124,6 +124,8 @@ export class TypFile {
         console.log(writer.getPosition());
         this.encodePolylineData(writer);
         console.log(writer.getPosition());
+        this.encodePOIData(writer);
+        console.log(writer.getPosition());
         this.header.write(writer);
         console.log(writer.getPosition());
         console.log(writer.getBuffer());
@@ -154,7 +156,7 @@ export class TypFile {
 
     }
 
-    encodePolylineData(writer: BinReaderWriter) {
+    encodePolylineData(writer: BinReaderWriter): void {
         let table: Array<TableItem> = new Array();
 
         this.header.PolylineTableBlock.recordSize = 5;
@@ -175,5 +177,28 @@ export class TypFile {
             table[i].write(writer, this.header.PolylineTableBlock.recordSize);
         }
         this.header.PolylineTableBlock.length = writer.getPosition() - this.header.PolylineTableBlock.offset;
+    }
+
+    encodePOIData(writer: BinReaderWriter): void {
+        let table: Array<TableItem> = new Array();
+
+        this.header.POITableBlock.recordSize = 5;
+        this.header.POIDataBlock.offset = writer.getPosition();
+     
+        for (const p of this.POIList) {
+            let tableitem = new TableItem();
+           tableitem.type = p.type;
+           tableitem.subType = p.subtype;
+           tableitem.offset = writer.getPosition() - this.header.POIDataBlock.offset;
+           table.push(tableitem);
+           p.write(writer, this.header.Codepage);
+        }
+        this.header.POIDataBlock.length = writer.getPosition() - this.header.POIDataBlock.offset;
+
+        this.header.POITableBlock.offset = writer.getPosition();  
+        for (let i = 0; i < table.length; i++) {
+            table[i].write(writer, this.header.POITableBlock.recordSize);
+        }
+        this.header.POITableBlock.length = writer.getPosition() - this.header.POITableBlock.offset;
      }
 }

@@ -149,5 +149,28 @@ export class POI extends GraphicElement{
          return tmp.asBitmap();
       }
       return new Bitmap(this.width, this.height);
-    }
+   }
+
+   write(writer: BinReaderWriter, codepage: number): void {
+      writer.writeUint8(this.options);
+      this.bitmapDay?.writeAsPoi(writer);
+      if (this.withNightXpm)
+         this.bitmapNight?.writeAsPoi(writer);
+      if (this.withString)
+         this.text.write(writer, codepage);
+      if (this.withExtendedOptions) {
+         writer.writeUint8(this.extOptions);
+         switch (this.fontColType) {
+            case FontColours.Day:
+               BinaryColor.writeColor(writer, this.colFontColour[0]);
+               break;
+            case FontColours.Night:
+               BinaryColor.writeColor(writer, this.colFontColour[1]);
+               break;
+            case FontColours.DayAndNight:
+               BinaryColor.writeColorTable(writer, this.colFontColour);
+               break;
+         }
+      }
+   }
 }
