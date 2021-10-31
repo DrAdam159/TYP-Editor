@@ -1,3 +1,6 @@
-<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="downloadFile()">
-    <mat-icon>cloud_download</mat-icon>
-</button>
+<div *ngIf="isLoaded">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="downloadFile()">
+        <mat-icon>cloud_download</mat-icon>
+    </button>
+</div>
+

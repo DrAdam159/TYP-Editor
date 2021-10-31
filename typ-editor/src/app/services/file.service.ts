@@ -33,8 +33,6 @@ export class FileService {
     this.fileName = fileName;
     localStorage.setItem('file', this.arrayBufferToBase64(buffer));
     localStorage.setItem('filename', fileName);
-
-    //localStorage.setItem('rawFile', JSON.stringify(this.typFile));
   }
 
   getFile(): TypFile {

@@ -25,7 +25,13 @@ export class TypFile {
         this.decodePolylineData(view);
         this.decodePOIData(view);
         this.decodePolygoneData(view);
-        //this.encodeAndWrite();
+    }
+
+    isEmpty(): boolean {
+        if(this.header.headerLen == 0) {
+            return true;
+        }
+        return false;
     }
 
     decodePolylineData(view: DataView): void {
@@ -126,6 +132,8 @@ export class TypFile {
         console.log(writer.getPosition());
         this.encodePOIData(writer);
         console.log(writer.getPosition());
+        // this.encodeDraworder(writer);
+        // console.log(writer.getPosition());
         this.header.write(writer);
         console.log(writer.getPosition());
         console.log(writer.getBuffer());
@@ -205,64 +213,94 @@ export class TypFile {
     }
 
     encodeDraworder(writer: BinReaderWriter) {
-    //     interface KeyValuePair1 {
-    //         key: number;
-    //         value: number;
-    //     }
+        interface KeyValuePair1 {
+            key: number;
+            value: number;
+        }
 
-    //     interface KeyValuePair2 {
-    //         key: number;
-    //         value: Array<KeyValuePair1>;
-    //     }
+        interface KeyValuePair2 {
+            key: number;
+            value: Array<KeyValuePair1>;
+        }
         
-    //     interface KeyValuePair {
-    //         key: number;
-    //         value: Array<KeyValuePair2>;
-    //     }
+        interface KeyValuePair {
+            key: number;
+            value: Array<KeyValuePair2>;
+        }
 
-    //     // list typu + list subtypu pro kazdy typ
-    //     let tempDrawOrderList  = new Array<KeyValuePair>();
-    //    // SortedList<uint, SortedList<uint, SortedList<uint, uint>>> draworderlist = new SortedList<uint, SortedList<uint, SortedList<uint, uint>>>();
-    //     for (const p of this.PolygonList) {
-    //         let typeList: Array<KeyValuePair1>
-    //        //SortedList<uint, SortedList<uint, uint>> typelist;
+        // list typu + list subtypu pro kazdy typ
+        let tempDrawOrderList  = new Array<KeyValuePair>();
+        for (const p of this.PolygonList) {
 
-    //        if (!tempDrawOrderList.TryGetValue(p.drawOrder, out typelist)) {
-    //           typelist = new SortedList<uint, SortedList<uint, uint>>();
-    //           draworderlist.Add(p.Draworder, typelist);
-    //        }
-    //        SortedList<uint, uint> subtypelist;
-    //        if (!typelist.TryGetValue(p.Type, out subtypelist)) {
-    //           subtypelist = new SortedList<uint, uint>();
-    //           typelist.Add(p.Type, subtypelist);
-    //        }
-    //        subtypelist.Add(p.Subtype, 0);
+            // let typeList: Array<KeyValuePair2> = new Array<KeyValuePair2>();
+            // if(!(tempDrawOrderList.some(function(item) {
+            //     return item.key === p.drawOrder;
+            // }))) {
+            //     typeList = new Array<KeyValuePair2>();
+            //     tempDrawOrderList.push({key: p.drawOrder, value: typeList});
+            // } else {
+            //     let data = tempDrawOrderList.find(function(item) {
+            //         return item.key === p.drawOrder;
+            //     });
+            //     if(data) {
+            //         typeList = data.value);
+            //     }
+            // }
 
-    //     }
+            let typeList: Array<KeyValuePair2> = new Array<KeyValuePair2>();
 
-    //     PolygoneDraworderTableBlock.Recordsize = 5;
-    //     PolygoneDraworderTableBlock.Offset = (uint)bw.Position;
-    //     uint olddraworder = 0;
+            let data = tempDrawOrderList.find(function(item) {
+                return item.key === p.drawOrder;
+            });
+            if(!data){
+                typeList = new Array<KeyValuePair2>();
+                tempDrawOrderList.push({key: p.drawOrder, value: typeList});
+            }
+            else {
+                typeList = data.value;
+            }
+        
+           let subtypeList: Array<KeyValuePair1> = new Array<KeyValuePair1>();
+           let data2 = typeList.find(function(item) {
+                return item.key === p.type;
+            });
+            if(!data2){
+                subtypeList = new Array<KeyValuePair1>();
+                typeList.push({key: p.drawOrder, value: subtypeList});
+            }
+            else {
+                subtypeList = data2.value;
+            }
+            subtypeList.push({key: p.subtype, value: 0});
+        }
 
-    //     foreach (uint draworder in draworderlist.Keys) {
-    //        while (olddraworder > 0 &&
-    //               draworder != olddraworder) {                  // Kennung für Erhöhung der Draworder schreiben
-    //           new PolygonDraworderTableItem(0, 0).Write(bw, PolygoneDraworderTableBlock.Recordsize);
-    //           olddraworder++;
-    //        }
-    //        olddraworder = draworder;
+        this.header.PolygoneDraworderTableBlock.recordSize = 5;
+        this.header.PolygoneDraworderTableBlock.offset = writer.getPosition();
+        let olddraworder: number = 0;
 
-    //        SortedList<uint, SortedList<uint, uint>> typelist = draworderlist[draworder];
-    //        foreach (uint type in typelist.Keys) {                // für jeden Typ dieser Draworder einen Tabelleneintrag erzeugen
-    //           PolygonDraworderTableItem ti = new PolygonDraworderTableItem(type, draworder);
-    //           // ev. vorhandene Subtypes ergänzen
-    //           SortedList<uint, uint> subtypelist = typelist[type];
+        for (const draworder of tempDrawOrderList) {
+            while (olddraworder > 0 && draworder.key != olddraworder) {
+                new PolygonDraworderTableItem(undefined, 0, 0).write(writer, this.header.PolygoneDraworderTableBlock.recordSize);
+                olddraworder++;
+            }
 
-    //           foreach (uint subtype in subtypelist.Keys)
-    //              ti.Subtypes.Add(subtype);
-    //           ti.Write(bw, PolygoneDraworderTableBlock.Recordsize);
-    //        }
-    //     }
-    //     PolygoneDraworderTableBlock.Length = (uint)bw.Position - PolygoneDraworderTableBlock.Offset;
+            olddraworder = draworder.key; 
+            let typeList: Array<KeyValuePair2> = tempDrawOrderList.find(function(item) {
+                return item.key === draworder.key;
+            })?.value || new Array;
+
+            for (const type of typeList) {
+              let ti: PolygonDraworderTableItem = new PolygonDraworderTableItem(undefined, type.key, draworder.key);
+              let subtypeList: Array<KeyValuePair1> = typeList.find(function(item) {
+                return item.key === type.key;
+              })?.value || new Array;
+
+              for (const subtype of subtypeList) {
+                ti.subTypes.push(subtype.key);
+              }
+              ti.write(writer, this.header.PolygoneDraworderTableBlock.recordSize);
+            }
+        }
+        this.header.PolygoneDraworderTableBlock.length = writer.getPosition() - this.header.PolygoneDraworderTableBlock.offset;
      }
 }

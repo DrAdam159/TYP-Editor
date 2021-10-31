@@ -9,9 +9,23 @@ import { FileService } from '../services/file.service';
 })
 export class FileDownloadComponent implements OnInit {
 
-  constructor(private fileService: FileService) { }
+  isLoaded: boolean;
+
+  constructor(private fileService: FileService) { 
+    if(this.fileService.getFile().isEmpty()){
+      this.isLoaded = false;
+    }
+    else {
+      this.isLoaded = true;
+    }
+  }
 
   ngOnInit(): void {
+    this.fileService.notifyObservable$.subscribe(res => {
+      if (res.refresh) {
+        this.isLoaded = true;
+      }
+   })
   }
 
   downloadFile(): void {
