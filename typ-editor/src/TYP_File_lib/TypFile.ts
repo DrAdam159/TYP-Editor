@@ -127,16 +127,11 @@ export class TypFile {
 
         writer.seek(this.header.headerLen);
         this.encodePolygoneData(writer);
-        console.log(writer.getPosition());
         this.encodePolylineData(writer);
-        console.log(writer.getPosition());
         this.encodePOIData(writer);
-        console.log(writer.getPosition());
-        // this.encodeDraworder(writer);
-        // console.log(writer.getPosition());
+        this.encodeDraworder(writer);
         this.header.write(writer);
-        console.log(writer.getPosition());
-        console.log(writer.getBuffer());
+        
 
         return new Blob([writer.getBuffer().buffer]);
         
@@ -232,21 +227,6 @@ export class TypFile {
         let tempDrawOrderList  = new Array<KeyValuePair>();
         for (const p of this.PolygonList) {
 
-            // let typeList: Array<KeyValuePair2> = new Array<KeyValuePair2>();
-            // if(!(tempDrawOrderList.some(function(item) {
-            //     return item.key === p.drawOrder;
-            // }))) {
-            //     typeList = new Array<KeyValuePair2>();
-            //     tempDrawOrderList.push({key: p.drawOrder, value: typeList});
-            // } else {
-            //     let data = tempDrawOrderList.find(function(item) {
-            //         return item.key === p.drawOrder;
-            //     });
-            //     if(data) {
-            //         typeList = data.value);
-            //     }
-            // }
-
             let typeList: Array<KeyValuePair2> = new Array<KeyValuePair2>();
 
             let data = tempDrawOrderList.find(function(item) {
@@ -273,6 +253,25 @@ export class TypFile {
             }
             subtypeList.push({key: p.subtype, value: 0});
         }
+
+        tempDrawOrderList.sort(function(a, b) {
+            return a.key - b.key;
+        });
+
+        for(let i = 0; i < tempDrawOrderList.length; i++) {
+            tempDrawOrderList[i].value.sort(function(a, b) {
+                return a.key - b.key;
+            });
+        }
+
+        for(let i = 0; i < tempDrawOrderList.length; i++) {
+            for(let j = 0; j < tempDrawOrderList[i].value.length; j++) {
+                tempDrawOrderList[i].value[j].value.sort(function(a, b) {
+                    return a.key - b.key;
+                });
+            }
+        }
+            
 
         this.header.PolygoneDraworderTableBlock.recordSize = 5;
         this.header.PolygoneDraworderTableBlock.offset = writer.getPosition();

@@ -172,6 +172,7 @@ export class BinReaderWriter {
     }
 
     readStringWithUndefinedLen(maxLen: number = 0): string {
+        let utf8decoder = new TextDecoder('windows-1251');
         let len = maxLen > 0 ? maxLen : Number.MAX_SAFE_INTEGER;
         let list: Array<number> = new Array();
         let b: number;
@@ -182,7 +183,8 @@ export class BinReaderWriter {
             }
             len--;
         } while(b != 0 && len > 0);
-        return String.fromCharCode.apply(String, list);
+        // return String.fromCharCode.apply(String, list);
+        return utf8decoder.decode(new Uint8Array(list));
     }
 
     writeUint8(value: number): void{
@@ -196,10 +198,15 @@ export class BinReaderWriter {
     }
 
     writeString(text: string): void {
-        let byteArr = this.strToUtf8Bytes(text);
-        for(let i = 0; i < byteArr.length; i++) {
-            this.writeUint8(byteArr[i]);
+        let encoder = new TextEncoder();
+        let encodedText = encoder.encode(text);
+        for(let i = 0; i < encodedText.length; i++) {
+            this.writeUint8(encodedText[i]);
         }
+        // let byteArr = this.strToUtf8Bytes(text);
+        // for(let i = 0; i < byteArr.length; i++) {
+        //     this.writeUint8(byteArr[i]);
+        // }
     }
 
     strToUtf16Bytes(str: string): Array<number> {
