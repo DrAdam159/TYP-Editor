@@ -68,14 +68,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
           this.context.stroke();
         }
       }
-        for(let y = 0; y < bmp.height; y++) {
-          for(let x = 0; x < bmp.width; x++) {
-            this.context.beginPath();
-            this.context.strokeStyle = "#FF0000";
-            this.context.rect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
-            this.context.stroke();
-          }
-        }
       this.drawGrid(bmp.width *this.scaleNum, bmp.height*this.scaleNum);
       }
     }
