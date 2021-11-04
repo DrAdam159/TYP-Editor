@@ -1,8 +1,26 @@
 <mat-tab-group> 
     <mat-tab label="Icon editor">
+
+        <mat-button-toggle-group [formControl]="toolOptions" >
+            <mat-button-toggle value="brush" aria-label="Text align left" (click) = "useBrush()">
+              <mat-icon>brush</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="line" aria-label="Text align center">
+              <mat-icon>minimize</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="fill" aria-label="Text align right">
+              <mat-icon>format_color_fill</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()">
+                <mat-icon>cancel</mat-icon>
+              </mat-button-toggle>
+          </mat-button-toggle-group>
+          <div>Selected value: {{toolOptions.value}}</div>
+
         <div *ngIf="drawableItem" class="canvas-container">
             <canvas #canvas width="1500" height="600"></canvas>
         </div>
+
     </mat-tab>
     <mat-tab label="Other options"> 
         <div *ngIf="drawableItem">

@@ -2,8 +2,9 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from '../services/file.service';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-editor',
@@ -17,10 +18,11 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('canvas', {static: false}) 
   myCanvas!: ElementRef<HTMLCanvasElement>;
-
   context!: CanvasRenderingContext2D | null;
-
   scaleNum: number;
+
+  toolOptions = new FormControl();
+  brushSub!: Subscription;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.scaleNum = 20;
@@ -72,12 +74,21 @@ export class EditorComponent implements OnInit, AfterViewInit {
       }
     }
     
+  }
+
+  useBrush(): void {
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.captureEvents(canvasEl);
   }
 
+  stopToolUse(): void {
+    if(this.brushSub) {
+      this.brushSub.unsubscribe();
+    }
+  }
+
   private captureEvents(canvasEl: HTMLCanvasElement) {
-    fromEvent(canvasEl, 'mousedown')
+    this.brushSub = fromEvent(canvasEl, 'mousedown')
       .pipe(
         switchMap(e => {
           return fromEvent(canvasEl, 'mousemove').pipe(
@@ -129,8 +140,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
     let rw = x - 1;
     let rh = y - 1;
-    rw = rw - rw % this.scaleNum + 0.5;
-    rh = rh - rh % this.scaleNum + 0.5;
+    rw = rw - rw % this.scaleNum;
+    rh = rh - rh % this.scaleNum;
     
     this.context.fillStyle = "red";
     this.context.fillRect(rw, rh, this.scaleNum, this.scaleNum);

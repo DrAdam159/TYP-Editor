@@ -15,6 +15,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -29,6 +30,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { BitmapCanvasComponent } from './bitmap-canvas/bitmap-canvas.component';
 import { FileHeaderComponent } from './file-header/file-header.component';
 import { FileDownloadComponent } from './file-download/file-download.component';
+
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -62,6 +65,8 @@ import { FileDownloadComponent } from './file-download/file-download.component';
     MatToolbarModule,
     MatSidenavModule,
     LayoutModule,
+    MatButtonToggleModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
