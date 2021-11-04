@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from '../services/file.service';
+import { fromEvent } from 'rxjs';
+import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editor',
@@ -18,7 +20,11 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   context!: CanvasRenderingContext2D | null;
 
-  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) { }
+  scaleNum: number;
+
+  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
+    this.scaleNum = 20;
+   }
 
   ngOnInit(): void {
     
@@ -51,14 +57,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
       if(this.context) {
         let bmp = this.drawableItem.asBitmap(true);
-        this.context.canvas.width = bmp.width *40;
-        this.context.canvas.height = bmp.height *40;
+        this.context.canvas.width = bmp.width *this.scaleNum;
+        this.context.canvas.height = bmp.height *this.scaleNum;
 
       for(let y = 0; y < bmp.height; y++) {
         for(let x = 0; x < bmp.width; x++) {
           this.context.beginPath();
           this.context.fillStyle =  bmp.getPixelColor(x, y).toRgba();
-          this.context.fillRect(x *40, y *40, 40, 40);
+          this.context.fillRect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
           this.context.stroke();
         }
       }
@@ -66,10 +72,88 @@ export class EditorComponent implements OnInit, AfterViewInit {
           for(let x = 0; x < bmp.width; x++) {
             this.context.beginPath();
             this.context.strokeStyle = "#FF0000";
-            this.context.rect(x *40, y *40, 40, 40);
+            this.context.rect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
             this.context.stroke();
           }
         }
+      this.drawGrid(bmp.width *this.scaleNum, bmp.height*this.scaleNum);
+      }
+    }
+    
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.captureEvents(canvasEl);
+  }
+
+  private captureEvents(canvasEl: HTMLCanvasElement) {
+    fromEvent(canvasEl, 'mousedown')
+      .pipe(
+        switchMap(e => {
+          return fromEvent(canvasEl, 'mousemove').pipe(
+            takeUntil(fromEvent(canvasEl, 'mouseup')),
+            takeUntil(fromEvent(canvasEl, 'mouseleave')),
+            pairwise()
+          );
+        })
+      )
+      .subscribe((res) => {
+        const rect = canvasEl.getBoundingClientRect();
+        const prevMouseEvent = res[0] as MouseEvent;
+        const currMouseEvent = res[1] as MouseEvent;
+
+        const prevPos = {
+          x: prevMouseEvent.clientX - rect.left,
+          y: prevMouseEvent.clientY - rect.top
+        };
+
+        const currentPos = {
+          x: currMouseEvent.clientX - rect.left,
+          y: currMouseEvent.clientY - rect.top
+        };
+
+        this.drawOnCanvas(prevPos, currentPos);
+      });
+  }
+
+  private drawOnCanvas(prevPos: { x: number; y: number },currentPos: { x: number; y: number }): void {
+    if (!this.context) {
+      return;
+    }
+
+    for (let pct = 0; pct <= 1; pct += 0.06) {
+      let dx = currentPos.x - prevPos.x;
+      let dy = currentPos.y - prevPos.y;
+      let X = prevPos.x + dx * pct;
+      let Y = prevPos.y + dy * pct;
+      if (!(X == prevPos.x && Y == prevPos.y)) {
+          this.drawColorCell(X, Y);
+      }
+    }
+  }
+
+  private drawColorCell(x: number, y: number): void {
+    if (!this.context) {
+      return;
+    }
+
+    let rw = x - 1;
+    let rh = y - 1;
+    rw = rw - rw % this.scaleNum + 0.5;
+    rh = rh - rh % this.scaleNum + 0.5;
+    
+    this.context.fillStyle = "red";
+    this.context.fillRect(rw, rh, this.scaleNum, this.scaleNum);
+  }
+
+  private drawGrid(width: number, height: number): void {
+    if (!this.context) {
+      return;
+    }
+    for(let y = 0; y < height; y++) {
+      for(let x = 0; x < width; x++) {
+        this.context.beginPath();
+        this.context.strokeStyle = "#FF0000";
+        this.context.rect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
+        this.context.stroke();
       }
     }
   }
