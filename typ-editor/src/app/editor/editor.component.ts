@@ -19,10 +19,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas', {static: false}) 
   myCanvas!: ElementRef<HTMLCanvasElement>;
   context!: CanvasRenderingContext2D | null;
+
   scaleNum: number;
 
   toolOptions = new FormControl();
-  brushSub!: Subscription;
+  mouseSub!: Subscription;
+
+  lineStart: boolean = false;
+  lineStartX: number = 0;
+  lineStartY: number = 0;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.scaleNum = 20;
@@ -54,9 +59,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if(this.drawableItem) {
-      this.context = this.myCanvas.nativeElement.getContext('2d');
+    this.context = this.myCanvas.nativeElement.getContext('2d');
+    this.drawBitmapWithGrid();
+  }
 
+  drawBitmapWithGrid(): void {
+    if(this.drawableItem && this.context) {
       if(this.context) {
         let bmp = this.drawableItem.asBitmap(true);
         this.context.canvas.width = bmp.width *this.scaleNum;
@@ -73,22 +81,29 @@ export class EditorComponent implements OnInit, AfterViewInit {
       this.drawGrid(bmp.width *this.scaleNum, bmp.height*this.scaleNum);
       }
     }
-    
-  }
-
-  useBrush(): void {
-    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.captureEvents(canvasEl);
   }
 
   stopToolUse(): void {
-    if(this.brushSub) {
-      this.brushSub.unsubscribe();
+    if(this.mouseSub) {
+      this.mouseSub.unsubscribe();
+      this.lineStart = false;
     }
   }
 
-  private captureEvents(canvasEl: HTMLCanvasElement) {
-    this.brushSub = fromEvent(canvasEl, 'mousedown')
+  useBrush(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.brushToolCaptureEvents(canvasEl);
+  }
+
+  useLine(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.lineToolCaptureEvents(canvasEl);
+  }
+  
+  private brushToolCaptureEvents(canvasEl: HTMLCanvasElement) {
+    this.mouseSub = fromEvent(canvasEl, 'mousedown')
       .pipe(
         switchMap(e => {
           return fromEvent(canvasEl, 'mousemove').pipe(
@@ -113,16 +128,16 @@ export class EditorComponent implements OnInit, AfterViewInit {
           y: currMouseEvent.clientY - rect.top
         };
 
-        this.drawOnCanvas(prevPos, currentPos);
+        this.interpolateLine(prevPos, currentPos);
       });
   }
 
-  private drawOnCanvas(prevPos: { x: number; y: number },currentPos: { x: number; y: number }): void {
+  private interpolateLine(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
     if (!this.context) {
       return;
     }
 
-    for (let pct = 0; pct <= 1; pct += 0.06) {
+    for (let pct = 0; pct <= 1; pct += 0.006) {
       let dx = currentPos.x - prevPos.x;
       let dy = currentPos.y - prevPos.y;
       let X = prevPos.x + dx * pct;
@@ -159,5 +174,45 @@ export class EditorComponent implements OnInit, AfterViewInit {
         this.context.stroke();
       }
     }
+  }
+
+  private lineToolCaptureEvents(canvasEl: HTMLCanvasElement) {
+    this.mouseSub = fromEvent(canvasEl, 'mousedown')
+      .pipe(
+        switchMap(e => {
+          return fromEvent(canvasEl, 'mousemove').pipe(
+            takeUntil(fromEvent(canvasEl, 'mouseup')),
+            takeUntil(fromEvent(canvasEl, 'mouseleave')),
+            pairwise()
+          );
+        })
+      )
+      .subscribe((res) => {
+        const rect = canvasEl.getBoundingClientRect();
+        const prevMouseEvent = res[0] as MouseEvent;
+        const currMouseEvent = res[1] as MouseEvent;
+
+        if(this.lineStart == false) {
+          this.lineStartX =  prevMouseEvent.clientX - rect.left;
+          this.lineStartY = prevMouseEvent.clientY - rect.top;
+          this.lineStart = true;
+        }
+
+        const currentPos = {
+          x: currMouseEvent.clientX - rect.left,
+          y: currMouseEvent.clientY - rect.top
+        };
+
+        this.drawLine({x: this.lineStartX, y: this.lineStartY}, currentPos);
+      });
+  }
+
+  private drawLine(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+    if (!this.context) {
+      return;
+    }
+    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+    this.drawBitmapWithGrid();
+    this.interpolateLine(prevPos, currentPos);
   }
 }
