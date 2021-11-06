@@ -16,23 +16,36 @@ import { Color } from 'src/TYP_File_lib/Utils/Color';
 export class EditorComponent implements OnInit, AfterViewInit {
 
   drawableItem!: GraphicElement;
+  //prave vykreslena bitmapa
   itemBitmap!: Bitmap;
+  //list Bitmap pro undo a redo operace
   undoQuery: Array<Bitmap>;
   redoQuery: Array<Bitmap>;
+
   sub: any;
 
   @ViewChild('canvas', {static: false}) 
   myCanvas!: ElementRef<HTMLCanvasElement>;
   context!: CanvasRenderingContext2D | null;
 
+  //kolikrat bude lazdy pixel zvetseny
   scaleNum: number;
 
+  //jaky nastroj uzivatel zvolil
   toolOptions = new FormControl();
+  //subscription mouse eventu
   mouseSub!: Subscription;
 
+  //indikuje pocatecni vykresleni cary
   lineStart: boolean = false;
+  //poceteni souradnice cary
   lineStartX: number = 0;
   lineStartY: number = 0;
+
+  //souradnice posledniho navstiveneho ctverecku pri vykresleni
+  //porovnani vuci vypoctu soucasne pozice kurzoru zabrani duplicitnimu kresleni
+  x:number = 0;
+  y:number = 0;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.scaleNum = 20;
@@ -156,6 +169,22 @@ export class EditorComponent implements OnInit, AfterViewInit {
       });
   }
 
+  
+  private positionChange(currentPos: { x: number; y: number }): boolean {
+    let rw2 = currentPos.x - 1;
+    let rh2 = currentPos.y - 1;
+    rw2 = rw2 - rw2 % this.scaleNum;
+    rh2 = rh2 - rh2 % this.scaleNum;
+    //console.log(rw + " " + rh + " " + rw2 + " " + rh2);
+    if(rw2 == this.x && rh2 == this.y) {
+      return false;
+    }
+    this.x = rw2;
+    this.y = rh2;
+    console.log("change");
+    return true;
+  }
+
   private interpolateLine(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
     if (!this.context) {
       return;
@@ -166,7 +195,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
       let dy = currentPos.y - prevPos.y;
       let X = prevPos.x + dx * pct;
       let Y = prevPos.y + dy * pct;
-      if (!(X == prevPos.x && Y == prevPos.y)) {
+      if (this.positionChange({x: X, y:Y})) {
           this.drawColorCell(X, Y);
       }
     }
@@ -180,6 +209,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     let rh = y - 1;
     rw = rw - rw % this.scaleNum;
     rh = rh - rh % this.scaleNum;
+    //console.log(rw + " " + rh );
     //this.itemBitmap.setPixel(rw / this.scaleNum, rh / this.scaleNum, new Color(255, 0, 0, 255));
     
     this.context.fillStyle = "red";
@@ -265,7 +295,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  storeBitmap(): void {
+  private storeBitmap(): void {
     const clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
     clone.copyData(this.itemBitmap.pixelArr);
     this.undoQuery.push(clone);
