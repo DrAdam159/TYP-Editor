@@ -14,6 +14,10 @@ export class Bitmap {
         this.pixelArr = new Uint8ClampedArray(this.width * this.height * this.pixelOffset);
     }
 
+    copyData(newPixelArr: Uint8ClampedArray): void {
+        this.pixelArr =  new Uint8ClampedArray(newPixelArr);
+    }
+
     setPixel(x: number, y: number, color: Color): void {
         let idx = this.width * y * this.pixelOffset + x * this.pixelOffset;
         this.pixelArr[idx + 0] = color.r;   

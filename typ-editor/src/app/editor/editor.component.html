@@ -17,6 +17,16 @@
           </mat-button-toggle-group>
           <div>Selected value: {{toolOptions.value}}</div>
 
+          <br>
+
+          <button mat-stroked-button color="primary" (click) = "undo()">
+            <mat-icon>undo</mat-icon>
+          </button>
+          
+          <button mat-stroked-button color="primary" (click) = "redo()">
+            <mat-icon>redo</mat-icon>
+          </button>
+
         <div *ngIf="drawableItem" class="canvas-container">
             <canvas #canvas width="1500" height="600"></canvas>
         </div>

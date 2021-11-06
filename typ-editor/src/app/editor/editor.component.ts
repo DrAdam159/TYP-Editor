@@ -17,6 +17,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   drawableItem!: GraphicElement;
   itemBitmap!: Bitmap;
+  undoQuery: Array<Bitmap>;
+  redoQuery: Array<Bitmap>;
   sub: any;
 
   @ViewChild('canvas', {static: false}) 
@@ -34,6 +36,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.scaleNum = 20;
+    this.undoQuery = new Array();
+    this.redoQuery = new Array();
    }
 
   ngOnInit(): void {
@@ -66,6 +70,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
     if(this.drawableItem) {
       this.itemBitmap = this.drawableItem.asBitmap(true);
     }
+    this.drawBitmapWithGrid();
+    this.storeBitmap();
+  }
+
+  updateBitmap(): void{
+    if (!this.context) {
+      return;
+    }
+    //this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
     this.drawBitmapWithGrid();
   }
 
@@ -148,7 +161,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    for (let pct = 0; pct <= 1; pct += 0.006) {
+    for (let pct = 0; pct <= 1; pct += 0.03) {
       let dx = currentPos.x - prevPos.x;
       let dy = currentPos.y - prevPos.y;
       let X = prevPos.x + dx * pct;
@@ -163,14 +176,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
     if (!this.context) {
       return;
     }
-
     let rw = x - 1;
     let rh = y - 1;
     rw = rw - rw % this.scaleNum;
     rh = rh - rh % this.scaleNum;
+    //this.itemBitmap.setPixel(rw / this.scaleNum, rh / this.scaleNum, new Color(255, 0, 0, 255));
     
     this.context.fillStyle = "red";
     this.context.fillRect(rw, rh, this.scaleNum, this.scaleNum);
+    //this.updateBitmap();
   }
 
   private drawGrid(width: number, height: number): void {
@@ -207,8 +221,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
           this.lineStartX =  prevMouseEvent.clientX - rect.left;
           this.lineStartY = prevMouseEvent.clientY - rect.top;
           this.lineStart = true;
-        }
-
+        }    
         const currentPos = {
           x: currMouseEvent.clientX - rect.left,
           y: currMouseEvent.clientY - rect.top
@@ -222,13 +235,11 @@ export class EditorComponent implements OnInit, AfterViewInit {
     if (!this.context) {
       return;
     }
-    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-    this.drawBitmapWithGrid();
+    this.updateBitmap();
     this.interpolateLine(prevPos, currentPos);
   }
 
   private fillToolCaptureEvents(canvasEl: HTMLCanvasElement) {
-    console.log("kok");
     this.mouseSub = fromEvent(canvasEl, 'mousedown').subscribe((res) => {
       const rect = canvasEl.getBoundingClientRect();
       const currMouseEvent = res as MouseEvent;
@@ -248,9 +259,33 @@ export class EditorComponent implements OnInit, AfterViewInit {
       let rh = currentPos.y - 1;
       rw = (rw - rw % this.scaleNum) / this.scaleNum;
       rh = (rh - rh % this.scaleNum) / this.scaleNum;
+      this.storeBitmap();
       this.itemBitmap.fill(rw, rh, new Color(255,0,0,255));
-      this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-      this.drawBitmapWithGrid();
+      this.updateBitmap();
     }
+  }
+
+  storeBitmap(): void {
+    const clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+    clone.copyData(this.itemBitmap.pixelArr);
+    this.undoQuery.push(clone);
+  }
+
+  undo(): void {
+    let tmp = this.undoQuery.pop();
+    if(tmp) {
+      this.redoQuery.push(tmp);
+    }
+    this.itemBitmap = this.undoQuery[this.undoQuery.length -1];
+    this.updateBitmap();
+  }
+
+  redo(): void {
+    let tmp = this.redoQuery.pop();
+    if(tmp) {
+      this.undoQuery.push(tmp);
+    }
+    this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
+    this.updateBitmap();
   }
 }
