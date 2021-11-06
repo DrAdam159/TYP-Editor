@@ -5,6 +5,8 @@ import { FileService } from '../services/file.service';
 import { fromEvent, Subscription } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
+import { Color } from 'src/TYP_File_lib/Utils/Color';
 
 @Component({
   selector: 'app-editor',
@@ -14,6 +16,7 @@ import { FormControl } from '@angular/forms';
 export class EditorComponent implements OnInit, AfterViewInit {
 
   drawableItem!: GraphicElement;
+  itemBitmap!: Bitmap;
   sub: any;
 
   @ViewChild('canvas', {static: false}) 
@@ -60,25 +63,27 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.myCanvas.nativeElement.getContext('2d');
+    if(this.drawableItem) {
+      this.itemBitmap = this.drawableItem.asBitmap(true);
+    }
     this.drawBitmapWithGrid();
   }
 
   drawBitmapWithGrid(): void {
-    if(this.drawableItem && this.context) {
+    if(this.itemBitmap && this.context) {
       if(this.context) {
-        let bmp = this.drawableItem.asBitmap(true);
-        this.context.canvas.width = bmp.width *this.scaleNum;
-        this.context.canvas.height = bmp.height *this.scaleNum;
+        this.context.canvas.width = this.itemBitmap.width *this.scaleNum;
+        this.context.canvas.height = this.itemBitmap.height *this.scaleNum;
 
-      for(let y = 0; y < bmp.height; y++) {
-        for(let x = 0; x < bmp.width; x++) {
+      for(let y = 0; y < this.itemBitmap.height; y++) {
+        for(let x = 0; x < this.itemBitmap.width; x++) {
           this.context.beginPath();
-          this.context.fillStyle =  bmp.getPixelColor(x, y).toRgba();
+          this.context.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
           this.context.fillRect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
           this.context.stroke();
         }
       }
-      this.drawGrid(bmp.width *this.scaleNum, bmp.height*this.scaleNum);
+      this.drawGrid(this.itemBitmap.width *this.scaleNum, this.itemBitmap.height*this.scaleNum);
       }
     }
   }
@@ -100,6 +105,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.lineToolCaptureEvents(canvasEl);
+  }
+
+  useFill(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.fillToolCaptureEvents(canvasEl);
   }
   
   private brushToolCaptureEvents(canvasEl: HTMLCanvasElement) {
@@ -214,5 +225,32 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
     this.drawBitmapWithGrid();
     this.interpolateLine(prevPos, currentPos);
+  }
+
+  private fillToolCaptureEvents(canvasEl: HTMLCanvasElement) {
+    console.log("kok");
+    this.mouseSub = fromEvent(canvasEl, 'mousedown').subscribe((res) => {
+      const rect = canvasEl.getBoundingClientRect();
+      const currMouseEvent = res as MouseEvent;
+
+      const currentPos = {
+        x: currMouseEvent.clientX - rect.left,
+        y: currMouseEvent.clientY - rect.top
+      };
+      
+      this.fillColor(currentPos);
+    });
+  }
+
+  private fillColor(currentPos: { x: number; y: number }): void {
+    if(this.itemBitmap && this.context) {
+      let rw = currentPos.x - 1;
+      let rh = currentPos.y - 1;
+      rw = (rw - rw % this.scaleNum) / this.scaleNum;
+      rh = (rh - rh % this.scaleNum) / this.scaleNum;
+      this.itemBitmap.fill(rw, rh, new Color(255,0,0,255));
+      this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+      this.drawBitmapWithGrid();
+    }
   }
 }

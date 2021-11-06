@@ -34,4 +34,37 @@ export class Bitmap {
                                 this.pixelArr[idx + 3]); 
         return tmpColor;
     }
+
+    compareColors(firstColor: Color, secondColor: Color): boolean {
+        if(firstColor.r == secondColor.r &&
+            firstColor.g == secondColor.g &&
+            firstColor.b == secondColor.b &&
+            firstColor.a == secondColor.a 
+        ) {
+            return true;
+        }
+        return false;
+
+    }
+
+    fillUtil(x: number, y: number, newColor: Color, prevColor: Color): void {
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) return;
+        if(!(this.compareColors(this.getPixelColor(x, y), prevColor))) return;
+        if(this.compareColors(this.getPixelColor(x, y), newColor)) return;
+
+        this.setPixel(x, y, newColor);
+
+        this.fillUtil(x + 1, y, newColor, prevColor);
+        this.fillUtil(x - 1, y, newColor, prevColor);
+        this.fillUtil(x, y + 1, newColor, prevColor);
+        this.fillUtil(x, y - 1,  newColor, prevColor);
+    }
+
+    fill(x: number, y: number, newColor: Color): void {
+        let prevColor = this.getPixelColor(x, y)
+        if(this.compareColors(prevColor, newColor)) {
+            return;
+        }
+        this.fillUtil(x, y, newColor, prevColor);
+    }
 }
