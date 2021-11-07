@@ -27,6 +27,18 @@
             <mat-icon>redo</mat-icon>
           </button>
 
+          <br>
+          <br>
+          
+          <mat-form-field>
+            <mat-label>Color picker</mat-label>
+            <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
+            </mtx-color-picker>
+            <mat-icon matSuffix>palette</mat-icon>
+            <mat-hint>Choose your favorite color</mat-hint>
+            <mat-error>Please enter the color</mat-error>
+          </mat-form-field>
+
         <div *ngIf="drawableItem" class="canvas-container">
             <canvas #canvas width="1500" height="600"></canvas>
         </div>

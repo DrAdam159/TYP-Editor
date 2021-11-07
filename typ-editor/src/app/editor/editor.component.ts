@@ -32,26 +32,43 @@ export class EditorComponent implements OnInit, AfterViewInit {
   scaleNum: number;
 
   //jaky nastroj uzivatel zvolil
-  toolOptions = new FormControl();
+  toolOptions: FormControl;
   //subscription mouse eventu
   mouseSub!: Subscription;
 
   //indikuje pocatecni vykresleni cary
-  lineStart: boolean = false;
+  lineStart: boolean;
   //poceteni souradnice cary
-  lineStartX: number = 0;
-  lineStartY: number = 0;
+  lineStartX: number;
+  lineStartY: number;
 
   //souradnice posledniho navstiveneho ctverecku pri vykresleni
   //porovnani vuci vypoctu soucasne pozice kurzoru zabrani duplicitnimu kresleni
-  x:number = 0;
-  y:number = 0;
+  x:number
+  y:number;
+
+  //brava z colorPickeru
+  color: string;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.scaleNum = 20;
     this.undoQuery = new Array();
     this.redoQuery = new Array();
+    this.lineStart = false;
+    this.lineStartX = 0;
+    this.lineStartY = 0;
+    this.x = 0;
+    this.y = 0;
+    this.color = '#3f51b5';
+    this.toolOptions = new FormControl();
    }
+
+  setColor(){
+    if (!this.context) {
+      return;
+    }
+    this.context.fillStyle = this.color;
+  }
 
   ngOnInit(): void {
     
@@ -181,7 +198,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
     this.x = rw2;
     this.y = rh2;
-    console.log("change");
+    //console.log("change");
     return true;
   }
 
@@ -211,8 +228,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     rh = rh - rh % this.scaleNum;
     //console.log(rw + " " + rh );
     //this.itemBitmap.setPixel(rw / this.scaleNum, rh / this.scaleNum, new Color(255, 0, 0, 255));
-    
-    this.context.fillStyle = "red";
+    this.context.fillStyle = this.color;
     this.context.fillRect(rw, rh, this.scaleNum, this.scaleNum);
     //this.updateBitmap();
   }
@@ -290,7 +306,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
       rw = (rw - rw % this.scaleNum) / this.scaleNum;
       rh = (rh - rh % this.scaleNum) / this.scaleNum;
       this.storeBitmap();
-      this.itemBitmap.fill(rw, rh, new Color(255,0,0,255));
+      this.itemBitmap.fill(rw, rh, new Color(this.color));
       this.updateBitmap();
     }
   }

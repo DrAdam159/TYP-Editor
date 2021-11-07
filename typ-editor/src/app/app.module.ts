@@ -32,6 +32,10 @@ import { FileHeaderComponent } from './file-header/file-header.component';
 import { FileDownloadComponent } from './file-download/file-download.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
+import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '@ng-matero/extensions';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -66,7 +70,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSidenavModule,
     LayoutModule,
     MatButtonToggleModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MaterialExtensionsModule,
+    MaterialExtensionsExperimentalModule
   ],
   providers: [],
   bootstrap: [AppComponent]
