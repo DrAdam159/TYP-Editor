@@ -155,6 +155,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.fillToolCaptureEvents(canvasEl);
   }
+
+  useRectangle(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.rectangleToolCaptureEvents(canvasEl);
+  }
   
   private brushToolCaptureEvents(canvasEl: HTMLCanvasElement) {
     this.mouseSub = fromEvent(canvasEl, 'mousedown')
@@ -213,6 +219,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
       let X = prevPos.x + dx * pct;
       let Y = prevPos.y + dy * pct;
       if (this.positionChange({x: X, y:Y})) {
+          //console.log("draw");
           this.drawColorCell(X, Y);
       }
     }
@@ -333,5 +340,47 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
     this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
     this.updateBitmap();
+  }
+
+  private rectangleToolCaptureEvents(canvasEl: HTMLCanvasElement) {
+    this.mouseSub = fromEvent(canvasEl, 'mousedown')
+      .pipe(
+        switchMap(e => {
+          return fromEvent(canvasEl, 'mousemove').pipe(
+            takeUntil(fromEvent(canvasEl, 'mouseup')),
+            takeUntil(fromEvent(canvasEl, 'mouseleave')),
+            pairwise()
+          );
+        })
+      )
+      .subscribe((res) => {
+        const rect = canvasEl.getBoundingClientRect();
+        const prevMouseEvent = res[0] as MouseEvent;
+        const currMouseEvent = res[1] as MouseEvent;
+
+        if(this.lineStart == false) {
+          this.lineStartX =  prevMouseEvent.clientX - rect.left;
+          this.lineStartY = prevMouseEvent.clientY - rect.top;
+          this.lineStart = true;
+        }    
+        const currentPos = {
+          x: currMouseEvent.clientX - rect.left,
+          y: currMouseEvent.clientY - rect.top
+        };
+
+        this.drawRectangle({x: this.lineStartX, y: this.lineStartY}, currentPos);
+      });
+  }
+
+  private drawRectangle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+    if (!this.context) {
+      return;
+    }
+    //this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+    this.updateBitmap();
+    this.interpolateLine(prevPos, { x: currentPos.x, y: prevPos.y });
+    this.interpolateLine(prevPos, { x: prevPos.x, y: currentPos.y });
+    this.interpolateLine({ x: currentPos.x, y: prevPos.y }, currentPos);
+    this.interpolateLine({ x: prevPos.x, y: currentPos.y }, { x: currentPos.x, y: currentPos.y });
   }
 }
