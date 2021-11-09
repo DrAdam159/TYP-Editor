@@ -249,13 +249,22 @@ export class EditorComponent implements OnInit, AfterViewInit {
     if (!this.context) {
       return;
     }
+
+    this.context.strokeStyle = "#FF0000";
+
     for(let y = 0; y < height; y++) {
-      for(let x = 0; x < width; x++) {
-        this.context.beginPath();
-        this.context.strokeStyle = "#FF0000";
-        this.context.rect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
-        this.context.stroke();
-      }
+      this.context.beginPath();
+      this.context.moveTo(0, y *this.scaleNum);
+      this.context.lineTo( width, y *this.scaleNum);
+      this.context.stroke();
+    }
+
+    for(let x = 0; x < width; x++) {
+      
+      this.context.beginPath();
+      this.context.moveTo(x *this.scaleNum, 0);
+      this.context.lineTo(x *this.scaleNum, height);
+      this.context.stroke();
     }
   }
 
@@ -428,36 +437,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
     return {x: rw, y: rh};
   }
 
-  // https://www.redblobgames.com/grids/circle-drawing/
-  // https://www.varsitytutors.com/hotmath/hotmath_help/topics/equation-of-a-circle
   private inside_circle(center: { x: number; y: number }, tile: { x: number; y: number }, radius: number): boolean {
     let dx = center.x - tile.x,
         dy = center.y - tile.y;
     let distance = Math.sqrt(dx*dx + dy*dy);
 
-    console.log(distance + " " + radius);
     return distance <= radius;
-  }
-
-  drawCircle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
-
-    let prevCoordinates = this.convertCoordinates(prevPos);
-    let curCoordinates = this.convertCoordinates(currentPos);
-    Math.pow(4, 0.5)
-    let radius = Math.sqrt((curCoordinates.x - prevCoordinates.x) * (curCoordinates.x - prevCoordinates.x) +
-                            (curCoordinates.y - prevCoordinates.y) * (curCoordinates.y - prevCoordinates.y)
-    ) / 2;
-
-    //console.log(prevCoordinates.x + " " + curCoordinates.x + " " + radius);
-
-    for (let y = 0; y < this.itemBitmap.height / this.scaleNum; y++) {
-      for (let x = 0; x < this.itemBitmap.width / this.scaleNum; x++) {
-          if (this.inside_circle(prevCoordinates, { x: x, y: y }, radius)) {
-            console.log("true " + x + " " + y);
-            this.drawColorCell2(x, y);
-          }
-      }
-    }
   }
 
   private drawColorCell2(x: number, y: number): void {
@@ -466,24 +451,29 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
     this.context.fillStyle = this.color;
     this.context.fillRect(x, y, this.scaleNum, this.scaleNum);
-    //this.updateBitmap();
   }
 
-  // drawCircle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
-  //   let center = prevPos
-  //   let radius = Math.abs(prevPos.x - currentPos.x);
-  //   let top = Math.floor(center.y - radius),
-  //   bottom =  Math.ceil(center.y + radius),
-  //   left   = Math.floor(center.x - radius),
-  //   right  =  Math.ceil(center.x + radius);
+  drawCircle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+    let centerCoordinates = this.convertCoordinates(prevPos);
+    let curCoordinates = this.convertCoordinates(currentPos);
 
-  //   for (let y = top; y <= bottom; y++) {
-  //       for (let x = left; x <= right; x++) {
-  //           if (this.inside_circle(center, { x: x, y: y }, radius)) {
-  //             this.drawColorCell(x, y);
-  //           }
-  //       }
-  //   }
-  // }  
+    let radius = Math.sqrt((curCoordinates.x - centerCoordinates.x) * (curCoordinates.x - centerCoordinates.x) +
+                            (curCoordinates.y - centerCoordinates.y) * (curCoordinates.y - centerCoordinates.y)
+    );
 
+    let top = Math.floor(centerCoordinates.y - radius),
+        bottom =  Math.ceil(centerCoordinates.y + radius),
+        left   = Math.floor(centerCoordinates.x - radius),
+        right  =  Math.ceil(centerCoordinates.x + radius);
+
+    this.updateBitmap();
+
+    for (let y = top; y <= bottom; y++) {
+        for (let x = left; x <= right; x++) {
+            if (this.inside_circle(centerCoordinates, { x: x, y: y }, radius)) {
+              this.drawColorCell2(x * this.scaleNum, y * this.scaleNum);
+            }
+        }
+    }
+  }  
 }
