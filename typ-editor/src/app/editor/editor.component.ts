@@ -129,6 +129,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.captureEventOnClick(canvasEl);
   }
 
+  useFilledRectangle(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.captureMouseMoveEventOnClick(canvasEl, 'filled_rectangle');
+  }
+
   useRectangle(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
@@ -192,6 +198,9 @@ export class EditorComponent implements OnInit, AfterViewInit {
             break;
           case 'rectangle':
             this.drawRectangle({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            break;
+          case 'filled_rectangle':
+            this.drawFilledRectangle({x: this.lineStartX, y: this.lineStartY}, currentPos);
             break;
           case 'filled_circle':
             this.drawFilledCircle({x: this.lineStartX, y: this.lineStartY}, currentPos);
@@ -354,6 +363,42 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.interpolateLine(prevPos, { x: prevPos.x, y: currentPos.y });
     this.interpolateLine({ x: currentPos.x, y: prevPos.y }, currentPos);
     this.interpolateLine({ x: prevPos.x, y: currentPos.y }, { x: currentPos.x, y: currentPos.y });
+  }
+
+  private drawFilledRectangle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+    if (!this.context) {
+      return;
+    }
+
+    let prevCoordinates = this.convertCoordinates(prevPos);
+    let curCoordinates = this.convertCoordinates(currentPos);
+    this.updateBitmap();
+    let top = prevCoordinates.y,
+        bottom =  curCoordinates.y,
+        left   = prevCoordinates.x,
+        right  =  curCoordinates.x;
+    if(prevCoordinates.y < curCoordinates.y) {
+        top = prevCoordinates.y;
+        bottom =  curCoordinates.y;
+    }
+    else {
+      top =  curCoordinates.y;
+      bottom = prevCoordinates.y;
+    }
+
+    if(prevCoordinates.x < curCoordinates.x) {
+      left = prevCoordinates.x;
+      right =  curCoordinates.x;
+    }
+    else {
+      left =  curCoordinates.x;
+      right = prevCoordinates.x;
+    }
+    for (let y = top; y <= bottom; y++) {
+      for (let x = left; x <= right; x++) {
+          this.drawColorCell2(x * this.scaleNum, y * this.scaleNum );
+      }
+    }
   }
 
   private inside_circle(center: { x: number; y: number }, tile: { x: number; y: number }, radius: number): boolean {
