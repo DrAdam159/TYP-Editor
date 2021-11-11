@@ -104,33 +104,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.storeBitmap();
   }
 
-  updateBitmap(): void{
-    if (!this.context) {
-      return;
-    }
-    //this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-    this.drawBitmapWithGrid();
-  }
-
-  drawBitmapWithGrid(): void {
-    if(this.itemBitmap && this.context) {
-      if(this.context) {
-        this.context.canvas.width = this.itemBitmap.width *this.scaleNum;
-        this.context.canvas.height = this.itemBitmap.height *this.scaleNum;
-
-      for(let y = 0; y < this.itemBitmap.height; y++) {
-        for(let x = 0; x < this.itemBitmap.width; x++) {
-          this.context.beginPath();
-          this.context.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
-          this.context.fillRect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
-          this.context.stroke();
-        }
-      }
-      this.drawGrid(this.itemBitmap.width *this.scaleNum, this.itemBitmap.height*this.scaleNum);
-      }
-    }
-  }
-
   stopToolUse(): void {
     if(this.mouseSub) {
       this.mouseSub.unsubscribe();
@@ -141,34 +114,34 @@ export class EditorComponent implements OnInit, AfterViewInit {
   useBrush(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.brushToolCaptureEvents(canvasEl);
+    this.captureMouseMoveEventOnClick(canvasEl, 'brush');
   }
 
   useLine(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.lineToolCaptureEvents(canvasEl);
+    this.captureMouseMoveEventOnClick(canvasEl, 'line');
   }
 
   useFill(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.fillToolCaptureEvents(canvasEl);
+    this.captureEventOnClick(canvasEl);
   }
 
   useRectangle(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.rectangleToolCaptureEvents(canvasEl);
+    this.captureMouseMoveEventOnClick(canvasEl, 'rectangle');
   }
 
   useCircle(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.circleToolCaptureEvents(canvasEl);
+    this.captureMouseMoveEventOnClick(canvasEl, 'circle');
   }
-  
-  private brushToolCaptureEvents(canvasEl: HTMLCanvasElement) {
+
+  private captureMouseMoveEventOnClick(canvasEl: HTMLCanvasElement, tool: String) {
     this.mouseSub = fromEvent(canvasEl, 'mousedown')
       .pipe(
         switchMap(e => {
@@ -194,23 +167,67 @@ export class EditorComponent implements OnInit, AfterViewInit {
           y: currMouseEvent.clientY - rect.top
         };
 
-        this.interpolateLine(prevPos, currentPos);
+        if(this.lineStart == false) {
+          this.lineStartX =  prevPos.x;
+          this.lineStartY = prevPos.y;
+          this.lineStart = true;
+        }
+
+        switch(tool) {
+          case 'brush':
+            this.interpolateLine(prevPos, currentPos);
+            break;
+          case 'line':
+            
+            this.drawLine({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            break;
+          case 'fill':
+            this.fillColor(currentPos);
+            break;
+          case 'rectangle':
+            this.drawRectangle({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            break;
+          case 'circle':
+            this.drawCircle({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            break;
+        }
       });
   }
 
+  private captureEventOnClick(canvasEl: HTMLCanvasElement) {
+    this.mouseSub = fromEvent(canvasEl, 'mousedown').subscribe((res) => {
+      const rect = canvasEl.getBoundingClientRect();
+      const currMouseEvent = res as MouseEvent;
+
+      const currentPos = {
+        x: currMouseEvent.clientX - rect.left,
+        y: currMouseEvent.clientY - rect.top
+      };
+      
+      this.fillColor(currentPos);
+    });
+  }
+
+  convertCoordinates(coordinates: { x: number; y: number }) {
+    let rw = coordinates.x - 1;
+    let rh = coordinates.y - 1;
+    rw = (rw - rw % this.scaleNum) / this.scaleNum ;
+    rh = (rh - rh % this.scaleNum) / this.scaleNum;
+
+    return {x: rw, y: rh};
+  }
   
   private positionChange(currentPos: { x: number; y: number }): boolean {
     let rw2 = currentPos.x - 1;
     let rh2 = currentPos.y - 1;
     rw2 = rw2 - rw2 % this.scaleNum;
     rh2 = rh2 - rh2 % this.scaleNum;
-    //console.log(rw + " " + rh + " " + rw2 + " " + rh2);
     if(rw2 == this.x && rh2 == this.y) {
       return false;
     }
     this.x = rw2;
     this.y = rh2;
-    //console.log("change");
+    
     return true;
   }
 
@@ -225,24 +242,35 @@ export class EditorComponent implements OnInit, AfterViewInit {
       let X = prevPos.x + dx * pct;
       let Y = prevPos.y + dy * pct;
       if (this.positionChange({x: X, y:Y})) {
-          //console.log("draw");
           this.drawColorCell(X, Y);
       }
     }
   }
 
-  private drawColorCell(x: number, y: number): void {
+  updateBitmap(): void{
     if (!this.context) {
       return;
     }
-    let rw = x - 1;
-    let rh = y - 1;
-    rw = rw - rw % this.scaleNum;
-    rh = rh - rh % this.scaleNum;
-    //this.itemBitmap.setPixel(rw / this.scaleNum, rh / this.scaleNum, new Color(255, 0, 0, 255));
-    this.context.fillStyle = this.color;
-    this.context.fillRect(rw, rh, this.scaleNum, this.scaleNum);
-    //this.updateBitmap();
+    this.drawBitmapWithGrid();
+  }
+
+  drawBitmapWithGrid(): void {
+    if(this.itemBitmap && this.context) {
+      if(this.context) {
+        this.context.canvas.width = this.itemBitmap.width *this.scaleNum;
+        this.context.canvas.height = this.itemBitmap.height *this.scaleNum;
+
+      for(let y = 0; y < this.itemBitmap.height; y++) {
+        for(let x = 0; x < this.itemBitmap.width; x++) {
+          this.context.beginPath();
+          this.context.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
+          this.context.fillRect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
+          this.context.stroke();
+        }
+      }
+      this.drawGrid(this.itemBitmap.width *this.scaleNum, this.itemBitmap.height*this.scaleNum);
+      }
+    }
   }
 
   private drawGrid(width: number, height: number): void {
@@ -268,34 +296,24 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private lineToolCaptureEvents(canvasEl: HTMLCanvasElement) {
-    this.mouseSub = fromEvent(canvasEl, 'mousedown')
-      .pipe(
-        switchMap(e => {
-          return fromEvent(canvasEl, 'mousemove').pipe(
-            takeUntil(fromEvent(canvasEl, 'mouseup')),
-            takeUntil(fromEvent(canvasEl, 'mouseleave')),
-            pairwise()
-          );
-        })
-      )
-      .subscribe((res) => {
-        const rect = canvasEl.getBoundingClientRect();
-        const prevMouseEvent = res[0] as MouseEvent;
-        const currMouseEvent = res[1] as MouseEvent;
+  private drawColorCell(x: number, y: number): void {
+    if (!this.context) {
+      return;
+    }
+    let rw = x - 1;
+    let rh = y - 1;
+    rw = rw - rw % this.scaleNum;
+    rh = rh - rh % this.scaleNum;
+    this.context.fillStyle = this.color;
+    this.context.fillRect(rw, rh, this.scaleNum, this.scaleNum);
+  }
 
-        if(this.lineStart == false) {
-          this.lineStartX =  prevMouseEvent.clientX - rect.left;
-          this.lineStartY = prevMouseEvent.clientY - rect.top;
-          this.lineStart = true;
-        }    
-        const currentPos = {
-          x: currMouseEvent.clientX - rect.left,
-          y: currMouseEvent.clientY - rect.top
-        };
-
-        this.drawLine({x: this.lineStartX, y: this.lineStartY}, currentPos);
-      });
+  private drawColorCell2(x: number, y: number): void {
+    if (!this.context) {
+      return;
+    }
+    this.context.fillStyle = this.color;
+    this.context.fillRect(x, y, this.scaleNum, this.scaleNum);
   }
 
   private drawLine(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
@@ -304,20 +322,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
     this.updateBitmap();
     this.interpolateLine(prevPos, currentPos);
-  }
-
-  private fillToolCaptureEvents(canvasEl: HTMLCanvasElement) {
-    this.mouseSub = fromEvent(canvasEl, 'mousedown').subscribe((res) => {
-      const rect = canvasEl.getBoundingClientRect();
-      const currMouseEvent = res as MouseEvent;
-
-      const currentPos = {
-        x: currMouseEvent.clientX - rect.left,
-        y: currMouseEvent.clientY - rect.top
-      };
-      
-      this.fillColor(currentPos);
-    });
   }
 
   private fillColor(currentPos: { x: number; y: number }): void {
@@ -332,109 +336,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private storeBitmap(): void {
-    const clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
-    clone.copyData(this.itemBitmap.pixelArr);
-    this.undoQuery.push(clone);
-  }
-
-  undo(): void {
-    let tmp = this.undoQuery.pop();
-    if(tmp) {
-      this.redoQuery.push(tmp);
-    }
-    this.itemBitmap = this.undoQuery[this.undoQuery.length -1];
-    this.updateBitmap();
-  }
-
-  redo(): void {
-    let tmp = this.redoQuery.pop();
-    if(tmp) {
-      this.undoQuery.push(tmp);
-    }
-    this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
-    this.updateBitmap();
-  }
-
-  private rectangleToolCaptureEvents(canvasEl: HTMLCanvasElement) {
-    this.mouseSub = fromEvent(canvasEl, 'mousedown')
-      .pipe(
-        switchMap(e => {
-          return fromEvent(canvasEl, 'mousemove').pipe(
-            takeUntil(fromEvent(canvasEl, 'mouseup')),
-            takeUntil(fromEvent(canvasEl, 'mouseleave')),
-            pairwise()
-          );
-        })
-      )
-      .subscribe((res) => {
-        const rect = canvasEl.getBoundingClientRect();
-        const prevMouseEvent = res[0] as MouseEvent;
-        const currMouseEvent = res[1] as MouseEvent;
-
-        if(this.lineStart == false) {
-          this.lineStartX =  prevMouseEvent.clientX - rect.left;
-          this.lineStartY = prevMouseEvent.clientY - rect.top;
-          this.lineStart = true;
-        }    
-        const currentPos = {
-          x: currMouseEvent.clientX - rect.left,
-          y: currMouseEvent.clientY - rect.top
-        };
-
-        this.drawRectangle({x: this.lineStartX, y: this.lineStartY}, currentPos);
-      });
-  }
-
   private drawRectangle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
     if (!this.context) {
       return;
     }
-    //this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
     this.updateBitmap();
     this.interpolateLine(prevPos, { x: currentPos.x, y: prevPos.y });
     this.interpolateLine(prevPos, { x: prevPos.x, y: currentPos.y });
     this.interpolateLine({ x: currentPos.x, y: prevPos.y }, currentPos);
     this.interpolateLine({ x: prevPos.x, y: currentPos.y }, { x: currentPos.x, y: currentPos.y });
-  }
-
-  private circleToolCaptureEvents(canvasEl: HTMLCanvasElement) {
-    this.mouseSub = fromEvent(canvasEl, 'mousedown')
-      .pipe(
-        switchMap(e => {
-          return fromEvent(canvasEl, 'mousemove').pipe(
-            takeUntil(fromEvent(canvasEl, 'mouseup')),
-            takeUntil(fromEvent(canvasEl, 'mouseleave')),
-            pairwise()
-          );
-        })
-      )
-      .subscribe((res) => {
-        const rect = canvasEl.getBoundingClientRect();
-        const prevMouseEvent = res[0] as MouseEvent;
-        const currMouseEvent = res[1] as MouseEvent;
-
-        if(this.lineStart == false) {
-          this.lineStartX =  prevMouseEvent.clientX - rect.left;
-          this.lineStartY = prevMouseEvent.clientY - rect.top;
-          this.lineStart = true;
-        }    
-        const currentPos = {
-          x: currMouseEvent.clientX - rect.left,
-          y: currMouseEvent.clientY - rect.top
-        };
-
-        this.drawCircle({x: this.lineStartX, y: this.lineStartY}, currentPos);
-      });
-  }
-
-  convertCoordinates(coordinates: { x: number; y: number }) {
-    let rw = coordinates.x - 1;
-    let rh = coordinates.y - 1;
-    rw = (rw - rw % this.scaleNum) / this.scaleNum ;
-    rh = (rh - rh % this.scaleNum) / this.scaleNum;
-
-    return {x: rw, y: rh};
   }
 
   private inside_circle(center: { x: number; y: number }, tile: { x: number; y: number }, radius: number): boolean {
@@ -443,14 +353,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     let distance = Math.sqrt(dx*dx + dy*dy);
 
     return distance <= radius;
-  }
-
-  private drawColorCell2(x: number, y: number): void {
-    if (!this.context) {
-      return;
-    }
-    this.context.fillStyle = this.color;
-    this.context.fillRect(x, y, this.scaleNum, this.scaleNum);
   }
 
   drawCircle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
@@ -476,4 +378,28 @@ export class EditorComponent implements OnInit, AfterViewInit {
         }
     }
   }  
+
+  private storeBitmap(): void {
+    const clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+    clone.copyData(this.itemBitmap.pixelArr);
+    this.undoQuery.push(clone);
+  }
+
+  undo(): void {
+    let tmp = this.undoQuery.pop();
+    if(tmp) {
+      this.redoQuery.push(tmp);
+    }
+    this.itemBitmap = this.undoQuery[this.undoQuery.length -1];
+    this.updateBitmap();
+  }
+
+  redo(): void {
+    let tmp = this.redoQuery.pop();
+    if(tmp) {
+      this.undoQuery.push(tmp);
+    }
+    this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
+    this.updateBitmap();
+  }
 }
