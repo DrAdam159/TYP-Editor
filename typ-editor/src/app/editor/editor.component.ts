@@ -28,7 +28,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   myCanvas!: ElementRef<HTMLCanvasElement>;
   context!: CanvasRenderingContext2D | null;
 
-  //kolikrat bude lazdy pixel zvetseny
+  //kolikrat bude kazdy pixel zvetseny
   scaleNum: number;
 
   //jaky nastroj uzivatel zvolil
@@ -135,6 +135,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.captureMouseMoveEventOnClick(canvasEl, 'rectangle');
   }
 
+  useFilledCircle(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.captureMouseMoveEventOnClick(canvasEl, 'filled_circle');
+  }
+
   useCircle(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
@@ -186,6 +192,9 @@ export class EditorComponent implements OnInit, AfterViewInit {
             break;
           case 'rectangle':
             this.drawRectangle({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            break;
+          case 'filled_circle':
+            this.drawFilledCircle({x: this.lineStartX, y: this.lineStartY}, currentPos);
             break;
           case 'circle':
             this.drawCircle({x: this.lineStartX, y: this.lineStartY}, currentPos);
@@ -355,7 +364,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     return distance <= radius;
   }
 
-  drawCircle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+  drawFilledCircle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
     let centerCoordinates = this.convertCoordinates(prevPos);
     let curCoordinates = this.convertCoordinates(currentPos);
 
@@ -376,6 +385,29 @@ export class EditorComponent implements OnInit, AfterViewInit {
               this.drawColorCell2(x * this.scaleNum, y * this.scaleNum);
             }
         }
+    }
+  }  
+
+  drawCircle(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+    let centerCoordinates = this.convertCoordinates(prevPos);
+    let curCoordinates = this.convertCoordinates(currentPos);
+
+    let radius = Math.sqrt((curCoordinates.x - centerCoordinates.x) * (curCoordinates.x - centerCoordinates.x) +
+                            (curCoordinates.y - centerCoordinates.y) * (curCoordinates.y - centerCoordinates.y)
+    );
+
+    this.updateBitmap();
+
+    for (let r = 0; r <= Math.floor(radius * Math.sqrt(0.5)); r++) {
+      let d = Math.floor(Math.sqrt(radius*radius - r*r));
+      this.drawColorCell2((centerCoordinates.x - d) * this.scaleNum, (centerCoordinates.y + r) * this.scaleNum);
+      this.drawColorCell2((centerCoordinates.x + d) * this.scaleNum, (centerCoordinates.y + r) * this.scaleNum);
+      this.drawColorCell2((centerCoordinates.x - d) * this.scaleNum, (centerCoordinates.y - r) * this.scaleNum);
+      this.drawColorCell2((centerCoordinates.x + d) * this.scaleNum, (centerCoordinates.y - r) * this.scaleNum);
+      this.drawColorCell2((centerCoordinates.x + r) * this.scaleNum, (centerCoordinates.y - d) * this.scaleNum);
+      this.drawColorCell2((centerCoordinates.x + r) * this.scaleNum, (centerCoordinates.y + d) * this.scaleNum);
+      this.drawColorCell2((centerCoordinates.x - r) * this.scaleNum, (centerCoordinates.y - d) * this.scaleNum);
+      this.drawColorCell2((centerCoordinates.x - r) * this.scaleNum, (centerCoordinates.y + d) * this.scaleNum);
     }
   }  
 
