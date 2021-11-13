@@ -23,9 +23,18 @@
             <mat-button-toggle value="circle" aria-label="Text align right" (click) = "useCircle()">
               <mat-icon>radio_button_unchecked</mat-icon>
             </mat-button-toggle>
+            <mat-button-toggle value="flip vertically" aria-label="Text align right" (click) = "flipVertically()">
+              <mat-icon>swap_vert</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()">
+              <mat-icon>swap_horiz</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="rotate left" aria-label="Text align right" (click) = "rotateLeft()">
+              <mat-icon>rotate_left</mat-icon>
+            </mat-button-toggle>
             <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()">
-                <mat-icon>cancel</mat-icon>
-              </mat-button-toggle>
+              <mat-icon>cancel</mat-icon>
+            </mat-button-toggle>
           </mat-button-toggle-group>
           <div>Selected value: {{toolOptions.value}}</div>
 

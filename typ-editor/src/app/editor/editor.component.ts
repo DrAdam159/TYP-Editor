@@ -153,6 +153,21 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.captureMouseMoveEventOnClick(canvasEl, 'circle');
   }
 
+  flipVertically(): void {
+    this.stopToolUse();
+    this.flipImageVertically();
+  }
+
+  flipHorizontally(): void {
+    this.stopToolUse();
+    this.flipImageHorizontally();
+  }
+
+  rotateLeft(): void {
+    this.stopToolUse();
+    this.rotateImageLeft();
+  }
+
   private captureMouseMoveEventOnClick(canvasEl: HTMLCanvasElement, tool: String) {
     this.mouseSub = fromEvent(canvasEl, 'mousedown')
       .pipe(
@@ -455,6 +470,45 @@ export class EditorComponent implements OnInit, AfterViewInit {
       this.drawColorCell2((centerCoordinates.x - r) * this.scaleNum, (centerCoordinates.y + d) * this.scaleNum);
     }
   }  
+
+  flipImageVertically(): void {
+    let bitmapCopy: Bitmap = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+    for(let x = 0; x < this.itemBitmap.width; x++) {
+      for(let y = 0; y < this.itemBitmap.height; y++) {
+        let yp = this.itemBitmap.height - y - 1;
+        bitmapCopy.setPixel(x,y, this.itemBitmap.getPixelColor(x,yp));
+      }
+    }
+   
+    this.itemBitmap = bitmapCopy;
+    this.updateBitmap();
+  }
+
+  flipImageHorizontally(): void {
+    let bitmapCopy: Bitmap = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+    for(let x = 0; x < this.itemBitmap.width; x++) {
+      for(let y = 0; y < this.itemBitmap.height; y++) {
+        let xp = this.itemBitmap.width - x - 1;
+        bitmapCopy.setPixel(x,y, this.itemBitmap.getPixelColor(xp,y));
+      }
+    }
+   
+    this.itemBitmap = bitmapCopy;
+    this.updateBitmap();
+  }
+
+  rotateImageLeft(): void {
+    let bitmapCopy: Bitmap = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+    for(let x = 0; x < this.itemBitmap.width; x++) {
+      for(let y = 0; y < this.itemBitmap.height; y++) {
+        let yp = this.itemBitmap.height - y - 1;
+        bitmapCopy.setPixel(x,y, this.itemBitmap.getPixelColor(yp,x));
+      }
+    }
+   
+    this.itemBitmap = bitmapCopy;
+    this.updateBitmap();
+  }
 
   private storeBitmap(): void {
     const clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
