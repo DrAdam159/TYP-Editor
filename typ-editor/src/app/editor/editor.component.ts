@@ -188,6 +188,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.captureEventOnClick(canvasEl, 'dropper');
   }
 
+  erase(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.color = 'ffffff00';
+    this.captureMouseMoveEventOnClick(canvasEl, 'brush');
+    this.captureEventOnBtnRelease(canvasEl);
+  }
+
   private captureMouseMoveEventOnClick(canvasEl: HTMLCanvasElement, tool: String) {
     this.mouseSub = fromEvent(canvasEl, 'mousedown')
       .pipe(
