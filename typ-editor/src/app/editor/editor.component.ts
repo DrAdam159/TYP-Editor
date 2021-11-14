@@ -136,7 +136,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   useFill(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.captureEventOnClick(canvasEl);
+    this.captureEventOnClick(canvasEl, 'fill');
   }
 
   useFilledRectangle(): void {
@@ -180,6 +180,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
   rotateLeft(): void {
     this.stopToolUse();
     this.rotateImageLeft();
+  }
+
+  getColor(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.captureEventOnClick(canvasEl, 'dropper');
   }
 
   private captureMouseMoveEventOnClick(canvasEl: HTMLCanvasElement, tool: String) {
@@ -240,7 +246,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private captureEventOnClick(canvasEl: HTMLCanvasElement) {
+  private captureEventOnClick(canvasEl: HTMLCanvasElement, tool: String) {
     this.mouseSub = fromEvent(canvasEl, 'mousedown').subscribe((res) => {
       const rect = canvasEl.getBoundingClientRect();
       const currMouseEvent = res as MouseEvent;
@@ -249,8 +255,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
         x: currMouseEvent.clientX - rect.left,
         y: currMouseEvent.clientY - rect.top
       };
-      
-      this.fillColor(currentPos);
+      switch(tool) {
+        case 'fill':
+          this.fillColor(currentPos);
+          break;
+        case 'dropper':
+          this.getSelectedColor(currentPos);
+          break;
+      }
     });
   }
 
@@ -258,7 +270,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.mouseUpSub = fromEvent(canvasEl, 'mouseup').subscribe((res) => {
       
       this.storeChanges();
-      //this.stopToolUse();
     });
   }
 
@@ -396,11 +407,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   private fillColor(currentPos: { x: number; y: number }): void {
     if(this.itemBitmap && this.context) {
-      let rw = currentPos.x - 1;
-      let rh = currentPos.y - 1;
-      rw = (rw - rw % this.scaleNum) / this.scaleNum;
-      rh = (rh - rh % this.scaleNum) / this.scaleNum;
-      this.itemBitmap.fill(rw, rh, new Color(this.color));
+      let convertedCoordinates = this.convertCoordinates(currentPos);
+      this.itemBitmap.fill(convertedCoordinates.x, convertedCoordinates.y, new Color(this.color));
       this.storeBitmap();
       this.updateBitmap();
     }
@@ -552,6 +560,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = bitmapCopy;
     this.storeBitmap();
     this.updateBitmap();
+  }
+
+  getSelectedColor(currentPos: { x: number; y: number }): void {
+    if(this.itemBitmap && this.context) {
+      let convertedCoordinates = this.convertCoordinates(currentPos);
+      console.log(this.itemBitmap.getPixelColor(convertedCoordinates.x, convertedCoordinates.y).toHex());
+      this.color = this.itemBitmap.getPixelColor(convertedCoordinates.x, convertedCoordinates.y).toHex();
+    }
   }
 
   private storeBitmap(): void {
