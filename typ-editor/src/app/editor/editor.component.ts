@@ -35,6 +35,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   toolOptions: FormControl;
   //subscription mouse eventu
   mouseSub!: Subscription;
+  mouseUpSub!: Subscription;
 
   //indikuje pocatecni vykresleni cary
   lineStart: boolean;
@@ -50,6 +51,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
   //brava z colorPickeru
   color: string;
 
+  changedPixels: Array<{x: number, y: number}>;
+
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.scaleNum = 20;
     this.undoQuery = new Array();
@@ -61,6 +64,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.y = 0;
     this.color = '#3f51b5';
     this.toolOptions = new FormControl();
+    this.changedPixels = new Array();
    }
 
   setColor(){
@@ -115,12 +119,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.captureMouseMoveEventOnClick(canvasEl, 'brush');
+    this.captureEventOnBtnRelease(canvasEl);
   }
 
   useLine(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.captureMouseMoveEventOnClick(canvasEl, 'line');
+    this.captureEventOnBtnRelease(canvasEl);
   }
 
   useFill(): void {
@@ -133,24 +139,28 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.captureMouseMoveEventOnClick(canvasEl, 'filled_rectangle');
+    this.captureEventOnBtnRelease(canvasEl);
   }
 
   useRectangle(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.captureMouseMoveEventOnClick(canvasEl, 'rectangle');
+    this.captureEventOnBtnRelease(canvasEl);
   }
 
   useFilledCircle(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.captureMouseMoveEventOnClick(canvasEl, 'filled_circle');
+    this.captureEventOnBtnRelease(canvasEl);
   }
 
   useCircle(): void {
     this.stopToolUse();
     const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
     this.captureMouseMoveEventOnClick(canvasEl, 'circle');
+    this.captureEventOnBtnRelease(canvasEl);
   }
 
   flipVertically(): void {
@@ -205,7 +215,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
             this.interpolateLine(prevPos, currentPos);
             break;
           case 'line':
-            
             this.drawLine({x: this.lineStartX, y: this.lineStartY}, currentPos);
             break;
           case 'fill':
@@ -241,6 +250,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private captureEventOnBtnRelease(canvasEl: HTMLCanvasElement) {
+    this.mouseUpSub = fromEvent(canvasEl, 'mouseup').subscribe((res) => {
+      
+      this.storeChanges();
+      //this.stopToolUse();
+    });
+  }
+
   convertCoordinates(coordinates: { x: number; y: number }) {
     let rw = coordinates.x - 1;
     let rh = coordinates.y - 1;
@@ -268,7 +285,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     if (!this.context) {
       return;
     }
-
     for (let pct = 0; pct <= 1; pct += 0.03) {
       let dx = currentPos.x - prevPos.x;
       let dy = currentPos.y - prevPos.y;
@@ -278,6 +294,20 @@ export class EditorComponent implements OnInit, AfterViewInit {
           this.drawColorCell(X, Y);
       }
     }
+  }
+
+  storeChanges(): void {
+    console.log('store: '  + this.changedPixels.length);
+    let newPixelColor: Color = new Color(this.color);
+    for(let i = 0; i < this.changedPixels.length; i++) {
+      let convertedCoordinates = this.convertCoordinates(this.changedPixels[i]);
+      this.itemBitmap.setPixel(convertedCoordinates.x, convertedCoordinates.y, newPixelColor);
+    }
+    this.changedPixels.splice(0, this.changedPixels.length);
+    this.updateBitmap();
+    this.lineStart = false;
+    
+    //this.mouseUpSub.unsubscribe();
   }
 
   updateBitmap(): void{
@@ -339,6 +369,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     rh = rh - rh % this.scaleNum;
     this.context.fillStyle = this.color;
     this.context.fillRect(rw, rh, this.scaleNum, this.scaleNum);
+    this.changedPixels.push({x: x  , y: y  });
   }
 
   private drawColorCell2(x: number, y: number): void {
@@ -347,12 +378,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
     this.context.fillStyle = this.color;
     this.context.fillRect(x, y, this.scaleNum, this.scaleNum);
+    this.changedPixels.push({x: x +1, y: y +1});
   }
 
   private drawLine(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
     if (!this.context) {
       return;
     }
+    this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
     this.interpolateLine(prevPos, currentPos);
   }
@@ -373,6 +406,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     if (!this.context) {
       return;
     }
+    this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
     this.interpolateLine(prevPos, { x: currentPos.x, y: prevPos.y });
     this.interpolateLine(prevPos, { x: prevPos.x, y: currentPos.y });
@@ -387,6 +421,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
     let prevCoordinates = this.convertCoordinates(prevPos);
     let curCoordinates = this.convertCoordinates(currentPos);
+    this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
     let top = prevCoordinates.y,
         bottom =  curCoordinates.y,
@@ -437,6 +472,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
         left   = Math.floor(centerCoordinates.x - radius),
         right  =  Math.ceil(centerCoordinates.x + radius);
 
+    this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
 
     for (let y = top; y <= bottom; y++) {
@@ -456,6 +492,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
                             (curCoordinates.y - centerCoordinates.y) * (curCoordinates.y - centerCoordinates.y)
     );
 
+    this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
 
     for (let r = 0; r <= Math.floor(radius * Math.sqrt(0.5)); r++) {
