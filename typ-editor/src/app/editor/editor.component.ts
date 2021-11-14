@@ -51,6 +51,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   //brava z colorPickeru
   color: string;
 
+  //zmenene pixely k ulozeni do bitmapy
   changedPixels: Array<{x: number, y: number}>;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
@@ -112,6 +113,9 @@ export class EditorComponent implements OnInit, AfterViewInit {
     if(this.mouseSub) {
       this.mouseSub.unsubscribe();
       this.lineStart = false;
+    }
+    if(this.mouseUpSub) {
+      this.mouseUpSub.unsubscribe();
     }
   }
 
@@ -299,15 +303,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
   storeChanges(): void {
     console.log('store: '  + this.changedPixels.length);
     let newPixelColor: Color = new Color(this.color);
+    //this.storeBitmap();
     for(let i = 0; i < this.changedPixels.length; i++) {
       let convertedCoordinates = this.convertCoordinates(this.changedPixels[i]);
       this.itemBitmap.setPixel(convertedCoordinates.x, convertedCoordinates.y, newPixelColor);
     }
+    this.storeBitmap();
     this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
     this.lineStart = false;
-    
-    //this.mouseUpSub.unsubscribe();
   }
 
   updateBitmap(): void{
@@ -396,8 +400,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
       let rh = currentPos.y - 1;
       rw = (rw - rw % this.scaleNum) / this.scaleNum;
       rh = (rh - rh % this.scaleNum) / this.scaleNum;
-      this.storeBitmap();
       this.itemBitmap.fill(rw, rh, new Color(this.color));
+      this.storeBitmap();
       this.updateBitmap();
     }
   }
@@ -518,6 +522,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
    
     this.itemBitmap = bitmapCopy;
+    this.storeBitmap();
     this.updateBitmap();
   }
 
@@ -531,6 +536,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
    
     this.itemBitmap = bitmapCopy;
+    this.storeBitmap();
     this.updateBitmap();
   }
 
@@ -544,6 +550,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
    
     this.itemBitmap = bitmapCopy;
+    this.storeBitmap();
     this.updateBitmap();
   }
 
@@ -556,18 +563,25 @@ export class EditorComponent implements OnInit, AfterViewInit {
   undo(): void {
     let tmp = this.undoQuery.pop();
     if(tmp) {
+      console.log("Added to redo");
       this.redoQuery.push(tmp);
     }
-    this.itemBitmap = this.undoQuery[this.undoQuery.length -1];
+    if(this.undoQuery.length > 0) { 
+      this.itemBitmap = this.undoQuery[this.undoQuery.length -1];
+    }
+    
     this.updateBitmap();
   }
 
   redo(): void {
+    if(this.redoQuery.length > 0) {
+      this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
+    }
+    
     let tmp = this.redoQuery.pop();
     if(tmp) {
       this.undoQuery.push(tmp);
     }
-    this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
     this.updateBitmap();
   }
 }
