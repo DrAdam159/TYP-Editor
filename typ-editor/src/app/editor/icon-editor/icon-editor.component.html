@@ -1,0 +1,68 @@
+<mat-button-toggle-group [formControl]="toolOptions" >
+    <mat-button-toggle value="brush" aria-label="Text align left" (click) = "useBrush()">
+      <mat-icon>brush</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="line" aria-label="Text align center" (click) = "useLine()">
+      <mat-icon>minimize</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="fill" aria-label="Text align right" (click) = "useFill()">
+      <mat-icon>format_color_fill</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()">
+      <mat-icon>rectangle</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="rectangle" aria-label="Text align right" (click) = "useRectangle()">
+      <mat-icon>crop_square</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()">
+      <mat-icon>circle</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="circle" aria-label="Text align right" (click) = "useCircle()">
+      <mat-icon>radio_button_unchecked</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="flip vertically" aria-label="Text align right" (click) = "flipVertically()">
+      <mat-icon>swap_vert</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()">
+      <mat-icon>swap_horiz</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="rotate left" aria-label="Text align right" (click) = "rotateLeft()">
+      <mat-icon>rotate_left</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()">
+      <mat-icon>colorize</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="eraser" aria-label="Text align right" (click) = "erase()">
+      <mat-icon>auto_fix_high</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()">
+      <mat-icon>cancel</mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <div>Selected value: {{toolOptions.value}}</div>
+
+  <br>
+
+  <button mat-stroked-button color="primary" (click) = "undo()">
+    <mat-icon>undo</mat-icon>
+  </button>
+  
+  <button mat-stroked-button color="primary" (click) = "redo()">
+    <mat-icon>redo</mat-icon>
+  </button>
+
+  <br>
+  <br>
+  
+  <mat-form-field>
+    <mat-label>Color picker</mat-label>
+    <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
+    </mtx-color-picker>
+    <mat-icon matSuffix>palette</mat-icon>
+    <mat-hint>Choose your favorite color</mat-hint>
+    <mat-error>Please enter the color</mat-error>
+  </mat-form-field>
+
+<div *ngIf="drawableItem" class="canvas-container">
+    <canvas #canvas width="1500" height="600"></canvas>
+</div>

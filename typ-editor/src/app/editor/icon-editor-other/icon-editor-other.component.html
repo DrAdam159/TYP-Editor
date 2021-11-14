@@ -1,0 +1,24 @@
+<div *ngIf="drawableItem">
+
+    <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
+        Select Language:
+        <select formControlName="language" (change)="onProfileChange()">
+            <option [ngValue]="null" disabled>Choose language</option>
+            <option *ngFor="let item of languageList" [ngValue]="item">
+            {{ item }}
+            </option>
+        </select> 
+        Description:
+        <input formControlName="description">
+    </form>  
+
+    <br>
+    <br>
+
+    <mat-list-item *ngFor="let text of drawableItem.text.textArr"> 
+        {{text.value}}
+    </mat-list-item>
+    <pre>
+        {{drawableItem | json}}
+    </pre>
+</div>

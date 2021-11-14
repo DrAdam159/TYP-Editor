@@ -36,6 +36,8 @@ import { FormsModule } from '@angular/forms';
 
 import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '@ng-matero/extensions';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { IconEditorComponent } from './editor/icon-editor/icon-editor.component';
+import { IconEditorOtherComponent } from './editor/icon-editor-other/icon-editor-other.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MainNavComponent,
     BitmapCanvasComponent,
     FileHeaderComponent,
-    FileDownloadComponent
+    FileDownloadComponent,
+    IconEditorComponent,
+    IconEditorOtherComponent
   ],
   imports: [
     BrowserModule,
