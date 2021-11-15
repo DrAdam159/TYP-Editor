@@ -76,7 +76,13 @@ export class MultiText {
     set(iText: Text): void {
         if(!(this.textArr.some(e => e.key == iText.language))) {
             this.textArr.push({key: iText.language, value: iText.text});
-          }
+        }
+        else {
+            (this.textArr = this.textArr.filter(element => element.key !== iText.language)).push({key: iText.language, value: iText.text});
+        }
+        this.textArr.sort(function(a, b) {
+            return a.key - b.key;
+        });
      }
 
      getRealLength(): number {

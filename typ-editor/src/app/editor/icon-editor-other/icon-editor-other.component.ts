@@ -4,6 +4,7 @@ import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlock
 import { FileService } from 'src/app/services/file.service';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
 
 enum LanguageCode {
   unspecified = 0x00,
@@ -53,16 +54,16 @@ export class IconEditorOtherComponent implements OnInit {
   sub!: Subscription;
   drawableItem!: GraphicElement;
 
-  userForm: FormGroup;
+  descriptionForm: FormGroup;
   
   languageList: Array<String>;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private formBuilder: FormBuilder) { 
     this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
 
-    this.userForm = this.formBuilder.group({
-      language: [null],
-      description: ['']
+    this.descriptionForm = this.formBuilder.group({
+      language: [null, [Validators.required]],
+      description: ['', [Validators.required]]
     });
 
   }
@@ -91,15 +92,30 @@ export class IconEditorOtherComponent implements OnInit {
    });
   }
 
-  onProfileChange() {
-    const languageKey = LanguageCode[this.userForm.get('language')?.value];
+  onChange() {
+    const languageKey = LanguageCode[this.descriptionForm.get('language')?.value];
     const description = this.drawableItem.text.textArr.find(x => x.key === ~~languageKey);
-    //console.log(this.drawableItem.text.textArr.find(x => x.key === 4));
-    this.userForm.get('description')?.setValue(description?.value);
+    this.descriptionForm.get('description')?.setValue(description?.value);
+	}
+
+  resetForm(form: FormGroup) {
+		form.reset();
 	}
 
   onFormSubmit() {
-	
+    if (this.descriptionForm.valid) {
+      const languageKey: number = ~~LanguageCode[this.descriptionForm.get('language')?.value];
+      const description: string = this.descriptionForm.get('description')?.value;
+
+      let tempText: Text = new Text();
+      tempText.setValues(languageKey, description);
+      this.drawableItem.text.set(tempText);
+		} else {
+      console.log('invalid');
+      this.resetForm(this.descriptionForm);
+			return;
+		}
+    this.resetForm(this.descriptionForm);
 	}
 
 }

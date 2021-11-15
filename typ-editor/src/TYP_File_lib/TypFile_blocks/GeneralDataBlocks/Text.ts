@@ -55,6 +55,11 @@ export class Text {
         }*/
     }
 
+    setValues(languageCode: number, text: string): void {
+        this.language = languageCode;
+        this.text = text;
+    }
+
     write(writer: BinReaderWriter, codepage: number): void {
         writer.writeUint8(this.language);
         //let txt = Encoding.Convert(Encoding.Unicode, Encoding.GetEncoding(codepage), Encoding.Unicode.GetBytes(Txt));

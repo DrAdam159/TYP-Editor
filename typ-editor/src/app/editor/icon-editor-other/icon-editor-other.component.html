@@ -1,23 +1,29 @@
 <div *ngIf="drawableItem">
 
-    <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
-        Select Language:
-        <select formControlName="language" (change)="onProfileChange()">
-            <option [ngValue]="null" disabled>Choose language</option>
-            <option *ngFor="let item of languageList" [ngValue]="item">
-            {{ item }}
-            </option>
-        </select> 
-        Description:
-        <input formControlName="description">
+    <form [formGroup]="descriptionForm" (ngSubmit)="onFormSubmit()" class="example-form">
+        <br>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Choose language</mat-label>
+            <mat-select formControlName="language" (selectionChange)="onChange()">
+              <mat-option *ngFor="let item of languageList" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Description</mat-label>
+            <input formControlName="description" matInput #message maxlength="256" placeholder="Parking..." >
+            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary">Save</button>
     </form>  
 
     <br>
     <br>
 
-    <mat-list-item *ngFor="let text of drawableItem.text.textArr"> 
-        {{text.value}}
-    </mat-list-item>
     <pre>
         {{drawableItem | json}}
     </pre>
