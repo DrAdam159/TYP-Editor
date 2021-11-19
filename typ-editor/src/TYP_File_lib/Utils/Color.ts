@@ -48,4 +48,16 @@ export class Color {
     toRgba() {
         return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
     }
+
+    compareColors(secondColor: Color): boolean {
+        if(this.r == secondColor.r &&
+            this.g == secondColor.g &&
+            this.b == secondColor.b &&
+            this.a == secondColor.a 
+        ) {
+            return true;
+        }
+        return false;
+
+    }
 }

@@ -576,6 +576,26 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  findNearestColor(pallet: string): void {
+    if(this.itemBitmap) {
+      switch(pallet) {
+        case 'Garmin256':
+            this.itemBitmap.applyColorPallet('Garmin256');
+            break;
+        case 'Garmin64':
+            this.itemBitmap.applyColorPallet('Garmin64');
+            break;
+        case 'Garmin16':
+            this.itemBitmap.applyColorPallet('Garmin16');
+            break;
+        default:
+          this.itemBitmap.applyColorPallet('Garmin256');
+      }
+      this.storeBitmap();
+      this.updateBitmap();
+    }
+  }
+
   private storeBitmap(): void {
     const clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
     clone.copyData(this.itemBitmap.pixelArr);

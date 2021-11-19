@@ -1,4 +1,6 @@
 import { Color } from "./Color";
+import { ColorPallet } from "../ColorPallets/ColorPallet";
+import { pallet256, pallet64, pallet16 } from "../ColorPallets/GarminColorPallets";
 
 export class Bitmap {
     width: number;
@@ -70,5 +72,66 @@ export class Bitmap {
             return;
         }
         this.fillUtil(x, y, newColor, prevColor);
+    }
+
+    getDistance(currentColor: Color, matchColor: Color): number {
+
+        let redDifference: number = currentColor.r - matchColor.r;
+        let greenDifference: number = currentColor.g - matchColor.g; 
+        let blueDifference: number = currentColor.b - matchColor.b; 
+
+        return redDifference * redDifference +
+                greenDifference * greenDifference + 
+                blueDifference * blueDifference; 
+    }
+
+    findNearestColor(color: Color, pallet: ColorPallet): number {
+        let shortestDistance: number = 99999999;
+        let index: number = -1;
+
+        for(let i = 0; i < pallet.colors.length; i++) {
+
+            let matchCol = new Color('#' + pallet.colors[i]);
+            let distance = this.getDistance(color, matchCol);
+            if(distance < shortestDistance) {
+                index = i;
+                shortestDistance = distance;
+            }
+        }
+
+        return index;
+    }
+
+    applyColorPallet(palletType: string): void {
+        let pallet: ColorPallet;
+        switch(palletType) {
+            case 'Garmin256':
+                pallet = pallet256;
+                break;
+            case 'Garmin64':
+                pallet = pallet64;
+                break;
+            case 'Garmin16':
+                pallet = pallet16;
+                break;
+            default:
+                pallet  = pallet256;
+        }
+
+        let colList: Array<{oldColor: Color; newColor: Color}> = new Array();
+
+        for(let x = 0; x < this.width; x++) {
+            for(let y = 0; y < this.height; y++) {
+
+                let oldColor: Color = this.getPixelColor(x, y);
+
+                if(!(colList.some(e => e.oldColor.compareColors(oldColor)))) {
+                    let newColor: Color = new Color('#' + pallet.colors[this.findNearestColor(oldColor,pallet)]);
+                    colList.push({oldColor: oldColor, newColor: newColor});
+                }
+                let newColor: Color = colList.find(e => e.oldColor.compareColors(oldColor))?.newColor || new Color(255,255,255);
+                this.setPixel(x, y, newColor);
+            }
+        }
     }
 }

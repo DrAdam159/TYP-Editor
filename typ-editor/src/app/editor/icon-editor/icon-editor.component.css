@@ -4,3 +4,10 @@
     justify-content: center;
     cursor: crosshair;
 }
+
+.tools-container {
+    position:relative;
+    text-align:center;
+}
+
+
