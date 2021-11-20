@@ -35,6 +35,11 @@ export class FileService {
     localStorage.setItem('filename', fileName);
   }
 
+  updateFile(): void {
+    localStorage.setItem('file', this.arrayBufferToBase64(this.typFile.getEncodedBuffer()));
+    localStorage.setItem('filename', this.fileName);
+  }
+
   getFile(): TypFile {
     if(this.typFile) {
       return this.typFile;

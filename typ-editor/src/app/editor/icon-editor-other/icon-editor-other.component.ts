@@ -54,12 +54,20 @@ export class IconEditorOtherComponent implements OnInit {
   sub!: Subscription;
   drawableItem!: GraphicElement;
 
+  itemType: string;
+  typeID: string;
+  subTypeID: string;
+
   descriptionForm: FormGroup;
   
   languageList: Array<String>;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private formBuilder: FormBuilder) { 
     this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
+
+    this.itemType = "";
+    this.typeID = "";
+    this.subTypeID = "";
 
     this.descriptionForm = this.formBuilder.group({
       language: [null, [Validators.required]],
@@ -70,20 +78,20 @@ export class IconEditorOtherComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = this.Activatedroute.paramMap.subscribe(params => { 
-      let itemType = params.get('id');
-      let typeID = params.get('id1');
-      let subTypeID = params.get('id2');
+      this.itemType = params.get('id') || "";
+      this.typeID = params.get('id1') || "";
+      this.subTypeID = params.get('id2') || "";
 
-      if(itemType && typeID && subTypeID) {
-        switch(itemType) {
+      if(this.itemType && this.typeID && this.subTypeID) {
+        switch(this.itemType) {
           case 'polyline':
-            this.drawableItem = this.fileService.getPolyline(~~typeID, ~~subTypeID);
+            this.drawableItem = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
             break;
           case 'polygone':
-            this.drawableItem = this.fileService.getPolygone(~~typeID, ~~subTypeID);
+            this.drawableItem = this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID);
             break;
           case 'poi':
-            this.drawableItem = this.fileService.getPOI(~~typeID, ~~subTypeID);
+            this.drawableItem = this.fileService.getPOI(~~this.typeID, ~~this.subTypeID);
             break;
           default:
             new Error("No item type supplied!");
@@ -110,6 +118,7 @@ export class IconEditorOtherComponent implements OnInit {
       let tempText: Text = new Text();
       tempText.setValues(languageKey, description);
       this.drawableItem.text.set(tempText);
+      this.fileService.updateFile();
 		} else {
       console.log('invalid');
       this.resetForm(this.descriptionForm);

@@ -136,6 +136,21 @@ export class TypFile {
         return new Blob([writer.getBuffer().buffer]);
         
     }
+
+    getEncodedBuffer(): ArrayBuffer{
+        let writer = new BinReaderWriter(new DataView(new ArrayBuffer(100000)));
+
+        writer.seek(this.header.headerLen);
+        this.encodePolygoneData(writer);
+        this.encodePolylineData(writer);
+        this.encodePOIData(writer);
+        this.encodeDraworder(writer);
+        this.header.write(writer);
+        
+
+        return writer.getBuffer().buffer;
+        
+    }
     
     encodePolygoneData(writer: BinReaderWriter): void {
         let table: Array<TableItem> = new Array();

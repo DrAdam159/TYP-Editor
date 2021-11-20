@@ -161,4 +161,8 @@ export class PixData {
     write(writer: BinReaderWriter): void {
        writer.writeBytes(this.rawIMGData);
     }
+
+    convertBitmapToData(bm: Bitmap): void {
+
+    }
 }
