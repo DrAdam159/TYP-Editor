@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from 'src/app/services/file.service';
-import { fromEvent, Subscription, zip } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
@@ -597,7 +597,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   }
 
   private storeBitmap(): void {
-    const clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+    let clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
     clone.copyData(this.itemBitmap.pixelArr);
     this.undoQuery.push(clone);
   }
@@ -608,7 +608,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.redoQuery.push(tmp);
     }
     if(this.undoQuery.length > 0) { 
-      this.itemBitmap = this.undoQuery[this.undoQuery.length -1];
+      this.itemBitmap = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+      this.itemBitmap.copyData(this.undoQuery[this.undoQuery.length -1].pixelArr);
+      //this.itemBitmap = this.undoQuery[this.undoQuery.length -1];
     }
     
     this.updateBitmap();
@@ -616,7 +618,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   redo(): void {
     if(this.redoQuery.length > 0) {
-      this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
+      this.itemBitmap = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
+      this.itemBitmap.copyData(this.redoQuery[this.redoQuery.length -1].pixelArr);
+      //this.itemBitmap = this.redoQuery[this.redoQuery.length -1];
     }
     
     let tmp = this.redoQuery.pop();
