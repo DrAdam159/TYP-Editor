@@ -134,4 +134,29 @@ export class Bitmap {
             }
         }
     }
+
+    getInverseColor(currentColor: Color): Color {
+        const r: number = 255 - currentColor.r;
+        const g: number = 255 - currentColor.g;
+        const b: number = 255 - currentColor.b;
+
+        return new Color(r,g,b);
+    }
+
+    inverseColors(): void {
+        let colList: Array<{oldColor: Color; newColor: Color}> = new Array();
+        for(let x = 0; x < this.width; x++) {
+            for(let y = 0; y < this.height; y++) {
+
+                let oldColor: Color = this.getPixelColor(x, y);
+
+                if(!(colList.some(e => e.oldColor.compareColors(oldColor)))) {
+                    let newColor: Color = this.getInverseColor(oldColor);
+                    colList.push({oldColor: oldColor, newColor: newColor});
+                }
+                let newColor: Color = colList.find(e => e.oldColor.compareColors(oldColor))?.newColor || new Color(255,255,255);
+                this.setPixel(x, y, newColor);
+            }
+        }
+    }
 }

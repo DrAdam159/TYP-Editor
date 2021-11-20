@@ -596,6 +596,14 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  inverseColors(): void {
+    if(this.itemBitmap) { 
+      this.itemBitmap.inverseColors();
+      this.storeBitmap();
+      this.updateBitmap();
+    }
+  }
+
   private storeBitmap(): void {
     let clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
     clone.copyData(this.itemBitmap.pixelArr);

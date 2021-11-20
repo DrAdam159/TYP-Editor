@@ -73,6 +73,10 @@
     <mat-button-toggle (click) = "findNearestColor('Garmin64')" >Garmin 64</mat-button-toggle>
     <mat-button-toggle (click) = "findNearestColor('Garmin16')">Garmin 16</mat-button-toggle>
   </mat-button-toggle-group>
+<br>
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle (click) = "inverseColors()">Inverse colors</mat-button-toggle>
+  </mat-button-toggle-group>
 
 <div *ngIf="drawableItem" class="canvas-container">
     <canvas #canvas width="1500" height="600"></canvas>
