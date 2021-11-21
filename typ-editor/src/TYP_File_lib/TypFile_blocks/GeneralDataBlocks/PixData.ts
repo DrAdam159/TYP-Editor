@@ -162,7 +162,68 @@ export class PixData {
        writer.writeBytes(this.rawIMGData);
     }
 
-    convertBitmapToData(bm: Bitmap): void {
+    getColorIndex(colorTable: Array<Color>, matchColor: Color): number {
+      return colorTable.findIndex(x => x.compareColors(matchColor));
+    }
+
+    convertBitmapToData(bm: Bitmap, colorTable: Array<Color>): void {
+      const pixel4byte: number = (8 / this.bitsPerPixel) | 0;
+      const bytes4line: number = this.bytesForBitmapLine(bm.width, this.bitsPerPixel);
+      let data: Array<number> = new Array();
+      let idx = 0;
+
+      if (colorTable != null && colorTable.length > 0) {   
+         switch (this.bitsPerPixel) {
+            case 1:
+               for (let y = 0; y < bm.height; y++) {
+                  idx = y * bytes4line;
+                  for (let x = 0; x < bm.width; x += 8, idx++) {
+                     data[idx] = 0;
+                     for (let xp = 0; xp < 8 && x + xp < bm.width; xp++) {
+                        data[idx] |= 0xFF & (this.getColorIndex(colorTable, bm.getPixelColor(x + xp, y)) << xp);
+                     }
+                     data[idx] = 255 - data[idx] ;
+                  }
+               }
+               break;
+
+            case 2:
+               for (let y = 0; y < bm.height; y++) {
+                  idx = y * bytes4line;
+                  for (let x = 0; x < bm.width; x += 4, idx++) {
+                     data[idx] = 0;
+                     for (let xp = 0; xp < 4 && x + xp < bm.width; xp++)
+                        data[idx] |= 0xFF & (this.getColorIndex(colorTable, bm.getPixelColor(x + xp, y)) << (2 * xp));
+                  }
+               }
+               break;
+
+            case 4:
+               for (let y = 0; y < bm.height; y++) {
+                  idx = y * bytes4line;
+                  for (let x = 0; x < bm.width; x += 2, idx++) {
+                     data[idx] = 0;
+                     for (let xp = 0; xp < 2 && x + xp < bm.width; xp++)
+                        data[idx] |=  0xFF & (this.getColorIndex(colorTable, bm.getPixelColor(x + xp, y)) << (4 * xp));
+                  }
+               }
+               break;
+
+            case 8:
+               for (let y = 0; y < bm.height; y++) {
+                  idx = y * bytes4line;
+                  for (let x = 0; x < bm.width; x++, idx++)
+                     data[idx] = 0xFF & this.getColorIndex(colorTable, bm.getPixelColor(x, y));
+               }
+               break;
+
+         }
+
+         this.rawIMGData = data;
+
+      } else {        
+         throw new Error("No color table");
+      }
 
     }
 }

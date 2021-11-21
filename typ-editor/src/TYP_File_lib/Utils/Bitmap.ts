@@ -159,4 +159,18 @@ export class Bitmap {
             }
         }
     }
+
+    getAllColors(): Array<Color> {
+        let colList: Array<Color> = new Array();
+        for(let x = 0; x < this.width; x++) { 
+            for(let y = 0; y < this.height; y++) { 
+                let currColor: Color = this.getPixelColor(x, y);
+                if(!(colList.some(e => e.compareColors(currColor)))) {
+                    colList.push(currColor);
+                }
+            }
+        }    
+
+        return colList;
+    }
 }

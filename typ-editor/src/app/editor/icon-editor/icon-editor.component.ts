@@ -23,6 +23,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   undoQuery: Array<Bitmap>;
   redoQuery: Array<Bitmap>;
 
+  itemType: string;
+  typeID: string;
+  subTypeID: string;
+
   sub: any;
 
   @ViewChild('canvas', {static: false}) 
@@ -67,6 +71,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.color = '#3f51b5';
     this.toolOptions = new FormControl();
     this.changedPixels = new Array();
+
+    this.itemType = "";
+    this.typeID = "";
+    this.subTypeID = "";
    }
 
   setColor(){
@@ -79,20 +87,20 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     
     this.sub = this.Activatedroute.paramMap.subscribe(params => { 
-      let itemType = params.get('id');
-      let typeID = params.get('id1');
-      let subTypeID = params.get('id2');
+      this.itemType = params.get('id') || "";
+      this.typeID = params.get('id1') || "";
+      this.subTypeID = params.get('id2') || "";
 
-      if(itemType && typeID && subTypeID) {
-        switch(itemType) {
+      if(this.itemType && this.typeID && this.subTypeID) {
+        switch(this.itemType) {
           case 'polyline':
-            this.drawableItem = this.fileService.getPolyline(~~typeID, ~~subTypeID);
+            this.drawableItem = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
             break;
           case 'polygone':
-            this.drawableItem = this.fileService.getPolygone(~~typeID, ~~subTypeID);
+            this.drawableItem = this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID);
             break;
           case 'poi':
-            this.drawableItem = this.fileService.getPOI(~~typeID, ~~subTypeID);
+            this.drawableItem = this.fileService.getPOI(~~this.typeID, ~~this.subTypeID);
             break;
           default:
             new Error("No item type supplied!");
@@ -636,5 +644,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.undoQuery.push(tmp);
     }
     this.updateBitmap();
+  }
+
+  saveChangesToFile(): void {
+    if(this.itemBitmap) {
+      this.drawableItem.bitmapDay?.data.convertBitmapToData(this.itemBitmap, this.drawableItem.bitmapDay.colorTable);
+      this.fileService.updateFileItem(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem);
+    }
   }
 }

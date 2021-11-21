@@ -5,6 +5,7 @@ import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 import { BehaviorSubject } from 'rxjs';
 import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
+import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,22 @@ export class FileService {
   updateFile(): void {
     localStorage.setItem('file', this.arrayBufferToBase64(this.typFile.getEncodedBuffer()));
     localStorage.setItem('filename', this.fileName);
+    console.log("saving");
+  }
+
+  updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement): void {
+    switch(itemType) {
+      case 'polygone':
+        this.getPolygone(type, subType).bitmapDay = newItem.bitmapDay;
+        break;
+      case 'poi':
+        this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
+        break;
+      case 'polyline':
+        this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
+        break;
+    }
+    this.updateFile();
   }
 
   getFile(): TypFile {
