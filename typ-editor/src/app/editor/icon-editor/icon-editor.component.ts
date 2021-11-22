@@ -59,6 +59,11 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   //zmenene pixely k ulozeni do bitmapy
   changedPixels: Array<{x: number, y: number}>;
 
+  //omezeni poctu barev pro polygone a polyline
+  limitColors: boolean;
+  colors: Array<string>;
+  colorOptions: FormControl;
+
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.scaleNum = 20;
     this.undoQuery = new Array();
@@ -70,19 +75,17 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.y = 0;
     this.color = '#3f51b5';
     this.toolOptions = new FormControl();
+    this.colorOptions = new FormControl();
     this.changedPixels = new Array();
 
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";
-   }
 
-  setColor(){
-    if (!this.context) {
-      return;
-    }
-    this.context.fillStyle = this.color;
-  }
+    this.limitColors = false;
+    this.colors = new Array();
+
+   }
 
   ngOnInit(): void {
     
@@ -95,9 +98,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         switch(this.itemType) {
           case 'polyline':
             this.drawableItem = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
+            this.limitColors = true;
             break;
           case 'polygone':
             this.drawableItem = this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID);
+            this.limitColors = true;
+           
             break;
           case 'poi':
             this.drawableItem = this.fileService.getPOI(~~this.typeID, ~~this.subTypeID);
@@ -105,17 +111,47 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           default:
             new Error("No item type supplied!");
         }
+        this.itemBitmap = this.drawableItem.asBitmap(true);
+        if(this.limitColors) {
+          if(this.drawableItem.bitmapDay?.colorTable){
+            const tempCol = this.drawableItem.bitmapDay?.colorTable;
+            for(let i = 0; i < tempCol.length; i++) {
+              this.colors.push(tempCol[i].toHex());
+            }
+            this.color = this.colors[0];
+          }
+        }
       }
    });
   }
 
   ngAfterViewInit(): void {
     this.context = this.myCanvas.nativeElement.getContext('2d');
-    if(this.drawableItem) {
-      this.itemBitmap = this.drawableItem.asBitmap(true);
-    }
+    
+    // if(this.drawableItem) {
+    //   this.itemBitmap = this.drawableItem.asBitmap(true);
+    // }
     this.drawBitmapWithGrid();
     this.storeBitmap();
+  }
+
+  setColor(){
+    if (!this.context) {
+      return;
+    }
+    this.context.fillStyle = this.color;
+    if(this.limitColors) {
+      if(this.colorOptions.value) {
+        this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[this.colorOptions.value]));
+        this.updateBitmap();
+        this.colors[this.colorOptions.value] = this.color;
+      }
+      else {
+        this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[0]));
+        this.updateBitmap();
+        this.colors[0] = this.color;
+      }
+    }
   }
 
   stopToolUse(): void {
@@ -650,5 +686,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     if(this.itemBitmap) {
       this.fileService.updateFileItem(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap);
     }
+  }
+
+  updateColorPicker(colorVal: string): void{
+    this.color = colorVal;
   }
 }

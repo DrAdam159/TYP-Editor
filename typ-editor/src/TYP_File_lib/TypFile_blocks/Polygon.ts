@@ -230,15 +230,21 @@ export class Polygon extends GraphicElement{
 
     asBitmap(dayOrNight: boolean): Bitmap {
       if (dayOrNight) {
-         if (this.bitmapDay != null)
+         if (this.bitmapDay != null) {
             return this.bitmapDay.asBitmap();
-         else
-            return this.getDummyXPixMap(BitmapColorMode.POLY1TR, true).asBitmap(); ;
+         }
+         else {
+            //this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY1TR, true);
+            return this.getDummyXPixMap(BitmapColorMode.POLY1TR, true).asBitmap();
+         }
       } else {
-         if (this.bitmapNight != null)
+         if (this.bitmapNight != null) {
             return this.bitmapNight.asBitmap();
-         else
-            return this.getDummyXPixMap(BitmapColorMode.POLY1TR, false).asBitmap(); ;
+         } 
+         else {
+            //this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY1TR, false);
+            return this.getDummyXPixMap(BitmapColorMode.POLY1TR, false).asBitmap();
+         }
       }
     }
 

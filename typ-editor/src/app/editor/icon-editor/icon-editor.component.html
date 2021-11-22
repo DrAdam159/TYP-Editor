@@ -65,6 +65,14 @@
     <mat-error>Please enter the color</mat-error>
   </mat-form-field>
 
+  <div *ngIf="limitColors">
+    <mat-button-toggle-group [formControl]="colorOptions">
+      <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div>Selected color: {{colorOptions.value}}</div>
+  </div>
+  
+
   <br>
   <br>
 
