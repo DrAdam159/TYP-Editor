@@ -161,7 +161,6 @@ export class Bitmap {
     }
 
     replaceColor(newColor: Color, oldColor: Color): void {
-        console.log(newColor, oldColor);
         newColor.a = 255;
         oldColor.a = 255
         for(let x = 0; x < this.width; x++) {

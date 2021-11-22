@@ -145,6 +145,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[this.colorOptions.value]));
         this.updateBitmap();
         this.colors[this.colorOptions.value] = this.color;
+        //update color table
+        if(this.drawableItem.bitmapDay) {
+          let tmpColor: Color = new Color(this.color);
+          tmpColor.a = 255;
+          this.drawableItem.bitmapDay.colorTable[this.colorOptions.value] = tmpColor;
+          //console.log(this.drawableItem.bitmapDay.colorTable);
+        }
       }
       else {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[0]));
@@ -642,6 +649,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   inverseColors(): void {
     if(this.itemBitmap) { 
+      if(this.limitColors && this.drawableItem.bitmapDay) {
+        this.colors.splice(0, this.colors.length);
+        for(let i = 0; i < this.drawableItem.bitmapDay.colorTable.length; i++){ 
+          this.drawableItem.bitmapDay.colorTable[i] = this.itemBitmap.getInverseColor(this.drawableItem.bitmapDay.colorTable[i]);
+          this.colors.push(this.drawableItem.bitmapDay.colorTable[i].toHex());
+        } 
+      }
       this.itemBitmap.inverseColors();
       this.storeBitmap();
       this.updateBitmap();
