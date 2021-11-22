@@ -648,8 +648,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   saveChangesToFile(): void {
     if(this.itemBitmap) {
-      this.drawableItem.bitmapDay?.data.convertBitmapToData(this.itemBitmap, this.drawableItem.bitmapDay.colorTable);
-      this.fileService.updateFileItem(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem);
+      this.fileService.updateFileItem(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap);
     }
   }
 }

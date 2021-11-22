@@ -6,6 +6,8 @@ import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 import { BehaviorSubject } from 'rxjs';
 import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
+import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
+import { Color } from 'src/TYP_File_lib/Utils/Color';
 
 @Injectable({
   providedIn: 'root'
@@ -42,18 +44,23 @@ export class FileService {
     console.log("saving");
   }
 
-  updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement): void {
+  updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
     switch(itemType) {
       case 'polygone':
         this.getPolygone(type, subType).bitmapDay = newItem.bitmapDay;
         break;
       case 'poi':
+        if(newItem.bitmapDay) {
+          bitmap.updateColors(newItem.bitmapDay.colorTable);
+          newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
+        }
         this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
         break;
       case 'polyline':
         this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
         break;
     }
+    newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
     this.updateFile();
   }
 

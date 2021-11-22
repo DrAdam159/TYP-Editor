@@ -173,4 +173,15 @@ export class Bitmap {
 
         return colList;
     }
+
+    updateColors(oldColors: Array<Color>): void {
+        for(let x = 0; x < this.width; x++) { 
+            for(let y = 0; y < this.height; y++) { 
+                let currColor: Color = this.getPixelColor(x, y);
+                if(!(oldColors.some(e => e.compareColors(currColor)))) {
+                    oldColors.push(currColor);
+                }
+            }
+        }    
+    }
 }
