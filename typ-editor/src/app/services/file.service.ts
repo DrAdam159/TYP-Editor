@@ -47,14 +47,20 @@ export class FileService {
   updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
     switch(itemType) {
       case 'polygone':
-        this.getPolygone(type, subType).bitmapDay = newItem.bitmapDay;
+        if(newItem.bitmapDay) { 
+          console.log(bitmap.getAllColors());
+          newItem.bitmapDay.colorTable = bitmap.getAllColors();
+          this.getPolygone(type, subType).bitmapDay = newItem.bitmapDay;
+        }
         break;
       case 'poi':
         if(newItem.bitmapDay) {
+          // console.log(bitmap.getAllColors());
+          // newItem.bitmapDay.colorTable = bitmap.getAllColors();
           bitmap.updateColors(newItem.bitmapDay.colorTable);
           newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
+          this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
         }
-        this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
         break;
       case 'polyline':
         this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
