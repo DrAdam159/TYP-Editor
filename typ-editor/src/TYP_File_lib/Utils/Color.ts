@@ -38,6 +38,15 @@ export class Color {
     }
 
     toHex() {
+        if(this.r == 0) {
+            return '#' + this.r.toString(16) + '0' + this.g.toString(16) + this.b.toString(16);
+        }
+        if(this.g == 0) {
+            return '#' + this.r.toString(16) + this.g.toString(16)+ '0' + this.b.toString(16);
+        }
+        if(this.b == 0) {
+            return '#' + this.r.toString(16) + this.g.toString(16) + '0' + this.b.toString(16);
+        }
         return '#' + this.r.toString(16) + this.g.toString(16) + this.b.toString(16);
     }
 

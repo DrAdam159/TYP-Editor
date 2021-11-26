@@ -50,7 +50,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   //souradnice posledniho navstiveneho ctverecku pri vykresleni
   //porovnani vuci vypoctu soucasne pozice kurzoru zabrani duplicitnimu kresleni
-  x:number
+  x:number;
   y:number;
 
   //brava z colorPickeru
@@ -702,7 +702,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  updateColorPicker(colorVal: string): void{
+  updateColorPicker(colorVal: string): void {
     this.color = colorVal;
   }
 }

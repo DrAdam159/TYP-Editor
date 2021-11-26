@@ -72,7 +72,13 @@ export class FileService {
         }
         break;
       case 'polyline':
-        this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
+        if(newItem.bitmapDay) { 
+          newItem.bitmapDay.colorTable = bitmap.getAllColors();
+          newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
+          this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
+          this.getPolyline(type, subType).setPolylineType();
+          this.getPolyline(type, subType).colDayColor = newItem.bitmapDay.colorTable;
+        }
         break;
     }
     newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);

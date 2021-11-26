@@ -117,7 +117,8 @@ export class Polyline extends GraphicElement{
            }
         } else {
            let color: Array<Color> = new Array();
-           color.push(new Color(255,255,255));
+           //color.push(new Color(255,255,255));
+           color = this.colDayColor;
            this.bitmapDay = new PixMap(32, this.bitmapHeight, color.length, 0xfffe);
            this.bitmapDay.constructor2(color, reader);
         }
@@ -229,6 +230,8 @@ export class Polyline extends GraphicElement{
       writer.writeUint8(this.options2);
       switch (this.polylineType) {
          case PolylineType.Day2:
+            if(this.type == 13 && this.subtype == 0) {
+            }
             BinaryColor.writeColorTable(writer, this.colDayColor);
             break;
 
@@ -290,6 +293,21 @@ export class Polyline extends GraphicElement{
                break;
             case FontColours.DayAndNight:
                BinaryColor.writeColorTable(writer, this.colFontColour);
+               break;
+         }
+      }
+   }
+
+   setPolylineType(): void {
+      if(this.bitmapDay) {
+         switch(this.bitmapDay.colorTable.length) {
+            case 1:
+               this.options = 0xFF & ((this.options & 0xF8) | PolylineType.NoBorder_Day1);
+               this.polylineType =  PolylineType.NoBorder_Day1;
+               break;
+            case 2:
+               this.options = 0xFF & ((this.options & 0xF8) | PolylineType.Day2);
+               this.polylineType =  PolylineType.Day2;
                break;
          }
       }
