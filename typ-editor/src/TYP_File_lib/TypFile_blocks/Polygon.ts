@@ -234,7 +234,6 @@ export class Polygon extends GraphicElement{
             return this.bitmapDay.asBitmap();
          }
          else {
-            //this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY1TR, true);
             return this.getDummyXPixMap(BitmapColorMode.POLY1TR, true).asBitmap();
          }
       } else {
@@ -242,9 +241,19 @@ export class Polygon extends GraphicElement{
             return this.bitmapNight.asBitmap();
          } 
          else {
-            //this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY1TR, false);
             return this.getDummyXPixMap(BitmapColorMode.POLY1TR, false).asBitmap();
          }
+      }
+    }
+
+    createBitmap(dayOrNight: boolean): void {
+      if (dayOrNight) {
+         this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY2, true);  
+         this.colorType = ColorType.BM_Day2;
+         this.options = 24;
+      } else {
+         this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY2, false);
+         this.colorType = ColorType.BM_Day2_Night2;
       }
     }
 

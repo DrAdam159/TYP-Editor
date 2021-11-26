@@ -48,9 +48,18 @@ export class FileService {
     switch(itemType) {
       case 'polygone':
         if(newItem.bitmapDay) { 
-          console.log(bitmap.getAllColors());
           newItem.bitmapDay.colorTable = bitmap.getAllColors();
           this.getPolygone(type, subType).bitmapDay = newItem.bitmapDay;
+        }
+        else {
+          if(bitmap.getAllColors().length == 1) {
+            this.getPolygone(type, subType).colDayColor = bitmap.getAllColors();
+          }
+          else {
+            let tmpPolygone: Polygon = this.getPolygone(type, subType);
+            tmpPolygone.colDayColor = bitmap.getAllColors();
+            tmpPolygone.createBitmap(true);
+          }
         }
         break;
       case 'poi':
