@@ -120,6 +120,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             }
             this.color = this.colors[0];
           }
+          else {
+            const tempCol = this.drawableItem.colDayColor;
+            for(let i = 0; i < tempCol.length; i++) {
+              this.colors.push(tempCol[i].toHex());
+            }
+            this.color = this.colors[0];
+          }
         }
       }
    });
@@ -127,10 +134,6 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.myCanvas.nativeElement.getContext('2d');
-    
-    // if(this.drawableItem) {
-    //   this.itemBitmap = this.drawableItem.asBitmap(true);
-    // }
     this.drawBitmapWithGrid();
     this.storeBitmap();
   }
@@ -150,7 +153,6 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           let tmpColor: Color = new Color(this.color);
           tmpColor.a = 255;
           this.drawableItem.bitmapDay.colorTable[this.colorOptions.value] = tmpColor;
-          //console.log(this.drawableItem.bitmapDay.colorTable);
         }
       }
       else {

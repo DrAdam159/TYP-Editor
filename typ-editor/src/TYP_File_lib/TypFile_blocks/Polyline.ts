@@ -31,6 +31,24 @@ enum FontColours {
    DayAndNight = 0x18
 }
 
+enum BitmapColorMode {
+   POI_SIMPLE = 0,
+  
+   //další kód barvy (není součástí tabulky barev) znamená průhledné pixely
+   POI_TR = 0x10,
+   
+   //každá barva může mít svou vlastní průhlednost
+   POI_ALPHA = 0x20,
+
+   //1 bit na pixel, 2 barvy
+   POLY2 = 0xfffd,
+   
+   //1 bit na pixel, 1 barva (kód 1) + průhlednost
+   POLY1TR = 0xfffe,
+
+   unknown = 0xffff
+}
+
 export class Polyline extends GraphicElement{
     type: number;
     subtype: number;
@@ -311,5 +329,43 @@ export class Polyline extends GraphicElement{
                break;
          }
       }
+   }
+
+   createBitmap(dayOrNight: boolean) {
+      this.bitmapHeight = this.innerWidth + 2 * this.borderWidth;
+      this.options = 0xFF & ((this.options & 0x7) | this.bitmapHeight << 3);
+      if (dayOrNight) {
+         if(this.colDayColor.length > 1) {
+            this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY2, true); 
+         }
+         else {
+            this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY1TR, true); 
+         }
+          
+      } else {
+         if(this.colDayColor.length > 1) {
+            this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY2, false);
+         }
+         else {
+            this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY1TR, false); 
+         }
+      }
+   }
+
+   getDummyXPixMap(bcm: BitmapColorMode, dayOrNight: boolean): PixMap {
+      let pic = new PixMap(32, (this.innerWidth + 2 * this.borderWidth), 2, bcm);
+      if (dayOrNight) {
+         pic.setNewColor(0, this.colDayColor[0]);
+         if (bcm == BitmapColorMode.POLY2) {
+            pic.setNewColor(1, this.colDayColor[1]);
+         } 
+      } else {
+         pic.setNewColor(0, this.colNightColor[0]);
+         if (bcm == BitmapColorMode.POLY2) {
+            pic.setNewColor(1, this.colNightColor[1]);
+         } 
+      }
+
+      return pic;
    }
 }

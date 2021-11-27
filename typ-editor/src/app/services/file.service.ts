@@ -79,6 +79,12 @@ export class FileService {
           this.getPolyline(type, subType).setPolylineType();
           this.getPolyline(type, subType).colDayColor = newItem.bitmapDay.colorTable;
         }
+        else {
+          let tmpPolyline: Polyline = this.getPolyline(type, subType);
+          tmpPolyline.colDayColor = bitmap.getAllColors();
+          tmpPolyline.createBitmap(true);
+          tmpPolyline.setPolylineType();
+        }
         break;
     }
     newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
