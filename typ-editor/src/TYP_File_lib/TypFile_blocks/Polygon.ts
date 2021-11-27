@@ -334,6 +334,9 @@ export class Polygon extends GraphicElement{
             break;
 
          case ColorType.BM_Day1_Night1:
+            // if(this.type == 4 && this.subtype == 0) {
+            //    console.log(this.colDayColor);
+            // }
             BinaryColor.writeColor(writer, this.colDayColor[0]);
             BinaryColor.writeColor(writer, this.colNightColor[0]);
             this.bitmapDay?.writeRawData(writer);

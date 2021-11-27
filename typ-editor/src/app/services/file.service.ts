@@ -50,6 +50,7 @@ export class FileService {
         if(newItem.bitmapDay) { 
           newItem.bitmapDay.colorTable = bitmap.getAllColors();
           this.getPolygone(type, subType).bitmapDay = newItem.bitmapDay;
+          this.getPolygone(type, subType).colDayColor = bitmap.getAllColors();
         }
         else {
           if(bitmap.getAllColors().length == 1) {

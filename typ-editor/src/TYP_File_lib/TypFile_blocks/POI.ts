@@ -155,7 +155,7 @@ export class POI extends GraphicElement{
       writer.writeUint8(this.options);
       this.bitmapDay?.writeAsPoi(writer);
       if (this.withNightXpm)
-         this.bitmapNight?.writeAsPoi(writer);
+         this.bitmapNight?.writeAsPoiNight(writer);
       if (this.withString)
          this.text.write(writer, codepage);
       if (this.withExtendedOptions) {
