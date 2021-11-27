@@ -39,7 +39,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '@ng-matero/extensions';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IconEditorComponent } from './editor/icon-editor/icon-editor.component';
-import { IconEditorOtherComponent } from './editor/icon-editor-other/icon-editor-other.component';
+import { IconEditorDescriptionComponent } from './editor/icon-editor-description/icon-editor-description.component';
 
 
 @NgModule({
@@ -59,7 +59,7 @@ import { IconEditorOtherComponent } from './editor/icon-editor-other/icon-editor
     FileHeaderComponent,
     FileDownloadComponent,
     IconEditorComponent,
-    IconEditorOtherComponent
+    IconEditorDescriptionComponent
   ],
   imports: [
     BrowserModule,

@@ -45,11 +45,11 @@ enum LanguageCode {
 }
 
 @Component({
-  selector: 'app-icon-editor-other',
-  templateUrl: './icon-editor-other.component.html',
-  styleUrls: ['./icon-editor-other.component.css']
+  selector: 'app-icon-editor-description',
+  templateUrl: './icon-editor-description.component.html',
+  styleUrls: ['./icon-editor-description.component.css']
 })
-export class IconEditorOtherComponent implements OnInit {
+export class IconEditorDescriptionComponent implements OnInit {
 
   sub!: Subscription;
   drawableItem!: GraphicElement;
