@@ -2,8 +2,13 @@
     <mat-tab label="Icon editor">
       <app-icon-editor></app-icon-editor>
     </mat-tab>
-    <mat-tab label="Other options"> 
+    <mat-tab label="Description editor"> 
       <app-icon-editor-description></app-icon-editor-description>
+    </mat-tab>
+    <mat-tab label="Raw data"> 
+      <pre>
+        {{drawableItem | json}}
+      </pre>
     </mat-tab>
 </mat-tab-group>
 

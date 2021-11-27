@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from 'src/app/services/file.service';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
+import {MatTable} from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { IconEditorDescriptionFormComponent } from './icon-editor-description-form/icon-editor-description-form.component';
 
 enum LanguageCode {
   unspecified = 0x00,
@@ -44,6 +45,14 @@ enum LanguageCode {
   bulgarian = 0x22
 }
 
+interface Description {
+  position: number;
+  code: number;
+  language: string;
+  description: string;
+
+}
+
 @Component({
   selector: 'app-icon-editor-description',
   templateUrl: './icon-editor-description.component.html',
@@ -58,22 +67,31 @@ export class IconEditorDescriptionComponent implements OnInit {
   typeID: string;
   subTypeID: string;
 
-  descriptionForm: FormGroup;
-  
-  languageList: Array<String>;
+  displayedColumns: Array<string>;
+  dataSource: Array<Description>;
 
-  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private formBuilder: FormBuilder) { 
-    this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
+  tableData: Array<Description>;
+
+  @ViewChild(MatTable) table!: MatTable<Description>;
+
+  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) { 
 
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";
+    this.tableData = new Array();
 
-    this.descriptionForm = this.formBuilder.group({
-      language: [null, [Validators.required]],
-      description: ['', [Validators.required]]
+    this.displayedColumns = ['position', 'code', 'language', 'description', 'delete'];
+    this.dataSource = new Array();
+
+  }
+
+  addData() {
+    this.matDialog.open( IconEditorDescriptionFormComponent, {
+      data: {
+        item: this.drawableItem
+      }
     });
-
   }
 
   ngOnInit(): void {
@@ -98,33 +116,35 @@ export class IconEditorDescriptionComponent implements OnInit {
         }
       }
    });
+
+   this.createTableData();
+   this.dataSource = [...this.tableData];
+
+   this.fileService.notifyObservable$.subscribe(res => {
+    if (res.refresh) {
+       this.updateTableData();
+    }
+  })
   }
 
-  onChange() {
-    const languageKey = LanguageCode[this.descriptionForm.get('language')?.value];
-    const description = this.drawableItem.text.textArr.find(x => x.key === ~~languageKey);
-    this.descriptionForm.get('description')?.setValue(description?.value);
-	}
+  createTableData(): void {
+    this.drawableItem.text.textArr.forEach((item, index) => {
+      this.tableData.push({position: index, code: item.key, language: LanguageCode[item.key], description: item.value});
+    });
+  }
 
-  resetForm(form: FormGroup) {
-		form.reset();
-	}
+  updateTableData(): void {
+    this.tableData.splice(0, this.tableData.length);
+    this.createTableData();
+    this.dataSource = [...this.tableData];
+    this.table.renderRows();
+  }
 
-  onFormSubmit() {
-    if (this.descriptionForm.valid) {
-      const languageKey: number = ~~LanguageCode[this.descriptionForm.get('language')?.value];
-      const description: string = this.descriptionForm.get('description')?.value;
-
-      let tempText: Text = new Text();
-      tempText.setValues(languageKey, description);
-      this.drawableItem.text.set(tempText);
-      this.fileService.updateFile();
-		} else {
-      console.log('invalid');
-      this.resetForm(this.descriptionForm);
-			return;
-		}
-    this.resetForm(this.descriptionForm);
-	}
+  removeItem(itemCode: number): void {
+    console.log(itemCode);
+    this.drawableItem.text.textArr =  this.drawableItem.text.textArr.filter(f => f.key !== itemCode);
+    this.fileService.updateFile();
+    this.updateTableData();
+  }
 
 }

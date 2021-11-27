@@ -18,6 +18,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -40,6 +41,7 @@ import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IconEditorComponent } from './editor/icon-editor/icon-editor.component';
 import { IconEditorDescriptionComponent } from './editor/icon-editor-description/icon-editor-description.component';
+import { IconEditorDescriptionFormComponent } from './editor/icon-editor-description/icon-editor-description-form/icon-editor-description-form.component';
 
 
 @NgModule({
@@ -59,7 +61,8 @@ import { IconEditorDescriptionComponent } from './editor/icon-editor-description
     FileHeaderComponent,
     FileDownloadComponent,
     IconEditorComponent,
-    IconEditorDescriptionComponent
+    IconEditorDescriptionComponent,
+    IconEditorDescriptionFormComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,8 @@ import { IconEditorDescriptionComponent } from './editor/icon-editor-description
     MaterialExtensionsModule,
     MaterialExtensionsExperimentalModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
