@@ -38,16 +38,26 @@ export class Color {
     }
 
     toHex() {
+        let hexCode: string =  "";
         if(this.r == 0) {
-            return '#' + this.r.toString(16) + '0' + this.g.toString(16) + this.b.toString(16);
+            hexCode =  '#' + this.r.toString(16) + '0'; 
+        }
+        else {
+            hexCode = '#' + this.r.toString(16); 
         }
         if(this.g == 0) {
-            return '#' + this.r.toString(16) + this.g.toString(16)+ '0' + this.b.toString(16);
+            hexCode +=  this.g.toString(16)+ '0';
+        }
+        else {
+            hexCode +=  this.g.toString(16);
         }
         if(this.b == 0) {
-            return '#' + this.r.toString(16) + this.g.toString(16) + '0' + this.b.toString(16);
+            hexCode += this.b.toString(16) + '0';
         }
-        return '#' + this.r.toString(16) + this.g.toString(16) + this.b.toString(16);
+        else {
+            hexCode += this.b.toString(16);
+        }
+        return hexCode;
     }
 
     toRgb() {
