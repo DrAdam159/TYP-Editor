@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from 'src/app/services/file.service';
 import { Subscription } from 'rxjs';
-import {MatTable} from '@angular/material/table';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { IconEditorDescriptionFormComponent } from './icon-editor-description-form/icon-editor-description-form.component';
 
@@ -68,7 +68,7 @@ export class IconEditorDescriptionComponent implements OnInit {
   subTypeID: string;
 
   displayedColumns: Array<string>;
-  dataSource: Array<Description>;
+  dataSource!: MatTableDataSource<Description>
 
   tableData: Array<Description>;
 
@@ -82,7 +82,6 @@ export class IconEditorDescriptionComponent implements OnInit {
     this.tableData = new Array();
 
     this.displayedColumns = ['position', 'code', 'language', 'description', 'delete'];
-    this.dataSource = new Array();
 
   }
 
@@ -118,7 +117,7 @@ export class IconEditorDescriptionComponent implements OnInit {
    });
 
    this.createTableData();
-   this.dataSource = [...this.tableData];
+   this.dataSource = new MatTableDataSource([...this.tableData]);
 
    this.fileService.notifyObservable$.subscribe(res => {
     if (res.refresh) {
@@ -136,7 +135,7 @@ export class IconEditorDescriptionComponent implements OnInit {
   updateTableData(): void {
     this.tableData.splice(0, this.tableData.length);
     this.createTableData();
-    this.dataSource = [...this.tableData];
+    this.dataSource = new MatTableDataSource([...this.tableData]);
     this.table.renderRows();
   }
 
@@ -145,6 +144,11 @@ export class IconEditorDescriptionComponent implements OnInit {
     this.drawableItem.text.textArr =  this.drawableItem.text.textArr.filter(f => f.key !== itemCode);
     this.fileService.updateFile();
     this.updateTableData();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }
