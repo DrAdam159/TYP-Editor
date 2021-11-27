@@ -164,7 +164,7 @@ export class PixMap {
               break;
 
            default:
-              throw new Error("Unknown ColorMode for bitmap");
+              throw new Error("Unknown ColorMode for bitmap:" + this.colorMode);
         }
         return iBpp;
     }

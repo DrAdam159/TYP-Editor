@@ -54,8 +54,9 @@ export class PixData {
         let bmp = new Bitmap(this.width, this.height);
         let colDummy = new Color(255,255,255,0);
 
-        if (colorTable != null && colorTable.length > 0) {
-           
+       // if(colorTable != null)
+
+        if (colorTable != null && colorTable[0] != null  && colorTable.length > 0) {
 
             let pixel4byte = 8 / this.bitsPerPixel;
             let bytes4line = this.bytesForBitmapLine(this.width, this.bitsPerPixel);
