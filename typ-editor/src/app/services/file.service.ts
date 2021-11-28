@@ -8,6 +8,7 @@ import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 import { Color } from 'src/TYP_File_lib/Utils/Color';
+import { Type } from 'src/TYP_File_lib/IconTypes/Type';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,52 @@ export class FileService {
     localStorage.setItem('file', this.arrayBufferToBase64(this.typFile.getEncodedBuffer()));
     localStorage.setItem('filename', this.fileName);
     console.log("saving");
+  }
+
+  updateItemDescription(inputValue: string, item: GraphicElement, typeList: Array<Type>, itemType: string): boolean {
+    const parsedInput = inputValue.split(',');
+    switch(itemType) {
+      case 'polyline':
+        if(typeList.find(element => element.description === parsedInput[0])) {
+          item.type = ~~parsedInput[1];
+          if(this.typFile.PolylineList.find(element => element.type === item.type)) {
+            let maxSubType = this.typFile.PolylineList
+            .filter(({type}) => type  === item.type)
+            .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
+            item.subtype = maxSubType +1;
+          }
+          this.updateFile();
+          return true;
+        }
+        break;
+      case 'polygone':
+        if(typeList.find(element => element.description === parsedInput[0])) {
+          item.type = ~~parsedInput[1];
+          if(this.typFile.PolygonList.find(element => element.type === item.type)) {
+            let maxSubType = this.typFile.PolylineList
+            .filter(({type}) => type  === item.type)
+            .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
+            item.subtype = maxSubType +1;
+          }
+          this.updateFile();
+          return true;
+        }
+        break;
+      case 'poi':
+        if(typeList.find(element => element.description === parsedInput[0])) {
+          item.type = ~~parsedInput[1];
+          if(this.typFile.POIList.find(element => element.type === item.type)) {
+            let maxSubType = this.typFile.PolylineList
+            .filter(({type}) => type  === item.type)
+            .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
+            item.subtype = maxSubType +1;
+          }
+          this.updateFile();
+          return true;
+        }
+        break; 
+    }
+    return false;
   }
 
   updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {

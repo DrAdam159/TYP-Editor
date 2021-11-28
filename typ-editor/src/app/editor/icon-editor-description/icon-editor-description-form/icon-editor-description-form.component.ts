@@ -90,8 +90,8 @@ export class IconEditorDescriptionFormComponent implements OnInit {
       this.fileService.updateFile();
       this.refreshAnotherComponent();
 		} else {
-      console.log('invalid');
       this.resetForm(this.descriptionForm);
+      alert('Invalid data!');
 			return;
 		}
     this.resetForm(this.descriptionForm);

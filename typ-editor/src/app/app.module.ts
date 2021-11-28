@@ -19,6 +19,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -42,6 +43,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { IconEditorComponent } from './editor/icon-editor/icon-editor.component';
 import { IconEditorDescriptionComponent } from './editor/icon-editor-description/icon-editor-description.component';
 import { IconEditorDescriptionFormComponent } from './editor/icon-editor-description/icon-editor-description-form/icon-editor-description-form.component';
+import { IconEditorTypeComponent } from './editor/icon-editor-type/icon-editor-type.component';
 
 
 @NgModule({
@@ -62,7 +64,8 @@ import { IconEditorDescriptionFormComponent } from './editor/icon-editor-descrip
     FileDownloadComponent,
     IconEditorComponent,
     IconEditorDescriptionComponent,
-    IconEditorDescriptionFormComponent
+    IconEditorDescriptionFormComponent,
+    IconEditorTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -86,7 +89,8 @@ import { IconEditorDescriptionFormComponent } from './editor/icon-editor-descrip
     MaterialExtensionsExperimentalModule,
     MatInputModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,20 @@
+<br>
+
+<form [formGroup]="descriptionForm" class="example-form" (ngSubmit)="onFormSubmit()">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Type</mat-label>
+      <input matInput
+             aria-label="State"
+             [matAutocomplete]="auto"
+             [formControl]="typeCtrl" formControlName="description">
+      <mat-autocomplete #auto="matAutocomplete" >
+        <mat-option *ngFor="let type of filteredTypes | async" [value]="type.description + ',' + type.type">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
+          <span>{{type.description}}</span> |
+          <small>Code: {{type.type}}</small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary">Save</button>
+  </form>
