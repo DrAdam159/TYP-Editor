@@ -10,6 +10,7 @@ import {map, startWith} from 'rxjs/operators';
 
 import { polylineTypes } from 'src/TYP_File_lib/IconTypes/PolylineTypes';
 import { polygoneTypes } from 'src/TYP_File_lib/IconTypes/PolygoneTypes';
+import { POITypes } from 'src/TYP_File_lib/IconTypes/POITypes';
 import { Type } from 'src/TYP_File_lib/IconTypes/Type';
 
 export interface State {
@@ -33,7 +34,6 @@ export class IconEditorTypeComponent implements OnInit {
   typeID: string;
   subTypeID: string;
 
-  typeCtrl = new FormControl();
   descriptionForm: FormGroup;
 
   filteredTypes: Observable<Type[]>
@@ -70,6 +70,7 @@ export class IconEditorTypeComponent implements OnInit {
             break;
           case 'poi':
             this.drawableItem = this.fileService.getPOI(~~this.typeID, ~~this.subTypeID);
+            this.typeList = POITypes;
             break;
           default:
             new Error("No item type supplied!");
