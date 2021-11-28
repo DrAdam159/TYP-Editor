@@ -7,6 +7,7 @@ import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 import { Color } from 'src/TYP_File_lib/Utils/Color';
+import { saveAs } from "file-saver";
 
 
 @Component({
@@ -706,5 +707,39 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   updateColorPicker(colorVal: string): void {
     this.color = colorVal;
+  }
+
+  drawUnscaledImage(): void {
+    if(this.itemBitmap && this.context) {
+      if(this.context) {
+        this.context.canvas.width = this.itemBitmap.width;
+        this.context.canvas.height = this.itemBitmap.height;
+
+      for(let y = 0; y < this.itemBitmap.height; y++) {
+        for(let x = 0; x < this.itemBitmap.width; x++) {
+          this.context.beginPath();
+          this.context.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
+          this.context.fillRect(x, y, 1, 1);
+          //this.context.fillRect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
+          this.context.stroke();
+        }
+      }
+      }
+    }
+  }
+
+  downloadCanvas(): void {
+    if(!this.context) {
+      return;
+    }
+    this.context.canvas.width = this.itemBitmap.width;
+    this.context.canvas.height = this.itemBitmap.height;
+    this.drawUnscaledImage();
+    let data = this.myCanvas.nativeElement.toBlob(function(blob){
+      if(blob != null) {
+        saveAs(blob, "image.png");
+      }
+    }, 'image/jpeg', 1);
+    this.updateBitmap();
   }
 }

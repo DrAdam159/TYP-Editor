@@ -91,6 +91,10 @@
     Save
   </button>
 
+  <button mat-stroked-button color="primary" (click) = "downloadCanvas()">
+    Download Canvas
+  </button>
+
 <div *ngIf="drawableItem" class="canvas-container">
     <canvas #canvas width="1500" height="600"></canvas>
 </div>
