@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
 import { polylineTypes } from 'src/TYP_File_lib/IconTypes/PolylineTypes';
+import { polygoneTypes } from 'src/TYP_File_lib/IconTypes/PolygoneTypes';
 import { Type } from 'src/TYP_File_lib/IconTypes/Type';
 
 export interface State {
@@ -65,6 +66,7 @@ export class IconEditorTypeComponent implements OnInit {
             break;
           case 'polygone':
             this.drawableItem = this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID);
+            this.typeList = polygoneTypes;
             break;
           case 'poi':
             this.drawableItem = this.fileService.getPOI(~~this.typeID, ~~this.subTypeID);
@@ -72,12 +74,13 @@ export class IconEditorTypeComponent implements OnInit {
           default:
             new Error("No item type supplied!");
         }
-
-        this.filteredTypes = this.typeCtrl.valueChanges.pipe(
-          startWith(''),
-          map(state => (state ? this._filterTypes(state) : this.typeList.slice())),
-        );
-
+        let tmp = this.descriptionForm.get('description');
+        if( tmp !=null ) {
+          this.filteredTypes = tmp.valueChanges.pipe(
+            startWith(''),
+            map(state => (state ? this._filterTypes(state) : this.typeList.slice())),
+          );
+        }
       }
    });
   }

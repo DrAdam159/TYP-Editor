@@ -6,7 +6,7 @@
       <input matInput
              aria-label="State"
              [matAutocomplete]="auto"
-             [formControl]="typeCtrl" formControlName="description">
+             formControlName="description">
       <mat-autocomplete #auto="matAutocomplete" >
         <mat-option *ngFor="let type of filteredTypes | async" [value]="type.description + ',' + type.type">
           <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
