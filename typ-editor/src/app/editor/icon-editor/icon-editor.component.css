@@ -56,6 +56,14 @@ canvas {
     color: #673ab7;
 }
 
+.file-input {
+    display: none;
+  }
+
+#undo_redo_btns {
+    margin-right: 50px;
+  }
+
 
   
 

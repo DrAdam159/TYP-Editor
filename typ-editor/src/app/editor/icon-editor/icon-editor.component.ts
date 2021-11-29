@@ -736,4 +736,29 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }, 'image/jpeg', 1);
     this.updateBitmap();
   }
+
+  handleFileInput(event: any): void {
+    let file: File = event.target.files[0];
+    let img = new Image();
+
+    if (file) {
+      img.onload = () => {
+        this.context?.drawImage(img, 0, 0, this.context.canvas.width, this.context.canvas.height);
+      }
+
+      var reader = new FileReader();
+
+      reader.onload = () => {
+        img.src = reader.result as string;
+        
+      };
+
+      reader.readAsDataURL(file)
+
+      reader.onerror = () => {
+        console.log(reader.error);
+      };
+    }
+    this.drawGrid(this.itemBitmap.width *this.scaleNum, this.itemBitmap.height*this.scaleNum);
+  }
 }

@@ -87,7 +87,7 @@
 
   <div class="item item-3" fxFlex>
     <div *ngIf="drawableItem" class="canvas-container">
-      <canvas #canvas width="1500" height="600"></canvas>
+      <canvas #canvas ></canvas>
     </div>
 
     <div *ngIf="limitColors">
@@ -136,17 +136,26 @@
       <mat-icon >undo</mat-icon>
     </button>
     
-    <button mat-stroked-button color="primary" (click) = "redo()"
+    <button mat-stroked-button color="primary"  id="undo_redo_btns" (click) = "redo()"
     #tooltip="matTooltip" matTooltip="Redo Action" [matTooltipPosition]="'below'" >
       <mat-icon>redo</mat-icon>
     </button>
 
-    <button mat-raised-button color="primary" (click) = "saveChangesToFile()">
-      Save
+    <button mat-raised-button color="primary" (click) = "saveChangesToFile()"
+    #tooltip="matTooltip" matTooltip="Save Changes" [matTooltipPosition]="'below'">
+      <mat-icon >save</mat-icon>
     </button>
+
+    <input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
   
-    <button mat-raised-button color="primary" (click) = "downloadCanvas()">
-      Download
+    <button mat-raised-button color="primary" (click) = "downloadCanvas()"
+    #tooltip="matTooltip" matTooltip="Download Canvas" [matTooltipPosition]="'below'" >
+      <mat-icon >file_download</mat-icon>
+    </button>
+
+    <button mat-raised-button color="primary" (click)="fileUpload.click()"
+    #tooltip="matTooltip" matTooltip="Upload Image" [matTooltipPosition]="'below'">
+      <mat-icon >file_upload</mat-icon>
     </button>
   </div>
 </div>
