@@ -1,100 +1,156 @@
-<div class="tools-container">
-  <mat-button-toggle-group [formControl]="toolOptions" >
-      <mat-button-toggle value="brush" aria-label="Text align left" (click) = "useBrush()">
+<div class="container2"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="0px"
+     fxLayoutGap.xs="0"
+>
+  <div class="item item-1" fxFlex="10%">
+
+    <mat-button-toggle-group [formControl]="toolOptions" vertical >
+      <mat-button-toggle value="brush" aria-label="Text align left" (click) = "useBrush()"
+      #tooltip="matTooltip" matTooltip="Brush" [matTooltipPosition]="'right'" >
         <mat-icon>brush</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="line" aria-label="Text align center" (click) = "useLine()">
+      <mat-button-toggle value="line" aria-label="Text align center" (click) = "useLine()"
+      #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
         <mat-icon>minimize</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="fill" aria-label="Text align right" (click) = "useFill()">
+      <mat-button-toggle value="fill" aria-label="Text align right" (click) = "useFill()"
+      #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'" >
         <mat-icon>format_color_fill</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()">
+      <mat-button-toggle value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()"
+      #tooltip="matTooltip" matTooltip="Filled Rectangle" [matTooltipPosition]="'right'" >
         <mat-icon>rectangle</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="rectangle" aria-label="Text align right" (click) = "useRectangle()">
+      <mat-button-toggle value="rectangle" aria-label="Text align right" (click) = "useRectangle()"
+      #tooltip="matTooltip" matTooltip="Rectangle" [matTooltipPosition]="'right'" >
         <mat-icon>crop_square</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()">
+      <mat-button-toggle value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()"
+      #tooltip="matTooltip" matTooltip="Filled Circle" [matTooltipPosition]="'right'" >
         <mat-icon>circle</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="circle" aria-label="Text align right" (click) = "useCircle()">
+      <mat-button-toggle value="circle" aria-label="Text align right" (click) = "useCircle()"
+      #tooltip="matTooltip" matTooltip="Circle" [matTooltipPosition]="'right'" >
         <mat-icon>radio_button_unchecked</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="flip vertically" aria-label="Text align right" (click) = "flipVertically()">
+      <mat-button-toggle value="flip vertically" aria-label="Text align right" (click) = "flipVertically()"
+      #tooltip="matTooltip" matTooltip="Flip Vertically" [matTooltipPosition]="'right'" >
         <mat-icon>swap_vert</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()">
+      <mat-button-toggle value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()"
+      #tooltip="matTooltip" matTooltip="Flip Horizontally" [matTooltipPosition]="'right'" >
         <mat-icon>swap_horiz</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="rotate left" aria-label="Text align right" (click) = "rotateLeft()">
+      <mat-button-toggle value="rotate left" aria-label="Text align right" (click) = "rotateLeft()"
+      #tooltip="matTooltip" matTooltip="Rotate Left" [matTooltipPosition]="'right'" >
         <mat-icon>rotate_left</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()">
+      <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()"
+      #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'" >
         <mat-icon>colorize</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="eraser" aria-label="Text align right" (click) = "erase()">
+      <mat-button-toggle value="eraser" aria-label="Text align right" (click) = "erase()"
+      #tooltip="matTooltip" matTooltip="Erase" [matTooltipPosition]="'right'" >
         <mat-icon>auto_fix_high</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()">
+      <mat-button-toggle value="inverse" aria-label="Text align right" (click) = "inverseColors()"
+      #tooltip="matTooltip" matTooltip="Invert Colors" [matTooltipPosition]="'right'" >
+        <mat-icon>invert_colors</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="limit" aria-label="Text align right" [matMenuTriggerFor]="menu"
+      #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'" >
+        <mat-icon>palette</mat-icon>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click) = "findNearestColor('Garmin16')">
+            <mat-icon>color_lens</mat-icon>
+            <span>Garmin 16</span>
+          </button>
+          <button mat-menu-item (click) = "findNearestColor('Garmin64')">
+            <mat-icon>color_lens</mat-icon>
+            <span>Garmin 64</span>
+          </button>
+          <button mat-menu-item (click) = "findNearestColor('Garmin256')">
+            <mat-icon>color_lens</mat-icon>
+            <span>Garmin 256</span>
+          </button>
+        </mat-menu>
+      </mat-button-toggle>
+      <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()"
+      #tooltip="matTooltip" matTooltip="No Tool" [matTooltipPosition]="'right'" >
         <mat-icon>cancel</mat-icon>
       </mat-button-toggle>
     </mat-button-toggle-group>
-    <div>Selected tool: {{toolOptions.value}}</div>
-</div>
-
-  <br>
-
-  <button mat-stroked-button color="primary" (click) = "undo()">
-    <mat-icon>undo</mat-icon>
-  </button>
-  
-  <button mat-stroked-button color="primary" (click) = "redo()">
-    <mat-icon>redo</mat-icon>
-  </button>
-
-  <br>
-  <br>
-  
-  <mat-form-field>
-    <mat-label>Color picker</mat-label>
-    <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
-    </mtx-color-picker>
-    <mat-icon matSuffix>palette</mat-icon>
-    <mat-hint>Choose your favorite color</mat-hint>
-    <mat-error>Please enter the color</mat-error>
-  </mat-form-field>
-
-  <div *ngIf="limitColors">
-    <mat-button-toggle-group [formControl]="colorOptions">
-      <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
-    </mat-button-toggle-group>
-    <div>Selected color: {{colorOptions.value}}</div>
   </div>
-  
 
-  <br>
-  <br>
+  <div class="item item-3" fxFlex>
+    <div *ngIf="drawableItem" class="canvas-container">
+      <canvas #canvas width="1500" height="600"></canvas>
+    </div>
 
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle (click) = "findNearestColor('Garmin256')">Garmin 256</mat-button-toggle>
-    <mat-button-toggle (click) = "findNearestColor('Garmin64')" >Garmin 64</mat-button-toggle>
-    <mat-button-toggle (click) = "findNearestColor('Garmin16')">Garmin 16</mat-button-toggle>
-  </mat-button-toggle-group>
-<br>
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle (click) = "inverseColors()">Inverse colors</mat-button-toggle>
-  </mat-button-toggle-group>
+    <div *ngIf="limitColors">
+      <mat-button-toggle-group [formControl]="colorOptions">
+        <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
+      </mat-button-toggle-group>
+      <div>Selected color: {{colorOptions.value}}</div>
+    </div>
+  </div>
 
-  <br>
-  <button mat-stroked-button color="primary" (click) = "saveChangesToFile()">
-    Save
-  </button>
-
-  <button mat-stroked-button color="primary" (click) = "downloadCanvas()">
-    Download Canvas
-  </button>
-
-<div *ngIf="drawableItem" class="canvas-container">
-    <canvas #canvas width="1500" height="600"></canvas>
+  <div class="item item-2 color-picker-col" fxFlex="20%" >
+    <mat-form-field>
+      <mat-label>Color picker</mat-label>
+      <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
+      </mtx-color-picker>
+      <mat-icon matSuffix color="primary">palette</mat-icon>
+      <mat-hint>Choose your favorite color</mat-hint>
+      <mat-error>Please enter the color</mat-error>
+    </mat-form-field>
+  </div>
 </div>
+
+
+<div class="container"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="0px"
+     fxLayoutGap.xs="0"
+>
+  <div class="item item-5" fxFlex fxFlexOffset.xs="0"> 
+    <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
+      <mat-icon color="primary">settings</mat-icon>
+    </button>
+    <mat-menu #menu2="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Dark theme</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div class="item item-4" fxFlex="90%"  fxFlexOffset.xs="0">
+
+    <button mat-stroked-button color="primary" (click) = "undo()"
+    #tooltip="matTooltip" matTooltip="Undo Action" [matTooltipPosition]="'below'" >
+      <mat-icon >undo</mat-icon>
+    </button>
+    
+    <button mat-stroked-button color="primary" (click) = "redo()"
+    #tooltip="matTooltip" matTooltip="Redo Action" [matTooltipPosition]="'below'" >
+      <mat-icon>redo</mat-icon>
+    </button>
+
+    <button mat-raised-button color="primary" (click) = "saveChangesToFile()">
+      Save
+    </button>
+  
+    <button mat-raised-button color="primary" (click) = "downloadCanvas()">
+      Download
+    </button>
+  </div>
+</div>
+
+
+
+

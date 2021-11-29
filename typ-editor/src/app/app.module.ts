@@ -20,6 +20,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatMenuModule} from '@angular/material/menu';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -37,6 +39,8 @@ import { FileDownloadComponent } from './file-download/file-download.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '@ng-matero/extensions';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -90,7 +94,10 @@ import { IconEditorTypeComponent } from './editor/icon-editor-type/icon-editor-t
     MatInputModule,
     MatSelectModule,
     MatTableModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    FlexLayoutModule,
+    MatTooltipModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -715,25 +715,19 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         this.context.canvas.width = this.itemBitmap.width;
         this.context.canvas.height = this.itemBitmap.height;
 
-      for(let y = 0; y < this.itemBitmap.height; y++) {
-        for(let x = 0; x < this.itemBitmap.width; x++) {
-          this.context.beginPath();
-          this.context.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
-          this.context.fillRect(x, y, 1, 1);
-          //this.context.fillRect(x *this.scaleNum, y *this.scaleNum, this.scaleNum, this.scaleNum);
-          this.context.stroke();
+        for(let y = 0; y < this.itemBitmap.height; y++) {
+          for(let x = 0; x < this.itemBitmap.width; x++) {
+            this.context.beginPath();
+            this.context.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
+            this.context.fillRect(x, y, 1, 1);
+            this.context.stroke();
+          }
         }
-      }
       }
     }
   }
 
   downloadCanvas(): void {
-    if(!this.context) {
-      return;
-    }
-    this.context.canvas.width = this.itemBitmap.width;
-    this.context.canvas.height = this.itemBitmap.height;
     this.drawUnscaledImage();
     let data = this.myCanvas.nativeElement.toBlob(function(blob){
       if(blob != null) {

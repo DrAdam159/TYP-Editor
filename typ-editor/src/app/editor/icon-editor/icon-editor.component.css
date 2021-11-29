@@ -2,15 +2,61 @@ canvas {
     cursor: crosshair;
 }
 
-.canvas-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+.container {
+    margin: 0px;
+ } 
 
-.tools-container {
-    position:relative;
+.container2 {
+   /* margin: 10px;*/
+   margin-top: 10px;
+}
+  
+.item {
+    color: #ffffff;
+    padding: 1em 1em;
+    text-transform: uppercase;
+}
+  
+.item-1 {
+    background-color: #f3f1f5;
     text-align:center;
 }
+
+.item-2 {
+    background-color: #f3f1f5;
+    text-align:right;
+}
+
+.item-3 {
+    background-color: #979598;
+    text-align:center;
+}
+
+.item-4 {
+    background-color: #f3f1f5;
+    text-align:right;
+}
+
+.item-5 {
+    background-color: #f3f1f5;
+    text-align:center;
+}
+
+.item-4 button {
+    padding: 7px;
+    margin: 5px;
+}
+
+.mat-button-toggle{
+    background-color: transparent;
+    color: #673ab7;
+}
+
+.color-picker-col {
+    color: #673ab7;
+}
+
+
+  
 
 
