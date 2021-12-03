@@ -48,6 +48,7 @@ import { IconEditorComponent } from './editor/icon-editor/icon-editor.component'
 import { IconEditorDescriptionComponent } from './editor/icon-editor-description/icon-editor-description.component';
 import { IconEditorDescriptionFormComponent } from './editor/icon-editor-description/icon-editor-description-form/icon-editor-description-form.component';
 import { IconEditorTypeComponent } from './editor/icon-editor-type/icon-editor-type.component';
+import { NavComponent } from './nav/nav.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { IconEditorTypeComponent } from './editor/icon-editor-type/icon-editor-t
     IconEditorComponent,
     IconEditorDescriptionComponent,
     IconEditorDescriptionFormComponent,
-    IconEditorTypeComponent
+    IconEditorTypeComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
