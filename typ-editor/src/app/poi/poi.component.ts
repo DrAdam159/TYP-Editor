@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { POI } from 'src/TYP_File_lib/TypFile_blocks/POI';
-import { PoiDetailComponent } from '../poi-detail/poi-detail.component';
 import { FileService } from '../services/file.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class PoiComponent implements OnInit {
 
   poiList!: Array<POI>;
 
-  constructor(private fileService: FileService, private matDialog: MatDialog) { 
+  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
    if(this.fileService.getPOIList()) {
       this.poiList = this.fileService.getPOIList();
     }
@@ -22,12 +22,8 @@ export class PoiComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openPOIDetail(poiItem: POI): void {
-    this.matDialog.open( PoiDetailComponent, {
-      data: {
-        poi: poiItem
-      }
-    });
+  openEditor(poiItem: POI): void {
+    this.router.navigate(['editor',"poi", poiItem.type, poiItem.subtype ]);
   }
 
 }

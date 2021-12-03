@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
+import { Router } from '@angular/router';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
-import { PolylineDetailComponent } from '../polyline-detail/polyline-detail.component';
 import { FileService } from '../services/file.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class PolylineComponent implements OnInit {
 
   polylineList!: Array<Polyline>;
 
-  constructor(private fileService: FileService, private matDialog: MatDialog) { 
+  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
     if(this.fileService.getPOIList()) {
       this.polylineList = this.fileService.getPolylineList();
     }
@@ -28,11 +27,7 @@ export class PolylineComponent implements OnInit {
    })
   }
 
-  openPolylineDetail(polylineItem: Polyline): void {
-    this.matDialog.open(PolylineDetailComponent, {
-      data: {
-        polyline: polylineItem
-      }
-    });
+  openEditor(polylineItem: Polyline): void {
+    this.router.navigate(['editor',"polyline", polylineItem.type, polylineItem.subtype ]);
   }
 }

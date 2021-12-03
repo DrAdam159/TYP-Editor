@@ -25,11 +25,8 @@ import {MatMenuModule} from '@angular/material/menu';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
-import { PolylineDetailComponent } from './polyline-detail/polyline-detail.component';
 import { PoiComponent } from './poi/poi.component';
-import { PoiDetailComponent } from './poi-detail/poi-detail.component';
 import { PolygoneComponent } from './polygone/polygone.component';
-import { PolygoneDetailComponent } from './polygone-detail/polygone-detail.component';
 import { EditorComponent } from './editor/editor.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -57,11 +54,8 @@ import { NavComponent } from './nav/nav.component';
     FileUploadComponent,
     PolylineComponent,
     MainPageComponent,
-    PolylineDetailComponent,
     PoiComponent,
-    PoiDetailComponent,
     PolygoneComponent,
-    PolygoneDetailComponent,
     EditorComponent,
     MainNavComponent,
     BitmapCanvasComponent,
