@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { FileService } from '../services/file.service';
 
@@ -16,7 +17,7 @@ export class FileUploadComponent implements OnInit {
 
   @Output() fileLoadedEvent: EventEmitter<TypFile>;
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService, private router: Router) {
     this.fileLoadedEvent = new EventEmitter<TypFile>();
     //this.fileToUpload = null;
 
@@ -47,6 +48,7 @@ export class FileUploadComponent implements OnInit {
         this.typFile = new TypFile(view);
         this.fileService.setFile(this.typFile, this.fileName, buffer);
         this.refreshAnotherComponent();
+        this.router.navigate(['']);
       };
 
       reader.onerror = () => {
