@@ -1,9 +1,10 @@
 <input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
 
  <div class="file-upload">
-    {{fileName || "No file uploaded yet."}}
-     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="fileUpload.click()">
-         <mat-icon>attach_file</mat-icon>
+     <button mat-flat-button  color="primary" class="example-icon btn" aria-label="Example icon-button with share icon" (click)="fileUpload.click()">
+        <mat-icon>file_upload</mat-icon>
+        <!-- {{fileName || "Upload File"}} -->
+        Upload File
      </button> 
  </div>
 

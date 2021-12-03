@@ -7,10 +7,15 @@
     margin: 10px 40px;
   }
 
-  .upload-btn {
-    background: rgb(103, 58, 183);
-    margin: 10px;
-  }
+  .btn {
+    color: white;
+    border: 1px;
+    border-radius: 15px;
+    border-style: solid;
+    
+    border-color: white;
+    height: 3em;
+}
 
   .white-icon {
     color: white;

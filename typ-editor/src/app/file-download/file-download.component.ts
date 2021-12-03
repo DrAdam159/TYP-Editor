@@ -10,13 +10,16 @@ import { FileService } from '../services/file.service';
 export class FileDownloadComponent implements OnInit {
 
   isLoaded: boolean;
+  fileName: string;
 
   constructor(private fileService: FileService) { 
     if(this.fileService.getFile().isEmpty()){
       this.isLoaded = false;
+      this.fileName = '';
     }
     else {
       this.isLoaded = true;
+      this.fileName = this.fileService.getFileName();
     }
   }
 
@@ -24,6 +27,7 @@ export class FileDownloadComponent implements OnInit {
     this.fileService.notifyObservable$.subscribe(res => {
       if (res.refresh) {
         this.isLoaded = true;
+        this.fileName = this.fileService.getFileName();
       }
    })
   }
