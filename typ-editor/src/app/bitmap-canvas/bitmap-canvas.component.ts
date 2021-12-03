@@ -20,17 +20,19 @@ export class BitmapCanvasComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.myCanvas.nativeElement.getContext('2d');
-
     if(this.context) {
-      let bmp = this.drawableItem.asBitmap(true);
-      this.context.canvas.width = bmp.width *this.scaleValue;
-      this.context.canvas.height = bmp.height *this.scaleValue;
+      const bmp = this.drawableItem.asBitmap(true);
+      this.context.canvas.width = bmp.width * this.scaleValue;
+      this.context.canvas.height = bmp.height * this.scaleValue;
 
-      createImageBitmap(bmp.getImageData()).then((imgBitmap) => {
-        if(this.context) {
-          this.context.drawImage(imgBitmap, 0, 0, bmp.width * 10, bmp.height * 10);
+      for(let y = 0; y < bmp.height; y++) {
+        for(let x = 0; x < bmp.width; x++) {
+          this.context.beginPath();
+          this.context.fillStyle =  bmp.getPixelColor(x, y).toRgba();
+          this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
         }
-    });
+      }
     }
   }
 
