@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, ViewChild, Input } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 
 @Component({
@@ -6,7 +6,7 @@ import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlock
   templateUrl: './bitmap-canvas.component.html',
   styleUrls: ['./bitmap-canvas.component.css']
 })
-export class BitmapCanvasComponent implements AfterViewInit {
+export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
 
   @Input() drawableItem!: GraphicElement;
   @Input() scaleValue!: number;
@@ -18,7 +18,19 @@ export class BitmapCanvasComponent implements AfterViewInit {
 
   constructor() { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['scaleValue'].previousValue != undefined) {
+      if(changes['scaleValue'].currentValue != changes['scaleValue'].previousValue) {
+        this.drawIcon();
+      }
+    }
+  }
+
   ngAfterViewInit(): void {
+    this.drawIcon();
+  }
+
+  drawIcon(): void {
     this.context = this.myCanvas.nativeElement.getContext('2d');
     if(this.context) {
       const bmp = this.drawableItem.asBitmap(true);
@@ -35,5 +47,6 @@ export class BitmapCanvasComponent implements AfterViewInit {
       }
     }
   }
+
 
 }

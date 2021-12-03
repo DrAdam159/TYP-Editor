@@ -7,3 +7,7 @@ mat-grid-tile {
 mat-grid-list {
     margin: 10px;
 }
+
+mat-slider {
+    width: 300px;
+}

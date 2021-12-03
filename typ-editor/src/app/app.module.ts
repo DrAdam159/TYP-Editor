@@ -22,6 +22,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSliderModule} from '@angular/material/slider';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -93,7 +94,8 @@ import { NavComponent } from './nav/nav.component';
     MatAutocompleteModule,
     FlexLayoutModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
