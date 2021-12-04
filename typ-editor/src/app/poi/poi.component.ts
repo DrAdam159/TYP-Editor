@@ -19,7 +19,7 @@ export class PoiComponent implements OnInit {
    if(this.fileService.getPOIList()) {
       this.poiList = this.fileService.getPOIList();
     }
-    this.scaleValue = 5;
+    this.scaleValue = 8;
     this.gridCols = 5
   }
 
@@ -38,7 +38,10 @@ export class PoiComponent implements OnInit {
   }
 
   updateGrid(): void {
-    if (this.scaleValue <= 10) {
+    if (this.scaleValue >= 0 && this.scaleValue <= 5) {
+      this.gridCols = 6;
+    }
+    if (this.scaleValue > 5 && this.scaleValue <= 10) {
       this.gridCols = 5;
     }
     if(this.scaleValue > 10 && this.scaleValue <= 20) {

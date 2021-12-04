@@ -11,3 +11,13 @@ mat-grid-list {
 mat-slider {
     width: 300px;
 }
+
+.item {
+    color: #ffffff;
+    padding: 1em 1em;
+    text-transform: uppercase;
+}
+
+.item-4 {
+    text-align:right;
+}

@@ -1,14 +1,25 @@
-<mat-slider
-    thumbLabel
-    (click)="updateGrid()"
-    [displayWith]="formatLabel"
-    tickInterval="1000"
-    step="5"
-    min="5"
-    max="50"
-    [(ngModel)]="scaleValue"
-    aria-label="units">
-</mat-slider>
+<div class="container"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="0px"
+     fxLayoutGap.xs="0"
+>
+    <div class="item item-4" fxFlex="100%"  fxFlexOffset.xs="0">
+        <mat-slider
+            thumbLabel
+            (click)="updateGrid()"
+            [displayWith]="formatLabel"
+            tickInterval="1000"
+            step="1"
+            min="5"
+            max="50"
+            [(ngModel)]="scaleValue"
+            color="primary"
+            aria-label="units">
+        </mat-slider>
+    </div>
+</div>
 <mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
     <mat-grid-tile *ngFor="let polyline of polylineList" (click)="openEditor(polyline)">
         <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="scaleValue"></app-bitmap-canvas>

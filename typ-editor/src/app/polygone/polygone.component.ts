@@ -19,7 +19,7 @@ export class PolygoneComponent implements OnInit {
     if(this.fileService.getPOIList()) {
       this.polygoneList = this.fileService.getPolygoneList();
     }
-    this.scaleValue = 5;
+    this.scaleValue = 8;
     this.gridCols = 5
   }
 
