@@ -743,7 +743,20 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
     if (file) {
       img.onload = () => {
-        this.context?.drawImage(img, 0, 0, this.context.canvas.width, this.context.canvas.height);
+        this.context?.drawImage(img, 0, 0);
+        const imgData =  this.context?.getImageData(0, 0, img.width, img.height).data;
+    
+        if(imgData) {
+          this.itemBitmap.pixelArr = imgData;
+          this.drawBitmapWithGrid();
+          if(this.limitColors) {
+            this.colors.splice(0, this.colors.length);
+            this.itemBitmap.getAllColors().forEach((col, index) => {
+              console.log(col);
+              //this.colors.push(col.toHex());
+            });
+          }
+        }
       }
 
       var reader = new FileReader();
@@ -759,6 +772,5 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         console.log(reader.error);
       };
     }
-    this.drawGrid(this.itemBitmap.width *this.scaleNum, this.itemBitmap.height*this.scaleNum);
   }
 }
