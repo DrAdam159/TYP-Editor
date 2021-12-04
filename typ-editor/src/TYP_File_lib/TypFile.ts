@@ -87,7 +87,7 @@ export class TypFile {
                 this.PolygonTableItems.push(new TableItem(reader, this.header.PolygoneTableBlock.recordSize));
             }
 
-            //nacteni draworder informaci - dodelat
+            //nacteni draworder informaci
             this.PolygonDraworderTableItems = new Array();
             reader.seek(this.header.PolygoneDraworderTableBlock.offset);
             let blockLen = this.header.PolygoneDraworderTableBlock.length;

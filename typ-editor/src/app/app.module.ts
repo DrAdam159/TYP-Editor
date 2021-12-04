@@ -23,6 +23,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSliderModule} from '@angular/material/slider';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -47,6 +48,7 @@ import { IconEditorDescriptionComponent } from './editor/icon-editor-description
 import { IconEditorDescriptionFormComponent } from './editor/icon-editor-description/icon-editor-description-form/icon-editor-description-form.component';
 import { IconEditorTypeComponent } from './editor/icon-editor-type/icon-editor-type.component';
 import { NavComponent } from './nav/nav.component';
+import { PolygoneDraworderSortComponent } from './polygone-draworder-sort/polygone-draworder-sort.component';
 
 
 @NgModule({
@@ -66,7 +68,8 @@ import { NavComponent } from './nav/nav.component';
     IconEditorDescriptionComponent,
     IconEditorDescriptionFormComponent,
     IconEditorTypeComponent,
-    NavComponent
+    NavComponent,
+    PolygoneDraworderSortComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,8 @@ import { NavComponent } from './nav/nav.component';
     FlexLayoutModule,
     MatTooltipModule,
     MatMenuModule,
-    MatSliderModule
+    MatSliderModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

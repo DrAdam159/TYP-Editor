@@ -54,5 +54,4 @@ export class PolygoneComponent implements OnInit {
       this.gridCols = 1;
     }
   }
-
 }
