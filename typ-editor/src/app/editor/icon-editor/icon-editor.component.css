@@ -58,7 +58,12 @@ canvas {
 
 .file-input {
     display: none;
-  }
+}
+
+.color-limit {
+    padding: 10px;
+    text-align:center;
+}
 
 #undo_redo_btns {
     margin-right: 50px;
