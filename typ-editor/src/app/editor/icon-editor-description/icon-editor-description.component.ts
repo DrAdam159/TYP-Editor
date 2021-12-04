@@ -81,14 +81,16 @@ export class IconEditorDescriptionComponent implements OnInit {
     this.subTypeID = "";
     this.tableData = new Array();
 
-    this.displayedColumns = ['position', 'code', 'language', 'description', 'delete'];
+    this.displayedColumns = ['position', 'code', 'language', 'description', 'delete', 'edit'];
 
   }
 
   addData() {
     this.matDialog.open( IconEditorDescriptionFormComponent, {
       data: {
-        item: this.drawableItem
+        item: this.drawableItem,
+        itemCode: 0,
+        limit: false
       }
     });
   }
@@ -140,7 +142,6 @@ export class IconEditorDescriptionComponent implements OnInit {
   }
 
   removeItem(itemCode: number): void {
-    console.log(itemCode);
     this.drawableItem.text.textArr =  this.drawableItem.text.textArr.filter(f => f.key !== itemCode);
     this.fileService.updateFile();
     this.updateTableData();
@@ -149,6 +150,16 @@ export class IconEditorDescriptionComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  editItem(itemCode: number): void {
+    this.matDialog.open( IconEditorDescriptionFormComponent, {
+      data: {
+        item: this.drawableItem,
+        itemCode: itemCode,
+        limit: true
+      }
+    });
   }
 
 }

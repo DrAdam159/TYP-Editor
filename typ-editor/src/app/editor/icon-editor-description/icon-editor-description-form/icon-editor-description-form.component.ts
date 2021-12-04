@@ -52,13 +52,30 @@ export class IconEditorDescriptionFormComponent implements OnInit {
 
   drawableItem: GraphicElement;
 
+  itemCode: number;
+
+  limit: boolean;
+
   descriptionForm: FormGroup;
 
   languageList: Array<String>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: {item: GraphicElement}, private formBuilder: FormBuilder, private fileService: FileService) {
+  constructor(@Inject(MAT_DIALOG_DATA) private data: {item: GraphicElement, itemCode: number, limit: boolean}, private formBuilder: FormBuilder, private fileService: FileService) {
     this.drawableItem = data.item;
-    this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
+    this.itemCode = data.itemCode;
+    this.limit = data.limit;
+    this.languageList = new Array();
+
+    if(this.limit) {
+      this.languageList.push(LanguageCode[this.itemCode]);
+    }
+    else {
+      this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
+      this.drawableItem.text.textArr.forEach((loc, index) => {
+        this.languageList = this.languageList.filter(value => value != LanguageCode[loc.key])
+      })
+    }
+    
 
     this.descriptionForm = this.formBuilder.group({
       language: [null, [Validators.required]],
