@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FileService } from 'src/app/services/file.service';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
@@ -38,7 +38,7 @@ export class IconEditorTypeComponent implements OnInit {
 
   filteredTypes: Observable<Type[]>
 
-  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private formBuilder: FormBuilder) { 
+  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) { 
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";
@@ -97,6 +97,9 @@ export class IconEditorTypeComponent implements OnInit {
       let inputValue: string = this.descriptionForm.get('description')?.value;
       if(!this.fileService.updateItemDescription(inputValue, this.drawableItem, this.typeList, this.itemType)) {
         alert('Invalid data!');
+      }
+      else {
+        this.router.navigate(['']);
       }
     }
     else {
