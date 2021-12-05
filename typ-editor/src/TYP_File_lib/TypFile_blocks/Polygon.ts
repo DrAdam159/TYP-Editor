@@ -293,6 +293,42 @@ export class Polygon extends GraphicElement{
       return pic;
     }
 
+   updateColorType() {
+      if(this.bitmapDay) {
+         switch(this.bitmapDay.colorTable.length) {
+            case 1:
+               this.colorType = ColorType.BM_Day1;
+               this.bitmapDay.colorMode = BitmapColorMode.POLY1TR;
+               if(this.bitmapNight) {
+                  switch(this.bitmapNight.colorTable.length) {
+                     case 1:
+                        this.colorType = ColorType.BM_Day1_Night1;
+                        break;
+                     case 2:
+                        this.colorType = ColorType.BM_Day1_Night2;
+                        break;
+                  }
+               }
+               break;
+            case 2:
+               this.colorType = ColorType.BM_Day2;
+               this.bitmapDay.colorMode = BitmapColorMode.POLY2;
+               if(this.bitmapNight) {
+                  switch(this.bitmapNight.colorTable.length) {
+                     case 1:
+                        this.colorType = ColorType.BM_Day2_Night1;
+                        break;
+                     case 2:
+                        this.colorType = ColorType.BM_Day2_Night2;
+                        break;
+                  }
+               }
+               break;
+         }
+         this.options = 0xFF & ((this.options & 0xF0) | this.colorType);
+      }
+   }
+
    write(writer: BinReaderWriter, codePage: number): void {
       writer.writeUint8(this.options);
       switch (this.colorType) {
@@ -311,9 +347,11 @@ export class Polygon extends GraphicElement{
             break;
 
          case ColorType.BM_Day2_Night2:
-            BinaryColor.writeColorTable(writer, this.colDayColor);
-            BinaryColor.writeColorTable(writer, this.colNightColor);
-            this.bitmapDay?.writeRawData(writer);
+               if(this.bitmapDay && this.bitmapNight) {
+                  BinaryColor.writeColorTable(writer, /*this.colDayColor*/ this.bitmapDay.colorTable);
+                  BinaryColor.writeColorTable(writer, /*this.colNightColor*/ this.bitmapNight.colorTable);
+                  this.bitmapDay?.writeRawData(writer);
+               }
             break;
 
          case ColorType.BM_Day1_Night2:
@@ -323,21 +361,27 @@ export class Polygon extends GraphicElement{
             break;
 
          case ColorType.BM_Day2_Night1:
-            BinaryColor.writeColorTable(writer, this.colDayColor);
-            BinaryColor.writeColor(writer, this.colNightColor[0]);
-            this.bitmapDay?.writeRawData(writer);
+            if(this.bitmapDay) {
+               BinaryColor.writeColorTable(writer, this.bitmapDay.colorTable);
+               BinaryColor.writeColor(writer, this.colNightColor[0]);
+               this.bitmapDay.writeRawData(writer);  
+            }
             break;
 
          case ColorType.BM_Day1:
-            BinaryColor.writeColor(writer, this.colDayColor[0]);
-            this.bitmapDay?.writeRawData(writer);
+            if(this.bitmapDay) { 
+               BinaryColor.writeColor(writer, this.bitmapDay.colorTable[0]);
+               this.bitmapDay.writeRawData(writer);
+            }
             break;
 
          case ColorType.BM_Day1_Night1:
             // if(this.type == 4 && this.subtype == 0) {
             //    console.log(this.colDayColor);
             // }
-            BinaryColor.writeColor(writer, this.colDayColor[0]);
+            if(this.bitmapDay) {
+               BinaryColor.writeColor(writer, this.bitmapDay.colorTable[0]);
+            }
             BinaryColor.writeColor(writer, this.colNightColor[0]);
             this.bitmapDay?.writeRawData(writer);
             break;
