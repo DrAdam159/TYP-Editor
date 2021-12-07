@@ -733,7 +733,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       if(blob != null) {
         saveAs(blob, "image.png");
       }
-    }, 'image/jpeg', 1);
+    }, 'image/png', 1);
     this.updateBitmap();
   }
 
@@ -752,8 +752,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           if(this.limitColors) {
             this.colors.splice(0, this.colors.length);
             this.itemBitmap.getAllColors().forEach((col, index) => {
-              console.log(col);
-              //this.colors.push(col.toHex());
+              this.colors.push(col.toHex());
             });
           }
         }
