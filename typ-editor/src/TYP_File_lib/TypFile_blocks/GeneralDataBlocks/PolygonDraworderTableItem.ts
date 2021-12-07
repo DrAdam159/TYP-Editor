@@ -14,7 +14,7 @@ export class PolygonDraworderTableItem {
          this.type = reader.readUint8();
          len--;
 
-         for (let b = 0; b < length; b++) {          // Přečíst všechny (4) bajty pro podtypy 0x00 ... 0x1F
+         for (let b = 0; b < len; b++) {          // Přečíst všechny (4) bajty pro podtypy 0x00 ... 0x1F
             let bv = reader.readUint8();
             let mask = 0x01;
             for (let bit = 0; bit < 8; bit++) {
