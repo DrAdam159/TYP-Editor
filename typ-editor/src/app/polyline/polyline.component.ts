@@ -14,13 +14,15 @@ export class PolylineComponent implements OnInit {
   polylineList!: Array<Polyline>;
   scaleValue: number;
   gridCols: number;
+  bitmapScale: number;
 
   constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
     if(this.fileService.getPOIList()) {
       this.polylineList = this.fileService.getPolylineList();
     }
-    this.scaleValue = 5;
-    this.gridCols = 5
+    this.scaleValue = 40;
+    this.gridCols = (3 / this.scaleValue * 100) | 0;
+    this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
   }
 
   ngOnInit(): void {
@@ -43,20 +45,7 @@ export class PolylineComponent implements OnInit {
   }
 
   updateGrid(): void {
-    if (this.scaleValue <= 10) {
-      this.gridCols = 5;
-    }
-    if(this.scaleValue > 10 && this.scaleValue <= 20) {
-      this.gridCols = 4;
-    }
-    if(this.scaleValue > 20 && this.scaleValue <= 30) {
-      this.gridCols = 3;
-    }
-    if(this.scaleValue > 30 && this.scaleValue <= 40) {
-      this.gridCols = 2;
-    }
-    if (this.scaleValue > 40) {
-      this.gridCols = 1;
-    }
+    this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
+    this.gridCols = (3 / this.scaleValue * 100) | 0;
   }
 }
