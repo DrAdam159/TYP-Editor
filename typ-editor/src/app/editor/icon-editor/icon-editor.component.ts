@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from 'src/app/services/file.service';
@@ -16,6 +16,8 @@ import { saveAs } from "file-saver";
   styleUrls: ['./icon-editor.component.css']
 })
 export class IconEditorComponent implements OnInit, AfterViewInit {
+
+  @Input() iconType: string;
 
   drawableItem!: GraphicElement;
   //prave vykreslena bitmapa
@@ -66,6 +68,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   colorOptions: FormControl;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
+    this.iconType = "Day";
     this.scaleNum = 20;
     this.undoQuery = new Array();
     this.redoQuery = new Array();
@@ -89,7 +92,6 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit(): void {
-    
     this.sub = this.Activatedroute.paramMap.subscribe(params => { 
       this.itemType = params.get('id') || "";
       this.typeID = params.get('id1') || "";
@@ -112,22 +114,18 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           default:
             new Error("No item type supplied!");
         }
-        this.itemBitmap = this.drawableItem.asBitmap(true);
+        switch(this.iconType) {
+          case 'Day':
+            this.itemBitmap = this.drawableItem.asBitmap(true);
+            break;
+          case 'Night':
+            this.itemBitmap = this.drawableItem.asBitmap(false);
+            break;
+        }
         if(this.limitColors) {
-          if(this.drawableItem.bitmapDay?.colorTable){
-            const tempCol = this.drawableItem.bitmapDay?.colorTable;
-            for(let i = 0; i < tempCol.length; i++) {
-              this.colors.push(tempCol[i].toHex());
-            }
-            this.color = this.colors[0];
-          }
-          else {
-            const tempCol = this.drawableItem.colDayColor;
-            for(let i = 0; i < tempCol.length; i++) {
-              this.colors.push(tempCol[i].toHex());
-            }
-            this.color = this.colors[0];
-          }
+          this.itemBitmap.getAllColors().forEach((col, index) => {
+            this.colors.push(col.toHex());
+          });
         }
       }
    });
@@ -149,12 +147,6 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[this.colorOptions.value]));
         this.updateBitmap();
         this.colors[this.colorOptions.value] = this.color;
-        //update color table
-        if(this.drawableItem.bitmapDay) {
-          let tmpColor: Color = new Color(this.color);
-          tmpColor.a = 255;
-          this.drawableItem.bitmapDay.colorTable[this.colorOptions.value] = tmpColor;
-        }
       }
       else {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[0]));
@@ -645,6 +637,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         default:
           this.itemBitmap.applyColorPallet('Garmin256');
       }
+      this.colors.splice(0, this.colors.length);
+      if(this.limitColors) {
+        this.itemBitmap.getAllColors().forEach((col, index) => {
+          this.colors.push(col.toHex());
+        });
+      }
       this.storeBitmap();
       this.updateBitmap();
     }
@@ -652,14 +650,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   inverseColors(): void {
     if(this.itemBitmap) { 
-      if(this.limitColors && this.drawableItem.bitmapDay) {
-        this.colors.splice(0, this.colors.length);
-        for(let i = 0; i < this.drawableItem.bitmapDay.colorTable.length; i++){ 
-          this.drawableItem.bitmapDay.colorTable[i] = this.itemBitmap.getInverseColor(this.drawableItem.bitmapDay.colorTable[i]);
-          this.colors.push(this.drawableItem.bitmapDay.colorTable[i].toHex());
-        } 
-      }
       this.itemBitmap.inverseColors();
+      if(this.limitColors) { 
+        this.colors.splice(0, this.colors.length);
+        this.itemBitmap.getAllColors().forEach((col, index) => {
+          this.colors.push(col.toHex());
+        });
+      }
       this.storeBitmap();
       this.updateBitmap();
     }
