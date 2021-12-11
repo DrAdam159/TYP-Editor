@@ -232,12 +232,20 @@ export class Polyline extends GraphicElement{
          for (let y = 0; y < bmp.height; y++) {
             let bBorder = y < this.borderWidth || y >= (this.innerWidth + this.borderWidth);
             let col = new Color();
-            if (dayOrNightBMP)
+            if (dayOrNightBMP) {
                col = bBorder ? this.colDayColor[1] : this.colDayColor[0];
-            else
-               col = bBorder ? this.colNightColor[1] : this.colNightColor[0];
-            for (let x = 0; x < bmp.width; x++)
+            }     
+            else {
+               if(this.colNightColor[0]) {
+                  col = bBorder ? this.colNightColor[1] : this.colNightColor[0];
+               }
+               else {
+                  col = new Color(255,255,255,255);
+               }
+            }
+            for (let x = 0; x < bmp.width; x++) {
                bmp.setPixel(x, y, col);
+            }    
        }
     }
     return bmp;
