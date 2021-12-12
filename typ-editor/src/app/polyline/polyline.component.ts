@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 import { FileService } from '../services/file.service';
+import { AddPolylineComponent } from './add-polyline/add-polyline.component';
 
 @Component({
   selector: 'app-polyline',
@@ -47,5 +48,9 @@ export class PolylineComponent implements OnInit {
   updateGrid(): void {
     this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
+  }
+
+  addPolyline(): void {
+    this.matDialog.open(AddPolylineComponent);
   }
 }

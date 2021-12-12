@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { POI } from 'src/TYP_File_lib/TypFile_blocks/POI';
 import { FileService } from '../services/file.service';
+import { AddPoiComponent } from './add-poi/add-poi.component';
 
 @Component({
   selector: 'app-poi',
@@ -42,6 +43,10 @@ export class PoiComponent implements OnInit {
   updateGrid(): void {
     this.bitmapScale = (25 / 100 * this.scaleValue) | 0;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
+  }
+
+  addPOI(): void {
+    this.matDialog.open(AddPoiComponent);
   }
 
 }

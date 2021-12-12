@@ -49,6 +49,9 @@ import { IconEditorDescriptionFormComponent } from './editor/icon-editor-descrip
 import { IconEditorTypeComponent } from './editor/icon-editor-type/icon-editor-type.component';
 import { NavComponent } from './nav/nav.component';
 import { PolygoneDraworderSortComponent } from './polygone-draworder-sort/polygone-draworder-sort.component';
+import { AddPolylineComponent } from './polyline/add-polyline/add-polyline.component';
+import { AddPolygoneComponent } from './polygone/add-polygone/add-polygone.component';
+import { AddPoiComponent } from './poi/add-poi/add-poi.component';
 
 
 @NgModule({
@@ -69,7 +72,10 @@ import { PolygoneDraworderSortComponent } from './polygone-draworder-sort/polygo
     IconEditorDescriptionFormComponent,
     IconEditorTypeComponent,
     NavComponent,
-    PolygoneDraworderSortComponent
+    PolygoneDraworderSortComponent,
+    AddPolylineComponent,
+    AddPolygoneComponent,
+    AddPoiComponent
   ],
   imports: [
     BrowserModule,

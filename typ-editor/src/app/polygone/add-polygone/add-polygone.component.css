@@ -1,0 +1,33 @@
+.example-form {
+    
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .example-option-img {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
+  [dir='rtl'] .example-option-img {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+
+  .form-container {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .item {
+    color: black;
+    padding: 1em 4em;
+    text-transform: uppercase;
+}
+  
+.item-5 {
+    text-align:center;
+}

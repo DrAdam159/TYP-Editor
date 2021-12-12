@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
 import { FileService } from '../services/file.service';
+import { AddPolygoneComponent } from './add-polygone/add-polygone.component';
 
 @Component({
   selector: 'app-polygone',
@@ -42,5 +43,9 @@ export class PolygoneComponent implements OnInit {
   updateGrid(): void {
     this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
+  }
+
+  addPolygone(): void {
+    this.matDialog.open(AddPolygoneComponent);
   }
 }
