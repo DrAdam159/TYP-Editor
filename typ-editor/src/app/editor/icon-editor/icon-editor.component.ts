@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from 'src/app/services/file.service';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
@@ -18,6 +18,8 @@ import { saveAs } from "file-saver";
 export class IconEditorComponent implements OnInit, AfterViewInit {
 
   @Input() iconType: string;
+
+  @Input() notifier!: Subject<boolean>;
 
   drawableItem!: GraphicElement;
   //prave vykreslena bitmapa
@@ -70,9 +72,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   dayOrNightMode: boolean;
   //ma nocni ikonku?
   hasNightIcon: boolean;
-  //byla vytvorena nova nocni ikonka?
-  addedNightIcon: boolean;
-
+  
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.iconType = "Day";
     this.scaleNum = 20;
@@ -97,11 +97,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
     this.dayOrNightMode = false;
     this.hasNightIcon = false;
-    this.addedNightIcon = false;
 
    }
 
   ngOnInit(): void {
+    this.notifier.subscribe(() =>{this.saveChangesToFile()});
+    
     this.sub = this.Activatedroute.paramMap.subscribe(params => { 
       this.itemType = params.get('id') || "";
       this.typeID = params.get('id1') || "";
@@ -714,7 +715,16 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   saveChangesToFile(): void {
     if(this.itemBitmap) {
-      this.fileService.updateFileItem(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap);
+      switch(this.iconType) {
+        case 'Day':
+          this.fileService.updateFileItem(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap, this.dayOrNightMode);
+          break;
+        case 'Night':
+          if(this.hasNightIcon) {
+            this.fileService.updateFileItem(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap, this.dayOrNightMode);
+          }
+          break;
+      }
     }
   }
 
@@ -788,6 +798,5 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   addNightIcon(): void {
     this.hasNightIcon = true;
-    this.addedNightIcon =  true;
   }
 }

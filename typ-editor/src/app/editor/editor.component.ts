@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from '../services/file.service';
 
@@ -17,6 +17,8 @@ export class EditorComponent implements OnInit {
   itemType: string;
   typeID: string;
   subTypeID: string;
+
+  childNotifier : Subject<boolean> = new Subject<boolean>();
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.itemType = "";
@@ -46,5 +48,9 @@ export class EditorComponent implements OnInit {
         }
       }
    });
+  }
+
+  saveChangesToFile(): void {
+    this.childNotifier.next();
   }
 }

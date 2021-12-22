@@ -91,7 +91,16 @@ export class FileService {
     return false;
   }
 
-  updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
+  updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap, dayOrNight: boolean): void {
+    if(dayOrNight){
+      this.updateFileItemDay(itemType, type, subType, newItem, bitmap);
+    }
+    else {
+      this.updateFileItemNight(itemType, type, subType, newItem, bitmap);
+    }
+  }
+
+  updateFileItemDay(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
     switch(itemType) {
       case 'polygone':
         if(newItem.bitmapDay) { 
@@ -139,6 +148,10 @@ export class FileService {
     }
     newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
     this.updateFile();
+  }
+
+  updateFileItemNight(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
+    console.log('saving night icon');
   }
 
   getFile(): TypFile {

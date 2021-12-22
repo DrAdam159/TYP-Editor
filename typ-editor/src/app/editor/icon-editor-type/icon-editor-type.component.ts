@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { FileService } from 'src/app/services/file.service';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 
@@ -25,6 +25,8 @@ export interface State {
   styleUrls: ['./icon-editor-type.component.css']
 })
 export class IconEditorTypeComponent implements OnInit {
+
+  @Input() notifier!: Subject<boolean>;
 
   sub!: Subscription;
   drawableItem!: GraphicElement;
@@ -53,6 +55,8 @@ export class IconEditorTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.notifier.subscribe(() =>{this.onFormSubmit()});
+
     this.sub = this.Activatedroute.paramMap.subscribe(params => { 
       this.itemType = params.get('id') || "";
       this.typeID = params.get('id1') || "";
@@ -84,6 +88,10 @@ export class IconEditorTypeComponent implements OnInit {
         }
       }
    });
+
+   const iconTypeResult = this.typeList.find(x => x.type == this.drawableItem.type) || this.typeList[0];
+   const preselectedValue: string = iconTypeResult.description + ',' + iconTypeResult.type;
+   this.descriptionForm.setValue({description: preselectedValue});
   }
 
   private _filterTypes(value: string): Type[] {

@@ -154,11 +154,6 @@
       <mat-icon>redo</mat-icon>
     </button>
 
-    <button mat-raised-button color="primary" (click) = "saveChangesToFile()"
-    #tooltip="matTooltip" matTooltip="Save Changes" [matTooltipPosition]="'below'">
-      <mat-icon >save</mat-icon>
-    </button>
-
     <input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
   
     <button mat-raised-button color="primary" (click) = "downloadCanvas()"

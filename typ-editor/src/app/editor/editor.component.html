@@ -1,15 +1,15 @@
 <mat-tab-group> 
     <mat-tab label="Icon editor (Day)">
-      <app-icon-editor [iconType]="'Day'"></app-icon-editor>
+      <app-icon-editor [iconType]="'Day'" [notifier]="childNotifier"></app-icon-editor>
     </mat-tab>
     <mat-tab label="Icon editor (Night)">
-      <app-icon-editor [iconType]="'Night'"></app-icon-editor>
+      <app-icon-editor [iconType]="'Night'" [notifier]="childNotifier"></app-icon-editor>
     </mat-tab>
     <mat-tab label="Description editor"> 
       <app-icon-editor-description></app-icon-editor-description>
     </mat-tab>
     <mat-tab label="Type editor"> 
-      <app-icon-editor-type></app-icon-editor-type>
+      <app-icon-editor-type [notifier]="childNotifier"></app-icon-editor-type>
     </mat-tab>
     <mat-tab label="Raw data"> 
       <pre>
@@ -17,6 +17,11 @@
       </pre>
     </mat-tab>
 </mat-tab-group>
+
+<button mat-raised-button class="fab-main" color="primary" (click) = "saveChangesToFile()">
+  <mat-icon class="save-icon">save</mat-icon>Save Changes
+</button>
+
 
 
 
