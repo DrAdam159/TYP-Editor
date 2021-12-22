@@ -87,15 +87,21 @@
 
   <div class="item item-3" fxFlex>
     <div *ngIf="drawableItem" class="canvas-container">
-      <canvas #canvas ></canvas>
+      <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <canvas #canvas ></canvas>
+        </ng-template>
+        <ng-template #elseBlock>
+          <div [ngClass]="hasNightIcon ? '' : 'hidden-canvas'">
+            <canvas #canvas ></canvas>
+          </div>
+          <div *ngIf="!hasNightIcon">
+            <button mat-fab color="primary"  class="fab-main add-btn" (click)="addNightIcon()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </ng-template>
     </div>
-
-    <!-- <div *ngIf="limitColors">
-      <mat-button-toggle-group [formControl]="colorOptions">
-        <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
-      </mat-button-toggle-group>
-      <div>Selected color: {{colorOptions.value}}</div>
-    </div> -->
   </div>
 
   <div class="item item-2 color-picker-col" fxFlex="20%" >
@@ -116,8 +122,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 <div class="container"

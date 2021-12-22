@@ -67,6 +67,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   colors: Array<string>;
   colorOptions: FormControl;
 
+  dayOrNightMode: boolean;
+  //ma nocni ikonku?
+  hasNightIcon: boolean;
+  //byla vytvorena nova nocni ikonka?
+  addedNightIcon: boolean;
+
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.iconType = "Day";
     this.scaleNum = 20;
@@ -88,6 +94,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
     this.limitColors = false;
     this.colors = new Array();
+
+    this.dayOrNightMode = false;
+    this.hasNightIcon = false;
+    this.addedNightIcon = false;
 
    }
 
@@ -116,9 +126,14 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         }
         switch(this.iconType) {
           case 'Day':
+            this.dayOrNightMode = true;
             this.itemBitmap = this.drawableItem.asBitmap(true);
             break;
           case 'Night':
+            this.dayOrNightMode = false;
+            if(this.drawableItem.colNightColor.length != 0) {
+              this.hasNightIcon = true;
+            }
             this.itemBitmap = this.drawableItem.asBitmap(false);
             break;
         }
@@ -126,6 +141,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           this.itemBitmap.getAllColors().forEach((col, index) => {
             this.colors.push(col.toHex());
           });
+          this.color = this.colors[0];
         }
       }
    });
@@ -768,5 +784,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         console.log(reader.error);
       };
     }
+  }
+
+  addNightIcon(): void {
+    this.hasNightIcon = true;
+    this.addedNightIcon =  true;
   }
 }

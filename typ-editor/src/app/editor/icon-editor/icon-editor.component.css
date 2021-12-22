@@ -67,7 +67,15 @@ canvas {
 
 #undo_redo_btns {
     margin-right: 50px;
-  }
+}
+
+.add-btn {
+    margin-top: 20em;
+}
+
+.hidden-canvas {
+    display: none;
+}
 
 
   
