@@ -252,8 +252,16 @@ export class Polygon extends GraphicElement{
          this.colorType = ColorType.BM_Day2;
          this.options = 24;
       } else {
-         this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY2, false);
-         this.colorType = ColorType.BM_Day2_Night2;
+         switch(this.colNightColor.length) {
+            case 1:
+               this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY1TR, false);
+               this.colorType = ColorType.BM_Day2_Night1;
+               break;
+            case 2:
+               this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY2, false);
+               this.colorType = ColorType.BM_Day2_Night2;
+               break;
+         }
       }
     }
 
@@ -325,8 +333,17 @@ export class Polygon extends GraphicElement{
                }
                break;
          }
-         this.options = 0xFF & ((this.options & 0xF0) | this.colorType);
+         //this.options = 0xFF & ((this.options & 0xF0) | this.colorType);
       }
+      else {
+         if(this.colDayColor.length == 1) {
+            this.colorType = ColorType.Day1;
+            if(this.colNightColor.length == 1) {
+               this.colorType = ColorType.Day1_Night1;
+            }
+         }
+      }
+      this.options = 0xFF & ((this.options & 0xF0) | this.colorType);
    }
 
    write(writer: BinReaderWriter, codePage: number): void {
@@ -403,4 +420,15 @@ export class Polygon extends GraphicElement{
          }
       }
    } 
+
+   hasNightIcon(): boolean {
+      if(this.colorType == ColorType.BM_Day1_Night1 ||
+         this.colorType == ColorType.BM_Day1_Night2 ||
+         this.colorType == ColorType.BM_Day2_Night2 ||
+         this.colorType == ColorType.BM_Day2_Night1 ||
+         this.colorType == ColorType.Day1_Night1) {
+            return true;
+         }
+      return false;
+   }
 }
