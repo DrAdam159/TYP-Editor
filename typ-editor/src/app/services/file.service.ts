@@ -65,7 +65,7 @@ export class FileService {
         if(typeList.find(element => element.description === parsedInput[0])) {
           item.type = ~~parsedInput[1];
           if(this.typFile.PolygonList.find(element => element.type === item.type)) {
-            let maxSubType = this.typFile.PolylineList
+            let maxSubType = this.typFile.PolygonList
             .filter(({type}) => type  === item.type)
             .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
             item.subtype = maxSubType +1;
@@ -78,7 +78,7 @@ export class FileService {
         if(typeList.find(element => element.description === parsedInput[0])) {
           item.type = ~~parsedInput[1];
           if(this.typFile.POIList.find(element => element.type === item.type)) {
-            let maxSubType = this.typFile.PolylineList
+            let maxSubType = this.typFile.POIList
             .filter(({type}) => type  === item.type)
             .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
             item.subtype = maxSubType +1;
@@ -152,6 +152,53 @@ export class FileService {
 
   updateFileItemNight(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
     console.log('saving night icon');
+    switch(itemType) {
+      case 'polygone':
+        if(newItem.bitmapNight) { 
+          newItem.bitmapNight.colorTable = bitmap.getAllColors();
+          this.getPolygone(type, subType).bitmapNight = newItem.bitmapNight;
+          this.getPolygone(type, subType).colNightColor = bitmap.getAllColors();
+        }
+        else {
+          if(bitmap.getAllColors().length == 1 && !this.getPolygone(type, subType).bitmapDay) {
+            this.getPolygone(type, subType).colNightColor = bitmap.getAllColors();
+          }
+          else {
+            let tmpPolygone: Polygon = this.getPolygone(type, subType);
+            tmpPolygone.colNightColor = bitmap.getAllColors();
+            tmpPolygone.createBitmap(false);
+          }
+        }
+        this.getPolygone(type, subType).updateColorType();
+        break;
+      case 'poi':
+        // if(newItem.bitmapDay) {
+        //   // console.log(bitmap.getAllColors());
+        //   // newItem.bitmapDay.colorTable = bitmap.getAllColors();
+        //   bitmap.updateColors(newItem.bitmapDay.colorTable);
+        //   newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
+        //   this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
+        // }
+        break;
+      case 'polyline':
+        // if(newItem.bitmapDay) { 
+        //   newItem.bitmapDay.colorTable = bitmap.getAllColors();
+        //   newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
+        //   this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
+        //   this.getPolyline(type, subType).setPolylineType();
+        //   this.getPolyline(type, subType).colDayColor = newItem.bitmapDay.colorTable;
+        // }
+        // else {
+        //   let tmpPolyline: Polyline = this.getPolyline(type, subType);
+        //   tmpPolyline.colDayColor = bitmap.getAllColors();
+        //   tmpPolyline.createBitmap(true);
+        //   tmpPolyline.setPolylineType();
+        // }
+        break;
+    }
+    newItem.bitmapNight?.data.convertBitmapToData(bitmap, newItem.bitmapNight.colorTable);
+    console.log(this.getPolygone(type, subType));
+    this.updateFile();
   }
 
   getFile(): TypFile {

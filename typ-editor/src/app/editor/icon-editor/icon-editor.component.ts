@@ -133,7 +133,19 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           case 'Night':
             this.dayOrNightMode = false;
             if(this.drawableItem.colNightColor.length != 0) {
-              this.hasNightIcon = true;
+              switch(this.itemType) {
+                case 'polyline':
+                  this.hasNightIcon = true;
+                  break;
+                case 'polygone':
+                  if(this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID).hasNightIcon()) {
+                    this.hasNightIcon = true;
+                  }
+                  break;
+                case 'poi':
+                  this.hasNightIcon = true;
+                  break;
+              }
             }
             this.itemBitmap = this.drawableItem.asBitmap(false);
             break;
