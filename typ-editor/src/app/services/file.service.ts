@@ -172,13 +172,21 @@ export class FileService {
         this.getPolygone(type, subType).updateColorType();
         break;
       case 'poi':
-        // if(newItem.bitmapDay) {
-        //   // console.log(bitmap.getAllColors());
-        //   // newItem.bitmapDay.colorTable = bitmap.getAllColors();
-        //   bitmap.updateColors(newItem.bitmapDay.colorTable);
-        //   newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
-        //   this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
-        // }
+        if(newItem.bitmapNight) {
+          // console.log(bitmap.getAllColors());
+          // newItem.bitmapDay.colorTable = bitmap.getAllColors();
+          bitmap.updateColors(newItem.bitmapNight.colorTable);
+          newItem.bitmapNight.colorCount = newItem.bitmapNight.colorTable.length;
+          this.getPOI(type, subType).bitmapNight = newItem.bitmapNight;
+        }
+        else {
+          const tmpPOI = this.getPOI(type, subType);
+          tmpPOI.createNightBitmap(bitmap.getAllColors().length);
+          if(tmpPOI.bitmapNight) {
+            tmpPOI.bitmapNight.colorTable = bitmap.getAllColors();
+            tmpPOI.bitmapNight.colorCount =  tmpPOI.bitmapNight.colorTable.length;
+          }
+        }
         break;
       case 'polyline':
         // if(newItem.bitmapDay) { 
@@ -197,7 +205,6 @@ export class FileService {
         break;
     }
     newItem.bitmapNight?.data.convertBitmapToData(bitmap, newItem.bitmapNight.colorTable);
-    console.log(this.getPolygone(type, subType));
     this.updateFile();
   }
 
