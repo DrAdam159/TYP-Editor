@@ -256,8 +256,6 @@ export class Polyline extends GraphicElement{
       writer.writeUint8(this.options2);
       switch (this.polylineType) {
          case PolylineType.Day2:
-            if(this.type == 13 && this.subtype == 0) {
-            }
             BinaryColor.writeColorTable(writer, this.colDayColor);
             break;
 
@@ -328,15 +326,21 @@ export class Polyline extends GraphicElement{
       if(this.bitmapDay) {
          switch(this.bitmapDay.colorTable.length) {
             case 1:
-               this.options = 0xFF & ((this.options & 0xF8) | PolylineType.NoBorder_Day1);
+               //this.options = 0xFF & ((this.options & 0xF8) | PolylineType.NoBorder_Day1);
                this.polylineType =  PolylineType.NoBorder_Day1;
+               if(this.bitmapNight) {
+               }
                break;
             case 2:
-               this.options = 0xFF & ((this.options & 0xF8) | PolylineType.Day2);
+               //this.options = 0xFF & ((this.options & 0xF8) | PolylineType.Day2);
                this.polylineType =  PolylineType.Day2;
+               if(this.bitmapNight) {
+
+               }
                break;
          }
       }
+      this.options = 0xFF & ((this.options & 0xF8) | this.polylineType);
    }
 
    createBitmap(dayOrNight: boolean) {
@@ -351,7 +355,7 @@ export class Polyline extends GraphicElement{
          }
           
       } else {
-         if(this.colDayColor.length > 1) {
+         if(this.colNightColor.length > 1) {
             this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY2, false);
          }
          else {

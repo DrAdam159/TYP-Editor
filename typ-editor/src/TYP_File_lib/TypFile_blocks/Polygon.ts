@@ -241,7 +241,16 @@ export class Polygon extends GraphicElement{
             return this.bitmapNight.asBitmap();
          } 
          else {
-            return this.getDummyXPixMap(BitmapColorMode.POLY1TR, false).asBitmap();
+            if(this.bitmapDay) {
+               const tmpNightBitmap: Bitmap = this.bitmapDay.asBitmap();
+               tmpNightBitmap.inverseColors();
+               return tmpNightBitmap;
+            }
+            else {
+               const tmpNightBitmap: Bitmap = this.getDummyXPixMap(BitmapColorMode.POLY1TR, true).asBitmap();
+               tmpNightBitmap.inverseColors();
+               return tmpNightBitmap;
+            }
          }
       }
     }

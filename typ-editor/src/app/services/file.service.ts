@@ -173,8 +173,6 @@ export class FileService {
         break;
       case 'poi':
         if(newItem.bitmapNight) {
-          // console.log(bitmap.getAllColors());
-          // newItem.bitmapDay.colorTable = bitmap.getAllColors();
           bitmap.updateColors(newItem.bitmapNight.colorTable);
           newItem.bitmapNight.colorCount = newItem.bitmapNight.colorTable.length;
           this.getPOI(type, subType).bitmapNight = newItem.bitmapNight;
