@@ -8,43 +8,40 @@
   <div class="item item-1" fxFlex="10%">
 
     <mat-button-toggle-group [formControl]="toolOptions" vertical >
-      <mat-button-toggle value="brush" aria-label="Text align left" (click) = "useBrush()"
-      #tooltip="matTooltip" matTooltip="Brush" [matTooltipPosition]="'right'" >
-        <mat-icon>brush</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle value="line" aria-label="Text align center" (click) = "useLine()"
+      
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null"  [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="line" aria-label="Text align center" (click) = "useLine()"
       #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
         <mat-icon>minimize</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="fill" aria-label="Text align right" (click) = "useFill()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="fill" aria-label="Text align right" (click) = "useFill()"
       #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'" >
         <mat-icon>format_color_fill</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()"
       #tooltip="matTooltip" matTooltip="Filled Rectangle" [matTooltipPosition]="'right'" >
         <mat-icon>rectangle</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="rectangle" aria-label="Text align right" (click) = "useRectangle()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="rectangle" aria-label="Text align right" (click) = "useRectangle()"
       #tooltip="matTooltip" matTooltip="Rectangle" [matTooltipPosition]="'right'" >
         <mat-icon>crop_square</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()"
       #tooltip="matTooltip" matTooltip="Filled Circle" [matTooltipPosition]="'right'" >
         <mat-icon>circle</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="circle" aria-label="Text align right" (click) = "useCircle()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="circle" aria-label="Text align right" (click) = "useCircle()"
       #tooltip="matTooltip" matTooltip="Circle" [matTooltipPosition]="'right'" >
         <mat-icon>radio_button_unchecked</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="flip vertically" aria-label="Text align right" (click) = "flipVertically()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="flip vertically" aria-label="Text align right" (click) = "flipVertically()"
       #tooltip="matTooltip" matTooltip="Flip Vertically" [matTooltipPosition]="'right'" >
         <mat-icon>swap_vert</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()"
       #tooltip="matTooltip" matTooltip="Flip Horizontally" [matTooltipPosition]="'right'" >
         <mat-icon>swap_horiz</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="rotate left" aria-label="Text align right" (click) = "rotateLeft()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="rotate left" aria-label="Text align right" (click) = "rotateLeft()"
       #tooltip="matTooltip" matTooltip="Rotate Left" [matTooltipPosition]="'right'" >
         <mat-icon>rotate_left</mat-icon>
       </mat-button-toggle>
@@ -52,7 +49,7 @@
       #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'" >
         <mat-icon>colorize</mat-icon>
       </mat-button-toggle>
-      <mat-button-toggle value="eraser" aria-label="Text align right" (click) = "erase()"
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="eraser" aria-label="Text align right" (click) = "erase()"
       #tooltip="matTooltip" matTooltip="Erase" [matTooltipPosition]="'right'" >
         <mat-icon>auto_fix_high</mat-icon>
       </mat-button-toggle>

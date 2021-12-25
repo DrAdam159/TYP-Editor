@@ -72,6 +72,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   dayOrNightMode: boolean;
   //ma nocni ikonku?
   hasNightIcon: boolean;
+
+  //omezeni editacnich nastroju pro nocni ikonku Polyline / Polygone
+  limitToolUse: boolean;
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.iconType = "Day";
@@ -98,6 +101,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.dayOrNightMode = false;
     this.hasNightIcon = false;
 
+    this.limitToolUse = false;
+
    }
 
   ngOnInit(): void {
@@ -113,11 +118,16 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           case 'polyline':
             this.drawableItem = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
             this.limitColors = true;
+            if(this.iconType == 'Night') {
+              this.limitToolUse = true;
+            }
             break;
           case 'polygone':
             this.drawableItem = this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID);
             this.limitColors = true;
-           
+            if(this.iconType == 'Night') {
+              this.limitToolUse = true;
+            }
             break;
           case 'poi':
             this.drawableItem = this.fileService.getPOI(~~this.typeID, ~~this.subTypeID);
