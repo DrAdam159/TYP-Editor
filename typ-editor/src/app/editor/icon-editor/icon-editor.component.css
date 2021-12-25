@@ -77,6 +77,10 @@ canvas {
     display: none;
 }
 
+.disabled-btn {
+    pointer-events:none;
+    color: grey;
+}
 
 
   
