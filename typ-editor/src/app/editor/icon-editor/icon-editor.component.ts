@@ -132,7 +132,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             break;
           case 'Night':
             this.dayOrNightMode = false;
-            if(this.drawableItem.colNightColor.length != 0) {
+            if(this.drawableItem.colNightColor.length != 0 || this.drawableItem.bitmapNight) {
               switch(this.itemType) {
                 case 'polyline':
                   this.hasNightIcon = true;

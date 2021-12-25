@@ -151,6 +151,15 @@ export class POI extends GraphicElement{
       return new Bitmap(this.width, this.height);
    }
 
+   createNightBitmap(numOfColors: number): void {
+      if(this.bitmapDay) {
+         this.bitmapNight = new PixMap(this.bitmapDay.width, this.bitmapDay.height, numOfColors, this.bitmapDay.colorMode);
+         this.withNightXpm = true;
+         this.options |= (1 << 0); 
+         this.options |= (1 << 1);  
+      }
+   }
+
    write(writer: BinReaderWriter, codepage: number): void {
       writer.writeUint8(this.options);
       this.bitmapDay?.writeAsPoi(writer);

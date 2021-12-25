@@ -14,6 +14,7 @@ export class Bitmap {
         //*4 - rgba
         this.pixelOffset = 4;
         this.pixelArr = new Uint8ClampedArray(this.width * this.height * this.pixelOffset);
+        this.pixelArr.fill(255);
     }
 
     copyData(newPixelArr: Uint8ClampedArray): void {
