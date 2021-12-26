@@ -6,6 +6,7 @@ import { MultiText } from "./GeneralDataBlocks/Multitext";
 import { PixMap } from "./GeneralDataBlocks/PixMap";
 import { Color } from "../Utils/Color";
 import { Bitmap } from "../Utils/Bitmap";
+import { buildMapFromSet } from "@angular/flex-layout/extended/typings/style/style-transforms";
 
 enum PolylineType {
     Day2 = 0,
@@ -210,8 +211,10 @@ export class Polyline extends GraphicElement{
           } else {
             switch (this.polylineType) {
                case PolylineType.Day2:
+                  tmp.setNewColors(this.colDayColor);
+                  break;
                case PolylineType.NoBorder_Day1:
-                  //tmp = null;
+                  tmp.setNewColor(0, this.colDayColor[0]);
                   break;
 
                case PolylineType.Day1_Night2:
@@ -225,8 +228,14 @@ export class Polyline extends GraphicElement{
                   break;
             }
           }
-          if (tmp != null)
-               bmp = tmp.asBitmap();
+          if (tmp != null) {
+            bmp = tmp.asBitmap();
+            if(!dayOrNightBMP && (this.polylineType == PolylineType.Day2 || 
+               this.polylineType == PolylineType.NoBorder_Day1) ) {
+               bmp.inverseColors();
+            }
+          }
+               
        } else {
          bmp = new Bitmap(32, (this.innerWidth + 2 * this.borderWidth));
          for (let y = 0; y < bmp.height; y++) {
@@ -240,13 +249,17 @@ export class Polyline extends GraphicElement{
                   col = bBorder ? this.colNightColor[1] : this.colNightColor[0];
                }
                else {
-                  col = new Color(255,255,255,255);
+                  //col = new Color(255,255,255,255);
+                  col = bBorder ? this.colDayColor[1] : this.colDayColor[0];
                }
             }
             for (let x = 0; x < bmp.width; x++) {
                bmp.setPixel(x, y, col);
             }    
        }
+       if(!dayOrNightBMP) {
+         bmp.inverseColors();
+      }
     }
     return bmp;
    }
