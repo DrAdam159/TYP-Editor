@@ -342,22 +342,27 @@ export class Polyline extends GraphicElement{
                //this.options = 0xFF & ((this.options & 0xF8) | PolylineType.NoBorder_Day1);
                this.polylineType =  PolylineType.NoBorder_Day1;
                if(this.bitmapNight) {
+                  this.polylineType =  PolylineType.NoBorder_Day1_Night1;
                }
                break;
             case 2:
                //this.options = 0xFF & ((this.options & 0xF8) | PolylineType.Day2);
                this.polylineType =  PolylineType.Day2;
                if(this.bitmapNight) {
-
+                  this.polylineType =  PolylineType.Day2_Night2
                }
                break;
          }
       }
       this.options = 0xFF & ((this.options & 0xF8) | this.polylineType);
+      //bitmap height
+      this.options = 0xFF & ((this.bitmapHeight << 3) | (this.options & 0x7));
    }
 
    createBitmap(dayOrNight: boolean) {
-      this.bitmapHeight = this.innerWidth + 2 * this.borderWidth;
+      if(this.bitmapHeight == 0) {
+         this.bitmapHeight = this.innerWidth + 2 * this.borderWidth;
+      }
       this.options = 0xFF & ((this.options & 0x7) | this.bitmapHeight << 3);
       if (dayOrNight) {
          if(this.colDayColor.length > 1) {
@@ -366,7 +371,6 @@ export class Polyline extends GraphicElement{
          else {
             this.bitmapDay = this.getDummyXPixMap(BitmapColorMode.POLY1TR, true); 
          }
-          
       } else {
          if(this.colNightColor.length > 1) {
             this.bitmapNight = this.getDummyXPixMap(BitmapColorMode.POLY2, false);
@@ -378,7 +382,10 @@ export class Polyline extends GraphicElement{
    }
 
    getDummyXPixMap(bcm: BitmapColorMode, dayOrNight: boolean): PixMap {
-      let pic = new PixMap(32, (this.innerWidth + 2 * this.borderWidth), 2, bcm);
+      if(this.bitmapHeight == 0) {
+         this.bitmapHeight = this.innerWidth + 2 * this.borderWidth;
+      }
+      let pic = new PixMap(32, /*(this.innerWidth + 2 * this.borderWidth)*/ this.bitmapHeight, 2, bcm);
       if (dayOrNight) {
          pic.setNewColor(0, this.colDayColor[0]);
          if (bcm == BitmapColorMode.POLY2) {

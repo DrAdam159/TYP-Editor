@@ -187,22 +187,24 @@ export class FileService {
         }
         break;
       case 'polyline':
-        // if(newItem.bitmapDay) { 
-        //   newItem.bitmapDay.colorTable = bitmap.getAllColors();
-        //   newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
-        //   this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
-        //   this.getPolyline(type, subType).setPolylineType();
-        //   this.getPolyline(type, subType).colDayColor = newItem.bitmapDay.colorTable;
-        // }
-        // else {
-        //   let tmpPolyline: Polyline = this.getPolyline(type, subType);
-        //   tmpPolyline.colDayColor = bitmap.getAllColors();
-        //   tmpPolyline.createBitmap(true);
-        //   tmpPolyline.setPolylineType();
-        // }
+        if(newItem.bitmapNight) { 
+          newItem.bitmapNight.colorTable = bitmap.getAllColors();
+          newItem.bitmapNight.colorCount = newItem.bitmapNight.colorTable.length;
+          const tmpPolyline: Polyline =  this.getPolyline(type, subType);
+          tmpPolyline.bitmapNight = newItem.bitmapNight;
+          tmpPolyline.setPolylineType();
+          tmpPolyline.colNightColor = newItem.bitmapNight.colorTable;
+        }
+        else {
+          const tmpPolyline: Polyline = this.getPolyline(type, subType);
+          tmpPolyline.colNightColor = bitmap.getAllColors();
+          tmpPolyline.createBitmap(false);
+          tmpPolyline.setPolylineType();
+        }
         break;
     }
     newItem.bitmapNight?.data.convertBitmapToData(bitmap, newItem.bitmapNight.colorTable);
+    console.log(this.getPolyline(type, subType));
     this.updateFile();
   }
 
