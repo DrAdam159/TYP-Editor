@@ -267,4 +267,12 @@ export class PixMap {
             throw new Error("Invalid ColorMode for bitmap");
       }
    }
+
+   fillWithDummyData(): void {
+      for(let i = 0; i < this.width; i++) {
+         for(let j = 0; j < this.width; j++) {
+            this.data.rawIMGData.push(255);
+         }
+      }
+   }
 }

@@ -7,16 +7,35 @@
           <input matInput
                  aria-label="State"
                  [matAutocomplete]="auto"
-                 formControlName="description">
+                 formControlName="type">
           <mat-autocomplete #auto="matAutocomplete" >
-            <mat-option *ngFor="let type of filteredTypes | async" [value]="type.description + ',' + type.type">
+            <mat-option *ngFor="let type of filteredTypes | async" [value]="type.description + '|' + type.type">
               <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
               <span>{{type.description}}</span> |
               <small>Code: {{type.type}}</small>
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-      
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Draworder</mat-label>
+          <input matInput type="number" formControlName="draworder" placeholder="Ex. 12" min="0">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Choose Description Language</mat-label>
+          <mat-select formControlName="language" >
+            <mat-option *ngFor="let item of languageList" [value]="item">
+              {{ item }}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Description</mat-label>
+          <input formControlName="description" matInput #message maxlength="256" placeholder="Parking..." >
+          <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
       </form>
    
 </mat-dialog-content>

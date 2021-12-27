@@ -6,6 +6,7 @@ import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
 import { GraphicElement } from "./GeneralDataBlocks/GraphicElement";
 import { MultiText } from "./GeneralDataBlocks/Multitext";
 import { PixMap } from "./GeneralDataBlocks/PixMap";
+import { Text } from "./GeneralDataBlocks/Text";
 
 enum ColorType {
     /// <summary>
@@ -439,5 +440,18 @@ export class Polygon extends GraphicElement{
             return true;
          }
       return false;
+   }
+
+   createNew(draworder: number, textValue: Text): void {
+      this.options = 22;
+      this.drawOrder = draworder;
+      this.text = new MultiText();
+      this.text.set(textValue);
+      this.withString = true;
+
+      this.colDayColor.push(new Color(255,255,255,255));
+      // this.colDayColor.push(new Color(255,255,255,255));
+      // this.createBitmap(true);
+      // this.bitmapDay?.fillWithDummyData();
    }
 }

@@ -9,6 +9,7 @@ import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlock
 import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 import { Color } from 'src/TYP_File_lib/Utils/Color';
 import { Type } from 'src/TYP_File_lib/IconTypes/Type';
+import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,31 @@ export class FileService {
     localStorage.setItem('file', this.arrayBufferToBase64(this.typFile.getEncodedBuffer()));
     localStorage.setItem('filename', this.fileName);
     console.log("saving");
+  }
+
+  createPolygone(type: string, draworder: number, languageCode: number, description: string, typeList: Array<Type>): Polygon {
+    const typeValue = type.split('|');
+    const newText: Text = new Text();  
+    newText.setValues(languageCode, description);
+
+    //console.log(typeValue[1] + ' | ' + draworder + ' | '+ languageCode + ' | ' + description);
+
+    const newPolygone: Polygon = new Polygon(0,0);
+    newPolygone.createNew(draworder, newText);
+
+    if(typeList.find(element => element.description === typeValue[0])) {
+      newPolygone.type = ~~typeValue[1];
+      if(this.typFile.PolygonList.find(element => element.type === newPolygone.type)) {
+        let maxSubType = this.typFile.PolygonList
+        .filter(({type}) => type  === newPolygone.type)
+        .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
+        newPolygone.subtype = maxSubType +1;
+      }
+      this.typFile.PolygonList.push(newPolygone);
+      this.updateFile();
+      return newPolygone;
+    }
+    return {} as Polygon;
   }
 
   updateItemDescription(inputValue: string, item: GraphicElement, typeList: Array<Type>, itemType: string): boolean {
