@@ -164,6 +164,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           this.itemBitmap.getAllColors().forEach((col, index) => {
             this.colors.push(col.toHex());
           });
+          if(this.colors.length == 1) {
+            this.colors.push('#FFFFFF');
+          }
           this.color = this.colors[0];
         }
       }

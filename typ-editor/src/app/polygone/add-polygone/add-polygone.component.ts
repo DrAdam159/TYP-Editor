@@ -101,7 +101,7 @@ export class AddPolygoneComponent implements OnInit {
       const languageCode: number = ~~LanguageCode[this.descriptionForm.get('language')?.value];
 
       const newPolygone: Polygon = this.fileService.createPolygone(type, draworder, languageCode, description, this.typeList);
-      console.log(newPolygone);
+    
       if(newPolygone 
         && Object.keys(newPolygone).length === 0
         && Object.getPrototypeOf(newPolygone) === Object.prototype) {
