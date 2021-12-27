@@ -115,7 +115,7 @@ export class FileService {
       this.updateFile();
       return newPolyline;
     }
-    
+
     return {} as Polyline;
   }
 

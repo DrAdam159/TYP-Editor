@@ -102,7 +102,7 @@ export class AddPoiComponent implements OnInit {
       const height: number = this.descriptionForm.get('height')?.value;
 
       const newPOI: POI = this.fileService.createPOI(type, languageCode, description, width, height, this.typeList);
-  
+
       if(newPOI 
         && Object.keys(newPOI).length === 0
         && Object.getPrototypeOf(newPOI) === Object.prototype) {
