@@ -5,6 +5,8 @@ import { Bit } from "../Utils/Bit";
 import { MultiText } from "./GeneralDataBlocks/Multitext";
 import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
 import { Bitmap } from "../Utils/Bitmap";
+import { Text } from "./GeneralDataBlocks/Text";
+import { Color } from "../Utils/Color";
 
 enum BitmapColorMode {
     POI_SIMPLE = 0,
@@ -181,5 +183,20 @@ export class POI extends GraphicElement{
                break;
          }
       }
+   }
+
+   createNew(newText: Text, newWidth: number, newHeight: number): void {
+      this.options = 5;
+      this.width = newWidth;
+      this.height = newHeight;
+      this.text = new MultiText();
+      this.text.set(newText);
+      this.withString = true;
+      this.colsDay = 1;
+      this.colorModeDay = BitmapColorMode.POI_TR;
+
+      this.bitmapDay = new PixMap(this.width, this.height, this.colsDay, this.colorModeDay);
+      this.bitmapDay.colorTable.push(new Color(255,255,255,255));
+      this.bitmapDay.fillWithDummyData();
    }
 }

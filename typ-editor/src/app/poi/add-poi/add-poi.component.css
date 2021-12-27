@@ -31,3 +31,11 @@
 .item-5 {
     text-align:center;
 }
+
+.size-input-width {
+  margin-right: 8px;
+}
+
+.size-input-height {
+  margin-left: 8px;
+}

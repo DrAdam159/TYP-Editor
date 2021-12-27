@@ -268,11 +268,12 @@ export class PixMap {
       }
    }
 
+   updateBitsPerPixel(): void {
+      this.bitsPerPixel = this.bitsPerPixel4BitmapColorMode(this.colorMode,  this.colorTable.length);
+      this.data.bitsPerPixel = this.bitsPerPixel;
+   }
+
    fillWithDummyData(): void {
-      for(let i = 0; i < this.width; i++) {
-         for(let j = 0; j < this.width; j++) {
-            this.data.rawIMGData.push(255);
-         }
-      }
+      this.data.fillWithDummyData();
    }
 }

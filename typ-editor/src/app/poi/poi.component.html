@@ -27,6 +27,17 @@
     </mat-grid-tile>
 </mat-grid-list>
 
-<button mat-fab color="primary"  class="fab-main" (click)="addPOI()">
+<button mat-fab color="primary"  class="fab-main" [matMenuTriggerFor]="menu">
     <mat-icon>add</mat-icon>
 </button>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="addPOI()">
+        <mat-icon>add</mat-icon>
+        New POI
+    </button>
+    <button mat-menu-item>
+        <mat-icon>merge</mat-icon>
+        Merge From File
+    </button>
+  </mat-menu>

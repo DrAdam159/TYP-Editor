@@ -71,6 +71,30 @@ export class FileService {
     return {} as Polygon;
   }
 
+  createPOI(type: string, languageCode: number, description: string, width: number, height: number, typeList: Array<Type>): POI {
+    const typeValue = type.split('|');
+    const newText: Text = new Text();  
+    newText.setValues(languageCode, description);
+
+    const newPOI: POI = new POI(0,0);
+    newPOI.createNew(newText, width, height);
+
+    if(typeList.find(element => element.description === typeValue[0])) {
+      newPOI.type = ~~typeValue[1];
+      if(this.typFile.POIList.find(element => element.type === newPOI.type)) {
+        let maxSubType = this.typFile.POIList
+        .filter(({type}) => type  === newPOI.type)
+        .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
+        newPOI.subtype = maxSubType +1;
+      }
+      this.typFile.POIList.push(newPOI);
+      this.updateFile();
+      return newPOI;;
+    }
+
+    return {} as POI;
+  }
+
   updateItemDescription(inputValue: string, item: GraphicElement, typeList: Array<Type>, itemType: string): boolean {
     const parsedInput = inputValue.split(',');
     switch(itemType) {
@@ -154,6 +178,7 @@ export class FileService {
           bitmap.updateColors(newItem.bitmapDay.colorTable);
           newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
           this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
+          this.getPOI(type, subType).bitmapDay?.updateBitsPerPixel();
         }
         break;
       case 'polyline':
@@ -173,6 +198,7 @@ export class FileService {
         break;
     }
     newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
+    console.log(this.getPOI(type, subType));
     this.updateFile();
   }
 
@@ -202,6 +228,7 @@ export class FileService {
           bitmap.updateColors(newItem.bitmapNight.colorTable);
           newItem.bitmapNight.colorCount = newItem.bitmapNight.colorTable.length;
           this.getPOI(type, subType).bitmapNight = newItem.bitmapNight;
+          this.getPOI(type, subType).bitmapNight?.updateBitsPerPixel();
         }
         else {
           const tmpPOI = this.getPOI(type, subType);

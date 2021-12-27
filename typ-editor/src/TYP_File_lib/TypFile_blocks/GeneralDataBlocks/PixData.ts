@@ -27,6 +27,13 @@ export class PixData {
         this.rawIMGData = reader.readBytes(this.bytesForBitmapLine(this.width, this.bitsPerPixel) * this.height);
     }
 
+    fillWithDummyData(): void {
+       const len = this.bytesForBitmapLine(this.width, this.bitsPerPixel) * this.height;
+       for(let i = 0; i < len; i++) {
+          this.rawIMGData.push(0);
+       }
+    }
+
     //určuje počet bajtů požadovaných pro bitmapový řádek
     bytesForBitmapLine(width: number, bitsPerPixel: number): number {
         let bytesForLine  = width * bitsPerPixel;
