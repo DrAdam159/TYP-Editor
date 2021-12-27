@@ -95,6 +95,30 @@ export class FileService {
     return {} as POI;
   }
 
+  createPolyline(type: string, languageCode: number, description: string, height: number, typeList: Array<Type>): Polyline {
+    const typeValue = type.split('|');
+    const newText: Text = new Text();  
+    newText.setValues(languageCode, description);
+
+    const newPolyline: Polyline = new Polyline(0,0);
+    newPolyline.createNew(newText, height);
+
+    if(typeList.find(element => element.description === typeValue[0])) {
+      newPolyline.type = ~~typeValue[1];
+      if(this.typFile.PolylineList.find(element => element.type === newPolyline.type)) {
+        let maxSubType = this.typFile.PolylineList
+        .filter(({type}) => type  === newPolyline.type)
+        .reduce((a,b)=>a.subtype>b.subtype?a:b).subtype;
+        newPolyline.subtype = maxSubType +1;
+      }
+      this.typFile.PolylineList.push(newPolyline);
+      this.updateFile();
+      return newPolyline;
+    }
+    
+    return {} as Polyline;
+  }
+
   updateItemDescription(inputValue: string, item: GraphicElement, typeList: Array<Type>, itemType: string): boolean {
     const parsedInput = inputValue.split(',');
     switch(itemType) {

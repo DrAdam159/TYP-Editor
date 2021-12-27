@@ -7,6 +7,7 @@ import { PixMap } from "./GeneralDataBlocks/PixMap";
 import { Color } from "../Utils/Color";
 import { Bitmap } from "../Utils/Bitmap";
 import { buildMapFromSet } from "@angular/flex-layout/extended/typings/style/style-transforms";
+import { Text } from "./GeneralDataBlocks/Text";
 
 enum PolylineType {
     Day2 = 0,
@@ -399,5 +400,21 @@ export class Polyline extends GraphicElement{
       }
 
       return pic;
+   }
+
+   createNew(newText: Text, newHeight: number): void {
+      this.options = 0;
+      this.options2 = 1;
+      this.width = 32;
+      this.height = newHeight;
+      this.innerWidth = newHeight;
+      this.text = new MultiText();
+      this.text.set(newText);
+      this.withString = true;
+      this.polylineType = 6;
+
+      this.options = 0xFF & ((this.options & 0xF8) | this.polylineType);
+
+      this.colDayColor.push(new Color(255, 255, 255, 255));
    }
 }
