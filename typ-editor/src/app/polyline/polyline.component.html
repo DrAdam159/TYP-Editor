@@ -5,7 +5,28 @@
      fxLayoutGap="0px"
      fxLayoutGap.xs="0"
 >
-    <div class="item item-4" fxFlex="100%"  fxFlexOffset.xs="0">
+    <div class="item item-5" fxFlex="30%"  fxFlexOffset.xs="0">
+        <div *ngIf="delete; then thenBlock2 else elseBlock2"></div>
+            <ng-template #thenBlock2>
+                <button mat-stroked-button color="primary" (click)="switchToDelete()">
+                    <mat-icon>not_interested</mat-icon>
+                    Cancel
+                </button>
+
+                <button mat-stroked-button color="warn" class="remove-btn" (click)="deleteIcons()">
+                    <mat-icon>delete_forever</mat-icon>
+                    Remove {{selectedItems.length}} items
+                </button>
+            </ng-template>
+            <ng-template #elseBlock2>
+                <button mat-stroked-button color="primary" (click)="switchToDelete()">
+                    <mat-icon>delete_forever</mat-icon>
+                    Remove Polylines
+                </button>
+            </ng-template>
+    </div>
+
+    <div class="item item-4" fxFlex="70%"  fxFlexOffset.xs="0">
         <mat-slider
             thumbLabel
             (change)="updateGrid()"
@@ -20,13 +41,30 @@
         </mat-slider>
     </div>
 </div>
-<mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
-    <mat-grid-tile *ngFor="let polyline of polylineList" (click)="openEditor(polyline)">
-        <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]="false"></app-bitmap-canvas>
-        <mat-grid-tile-footer>{{polyline.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
-    </mat-grid-tile>
-    
-</mat-grid-list>
+
+<div *ngIf="delete; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <mat-grid-list cols={{gridCols}} rowHeight="1:1"  [gutterSize]="'10px'">
+            <mat-grid-tile *ngFor="let polyline of polylineList" (click)="select(polyline)">
+                <div *ngIf="delete">
+                    <mat-grid-tile-header class="delete-icon">
+                        <mat-icon>delete_forever</mat-icon>
+                    </mat-grid-tile-header>
+                </div>
+                <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]= "highlightTile(polyline)"></app-bitmap-canvas>
+                <mat-grid-tile-footer>{{polyline.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </ng-template>
+    <ng-template #elseBlock>
+        <mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
+            <mat-grid-tile *ngFor="let polyline of polylineList" (click)="openEditor(polyline)">
+                <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]="false"></app-bitmap-canvas>
+                <mat-grid-tile-footer>{{polyline.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </ng-template>
+
 <button mat-fab color="primary"  class="fab-main" [matMenuTriggerFor]="menu">
     <mat-icon>add</mat-icon>
 </button>

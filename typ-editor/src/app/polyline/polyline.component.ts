@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
+import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
 import { GridSelectComponent } from '../grid-select/grid-select.component';
 import { FileService } from '../services/file.service';
@@ -19,6 +20,9 @@ export class PolylineComponent implements OnInit {
   gridCols: number;
   bitmapScale: number;
 
+  delete: boolean;
+  selectedItems: Array<GraphicElement>;
+
   constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
     if(this.fileService.getPOIList()) {
       this.polylineList = this.fileService.getPolylineList();
@@ -26,6 +30,8 @@ export class PolylineComponent implements OnInit {
     this.scaleValue = 40;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
     this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
+    this.delete = false;
+    this.selectedItems = new Array();
   }
 
   ngOnInit(): void {
@@ -83,5 +89,34 @@ export class PolylineComponent implements OnInit {
         console.log(reader.error);
       };
     }
+  }
+
+  switchToDelete(): void {
+    this.delete = !this.delete;
+    this.selectedItems.splice(0, this.selectedItems.length);
+  }
+
+  select(item: GraphicElement): void {
+    if(this.selectedItems.find(x => x.type === item.type && x.subtype == item.subtype)) {
+      console.log('remove');
+      this.selectedItems = this.selectedItems.filter(x => x.type + '' + x.subtype  != item.type + '' + x.subtype);
+    }
+    else {
+      this.selectedItems.push(item);
+    }  
+    console.log(this.selectedItems);
+  }
+
+  highlightTile(item: GraphicElement): boolean {
+    if(this.selectedItems.indexOf(item) != -1) {
+      return true;
+    }
+    return false;
+  }
+
+  deleteIcons(): void {
+    this.fileService.deleteItems('polyline', this.selectedItems);
+    this.switchToDelete();
+    this.polylineList = this.fileService.getPolylineList();
   }
 }
