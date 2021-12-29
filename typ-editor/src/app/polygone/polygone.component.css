@@ -22,6 +22,10 @@ mat-slider {
     text-align:right;
 }
 
+.item-5 {
+    text-align:left;
+}
+
 .fab-main {
     position: fixed;
     right: 1em;
@@ -33,5 +37,15 @@ mat-slider {
 .file-input {
     display: none;
 }
+
+.delete-icon {
+    font-size: 2em;
+    max-height: 40px;
+}
+
+.remove-btn {
+    margin-left: 1em;
+}
+
 
 

@@ -312,6 +312,27 @@ export class FileService {
     this.updateFile();
   }
 
+  deleteItems(itemType: string, items: Array<GraphicElement>): void {
+    switch(itemType) {
+      case 'polyline':
+        items.forEach((item) => {
+          this.typFile.PolylineList = this.typFile.PolylineList.filter(x => x.type + '' + x.subtype  != item.type + '' + x.subtype);
+        });
+        break;
+      case 'poi':
+        items.forEach((item) => {
+          this.typFile.POIList = this.typFile.POIList.filter(x => x.type + '' + x.subtype  != item.type + '' + x.subtype);
+        });
+        break;
+      case 'polygone':
+        items.forEach((item) => {
+          this.typFile.PolygonList = this.typFile.PolygonList.filter(x => x.type + '' + x.subtype  != item.type + '' + x.subtype);
+        });
+        break;
+    }
+    this.updateFile();
+  }
+
   getFile(): TypFile {
     if(this.typFile) {
       return this.typFile;
