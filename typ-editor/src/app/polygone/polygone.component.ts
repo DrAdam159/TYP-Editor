@@ -69,7 +69,8 @@ export class PolygoneComponent implements OnInit {
           data: {
             file: typFile,
             toMerge: 'polygone',
-          }
+          },
+          minWidth: '80vw',
         });
       };
 

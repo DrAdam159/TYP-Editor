@@ -74,7 +74,8 @@ export class PolylineComponent implements OnInit {
           data: {
             file: typFile,
             toMerge: 'polyline',
-          }
+          },
+          minWidth: '80vw',
         });
       };
 

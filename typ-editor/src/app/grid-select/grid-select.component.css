@@ -19,5 +19,16 @@ mat-slider {
 }
 
 .item-4 {
+    margin-top: 0.2em;
     text-align:right;
+}
+
+.selected {
+    background-color: aqua;
+    
+}
+mat-grid-tile-footer {
+    color: aqua;
+    background-color: aqua;
+    background: aqua;
 }

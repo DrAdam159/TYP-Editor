@@ -69,7 +69,8 @@ export class PoiComponent implements OnInit {
           data: {
             file: typFile,
             toMerge: 'poi',
-          }
+          },
+          minWidth: '80vw',
         });
       };
 
