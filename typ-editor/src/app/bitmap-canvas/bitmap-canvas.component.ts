@@ -12,13 +12,15 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
   @Input() scaleValue!: number;
   @Input() darken!: boolean;
 
+  darkened: boolean;
+
   @ViewChild('canvas', {static: false}) 
   myCanvas!: ElementRef<HTMLCanvasElement>;
 
   context!: CanvasRenderingContext2D | null;
 
   constructor() {
-  
+    this.darkened = false;
    }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -32,9 +34,14 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
     
     if(changes['darken']) {
       if(changes['darken'].previousValue != undefined) {
-        console.log('here');
         if(changes['darken'].currentValue != changes['darken'].previousValue) {
-          this.darkenCanvas();
+          if(this.darkened) {
+            this.drawIcon();
+          }
+          else {
+            this.darkenCanvas();
+          }
+          this.darkened = !this.darkened;
         }
       }
     }
