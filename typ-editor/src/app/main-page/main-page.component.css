@@ -1,0 +1,59 @@
+.container {
+    margin: 0px;
+ } 
+
+.container2 {
+    margin-top: 10px;
+    margin-left: 1em;
+    margin-right: 1em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+ }
+
+ canvas {
+    max-height: 500px;
+ }
+
+.item {
+    color: 
+    black;
+    padding: 1em 1em;
+    text-transform: uppercase;
+}
+
+.item-1 {
+    background-color: white;
+    text-align:center;
+}
+
+.item-4 {
+    background-color: white;
+    text-align:left;
+}
+
+.item-6 {
+    color: 
+    black;
+    text-transform: uppercase;
+}
+
+.item-7 {
+    background-color: white;
+    text-align:left;
+    margin-bottom: 20em;
+}
+
+.icon {
+    font-size: 120px;
+    height: 120px ;
+    width: 120px
+}
+
+h5 {
+    font-size: 15px;
+    margin: 0;
+}
+
+.text-icon {
+    padding-bottom: 0px;
+    margin-right: 0.5em;
+}

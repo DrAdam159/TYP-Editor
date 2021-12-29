@@ -41,6 +41,7 @@ import { FormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+
 import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '@ng-matero/extensions';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IconEditorComponent } from './editor/icon-editor/icon-editor.component';
@@ -53,6 +54,7 @@ import { AddPolylineComponent } from './polyline/add-polyline/add-polyline.compo
 import { AddPolygoneComponent } from './polygone/add-polygone/add-polygone.component';
 import { AddPoiComponent } from './poi/add-poi/add-poi.component';
 import { GridSelectComponent } from './grid-select/grid-select.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -107,7 +109,8 @@ import { GridSelectComponent } from './grid-select/grid-select.component';
     MatTooltipModule,
     MatMenuModule,
     MatSliderModule,
-    DragDropModule
+    DragDropModule,
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

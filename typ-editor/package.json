@@ -22,7 +22,9 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "@ng-matero/extensions": "^12.5.2",
+    "chart.js": "^3.6.0",
     "file-saver": "^2.0.5",
+    "ng2-charts": "^3.0.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

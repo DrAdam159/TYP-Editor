@@ -1,5 +1,60 @@
-<!-- <app-file-upload></app-file-upload> -->
+<div *ngIf="loadedFile">
+    <div class="container2"
+        fxLayout
+        fxLayout.xs="column"
+        fxLayoutAlign="start"
+        fxLayoutWrap="wrap">
+        <div class="item item-1" fxFlex="100%">
+            <h1>File Info:</h1>
+        </div>
+    </div>
 
-<app-polyline></app-polyline>
+    <div class="container2" 
+        fxLayout
+        fxLayout.xs="column"
+        fxLayoutAlign="space-between"
+        >
+        <div fxFlex="40%" class="item-6 item-1">
+            <div
+            fxLayout.xs="column"
+            fxLayout="row wrap"
+            fxLayoutAlign="space-around"
+            fxFlex="100%">
+            <div class="item item-1" fxFlex="100%">
+                <mat-icon class="icon">info</mat-icon>
+            </div>
+            <div class="item item-4" fxFlex="100%">
+                <h5>
+                    <mat-icon class="text-icon">calendar_today</mat-icon>
+                    Created at: {{fileHeader.creationDate | json}}
+                </h5>
+            </div>
+            <div class="item item-7" fxFlex="100%">
+                <h5>
+                    <mat-icon class="text-icon">vpn_key</mat-icon>
+                    CodePage: {{fileHeader.Codepage | json}}
+                </h5>
+            </div>
+        </div>
+        </div>
+        <div
+            fxLayout.xs="column"
+            fxLayout="row wrap"
+            fxLayoutAlign="space-around"
+            fxFlex="60%">
+            <div class="item item-1" fxFlex="100%"><h1>{{fileName}}</h1></div>
+            <div class="item item-1" fxFlex="100%">
+                <div class="chart">
+                <canvas baseChart
+                        [data]="pieChartData"
+                        [type]="pieChartType"
+                        [options]="pieChartOptions"
+                        [legend]="pieChartLegend">
+                </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
