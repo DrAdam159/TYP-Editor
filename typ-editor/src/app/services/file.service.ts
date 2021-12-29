@@ -120,7 +120,7 @@ export class FileService {
   }
 
   updateItemDescription(inputValue: string, item: GraphicElement, typeList: Array<Type>, itemType: string): boolean {
-    const parsedInput = inputValue.split(',');
+    const parsedInput = inputValue.split('|');
     switch(itemType) {
       case 'polyline':
         if(typeList.find(element => element.description === parsedInput[0])) {

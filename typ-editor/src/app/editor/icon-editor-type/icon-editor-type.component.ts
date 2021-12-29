@@ -90,7 +90,7 @@ export class IconEditorTypeComponent implements OnInit {
    });
 
    const iconTypeResult = this.typeList.find(x => x.type == this.drawableItem.type) || this.typeList[0];
-   const preselectedValue: string = iconTypeResult.description + ',' + iconTypeResult.type;
+   const preselectedValue: string = iconTypeResult.description + '|' + iconTypeResult.type;
    this.descriptionForm.setValue({description: preselectedValue});
   }
 

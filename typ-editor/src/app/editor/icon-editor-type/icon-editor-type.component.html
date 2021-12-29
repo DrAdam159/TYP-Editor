@@ -14,7 +14,7 @@
                  [matAutocomplete]="auto"
                  formControlName="description">
           <mat-autocomplete #auto="matAutocomplete" >
-            <mat-option *ngFor="let type of filteredTypes | async" [value]="type.description + ',' + type.type">
+            <mat-option *ngFor="let type of filteredTypes | async" [value]="type.description + '|' + type.type">
               <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
               <span>{{type.description}}</span> |
               <small>Code: {{type.type}}</small>
