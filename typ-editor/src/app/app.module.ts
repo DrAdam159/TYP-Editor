@@ -52,6 +52,7 @@ import { PolygoneDraworderSortComponent } from './polygone-draworder-sort/polygo
 import { AddPolylineComponent } from './polyline/add-polyline/add-polyline.component';
 import { AddPolygoneComponent } from './polygone/add-polygone/add-polygone.component';
 import { AddPoiComponent } from './poi/add-poi/add-poi.component';
+import { GridSelectComponent } from './grid-select/grid-select.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { AddPoiComponent } from './poi/add-poi/add-poi.component';
     PolygoneDraworderSortComponent,
     AddPolylineComponent,
     AddPolygoneComponent,
-    AddPoiComponent
+    AddPoiComponent,
+    GridSelectComponent
   ],
   imports: [
     BrowserModule,

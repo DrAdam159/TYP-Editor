@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
+import { GridSelectComponent } from '../grid-select/grid-select.component';
 import { FileService } from '../services/file.service';
 import { AddPolylineComponent } from './add-polyline/add-polyline.component';
 
@@ -52,5 +54,33 @@ export class PolylineComponent implements OnInit {
 
   addPolyline(): void {
     this.matDialog.open(AddPolylineComponent);
+  }
+
+  handleFileInput(event: any): void {
+    const fileToUpload: File = event.target.files[0];
+
+    if (fileToUpload) {
+
+      const reader = new FileReader();
+     
+      reader.readAsArrayBuffer(fileToUpload);
+
+      reader.onload = () => {
+        const buffer = reader.result as ArrayBuffer;
+        const view = new DataView(buffer);
+
+        const typFile: TypFile = new TypFile(view);
+        this.matDialog.open( GridSelectComponent, {
+          data: {
+            file: typFile,
+            toMerge: 'polyline',
+          }
+        });
+      };
+
+      reader.onerror = () => {
+        console.log(reader.error);
+      };
+    }
   }
 }

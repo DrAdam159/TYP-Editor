@@ -36,10 +36,12 @@
         <mat-icon>add</mat-icon>
         New Polygone
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="fileUpload.click()">
         <mat-icon>merge</mat-icon>
         Merge From File
     </button>
-  </mat-menu>
+</mat-menu>
+
+<input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
 
   

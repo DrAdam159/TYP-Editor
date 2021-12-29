@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Select:</h2>
+<mat-dialog-content class="mat-typography">
+
+    <div class="container"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="0px"
+     fxLayoutGap.xs="0"
+>
+    <div class="item item-4" fxFlex="100%"  fxFlexOffset.xs="0">
+        <mat-slider
+            thumbLabel
+            (change)="updateGrid()"
+            [displayWith]="formatLabel"
+            tickInterval="1000"
+            step="1"
+            min="10"
+            max="70"
+            [(ngModel)]="scaleValue"
+            color="primary"
+            aria-label="units">
+        </mat-slider>
+    </div>
+</div>
+<mat-grid-list cols={{gridCols}} rowHeight="1:1"  [gutterSize]="'10px'">
+    <mat-grid-tile *ngFor="let item of itemList" (click)="select(item)">
+        <app-bitmap-canvas [drawableItem]="item" [scaleValue]="bitmapScale"></app-bitmap-canvas>
+        <mat-grid-tile-footer>{{item.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
+    </mat-grid-tile>
+</mat-grid-list>
+   
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="mergeItems()">Merge</button>
+</mat-dialog-actions>

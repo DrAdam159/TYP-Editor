@@ -285,6 +285,33 @@ export class FileService {
     this.updateFile();
   }
 
+  mergeItems(itemType: string, items: Array<GraphicElement>, fileToMerge: TypFile): void {
+    switch(itemType) {
+      case 'polyline':
+        items.forEach((item) => {
+          this.typFile.PolylineList.push(
+            fileToMerge.PolylineList.find(x => x.type === item.type && x.subtype == item.subtype) || new Polyline(0,0)
+          );
+        });
+        break;
+      case 'poi':
+        items.forEach((item) => {
+          this.typFile.POIList.push(
+            fileToMerge.POIList.find(x => x.type === item.type && x.subtype == item.subtype) || new POI(0,0)
+          );
+        });
+        break;
+      case 'polygone':
+        items.forEach((item) => {
+          this.typFile.PolygonList.push(
+            fileToMerge.PolygonList.find(x => x.type === item.type && x.subtype == item.subtype) || new Polygon(0,0)
+          );
+        });
+        break;
+    }
+    this.updateFile();
+  }
+
   getFile(): TypFile {
     if(this.typFile) {
       return this.typFile;

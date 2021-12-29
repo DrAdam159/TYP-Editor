@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { POI } from 'src/TYP_File_lib/TypFile_blocks/POI';
+import { GridSelectComponent } from '../grid-select/grid-select.component';
 import { FileService } from '../services/file.service';
 import { AddPoiComponent } from './add-poi/add-poi.component';
 
@@ -47,6 +49,34 @@ export class PoiComponent implements OnInit {
 
   addPOI(): void {
     this.matDialog.open(AddPoiComponent);
+  }
+
+  handleFileInput(event: any): void {
+    const fileToUpload: File = event.target.files[0];
+
+    if (fileToUpload) {
+
+      const reader = new FileReader();
+     
+      reader.readAsArrayBuffer(fileToUpload);
+
+      reader.onload = () => {
+        const buffer = reader.result as ArrayBuffer;
+        const view = new DataView(buffer);
+
+        const typFile: TypFile = new TypFile(view);
+        this.matDialog.open( GridSelectComponent, {
+          data: {
+            file: typFile,
+            toMerge: 'poi',
+          }
+        });
+      };
+
+      reader.onerror = () => {
+        console.log(reader.error);
+      };
+    }
   }
 
 }
