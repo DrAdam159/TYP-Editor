@@ -19,6 +19,8 @@ export class GridSelectComponent implements OnInit {
   itemType: string;
   fileToMerge: TypFile;
 
+  darken: boolean;
+
   constructor(@Inject(MAT_DIALOG_DATA) private data: {file: TypFile, toMerge: string}, private fileService: FileService, private dialogRef: MatDialogRef<GridSelectComponent>) { 
     this.scaleValue = 40;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
@@ -26,6 +28,7 @@ export class GridSelectComponent implements OnInit {
     this.selectedItems = new Array();
     this.itemType = data.toMerge;
     this.fileToMerge = data.file;
+    this.darken = false;
     switch(this.itemType) {
       case 'polyline':
         this.itemList = data.file.PolylineList;
@@ -58,11 +61,19 @@ export class GridSelectComponent implements OnInit {
 
   select(item: GraphicElement): void {
     this.selectedItems.push(item);
+    //this.darken = true;
   }
 
   mergeItems(): void{
     this.fileService.mergeItems(this.itemType, this.selectedItems, this.fileToMerge);
     this.dialogRef.close();
+  }
+
+  highlightTile(item: GraphicElement): boolean {
+    if(this.selectedItems.indexOf(item) != -1) {
+      return true;
+    }
+    return false;
   }
 
 }

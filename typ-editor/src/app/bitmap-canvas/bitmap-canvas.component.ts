@@ -10,18 +10,32 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
 
   @Input() drawableItem!: GraphicElement;
   @Input() scaleValue!: number;
+  @Input() darken!: boolean;
 
   @ViewChild('canvas', {static: false}) 
   myCanvas!: ElementRef<HTMLCanvasElement>;
 
   context!: CanvasRenderingContext2D | null;
 
-  constructor() { }
+  constructor() {
+  
+   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['scaleValue'].previousValue != undefined) {
-      if(changes['scaleValue'].currentValue != changes['scaleValue'].previousValue) {
-        this.drawIcon();
+    if(changes['scaleValue']) {
+      if(changes['scaleValue'].previousValue != undefined) {
+        if(changes['scaleValue'].currentValue != changes['scaleValue'].previousValue) {
+          this.drawIcon();
+        }
+      }
+    }
+    
+    if(changes['darken']) {
+      if(changes['darken'].previousValue != undefined) {
+        console.log('here');
+        if(changes['darken'].currentValue != changes['darken'].previousValue) {
+          this.darkenCanvas();
+        }
       }
     }
   }
@@ -45,6 +59,16 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
           this.context.stroke();
         }
       }
+    }
+    if(this.darken) {
+      this.darkenCanvas();
+    }
+  }
+
+  darkenCanvas(): void {
+    if(this.context) {
+      this.context.fillStyle = "rgba(0, 0, 0, 0.7)";
+      this.context.fillRect(0, 0, 700, 500);
     }
   }
 
