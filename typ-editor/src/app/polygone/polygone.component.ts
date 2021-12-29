@@ -88,6 +88,7 @@ export class PolygoneComponent implements OnInit {
 
   switchToDelete(): void {
     this.delete = !this.delete;
+    this.selectedItems.splice(0, this.selectedItems.length);
   }
 
   select(item: GraphicElement): void {
