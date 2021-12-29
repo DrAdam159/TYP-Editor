@@ -33,7 +33,6 @@ import { EditorComponent } from './editor/editor.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { BitmapCanvasComponent } from './bitmap-canvas/bitmap-canvas.component';
-import { FileHeaderComponent } from './file-header/file-header.component';
 import { FileDownloadComponent } from './file-download/file-download.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -68,7 +67,6 @@ import { NgChartsModule } from 'ng2-charts';
     EditorComponent,
     MainNavComponent,
     BitmapCanvasComponent,
-    FileHeaderComponent,
     FileDownloadComponent,
     IconEditorComponent,
     IconEditorDescriptionComponent,
