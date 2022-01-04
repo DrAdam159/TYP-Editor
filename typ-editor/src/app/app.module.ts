@@ -24,6 +24,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSliderModule} from '@angular/material/slider';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -109,6 +110,7 @@ import { NgChartsModule } from 'ng2-charts';
     MatSliderModule,
     DragDropModule,
     NgChartsModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

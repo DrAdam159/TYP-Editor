@@ -40,10 +40,13 @@ export class IconEditorTypeComponent implements OnInit {
 
   filteredTypes: Observable<Type[]>
 
+  searchByType: boolean;
+
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) { 
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";
+    this.searchByType = false;
 
     this.typeList = new Array();
 
@@ -100,6 +103,10 @@ export class IconEditorTypeComponent implements OnInit {
     return this.typeList.filter(state => state.description.toLowerCase().includes(filterValue));
   }
 
+  private _filterTypesByTypeCode(value: string): Type[] {
+    return this.typeList.filter(state => state.type.toString().includes(value));
+  }
+
   onFormSubmit() {
     if (this.descriptionForm.valid) { 
       let inputValue: string = this.descriptionForm.get('description')?.value;
@@ -120,5 +127,28 @@ export class IconEditorTypeComponent implements OnInit {
   resetForm(form: FormGroup) {
 		form.reset();
 	}
+
+  changeSearchMethod(): void {
+    this.searchByType = !this.searchByType;
+    this.switchSearchMethod();
+  }
+
+  switchSearchMethod(): void {
+    let tmp = this.descriptionForm.get('description');
+    if( tmp !=null ) {
+      if(this.searchByType) {
+        this.filteredTypes = tmp.valueChanges.pipe(
+          startWith(''),
+          map(state => (state ? this._filterTypesByTypeCode(state) : this.typeList.slice())),
+        );
+      }
+      else {
+        this.filteredTypes = tmp.valueChanges.pipe(
+          startWith(''),
+          map(state => (state ? this._filterTypes(state) : this.typeList.slice())),
+        );
+      }
+    }
+  }
 
 }
