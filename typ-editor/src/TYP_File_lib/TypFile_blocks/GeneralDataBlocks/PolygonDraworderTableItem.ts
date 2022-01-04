@@ -29,6 +29,10 @@ export class PolygonDraworderTableItem {
          else
             this.type += 0x100;
       }
+      else {
+         this.type = len;
+         this.level = level;
+      }
    }
 
    SetSubtype(subtyp: number): void {

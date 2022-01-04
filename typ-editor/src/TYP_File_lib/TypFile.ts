@@ -245,7 +245,7 @@ export class TypFile {
             let typeList: Array<KeyValuePair2> = new Array<KeyValuePair2>();
 
             let data = tempDrawOrderList.find(function(item) {
-                return item.key === p.drawOrder;
+                return item.key == p.drawOrder;
             });
             if(!data){
                 typeList = new Array<KeyValuePair2>();
@@ -254,10 +254,9 @@ export class TypFile {
             else {
                 typeList = data.value;
             }
-        
            let subtypeList: Array<KeyValuePair1> = new Array<KeyValuePair1>();
            let data2 = typeList.find(function(item) {
-                return item.key === p.type;
+                return item.key == p.type;
             });
             if(!data2){
                 subtypeList = new Array<KeyValuePair1>();
@@ -266,7 +265,7 @@ export class TypFile {
             else {
                 subtypeList = data2.value;
             }
-            subtypeList.push({key: p.subtype, value: 0});
+           subtypeList.push({key: p.subtype, value: 0});
         }
 
         tempDrawOrderList.sort(function(a, b) {
@@ -286,7 +285,9 @@ export class TypFile {
                 });
             }
         }
-            
+
+        
+        console.log(tempDrawOrderList);            
 
         this.header.PolygoneDraworderTableBlock.recordSize = 5;
         this.header.PolygoneDraworderTableBlock.offset = writer.getPosition();
@@ -300,18 +301,19 @@ export class TypFile {
 
             olddraworder = draworder.key; 
             let typeList: Array<KeyValuePair2> = tempDrawOrderList.find(function(item) {
-                return item.key === draworder.key;
+                return item.key == draworder.key;
             })?.value || new Array;
 
             for (const type of typeList) {
               let ti: PolygonDraworderTableItem = new PolygonDraworderTableItem(undefined, type.key, draworder.key);
               let subtypeList: Array<KeyValuePair1> = typeList.find(function(item) {
-                return item.key === type.key;
+                return item.key == type.key;
               })?.value || new Array;
 
               for (const subtype of subtypeList) {
                 ti.subTypes.push(subtype.key);
               }
+              console.log(ti.level, ti.type, ti.subTypes);
               ti.write(writer, this.header.PolygoneDraworderTableBlock.recordSize);
             }
         }
