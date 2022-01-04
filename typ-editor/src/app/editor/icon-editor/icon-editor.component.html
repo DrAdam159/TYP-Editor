@@ -106,7 +106,7 @@
   </div>
 
   <div class="item item-2 color-picker-col" fxFlex="20%" >
-    <div *ngIf="limitColors" class="color-limit">
+    <div class="color-limit">
       <mat-form-field>
         <mat-label>Color picker</mat-label>
         <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
