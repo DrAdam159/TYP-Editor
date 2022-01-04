@@ -48,8 +48,13 @@ canvas {
 }
 
 .mat-button-toggle{
-    background-color: transparent;
+    background-color: #f3f1f5;
     color: #673ab7;
+}
+
+.mat-button-toggle-checked{
+    background-color: #673ab7;
+    color: #f3f1f5;
 }
 
 .color-picker-col {

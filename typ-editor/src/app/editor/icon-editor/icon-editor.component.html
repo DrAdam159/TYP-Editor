@@ -106,15 +106,17 @@
   </div>
 
   <div class="item item-2 color-picker-col" fxFlex="20%" >
-    <mat-form-field>
-      <mat-label>Color picker</mat-label>
-      <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
-      </mtx-color-picker>
-      <mat-icon matSuffix color="primary">palette</mat-icon>
-      <mat-hint>Choose your favorite color</mat-hint>
-      <mat-error>Please enter the color</mat-error>
-    </mat-form-field>
-
+    <div *ngIf="limitColors" class="color-limit">
+      <mat-form-field>
+        <mat-label>Color picker</mat-label>
+        <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
+        </mtx-color-picker>
+        <mat-icon matSuffix color="primary">palette</mat-icon>
+        <mat-hint>Choose your favorite color</mat-hint>
+        <mat-error>Please enter the color</mat-error>
+      </mat-form-field>
+    </div>
+  
     <div *ngIf="limitColors" class="color-limit">
       <mat-button-toggle-group [formControl]="colorOptions">
         <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>

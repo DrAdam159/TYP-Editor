@@ -4,7 +4,7 @@
     <form [formGroup]="descriptionForm" (ngSubmit)="onFormSubmit()" class="example-form">
         <br>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field  class="example-full-width" appearance="fill">
             <mat-label>Choose language</mat-label>
             <mat-select formControlName="language" (selectionChange)="onChange()">
               <mat-option *ngFor="let item of languageList" [value]="item">

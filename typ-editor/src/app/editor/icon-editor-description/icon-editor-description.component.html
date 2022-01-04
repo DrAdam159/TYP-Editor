@@ -1,4 +1,12 @@
-<div *ngIf="drawableItem">
+<div class="container"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="0px"
+     fxLayoutGap.xs="0"
+>
+  <div class="item item-5" fxFlex="70%" fxFlexOffset.xs="0"> 
+    <div *ngIf="drawableItem">
       <div class="table-container">
         <div class="demo-button-container">
           <button mat-raised-button (click)="addData()" class="demo-button">
@@ -52,5 +60,8 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table> 
       </div>
-      
+    </div>
+  </div>
 </div>
+
+
