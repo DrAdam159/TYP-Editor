@@ -5,7 +5,7 @@
      fxLayoutGap="0px"
      fxLayoutGap.xs="0"
 >
-  <div class="item item-1" fxFlex="10%">
+  <div class="item " [ngClass]="darkMode  ? 'item-1-dark' : 'item-1'" fxFlex="10%">
 
     <mat-button-toggle-group [formControl]="toolOptions" vertical >
       
@@ -14,55 +14,55 @@
         <mat-icon>minimize</mat-icon>
       </mat-button-toggle> -->
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useLine()"
-      #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>minimize</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="fill" aria-label="Text align right" (click) = "useFill()"
-      #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>format_color_fill</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()"
-      #tooltip="matTooltip" matTooltip="Filled Rectangle" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Filled Rectangle" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>rectangle</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="rectangle" aria-label="Text align right" (click) = "useRectangle()"
-      #tooltip="matTooltip" matTooltip="Rectangle" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Rectangle" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>crop_square</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()"
-      #tooltip="matTooltip" matTooltip="Filled Circle" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Filled Circle" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>circle</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="circle" aria-label="Text align right" (click) = "useCircle()"
-      #tooltip="matTooltip" matTooltip="Circle" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Circle" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>radio_button_unchecked</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="flip vertically" aria-label="Text align right" (click) = "flipVertically()"
-      #tooltip="matTooltip" matTooltip="Flip Vertically" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Flip Vertically" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>swap_vert</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()"
-      #tooltip="matTooltip" matTooltip="Flip Horizontally" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Flip Horizontally" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>swap_horiz</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="rotate left" aria-label="Text align right" (click) = "rotateLeft()"
-      #tooltip="matTooltip" matTooltip="Rotate Left" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Rotate Left" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>rotate_left</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()"
-      #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>colorize</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="eraser" aria-label="Text align right" (click) = "erase()"
-      #tooltip="matTooltip" matTooltip="Erase" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Erase" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>auto_fix_high</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle value="inverse" aria-label="Text align right" (click) = "inverseColors()"
-      #tooltip="matTooltip" matTooltip="Invert Colors" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Invert Colors" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>invert_colors</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle value="limit" aria-label="Text align right" [matMenuTriggerFor]="menu"
-      #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>palette</mat-icon>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click) = "findNearestColor('Garmin16')">
@@ -80,13 +80,13 @@
         </mat-menu>
       </mat-button-toggle>
       <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()"
-      #tooltip="matTooltip" matTooltip="No Tool" [matTooltipPosition]="'right'" >
+      #tooltip="matTooltip" matTooltip="No Tool" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
         <mat-icon>cancel</mat-icon>
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 
-  <div class="item item-3" fxFlex>
+  <div class="item " [ngClass]="darkMode  ? 'item-3-dark' : 'item-3'" fxFlex>
     <div *ngIf="drawableItem" class="canvas-container">
       <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
@@ -105,15 +105,15 @@
     </div>
   </div>
 
-  <div class="item item-2 color-picker-col" fxFlex="20%" >
+  <div class="item  color-picker-col" [ngClass]="darkMode  ? 'item-2-dark' : 'item-2'"  fxFlex="20%" >
     <div class="color-limit">
       <mat-form-field>
-        <mat-label>Color picker</mat-label>
+        <mat-label [ngClass]="darkMode  ? 'dark-icon' : ''">Color picker</mat-label>
         <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
         </mtx-color-picker>
-        <mat-icon matSuffix color="primary">palette</mat-icon>
-        <mat-hint>Choose your favorite color</mat-hint>
-        <mat-error>Please enter the color</mat-error>
+        <mat-icon matSuffix color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">palette</mat-icon>
+        <mat-hint [ngClass]="darkMode  ? 'dark-icon' : ''">Choose your favorite color</mat-hint>
+        <mat-error [ngClass]="darkMode  ? 'dark-icon' : ''">Please enter the color</mat-error>
       </mat-form-field>
     </div>
   
@@ -121,7 +121,7 @@
       <mat-button-toggle-group [formControl]="colorOptions">
         <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
       </mat-button-toggle-group>
-      <div>Selected color: {{colorOptions.value}}</div>
+      <div [ngClass]="darkMode  ? 'dark-icon' : ''">Selected color: {{colorOptions.value}}</div>
     </div>
   </div>
 </div>
@@ -134,27 +134,27 @@
      fxLayoutGap="0px"
      fxLayoutGap.xs="0"
 >
-  <div class="item item-5" fxFlex fxFlexOffset.xs="0"> 
+  <div class="item"  [ngClass]="darkMode  ? 'item-5-dark' : 'item-5'" fxFlex fxFlexOffset.xs="0"> 
     <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
-      <mat-icon color="primary">settings</mat-icon>
+      <mat-icon color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">settings</mat-icon>
     </button>
     <mat-menu #menu2="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click) = "changeMode()">
         <mat-icon>dialpad</mat-icon>
         <span>Dark theme</span>
       </button>
     </mat-menu>
   </div>
-  <div class="item item-4" fxFlex="90%"  fxFlexOffset.xs="0">
+  <div class="item"  [ngClass]="darkMode  ? 'item-4-dark' : 'item-4'" fxFlex="90%"  fxFlexOffset.xs="0">
 
     <button mat-stroked-button color="primary" (click) = "undo()"
     #tooltip="matTooltip" matTooltip="Undo Action" [matTooltipPosition]="'below'" >
-      <mat-icon >undo</mat-icon>
+      <mat-icon [ngClass]="darkMode  ? 'dark-icon' : ''">undo</mat-icon>
     </button>
     
     <button mat-stroked-button color="primary"  id="undo_redo_btns" (click) = "redo()"
     #tooltip="matTooltip" matTooltip="Redo Action" [matTooltipPosition]="'below'" >
-      <mat-icon>redo</mat-icon>
+      <mat-icon [ngClass]="darkMode  ? 'dark-icon' : ''">redo</mat-icon>
     </button>
 
     <input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>

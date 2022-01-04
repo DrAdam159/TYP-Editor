@@ -222,7 +222,7 @@ export class FileService {
         break;
     }
     newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
-    console.log(this.getPOI(type, subType));
+    console.log(this.getPolygone(type, subType));
     this.updateFile();
   }
 
@@ -281,7 +281,7 @@ export class FileService {
         break;
     }
     newItem.bitmapNight?.data.convertBitmapToData(bitmap, newItem.bitmapNight.colorTable);
-    console.log(this.getPolyline(type, subType));
+    console.log(this.getPolygone(type, subType));
     this.updateFile();
   }
 

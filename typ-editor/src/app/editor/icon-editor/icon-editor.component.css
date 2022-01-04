@@ -42,7 +42,37 @@ canvas {
     text-align:center;
 }
 
+.item-1-dark {
+    background-color: #35363A;
+    text-align:center;
+}
+
+.item-2-dark {
+    background-color: #35363A;
+    text-align:right;
+}
+
+.item-3-dark {
+    background-color: #35363A;
+    text-align:center;
+}
+
+.item-4-dark {
+    background-color: #35363A;
+    text-align:right;
+}
+
+.item-5-dark {
+    background-color: #35363A;
+    text-align:center;
+}
+
 .item-4 button {
+    padding: 7px;
+    margin: 5px;
+}
+
+.item-4-dark button {
     padding: 7px;
     margin: 5px;
 }
@@ -59,6 +89,16 @@ canvas {
 
 .color-picker-col {
     color: #673ab7;
+}
+
+.mat-button-toggle-dark{
+    background-color: #35363A;
+    color: #f3f1f5;
+}
+
+.mat-button-toggle-checked-dark{
+    background-color: #f3f1f5;
+    color: #35363A;
 }
 
 .file-input {
@@ -86,6 +126,11 @@ canvas {
     pointer-events:none;
     color: grey;
 }
+
+.dark-icon {
+    color: #f3f1f5;
+}
+
 
 
   

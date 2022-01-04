@@ -75,6 +75,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   //omezeni editacnich nastroju pro nocni ikonku Polyline / Polygone
   limitToolUse: boolean;
+
+  darkMode: boolean;
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.iconType = "Day";
@@ -102,6 +104,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.hasNightIcon = false;
 
     this.limitToolUse = false;
+
+    this.darkMode = false;
 
    }
 
@@ -823,5 +827,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   addNightIcon(): void {
     this.hasNightIcon = true;
+  }
+
+  changeMode(): void {
+    this.darkMode = !this.darkMode;
   }
 }
