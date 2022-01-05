@@ -260,7 +260,7 @@ export class TypFile {
             });
             if(!data2){
                 subtypeList = new Array<KeyValuePair1>();
-                typeList.push({key: p.drawOrder, value: subtypeList});
+                typeList.push({key: p.type, value: subtypeList});
             }
             else {
                 subtypeList = data2.value;
@@ -313,7 +313,6 @@ export class TypFile {
               for (const subtype of subtypeList) {
                 ti.subTypes.push(subtype.key);
               }
-              console.log(ti.level, ti.type, ti.subTypes);
               ti.write(writer, this.header.PolygoneDraworderTableBlock.recordSize);
             }
         }
