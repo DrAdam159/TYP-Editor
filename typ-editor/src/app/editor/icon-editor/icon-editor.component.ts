@@ -186,7 +186,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.drawBitmapWithGrid();
     this.storeBitmap();
     this.mapPreviewCanvasContext = this.mapPreviewCanvas.nativeElement.getContext('2d');
-    if(this.itemType == 'polygone' /*|| this.itemType == 'polyline'*/) {
+    if(this.itemType == 'polygone') {
       this.drawMapPreview();
     }
   }
@@ -200,11 +200,17 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       if(this.colorOptions.value) {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[this.colorOptions.value]));
         this.updateBitmap();
+        if(this.itemType == 'polygone') {
+          this.drawMapPreview();
+        }
         this.colors[this.colorOptions.value] = this.color;
       }
       else {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[0]));
         this.updateBitmap();
+        if(this.itemType == 'polygone') {
+          this.drawMapPreview();
+        }
         this.colors[0] = this.color;
       }
     }
@@ -429,6 +435,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.storeBitmap();
     this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
+    if(this.itemType == 'polygone') {
+      this.drawMapPreview();
+    }
     this.lineStart = false;
   }
 
@@ -437,6 +446,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       return;
     }
     this.drawBitmapWithGrid();
+    // if(this.itemType == 'polygone') {
+    //   this.drawMapPreview();
+    // }
   }
 
   drawBitmapWithGrid(): void {
@@ -565,6 +577,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.itemBitmap.fill(convertedCoordinates.x, convertedCoordinates.y, new Color(this.color));
       this.storeBitmap();
       this.updateBitmap();
+      if(this.itemType == 'polygone') {
+        this.drawMapPreview();
+      }
     }
   }
 
@@ -686,6 +701,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = bitmapCopy;
     this.storeBitmap();
     this.updateBitmap();
+    if(this.itemType == 'polygone') {
+      this.drawMapPreview();
+    }
   }
 
   flipImageHorizontally(): void {
@@ -700,6 +718,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = bitmapCopy;
     this.storeBitmap();
     this.updateBitmap();
+    if(this.itemType == 'polygone') {
+      this.drawMapPreview();
+    }
   }
 
   rotateImageLeft(): void {
@@ -714,6 +735,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = bitmapCopy;
     this.storeBitmap();
     this.updateBitmap();
+    if(this.itemType == 'polygone') {
+      this.drawMapPreview();
+    }
   }
 
   getSelectedColor(currentPos: { x: number; y: number }): void {
@@ -746,6 +770,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.storeBitmap();
       this.updateBitmap();
+      if(this.itemType == 'polygone') {
+        this.drawMapPreview();
+      }
     }
   }
 
@@ -760,6 +787,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.storeBitmap();
       this.updateBitmap();
+      if(this.itemType == 'polygone') {
+        this.drawMapPreview();
+      }
     }
   }
 
@@ -781,6 +811,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
     
     this.updateBitmap();
+    if(this.itemType == 'polygone') {
+      this.drawMapPreview();
+    }
   }
 
   redo(): void {
@@ -795,6 +828,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.undoQuery.push(tmp);
     }
     this.updateBitmap();
+    if(this.itemType == 'polygone') {
+      this.drawMapPreview();
+    }
   }
 
   saveChangesToFile(): void {
@@ -856,6 +892,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         if(imgData) {
           this.itemBitmap.pixelArr = imgData;
           this.drawBitmapWithGrid();
+          if(this.itemType == 'polygone') {
+            this.drawMapPreview();
+          }
           if(this.limitColors) {
             this.colors.splice(0, this.colors.length);
             this.itemBitmap.getAllColors().forEach((col, index) => {
