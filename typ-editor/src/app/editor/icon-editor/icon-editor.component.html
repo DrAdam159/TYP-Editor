@@ -101,9 +101,25 @@
             <canvas #canvas class="canvas"></canvas>
           </div>
           <div *ngIf="!hasNightIcon">
-            <button mat-fab color="primary"  class="fab-main add-btn" (click)="addNightIcon()">
+            <button mat-fab color="primary"  class="fab-main add-btn" [matMenuTriggerFor]="nightIconMenu">
               <mat-icon>add</mat-icon>
             </button>
+            <mat-menu #nightIconMenu="matMenu">
+              <button mat-menu-item (click)="addNightIconInverse()">
+                <mat-icon>invert_colors</mat-icon>
+                <span>With Inverse Colors</span>
+              </button>
+              <button mat-menu-item (click)="addNightIconSameAsDay()">
+                <mat-icon>wb_sunny</mat-icon>
+                <span>Same As Day Icon</span>
+              </button>
+              <div *ngIf="!limitToolUse">
+                <button mat-menu-item (click)="addEmptyNightIcon()">
+                  <mat-icon>format_color_reset</mat-icon>
+                  <span>Empty</span>
+                </button>
+              </div>
+            </mat-menu>
           </div>
         </ng-template>
     </div>

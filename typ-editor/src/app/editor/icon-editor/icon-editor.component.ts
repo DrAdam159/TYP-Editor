@@ -919,8 +919,31 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addNightIcon(): void {
+  addNightIconInverse(): void {
     this.hasNightIcon = true;
+  }
+
+  addNightIconSameAsDay(): void {
+    this.hasNightIcon = true;
+    this.itemBitmap.inverseColors();
+    this.updateBitmap();
+    this.drawMapPreview();
+    if(this.limitColors) {
+      this.colors.splice(0, this.colors.length);
+      this.itemBitmap.getAllColors().forEach((col, index) => {
+        this.colors.push(col.toHex());
+      });
+      if(this.colors.length == 1) {
+        this.colors.push('#FFFFFF');
+      }
+      this.color = this.colors[0];
+    }
+  }
+
+  addEmptyNightIcon(): void {
+    this.hasNightIcon = true;
+    this.itemBitmap.clearBitmap();
+    this.updateBitmap();
   }
 
   changeMode(): void {
