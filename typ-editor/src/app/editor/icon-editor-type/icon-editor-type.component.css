@@ -27,7 +27,19 @@
     padding: 1em 4em;
     text-transform: uppercase;
 }
+
+.item-2 {
+  color: black;
+  padding-bottom: 1em;
+  padding-top: 1em;
+  text-transform: uppercase;
+}
   
 .item-5 {
     text-align:center;
+}
+
+.item-4 {
+  padding-top: 2rem;
+  text-align:left;
 }

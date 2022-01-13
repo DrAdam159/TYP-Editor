@@ -5,7 +5,7 @@
      fxLayoutGap="0px"
      fxLayoutGap.xs="0"
 >
-  <div class="item item-5" fxFlex="70%" fxFlexOffset.xs="0"> 
+  <div class="item item-5" fxFlex="50%" fxFlexOffset.xs="0"> 
       <form [formGroup]="descriptionForm" class="example-form" (ngSubmit)="onFormSubmit()">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Type</mat-label>
@@ -24,11 +24,11 @@
       
         <!-- <button mat-raised-button color="primary">Save</button> -->
       </form>
-
-      <br>
-      <mat-slide-toggle color="primary" (change)="changeSearchMethod()">
-        Search by type?
-      </mat-slide-toggle>
+  </div>
+  <div class="item-2 item-4" fxFlex="15%" fxFlexOffset.xs="0">
+    <mat-slide-toggle color="primary" (change)="changeSearchMethod()">
+      Search by type?
+    </mat-slide-toggle>
   </div>
 </div>
 
