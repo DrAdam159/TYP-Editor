@@ -198,4 +198,9 @@ export class Bitmap {
             }
         }    
     }
+
+    clearBitmap(): void {
+        this.pixelArr = new Uint8ClampedArray(this.width * this.height * this.pixelOffset);
+        this.pixelArr.fill(255);
+    }
 }
