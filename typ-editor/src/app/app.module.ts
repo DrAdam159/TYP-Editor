@@ -25,6 +25,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSliderModule} from '@angular/material/slider';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -55,6 +57,7 @@ import { AddPolygoneComponent } from './polygone/add-polygone/add-polygone.compo
 import { AddPoiComponent } from './poi/add-poi/add-poi.component';
 import { GridSelectComponent } from './grid-select/grid-select.component';
 import { NgChartsModule } from 'ng2-charts';
+import { OptionsComponent } from './options/options.component';
 
 
 @NgModule({
@@ -78,7 +81,8 @@ import { NgChartsModule } from 'ng2-charts';
     AddPolylineComponent,
     AddPolygoneComponent,
     AddPoiComponent,
-    GridSelectComponent
+    GridSelectComponent,
+    OptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +114,9 @@ import { NgChartsModule } from 'ng2-charts';
     MatSliderModule,
     DragDropModule,
     NgChartsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatExpansionModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

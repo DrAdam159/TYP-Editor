@@ -6,6 +6,7 @@ import { PoiComponent } from './poi/poi.component';
 import { PolylineComponent } from './polyline/polyline.component';
 import { PolygoneComponent } from './polygone/polygone.component';
 import { PolygoneDraworderSortComponent } from './polygone-draworder-sort/polygone-draworder-sort.component';
+import { OptionsComponent } from './options/options.component';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'poi', component: PoiComponent},
   {path: 'polyline', component: PolylineComponent},
   {path: 'polygone', component: PolygoneComponent},
-  {path: 'draworder', component: PolygoneDraworderSortComponent}
+  {path: 'draworder', component: PolygoneDraworderSortComponent},
+  {path: 'options', component: OptionsComponent}
 ];
 
 @NgModule({

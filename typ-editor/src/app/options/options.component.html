@@ -1,0 +1,69 @@
+<div class="container2"
+        fxLayout
+        fxLayout.xs="column"
+        fxLayoutAlign="start"
+        fxLayoutWrap="wrap">
+        <div class="item item-1" fxFlex="100%">
+            <div class="example-action-buttons">
+                <button mat-button (click)="accordion.openAll()">Expand All</button>
+                <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+              </div>
+              <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Limit Color Palette
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Select Garmin Color Palette
+                      <mat-icon>palette</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  <mat-radio-group [formControl]="colorPaletteControl" class="example-radio-group">
+                    <mat-radio-button color="primary" class="example-radio-button" value="None" (change)="limitColors()">None</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-radio-button" value="Garmin16" (change)="limitColors()">Garmin 16</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-radio-button" value="Garmin64" (change)="limitColors()">Garmin 64</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-radio-button" value="Garmin256" (change)="limitColors()">Garmin 256</mat-radio-button>
+                  </mat-radio-group>
+                 
+              
+                </mat-expansion-panel>
+                <mat-expansion-panel >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      FID
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Change FID
+                      <mat-icon>map</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  <mat-form-field appearance="fill" class="size-input-width">
+                    <input matInput type="number" [formControl]="fidControl" placeholder="Ex. 12" min="0">
+                  </mat-form-field>
+                </mat-expansion-panel>
+                <mat-expansion-panel >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        PID
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Change PID
+                        <mat-icon>map</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <mat-form-field appearance="fill" class="size-input-width">
+                      <input matInput type="number" [formControl]="pidControl" placeholder="Ex. 12" min="0">
+                    </mat-form-field>
+                  </mat-expansion-panel>
+              </mat-accordion>
+            
+        </div>
+</div>
+
+<button mat-raised-button class="fab-main save-btn" color="primary" (click) = "saveChangesToFile()">
+    <mat-icon class="save-icon">save</mat-icon>Save Changes
+</button>
