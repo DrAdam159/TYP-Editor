@@ -1,26 +1,44 @@
-<h2 mat-dialog-title>ADD:</h2>
+<h2 mat-dialog-title>{{title}}</h2>
 <mat-dialog-content class="mat-typography">
 
-    <form [formGroup]="descriptionForm" (ngSubmit)="onFormSubmit()" class="example-form">
-        <br>
+    <div *ngIf="limit; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <form [formGroup]="descriptionForm" (ngSubmit)="onFormSubmit()" class="example-form">
+            <br>
+         
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Description</mat-label>
+                <input formControlName="description" matInput #message maxlength="256" placeholder="Parking..." >
+                <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+            </mat-form-field>
+    
+            <!-- <button mat-raised-button color="primary">Save</button> -->
+        </form> 
 
-        <mat-form-field  class="example-full-width" appearance="fill">
-            <mat-label>Choose language</mat-label>
-            <mat-select formControlName="language" (selectionChange)="onChange()">
-              <mat-option *ngFor="let item of languageList" [value]="item">
-                {{ item }}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Description</mat-label>
-            <input formControlName="description" matInput #message maxlength="256" placeholder="Parking..." >
-            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
-        </mat-form-field>
-
-        <!-- <button mat-raised-button color="primary">Save</button> -->
-    </form> 
+    </ng-template>
+    <ng-template #elseBlock>
+        <form [formGroup]="descriptionForm" (ngSubmit)="onFormSubmit()" class="example-form">
+            <br>
+           
+            <mat-form-field  class="example-full-width" appearance="fill">
+                <mat-label>Choose language</mat-label>
+                <mat-select formControlName="language" (selectionChange)="onChange()">
+                    <mat-option *ngFor="let item of languageList" [value]="item">
+                    {{ item }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+         
+    
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Description</mat-label>
+                <input formControlName="description" matInput #message maxlength="256" placeholder="Parking..." >
+                <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+            </mat-form-field>
+    
+            <!-- <button mat-raised-button color="primary">Save</button> -->
+        </form> 
+    </ng-template>
    
 </mat-dialog-content>
 <mat-dialog-actions align="end">

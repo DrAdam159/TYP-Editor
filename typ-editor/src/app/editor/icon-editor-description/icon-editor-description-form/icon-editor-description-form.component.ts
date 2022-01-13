@@ -60,6 +60,8 @@ export class IconEditorDescriptionFormComponent implements OnInit {
 
   languageList: Array<String>;
 
+  title: string;
+
   constructor(@Inject(MAT_DIALOG_DATA) private data: {item: GraphicElement, itemCode: number, limit: boolean}, private formBuilder: FormBuilder, private fileService: FileService) {
     this.drawableItem = data.item;
     this.itemCode = data.itemCode;
@@ -68,12 +70,14 @@ export class IconEditorDescriptionFormComponent implements OnInit {
 
     if(this.limit) {
       this.languageList.push(LanguageCode[this.itemCode]);
+      this.title = 'Edit:';
     }
     else {
       this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
       this.drawableItem.text.textArr.forEach((loc, index) => {
         this.languageList = this.languageList.filter(value => value != LanguageCode[loc.key])
-      })
+      });
+      this.title = 'Add:';
     }
     
 
@@ -84,6 +88,10 @@ export class IconEditorDescriptionFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    if(this.limit) { 
+      const description = this.drawableItem.text.textArr.find(x => x.key === ~~this.itemCode);
+      this.descriptionForm.setValue({description: description?.value, language: LanguageCode[this.itemCode] });
+    }
   }
 
   onChange() {
