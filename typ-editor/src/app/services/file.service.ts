@@ -10,6 +10,8 @@ import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 import { Color } from 'src/TYP_File_lib/Utils/Color';
 import { Type } from 'src/TYP_File_lib/IconTypes/Type';
 import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
+import { ColorPallet } from 'src/TYP_File_lib/ColorPallets/ColorPallet';
+import { pallet256, pallet64, pallet16 } from 'src/TYP_File_lib/ColorPallets/GarminColorPallets';
 
 @Injectable({
   providedIn: 'root'
@@ -331,6 +333,23 @@ export class FileService {
         break;
     }
     this.updateFile();
+  }
+
+  limitColorPallete(paletteType: string): void {
+    let pallet: ColorPallet;
+    switch(paletteType) {
+        case 'Garmin256':
+            pallet = pallet256;
+            break;
+        case 'Garmin64':
+            pallet = pallet64;
+            break;
+        case 'Garmin16':
+            pallet = pallet16;
+            break;
+        default:
+            pallet  = pallet256;
+    }
   }
 
   getFile(): TypFile {
