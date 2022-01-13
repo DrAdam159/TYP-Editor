@@ -1,4 +1,4 @@
-canvas {
+.canvas {
     cursor: crosshair;
 }
 
@@ -129,6 +129,12 @@ canvas {
 
 .dark-icon {
     color: #f3f1f5;
+}
+
+.map-preview {
+    padding: 10px;
+    padding-top: 3rem;
+    text-align:center; 
 }
 
 

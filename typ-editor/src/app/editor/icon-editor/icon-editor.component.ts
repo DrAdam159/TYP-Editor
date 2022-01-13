@@ -38,6 +38,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   myCanvas!: ElementRef<HTMLCanvasElement>;
   context!: CanvasRenderingContext2D | null;
 
+  @ViewChild('canvasMapPreview', {static: false}) 
+  mapPreviewCanvas!: ElementRef<HTMLCanvasElement>;
+  mapPreviewCanvasContext!: CanvasRenderingContext2D | null;
+
   //kolikrat bude kazdy pixel zvetseny
   scaleNum: number;
 
@@ -181,9 +185,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.context = this.myCanvas.nativeElement.getContext('2d');
     this.drawBitmapWithGrid();
     this.storeBitmap();
+    this.mapPreviewCanvasContext = this.mapPreviewCanvas.nativeElement.getContext('2d');
+    if(this.itemType == 'polygone' /*|| this.itemType == 'polyline'*/) {
+      this.drawMapPreview();
+    }
   }
 
-  setColor(){
+  setColor(): void{
     if (!this.context) {
       return;
     }
@@ -447,6 +455,53 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.drawGrid(this.itemBitmap.width *this.scaleNum, this.itemBitmap.height*this.scaleNum);
       }
+    }
+  }
+
+  drawMapPreview(): void {
+    let repeatNum: number = 0;
+    switch(this.itemType) {
+      case 'polygone':
+        repeatNum = 6;
+        if(this.itemBitmap && this.mapPreviewCanvasContext) {
+          if(this.context) {
+            this.mapPreviewCanvasContext.canvas.width = this.itemBitmap.width *repeatNum;
+            this.mapPreviewCanvasContext.canvas.height = this.itemBitmap.height *repeatNum;
+            for(let i = 0; i < repeatNum; i++) {
+              for(let j = 0; j < repeatNum; j++) { 
+                for(let y = 0; y < this.itemBitmap.height; y++) {
+                  for(let x = 0; x < this.itemBitmap.width; x++) {
+                    this.mapPreviewCanvasContext.beginPath();
+                    this.mapPreviewCanvasContext.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
+                    this.mapPreviewCanvasContext.fillRect(x + i * this.itemBitmap.width, y + j * this.itemBitmap.height, 1, 1);
+                    this.mapPreviewCanvasContext.stroke();
+                  }
+                }
+              }
+            }
+          }
+        }
+        break;
+      case 'polyline':
+        // repeatNum = 3;
+        // const scaleNum = 5;
+        // if(this.itemBitmap && this.mapPreviewCanvasContext) {
+        //   if(this.context) {
+        //     this.mapPreviewCanvasContext.canvas.width = this.itemBitmap.width *repeatNum *scaleNum;
+        //     this.mapPreviewCanvasContext.canvas.height = this.itemBitmap.height *repeatNum *scaleNum;
+        //     for(let i = 0; i < repeatNum; i++) {
+        //       for(let y = 0; y < this.itemBitmap.height; y++) {
+        //         for(let x = 0; x < this.itemBitmap.width; x++) {
+        //           this.mapPreviewCanvasContext.beginPath();
+        //           this.mapPreviewCanvasContext.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
+        //           this.mapPreviewCanvasContext.fillRect(x  *scaleNum, y *scaleNum, scaleNum, scaleNum);
+        //           this.mapPreviewCanvasContext.stroke();
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
+        break;
     }
   }
 

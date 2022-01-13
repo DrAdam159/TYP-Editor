@@ -13,6 +13,10 @@
       #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
         <mat-icon>minimize</mat-icon>
       </mat-button-toggle> -->
+      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useBrush()"
+      #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
+        <mat-icon>brush</mat-icon>
+      </mat-button-toggle>
       <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useLine()"
       #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
         <mat-icon>minimize</mat-icon>
@@ -90,11 +94,11 @@
     <div *ngIf="drawableItem" class="canvas-container">
       <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
-          <canvas #canvas ></canvas>
+          <canvas #canvas class="canvas"></canvas>
         </ng-template>
         <ng-template #elseBlock>
           <div [ngClass]="hasNightIcon ? '' : 'hidden-canvas'">
-            <canvas #canvas ></canvas>
+            <canvas #canvas class="canvas"></canvas>
           </div>
           <div *ngIf="!hasNightIcon">
             <button mat-fab color="primary"  class="fab-main add-btn" (click)="addNightIcon()">
@@ -123,7 +127,21 @@
       </mat-button-toggle-group>
       <div [ngClass]="darkMode  ? 'dark-icon' : ''">Selected color: {{colorOptions.value}}</div>
     </div>
+
+    <div *ngIf="drawableItem" class="map-preview">
+      <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <canvas #canvasMapPreview ></canvas>
+        </ng-template>
+        <ng-template #elseBlock>
+          <div [ngClass]="hasNightIcon ? '' : 'hidden-canvas'">
+            <canvas #canvasMapPreview ></canvas>
+          </div>
+        </ng-template>
+    </div>
   </div>
+  
+
 </div>
 
 
