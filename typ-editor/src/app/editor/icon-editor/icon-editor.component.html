@@ -6,88 +6,90 @@
      fxLayoutGap.xs="0"
 >
   <div class="item " [ngClass]="darkMode  ? 'item-1-dark' : 'item-1'" fxFlex="10%">
-
-    <mat-button-toggle-group [formControl]="toolOptions" vertical >
+    <div *ngIf="!hideTools">
+      <mat-button-toggle-group [formControl]="toolOptions" vertical >
       
-      <!-- <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null"  [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="line" aria-label="Text align center" (click) = "useLine()"
-      #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
-        <mat-icon>minimize</mat-icon>
-      </mat-button-toggle> -->
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useBrush()"
-      #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
-        <mat-icon>brush</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useLine()"
-      #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
-        <mat-icon>minimize</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="fill" aria-label="Text align right" (click) = "useFill()"
-      #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'"  >
-        <mat-icon>format_color_fill</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()"
-      #tooltip="matTooltip" matTooltip="Filled Rectangle" [matTooltipPosition]="'right'" >
-        <mat-icon>rectangle</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="rectangle" aria-label="Text align right" (click) = "useRectangle()"
-      #tooltip="matTooltip" matTooltip="Rectangle" [matTooltipPosition]="'right'"  >
-        <mat-icon>crop_square</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()"
-      #tooltip="matTooltip" matTooltip="Filled Circle" [matTooltipPosition]="'right'"  >
-        <mat-icon>circle</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="circle" aria-label="Text align right" (click) = "useCircle()"
-      #tooltip="matTooltip" matTooltip="Circle" [matTooltipPosition]="'right'"  >
-        <mat-icon>radio_button_unchecked</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="flip vertically" aria-label="Text align right" (click) = "flipVertically()"
-      #tooltip="matTooltip" matTooltip="Flip Vertically" [matTooltipPosition]="'right'"  >
-        <mat-icon>swap_vert</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()"
-      #tooltip="matTooltip" matTooltip="Flip Horizontally" [matTooltipPosition]="'right'"  >
-        <mat-icon>swap_horiz</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="rotate left" aria-label="Text align right" (click) = "rotateLeft()"
-      #tooltip="matTooltip" matTooltip="Rotate Left" [matTooltipPosition]="'right'"  >
-        <mat-icon>rotate_left</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()"
-      #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'"  >
-        <mat-icon>colorize</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="eraser" aria-label="Text align right" (click) = "erase()"
-      #tooltip="matTooltip" matTooltip="Erase" [matTooltipPosition]="'right'"  >
-        <mat-icon>auto_fix_high</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle value="inverse" aria-label="Text align right" (click) = "inverseColors()"
-      #tooltip="matTooltip" matTooltip="Invert Colors" [matTooltipPosition]="'right'"  >
-        <mat-icon>invert_colors</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle value="limit" aria-label="Text align right" [matMenuTriggerFor]="menu"
-      #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'"  >
-        <mat-icon>palette</mat-icon>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click) = "findNearestColor('Garmin16')">
-            <mat-icon>color_lens</mat-icon>
-            <span>Garmin 16</span>
-          </button>
-          <button mat-menu-item (click) = "findNearestColor('Garmin64')">
-            <mat-icon>color_lens</mat-icon>
-            <span>Garmin 64</span>
-          </button>
-          <button mat-menu-item (click) = "findNearestColor('Garmin256')">
-            <mat-icon>color_lens</mat-icon>
-            <span>Garmin 256</span>
-          </button>
-        </mat-menu>
-      </mat-button-toggle>
-      <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()"
-      #tooltip="matTooltip" matTooltip="No Tool" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
-        <mat-icon>cancel</mat-icon>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+        <!-- <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null"  [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="line" aria-label="Text align center" (click) = "useLine()"
+        #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
+          <mat-icon>minimize</mat-icon>
+        </mat-button-toggle> -->
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useBrush()"
+        #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
+          <mat-icon>brush</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useLine()"
+        #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
+          <mat-icon>minimize</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="fill" aria-label="Text align right" (click) = "useFill()"
+        #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'"  >
+          <mat-icon>format_color_fill</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()"
+        #tooltip="matTooltip" matTooltip="Filled Rectangle" [matTooltipPosition]="'right'" >
+          <mat-icon>rectangle</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="rectangle" aria-label="Text align right" (click) = "useRectangle()"
+        #tooltip="matTooltip" matTooltip="Rectangle" [matTooltipPosition]="'right'"  >
+          <mat-icon>crop_square</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="filled circle" aria-label="Text align right" (click) = "useFilledCircle()"
+        #tooltip="matTooltip" matTooltip="Filled Circle" [matTooltipPosition]="'right'"  >
+          <mat-icon>circle</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="circle" aria-label="Text align right" (click) = "useCircle()"
+        #tooltip="matTooltip" matTooltip="Circle" [matTooltipPosition]="'right'"  >
+          <mat-icon>radio_button_unchecked</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="flip vertically" aria-label="Text align right" (click) = "flipVertically()"
+        #tooltip="matTooltip" matTooltip="Flip Vertically" [matTooltipPosition]="'right'"  >
+          <mat-icon>swap_vert</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="flip horizontally" aria-label="Text align right" (click) = "flipHorizontally()"
+        #tooltip="matTooltip" matTooltip="Flip Horizontally" [matTooltipPosition]="'right'"  >
+          <mat-icon>swap_horiz</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="rotate left" aria-label="Text align right" (click) = "rotateLeft()"
+        #tooltip="matTooltip" matTooltip="Rotate Left" [matTooltipPosition]="'right'"  >
+          <mat-icon>rotate_left</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()"
+        #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'"  >
+          <mat-icon>colorize</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="eraser" aria-label="Text align right" (click) = "erase()"
+        #tooltip="matTooltip" matTooltip="Erase" [matTooltipPosition]="'right'"  >
+          <mat-icon>auto_fix_high</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="inverse" aria-label="Text align right" (click) = "inverseColors()"
+        #tooltip="matTooltip" matTooltip="Invert Colors" [matTooltipPosition]="'right'"  >
+          <mat-icon>invert_colors</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="limit" aria-label="Text align right" [matMenuTriggerFor]="menu"
+        #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'"  >
+          <mat-icon>palette</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click) = "findNearestColor('Garmin16')">
+              <mat-icon>color_lens</mat-icon>
+              <span>Garmin 16</span>
+            </button>
+            <button mat-menu-item (click) = "findNearestColor('Garmin64')">
+              <mat-icon>color_lens</mat-icon>
+              <span>Garmin 64</span>
+            </button>
+            <button mat-menu-item (click) = "findNearestColor('Garmin256')">
+              <mat-icon>color_lens</mat-icon>
+              <span>Garmin 256</span>
+            </button>
+          </mat-menu>
+        </mat-button-toggle>
+        <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()"
+        #tooltip="matTooltip" matTooltip="No Tool" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
+          <mat-icon>cancel</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    
   </div>
 
   <div class="item " [ngClass]="darkMode  ? 'item-3-dark' : 'item-3'" fxFlex>
@@ -126,22 +128,24 @@
   </div>
 
   <div class="item  color-picker-col" [ngClass]="darkMode  ? 'item-2-dark' : 'item-2'"  fxFlex="20%" >
-    <div class="color-limit">
-      <mat-form-field>
-        <mat-label [ngClass]="darkMode  ? 'dark-icon' : ''">Color picker</mat-label>
-        <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
-        </mtx-color-picker>
-        <mat-icon matSuffix color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">palette</mat-icon>
-        <mat-hint [ngClass]="darkMode  ? 'dark-icon' : ''">Choose your favorite color</mat-hint>
-        <mat-error [ngClass]="darkMode  ? 'dark-icon' : ''">Please enter the color</mat-error>
-      </mat-form-field>
-    </div>
-  
-    <div *ngIf="limitColors" class="color-limit">
-      <mat-button-toggle-group [formControl]="colorOptions">
-        <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
-      </mat-button-toggle-group>
-      <div [ngClass]="darkMode  ? 'dark-icon' : ''">Selected color: {{colorOptions.value}}</div>
+    <div *ngIf="!hideTools">
+      <div class="color-limit">
+        <mat-form-field>
+          <mat-label [ngClass]="darkMode  ? 'dark-icon' : ''">Color picker</mat-label>
+          <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
+          </mtx-color-picker>
+          <mat-icon matSuffix color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">palette</mat-icon>
+          <mat-hint [ngClass]="darkMode  ? 'dark-icon' : ''">Choose your favorite color</mat-hint>
+          <mat-error [ngClass]="darkMode  ? 'dark-icon' : ''">Please enter the color</mat-error>
+        </mat-form-field>
+      </div>
+    
+      <div *ngIf="limitColors" class="color-limit">
+        <mat-button-toggle-group [formControl]="colorOptions">
+          <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
+        </mat-button-toggle-group>
+        <div [ngClass]="darkMode  ? 'dark-icon' : ''">Selected color: {{colorOptions.value}}</div>
+      </div>
     </div>
 
     <div *ngIf="drawableItem" class="map-preview">
@@ -168,20 +172,22 @@
      fxLayoutGap="0px"
      fxLayoutGap.xs="0"
 >
-  <div class="item"  [ngClass]="darkMode  ? 'item-5-dark' : 'item-5'" fxFlex fxFlexOffset.xs="0"> 
-    <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
-      <mat-icon color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">settings</mat-icon>
-    </button>
-    <mat-menu #menu2="matMenu">
-      <button mat-menu-item (click) = "changeMode()">
-        <mat-icon>dialpad</mat-icon>
-        <span>Dark theme</span>
+  <div class="item"  [ngClass]="darkMode  ? 'item-5-dark' : 'item-5'" fxFlex fxFlexOffset.xs="0">
+    <div *ngIf="!hideTools">
+      <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
+        <mat-icon color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">settings</mat-icon>
       </button>
-    </mat-menu>
+      <mat-menu #menu2="matMenu">
+        <button mat-menu-item (click) = "changeMode()">
+          <mat-icon>dialpad</mat-icon>
+          <span>Dark theme</span>
+        </button>
+      </mat-menu>
+    </div> 
   </div>
   <div class="item"  [ngClass]="darkMode  ? 'item-4-dark' : 'item-4'" fxFlex="90%"  fxFlexOffset.xs="0">
-
-    <button mat-stroked-button color="primary" (click) = "undo()"
+    <div *ngIf="!hideTools">
+      <button mat-stroked-button color="primary" (click) = "undo()"
     #tooltip="matTooltip" matTooltip="Undo Action" [matTooltipPosition]="'below'" >
       <mat-icon [ngClass]="darkMode  ? 'dark-icon' : ''">undo</mat-icon>
     </button>
@@ -202,6 +208,7 @@
     #tooltip="matTooltip" matTooltip="Upload Image" [matTooltipPosition]="'below'">
       <mat-icon >file_upload</mat-icon>
     </button>
+    </div>
   </div>
 </div>
 <canvas #canvas2 ></canvas>

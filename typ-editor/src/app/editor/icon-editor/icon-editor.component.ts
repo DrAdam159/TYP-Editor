@@ -81,6 +81,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   limitToolUse: boolean;
 
   darkMode: boolean;
+
+  hideTools: boolean;
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.iconType = "Day";
@@ -110,6 +112,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.limitToolUse = false;
 
     this.darkMode = false;
+
+    this.hideTools = false;
 
    }
 
@@ -167,6 +171,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             }
             this.itemBitmap = this.drawableItem.asBitmap(false);
             break;
+        }
+        if(!this.dayOrNightMode && !this.hasNightIcon) {
+          this.hideTools = true;
         }
         if(this.limitColors) {
           this.itemBitmap.getAllColors().forEach((col, index) => {
@@ -921,10 +928,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   addNightIconInverse(): void {
     this.hasNightIcon = true;
+    this.hideTools = false;
   }
 
   addNightIconSameAsDay(): void {
     this.hasNightIcon = true;
+    this.hideTools = false;
     this.itemBitmap.inverseColors();
     this.updateBitmap();
     this.drawMapPreview();
@@ -942,6 +951,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   addEmptyNightIcon(): void {
     this.hasNightIcon = true;
+    this.hideTools = false;
     this.itemBitmap.clearBitmap();
     this.updateBitmap();
   }
