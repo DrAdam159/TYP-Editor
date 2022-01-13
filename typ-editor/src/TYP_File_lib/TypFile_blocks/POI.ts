@@ -150,6 +150,17 @@ export class POI extends GraphicElement{
             tmp.invertBits();
          return tmp.asBitmap();
       }
+      if(!dayOrNight && this.bitmapDay != null) {
+         let tmp = new PixMap(this.bitmapDay.width, this.bitmapDay.height, this.bitmapDay.colorCount, this.bitmapDay.colorMode);
+         tmp.constructor3(this.bitmapDay);
+
+         if(tmp.colorTable.length > 0) {
+            tmp.invertBits();
+         }
+         const newBitmap: Bitmap = tmp.asBitmap();
+         newBitmap.inverseColors();
+         return newBitmap;
+      }
       return new Bitmap(this.width, this.height);
    }
 
