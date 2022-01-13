@@ -45,7 +45,7 @@
 <div *ngIf="delete; then thenBlock else elseBlock"></div>
     <ng-template #thenBlock>
         <mat-grid-list cols={{gridCols}} rowHeight="1:1"  [gutterSize]="'10px'">
-            <mat-grid-tile *ngFor="let polygone of polygoneList" (click)="select(polygone)">
+            <mat-grid-tile *ngFor="let polygone of polygoneList" (click)="select(polygone)" [ngClass]="{'highlight-tile': highlightTile(polygone)}">
                 <div *ngIf="delete">
                     <mat-grid-tile-header class="delete-icon">
                         <mat-icon>delete_forever</mat-icon>
