@@ -11,3 +11,13 @@
 .save-icon {
     margin-right: 0.5em;
 }
+
+.editor {
+    display: block;
+    overflow: auto;
+    max-height: 90%;
+}
+
+.save-btn {
+    z-index: 999;
+}
