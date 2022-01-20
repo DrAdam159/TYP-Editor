@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { DialogService } from '../services/dialog.service';
@@ -30,7 +30,7 @@ export class EditorComponent implements OnInit {
 
   unsavedChanges: unsavedChanges;
 
-  constructor(private fileService: FileService, private dialogService: DialogService, private Activatedroute: ActivatedRoute) {
+  constructor(private fileService: FileService, private dialogService: DialogService, private Activatedroute: ActivatedRoute, private router: Router) {
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";
@@ -63,6 +63,7 @@ export class EditorComponent implements OnInit {
 
   saveChangesToFile(): void {
     this.childNotifier.next();
+    this.router.navigate(['']);
   }
 
   setDayIconState(state: boolean): void {
@@ -84,7 +85,7 @@ export class EditorComponent implements OnInit {
   canDeactivate(): Observable<boolean> | boolean {
     // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
     if (!this.unsavedChanges.iconDay && !this.unsavedChanges.iconNight 
-        && !this.unsavedChanges.type) {
+        && !this.unsavedChanges.type && !this.unsavedChanges.description) {
       return true;
     }
     // Otherwise ask the user with the dialog service and return its

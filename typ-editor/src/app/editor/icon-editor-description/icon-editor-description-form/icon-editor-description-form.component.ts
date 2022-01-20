@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit} from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 import { FileService } from 'src/app/services/file.service';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
@@ -112,7 +113,7 @@ export class IconEditorDescriptionFormComponent implements OnInit {
       let tempText: Text = new Text();
       tempText.setValues(languageKey, description);
       this.drawableItem.text.set(tempText);
-      this.fileService.updateFile();
+      //this.fileService.updateFile();
       this.refreshAnotherComponent();
 		} else {
       this.resetForm(this.descriptionForm);
@@ -126,6 +127,6 @@ export class IconEditorDescriptionFormComponent implements OnInit {
     this.fileService.notifyOther({
        refresh: true
     });
- }
+  }
 
 }

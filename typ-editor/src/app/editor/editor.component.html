@@ -7,7 +7,7 @@
         <app-icon-editor [iconType]="'Night'" [notifier]="childNotifier" (unsavedChangesEvent)="setNightIconState($event)"></app-icon-editor>
       </mat-tab>
       <mat-tab label="Description editor"> 
-        <app-icon-editor-description></app-icon-editor-description>
+        <app-icon-editor-description [notifier]="childNotifier" (unsavedChangesEvent)="setDescriptionState($event)"></app-icon-editor-description>
       </mat-tab>
       <mat-tab label="Type editor"> 
         <app-icon-editor-type [notifier]="childNotifier" (unsavedChangesEvent)="setTypeState($event)"></app-icon-editor-type>

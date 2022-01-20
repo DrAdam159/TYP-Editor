@@ -120,7 +120,8 @@ export class IconEditorTypeComponent implements OnInit {
         alert('Invalid data!');
       }
       else {
-        this.router.navigate(['']);
+        this.unsavedChangesEvent.emit(false);
+        //this.router.navigate(['']);
       }
     }
     else {

@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from 'src/app/services/file.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { IconEditorDescriptionFormComponent } from './icon-editor-description-form/icon-editor-description-form.component';
@@ -60,6 +60,10 @@ interface Description {
 })
 export class IconEditorDescriptionComponent implements OnInit {
 
+  @Input() notifier!: Subject<boolean>;
+
+  @Output() unsavedChangesEvent = new EventEmitter<boolean>();
+
   sub!: Subscription;
   drawableItem!: GraphicElement;
 
@@ -97,6 +101,7 @@ export class IconEditorDescriptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = this.Activatedroute.paramMap.subscribe(params => { 
+      this.notifier.subscribe(() =>{this.saveChanges()});
       this.itemType = params.get('id') || "";
       this.typeID = params.get('id1') || "";
       this.subTypeID = params.get('id2') || "";
@@ -139,6 +144,7 @@ export class IconEditorDescriptionComponent implements OnInit {
     this.createTableData();
     this.dataSource = new MatTableDataSource([...this.tableData]);
     this.table.renderRows();
+    this.changeState(true);
   }
 
   removeItem(itemCode: number): void {
@@ -160,6 +166,15 @@ export class IconEditorDescriptionComponent implements OnInit {
         limit: true
       }
     });
+  }
+
+  saveChanges(): void {
+    this.fileService.updateFile();
+    this.changeState(false);
+  }
+
+  changeState(state: boolean): void {
+    this.unsavedChangesEvent.emit(state);
   }
 
 }
