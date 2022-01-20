@@ -95,6 +95,8 @@ export class POI extends GraphicElement{
          }
         if (this.withExtendedOptions) {
             this.extOptions = reader.readUint8();
+            this.fontColType = this.extOptions & 0x18;
+            this.fontType = this.extOptions & 0x7;
             switch (this.fontColType) {
                case FontColours.Day:
                   this.colFontColour.push(BinaryColor.readColor(reader));
@@ -209,5 +211,16 @@ export class POI extends GraphicElement{
       this.bitmapDay = new PixMap(this.width, this.height, this.colsDay, this.colorModeDay);
       this.bitmapDay.colorTable.push(new Color(255,255,255,255));
       this.bitmapDay.fillWithDummyData();
+   }
+
+   setExtendetOptions(hasExtendedOptions: boolean): void {
+      if(hasExtendedOptions) {
+         this.withExtendedOptions = true;
+         this.options = Bit.set(this.options, 1, 3); 
+      }
+      else {
+         this.withExtendedOptions = false;
+         this.options = Bit.set(this.options, 0, 3); 
+      }
    }
 }

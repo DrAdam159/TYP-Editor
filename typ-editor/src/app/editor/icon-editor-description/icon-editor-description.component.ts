@@ -6,6 +6,8 @@ import { Subject, Subscription } from 'rxjs';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { IconEditorDescriptionFormComponent } from './icon-editor-description-form/icon-editor-description-form.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Color } from 'src/TYP_File_lib/Utils/Color';
 
 enum LanguageCode {
   unspecified = 0x00,
@@ -45,6 +47,21 @@ enum LanguageCode {
   bulgarian = 0x22
 }
 
+enum FontColours {
+  No = 0x0,
+  Day = 0x8,
+  Night = 0x10,
+  DayAndNight = 0x18
+}
+
+enum Fontdata {
+  Default = 0x0,
+  Nolabel = 0x1,
+  Small = 0x2,
+  Normal = 0x3,
+  Large = 0x4
+}
+
 interface Description {
   position: number;
   code: number;
@@ -76,6 +93,14 @@ export class IconEditorDescriptionComponent implements OnInit {
 
   tableData: Array<Description>;
 
+  hasFontColors: boolean;
+  colorDay: string;
+  colorNight: string;
+
+  fontTypes: Array<String>;
+
+  selectedType: Fontdata;
+
   @ViewChild(MatTable) table!: MatTable<Description>;
 
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) { 
@@ -84,8 +109,14 @@ export class IconEditorDescriptionComponent implements OnInit {
     this.typeID = "";
     this.subTypeID = "";
     this.tableData = new Array();
+    this.hasFontColors = false;
+    this.colorDay = '#3f51b5';
+    this.colorNight = '#3f51b5';
+    this.selectedType = Fontdata.Default;
 
     this.displayedColumns = ['position', 'code', 'language', 'description', 'delete', 'edit'];
+
+    this.fontTypes = Object.keys(Fontdata).filter(key => isNaN(Number(key)));
 
   }
 
@@ -120,9 +151,25 @@ export class IconEditorDescriptionComponent implements OnInit {
           default:
             new Error("No item type supplied!");
         }
+
+        if(this.drawableItem.colFontColour.length != 0) {
+          this.hasFontColors = true;
+          this.selectedType = this.drawableItem.fontType;
+          switch(this.drawableItem.fontColType) {
+            case FontColours.Day:
+              this.colorDay = this.drawableItem.colFontColour[0].toHex();
+              break;
+            case FontColours.Night:
+              this.colorNight = this.drawableItem.colFontColour[1].toHex();
+              break;
+            case FontColours.DayAndNight:
+              this.colorDay = this.drawableItem.colFontColour[0].toHex();
+              this.colorNight = this.drawableItem.colFontColour[1].toHex();
+              break;
+          }
+        }
       }
    });
-
    this.createTableData();
    this.dataSource = new MatTableDataSource([...this.tableData]);
 
@@ -168,13 +215,34 @@ export class IconEditorDescriptionComponent implements OnInit {
     });
   }
 
+  setFont(): void {
+    this.fileService.setFont(new Color(this.colorDay), new Color(this.colorNight),  ~~Fontdata[this.selectedType], this.drawableItem, this.itemType);
+  }
+
   saveChanges(): void {
+    if(this.hasFontColors) {
+      this.setFont();
+    }
+    
     this.fileService.updateFile();
     this.changeState(false);
   }
 
   changeState(state: boolean): void {
     this.unsavedChangesEvent.emit(state);
+  }
+  
+  addFontColors(): void {
+    this.hasFontColors = !this.hasFontColors;
+    this.changeState(true);
+  }
+
+  onFontTypeChange(): void {
+    this.changeState(true);
+  }
+
+  onColorChange(): void {
+    this.changeState(true);
   }
 
 }

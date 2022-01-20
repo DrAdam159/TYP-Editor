@@ -417,4 +417,15 @@ export class Polyline extends GraphicElement{
 
       this.colDayColor.push(new Color(255, 255, 255, 255));
    }
+
+   setExtendetOptions(hasExtendedOptions: boolean): void {
+      if(hasExtendedOptions) {
+         this.withExtOptions = true;
+         this.options2 = Bit.set(this.options2, 1, 2); 
+      }
+      else {
+         this.withExtOptions = false;
+         this.options2 = Bit.set(this.options2, 0, 2); 
+      }
+   }
 }

@@ -6,4 +6,9 @@ export class Bit {
         }
         return (value & (0x01 << bit)) != 0;
     }
+
+    static set(toSet: number, value: number, bitPosition: number): number {
+        return toSet |= value << bitPosition;
+        //console.log(toSet);
+    }
 }

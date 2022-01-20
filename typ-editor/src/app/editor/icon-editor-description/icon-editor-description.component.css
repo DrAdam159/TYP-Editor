@@ -28,3 +28,13 @@
 .table-container {
     padding: 1rem;
 }
+
+.item-2 {
+    margin-top: 5rem;
+    padding-left: 5rem;
+    padding-right: 1rem;
+}
+
+.color-picker {
+    padding-bottom: 2rem;
+}

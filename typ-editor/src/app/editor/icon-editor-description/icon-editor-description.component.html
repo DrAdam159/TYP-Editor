@@ -5,14 +5,30 @@
      fxLayoutGap="0px"
      fxLayoutGap.xs="0"
 >
-  <div class="item item-5" fxFlex="70%" fxFlexOffset.xs="0"> 
+  <div class="item" fxFlex="70%" fxFlexOffset.xs="0"> 
     <div *ngIf="drawableItem">
       <div class="table-container">
-        <div class="demo-button-container">
-          <button mat-raised-button (click)="addData()" class="demo-button">
-            <mat-icon>add</mat-icon>Add
-          </button>
-        </div>
+        <div *ngIf="!hasFontColors; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <div class="demo-button-container">
+            <button mat-raised-button (click)="addData()" class="demo-button">
+              <mat-icon>add</mat-icon>Add
+            </button>
+            <button mat-raised-button (click)="addFontColors()" class="demo-button">
+              <mat-icon>add</mat-icon>Add Font Colors
+            </button> 
+          </div>
+        </ng-template>
+        <ng-template #elseBlock>
+          <div class="demo-button-container">
+            <button mat-raised-button (click)="addData()" class="demo-button">
+              <mat-icon>add</mat-icon>Add
+            </button>
+            <button mat-raised-button (click)="addFontColors()" class="demo-button">
+              <mat-icon>cancel</mat-icon>Remove Font Colors
+            </button> 
+          </div>
+        </ng-template>
         <mat-form-field appearance="standard">
           <mat-label>Filter</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
@@ -62,6 +78,37 @@
       </div>
     </div>
   </div>
+  <div class="item item-2" fxFlex="30%" fxFlexOffset.xs="0">
+    <div *ngIf="hasFontColors">
+      <mat-form-field class="color-picker">
+        <mat-label>Set Day Color</mat-label>
+        <mtx-color-picker [(ngModel)]="colorDay" (colorChange)="onColorChange()" required>
+        </mtx-color-picker>
+        <mat-icon matSuffix color="primary" >palette</mat-icon>
+        <mat-hint >Choose your favorite color</mat-hint>
+        <mat-error >Please enter the color</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="color-picker">
+        <mat-label>Set Night Color</mat-label>
+        <mtx-color-picker [(ngModel)]="colorNight" (colorChange)="onColorChange()" required>
+        </mtx-color-picker>
+        <mat-icon matSuffix color="primary" >palette</mat-icon>
+        <mat-hint >Choose your favorite color</mat-hint>
+        <mat-error >Please enter the color</mat-error>
+      </mat-form-field>
+
+      <mat-form-field  class="example-full-width" appearance="fill">
+        <mat-label>Choose Font Type</mat-label>
+        <mat-select [(ngModel)]="selectedType" (selectionChange)="onFontTypeChange()">
+            <mat-option *ngFor="let item of fontTypes" [value]="item">
+            {{ item }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+  </div>
 </div>
+
 
 

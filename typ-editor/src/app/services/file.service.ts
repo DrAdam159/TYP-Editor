@@ -13,6 +13,14 @@ import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
 import { ColorPallet } from 'src/TYP_File_lib/ColorPallets/ColorPallet';
 import { pallet256, pallet64, pallet16 } from 'src/TYP_File_lib/ColorPallets/GarminColorPallets';
 
+enum Fontdata {
+  Default = 0x0,
+  Nolabel = 0x1,
+  Small = 0x2,
+  Normal = 0x3,
+  Large = 0x4
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -333,6 +341,43 @@ export class FileService {
         break;
     }
     this.updateFile();
+  }
+
+  setFont(dayColor: Color, nightColor: Color, fontType: Fontdata, item: GraphicElement, itemType: string): void {
+    item.fontType = fontType;
+    item.colFontColour.splice(0, item.colFontColour.length);
+    item.colFontColour.push(dayColor);
+    item.colFontColour.push(nightColor);
+    item.extOptions = 0xFF & ((item.extOptions & 0xf8) + fontType);
+    item.extOptions = 0xFF & ((item.extOptions & 0x7) + 0x18);
+    switch(itemType) {
+      case 'polyline':
+        const tmpPolyline: Polyline = this.getPolyline(item.type, item.subtype);
+        tmpPolyline.setExtendetOptions(true);
+        break;
+      case 'poi':
+        const tmpPOI: POI = this.getPOI(item.type, item.subtype);
+        tmpPOI.setExtendetOptions(true);
+        break;
+      case 'polygone':
+        const tmpPolygone = this.getPolygone(item.type, item.subtype);
+        tmpPolygone.setExtendetOptions(true);
+        break;
+    }
+  }
+
+  removeFont(itemType: string, item: GraphicElement): void {
+    switch(itemType) {
+      case 'polyline':
+        this.getPolyline(item.type, item.subtype).setExtendetOptions(false);
+        break;
+      case 'poi':
+        this.getPOI(item.type, item.subtype).setExtendetOptions(false);
+        break;
+      case 'polygone':
+        this.getPolygone(item.type, item.subtype).setExtendetOptions(false);
+        break;
+    }
   }
 
   limitColorPallete(paletteType: string): void {
