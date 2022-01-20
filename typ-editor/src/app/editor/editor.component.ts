@@ -1,8 +1,16 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
+import { DialogService } from '../services/dialog.service';
 import { FileService } from '../services/file.service';
+
+interface unsavedChanges {
+  iconDay: boolean;
+  iconNight: boolean;
+  description: boolean;
+  type: boolean;
+}
 
 @Component({
   selector: 'app-editor',
@@ -20,10 +28,13 @@ export class EditorComponent implements OnInit {
 
   childNotifier : Subject<boolean> = new Subject<boolean>();
 
-  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
+  unsavedChanges: unsavedChanges;
+
+  constructor(private fileService: FileService, private dialogService: DialogService, private Activatedroute: ActivatedRoute) {
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";
+    this.unsavedChanges = {iconDay: false, iconNight: false, description: false, type: false};
   }
 
   ngOnInit(): void {
@@ -52,5 +63,32 @@ export class EditorComponent implements OnInit {
 
   saveChangesToFile(): void {
     this.childNotifier.next();
+  }
+
+  setDayIconState(state: boolean): void {
+    this.unsavedChanges.iconDay = state;
+  }
+
+  setNightIconState(state: boolean): void {
+    this.unsavedChanges.iconNight = state;
+  }
+
+  setDescriptionState(state: boolean): void {
+    this.unsavedChanges.description = state;
+  }
+
+  setTypeState(state: boolean): void {
+    this.unsavedChanges.type = state;
+  }
+
+  canDeactivate(): Observable<boolean> | boolean {
+    // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
+    if (!this.unsavedChanges.iconDay && !this.unsavedChanges.iconNight 
+        && !this.unsavedChanges.type) {
+      return true;
+    }
+    // Otherwise ask the user with the dialog service and return its
+    // observable which resolves to true or false when the user decides
+    return this.dialogService.confirm('Discard changes?');
   }
 }

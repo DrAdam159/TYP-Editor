@@ -12,6 +12,8 @@
           <input matInput
                  aria-label="State"
                  [matAutocomplete]="auto"
+                 (input) = "changeState()"
+                 (change) = "changeState()"
                  formControlName="description">
           <mat-autocomplete #auto="matAutocomplete" >
             <mat-option *ngFor="let type of filteredTypes | async" [value]="type.description + '|' + type.type">

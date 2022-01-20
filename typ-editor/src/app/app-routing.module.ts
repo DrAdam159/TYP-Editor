@@ -7,10 +7,11 @@ import { PolylineComponent } from './polyline/polyline.component';
 import { PolygoneComponent } from './polygone/polygone.component';
 import { PolygoneDraworderSortComponent } from './polygone-draworder-sort/polygone-draworder-sort.component';
 import { OptionsComponent } from './options/options.component';
+import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent},
-  {path: 'editor/:id/:id1/:id2', component: EditorComponent},
+  {path: 'editor/:id/:id1/:id2', component: EditorComponent, canDeactivate: [CanDeactivateGuard]},
   {path: 'poi', component: PoiComponent},
   {path: 'polyline', component: PolylineComponent},
   {path: 'polygone', component: PolygoneComponent},

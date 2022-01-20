@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { FileService } from 'src/app/services/file.service';
@@ -20,6 +20,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   @Input() iconType: string;
 
   @Input() notifier!: Subject<boolean>;
+
+  @Output() unsavedChangesEvent = new EventEmitter<boolean>();
 
   drawableItem!: GraphicElement;
   //prave vykreslena bitmapa
@@ -198,6 +200,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  setStateOfChanges(changes: boolean): void {
+    this.unsavedChangesEvent.emit(changes);
+  }
+
   setColor(): void{
     if (!this.context) {
       return;
@@ -220,6 +226,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         }
         this.colors[0] = this.color;
       }
+
+      this.setStateOfChanges(true);
     }
   }
 
@@ -446,6 +454,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.drawMapPreview();
     }
     this.lineStart = false;
+    this.setStateOfChanges(true);
   }
 
   updateBitmap(): void{
@@ -587,6 +596,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       if(this.itemType == 'polygone') {
         this.drawMapPreview();
       }
+      this.setStateOfChanges(true);
     }
   }
 
@@ -711,6 +721,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     if(this.itemType == 'polygone') {
       this.drawMapPreview();
     }
+    this.setStateOfChanges(true);
   }
 
   flipImageHorizontally(): void {
@@ -728,6 +739,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     if(this.itemType == 'polygone') {
       this.drawMapPreview();
     }
+    this.setStateOfChanges(true);
   }
 
   rotateImageLeft(): void {
@@ -745,6 +757,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     if(this.itemType == 'polygone') {
       this.drawMapPreview();
     }
+    this.setStateOfChanges(true);
   }
 
   getSelectedColor(currentPos: { x: number; y: number }): void {
@@ -780,6 +793,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       if(this.itemType == 'polygone') {
         this.drawMapPreview();
       }
+      this.setStateOfChanges(true);
     }
   }
 
@@ -797,6 +811,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       if(this.itemType == 'polygone') {
         this.drawMapPreview();
       }
+      this.setStateOfChanges(true);
     }
   }
 
@@ -821,6 +836,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     if(this.itemType == 'polygone') {
       this.drawMapPreview();
     }
+    this.setStateOfChanges(true);
   }
 
   redo(): void {
@@ -838,6 +854,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     if(this.itemType == 'polygone') {
       this.drawMapPreview();
     }
+    this.setStateOfChanges(true);
   }
 
   saveChangesToFile(): void {
@@ -852,6 +869,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           }
           break;
       }
+
+      this.setStateOfChanges(false);
     }
   }
 
@@ -908,6 +927,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
               this.colors.push(col.toHex());
             });
           }
+          this.setStateOfChanges(true);
         }
       }
 
@@ -929,6 +949,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   addNightIconInverse(): void {
     this.hasNightIcon = true;
     this.hideTools = false;
+    this.setStateOfChanges(true);
   }
 
   addNightIconSameAsDay(): void {
@@ -947,6 +968,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.color = this.colors[0];
     }
+    this.setStateOfChanges(true);
   }
 
   addEmptyNightIcon(): void {
@@ -954,6 +976,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.hideTools = false;
     this.itemBitmap.clearBitmap();
     this.updateBitmap();
+    this.setStateOfChanges(true);
   }
 
   changeMode(): void {

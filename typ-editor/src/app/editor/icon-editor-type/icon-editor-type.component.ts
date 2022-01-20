@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { FileService } from 'src/app/services/file.service';
@@ -27,6 +27,8 @@ export interface State {
 export class IconEditorTypeComponent implements OnInit {
 
   @Input() notifier!: Subject<boolean>;
+
+  @Output() unsavedChangesEvent = new EventEmitter<boolean>();
 
   sub!: Subscription;
   drawableItem!: GraphicElement;
@@ -97,6 +99,10 @@ export class IconEditorTypeComponent implements OnInit {
    this.descriptionForm.setValue({description: preselectedValue});
   }
 
+  setStateOfChanges(changes: boolean): void {
+    this.unsavedChangesEvent.emit(changes);
+  }
+
   private _filterTypes(value: string): Type[] {
     const filterValue = value.toLowerCase();
 
@@ -149,6 +155,10 @@ export class IconEditorTypeComponent implements OnInit {
         );
       }
     }
+  }
+
+  changeState(): void {
+    this.unsavedChangesEvent.emit(true);
   }
 
 }
