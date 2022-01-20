@@ -195,7 +195,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.drawBitmapWithGrid();
     this.storeBitmap();
     this.mapPreviewCanvasContext = this.mapPreviewCanvas.nativeElement.getContext('2d');
-    if(this.itemType == 'polygone') {
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
   }
@@ -213,7 +213,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       if(this.colorOptions.value) {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[this.colorOptions.value]));
         this.updateBitmap();
-        if(this.itemType == 'polygone') {
+        if(this.itemType == 'polygone' || this.itemType == 'polyline') {
           this.drawMapPreview();
         }
         this.colors[this.colorOptions.value] = this.color;
@@ -221,7 +221,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       else {
         this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[0]));
         this.updateBitmap();
-        if(this.itemType == 'polygone') {
+        if(this.itemType == 'polygone' || this.itemType == 'polyline') {
           this.drawMapPreview();
         }
         this.colors[0] = this.color;
@@ -450,7 +450,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.storeBitmap();
     this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
-    if(this.itemType == 'polygone') {
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
     this.lineStart = false;
@@ -511,24 +511,25 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         }
         break;
       case 'polyline':
-        // repeatNum = 3;
-        // const scaleNum = 5;
-        // if(this.itemBitmap && this.mapPreviewCanvasContext) {
-        //   if(this.context) {
-        //     this.mapPreviewCanvasContext.canvas.width = this.itemBitmap.width *repeatNum *scaleNum;
-        //     this.mapPreviewCanvasContext.canvas.height = this.itemBitmap.height *repeatNum *scaleNum;
-        //     for(let i = 0; i < repeatNum; i++) {
-        //       for(let y = 0; y < this.itemBitmap.height; y++) {
-        //         for(let x = 0; x < this.itemBitmap.width; x++) {
-        //           this.mapPreviewCanvasContext.beginPath();
-        //           this.mapPreviewCanvasContext.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
-        //           this.mapPreviewCanvasContext.fillRect(x  *scaleNum, y *scaleNum, scaleNum, scaleNum);
-        //           this.mapPreviewCanvasContext.stroke();
-        //         }
-        //       }
-        //     }
-        //   }
-        // }
+        repeatNum = 2;
+        const scaleNum = 3;
+        if(this.itemBitmap && this.mapPreviewCanvasContext) {
+          if(this.context) {
+            this.mapPreviewCanvasContext.canvas.width = this.itemBitmap.width *repeatNum *scaleNum;
+            console.log(this.itemBitmap.width *repeatNum *scaleNum);
+            this.mapPreviewCanvasContext.canvas.height = this.itemBitmap.height *scaleNum;
+            for(let i = 0; i < repeatNum; i++) {
+              for(let y = 0; y < this.itemBitmap.height; y++) {
+                for(let x = 0; x < this.itemBitmap.width; x++) {
+                  this.mapPreviewCanvasContext.beginPath();
+                  this.mapPreviewCanvasContext.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
+                  this.mapPreviewCanvasContext.fillRect(x  *scaleNum + (this.itemBitmap.width * scaleNum * i), y *scaleNum, scaleNum, scaleNum);
+                  this.mapPreviewCanvasContext.stroke();
+                }
+              }
+            }
+          }
+        }
         break;
     }
   }
@@ -593,7 +594,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.itemBitmap.fill(convertedCoordinates.x, convertedCoordinates.y, new Color(this.color));
       this.storeBitmap();
       this.updateBitmap();
-      if(this.itemType == 'polygone') {
+      if(this.itemType == 'polygone' || this.itemType == 'polyline') {
         this.drawMapPreview();
       }
       this.setStateOfChanges(true);
@@ -718,7 +719,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = bitmapCopy;
     this.storeBitmap();
     this.updateBitmap();
-    if(this.itemType == 'polygone') {
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
     this.setStateOfChanges(true);
@@ -736,7 +737,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = bitmapCopy;
     this.storeBitmap();
     this.updateBitmap();
-    if(this.itemType == 'polygone') {
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
     this.setStateOfChanges(true);
@@ -754,7 +755,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = bitmapCopy;
     this.storeBitmap();
     this.updateBitmap();
-    if(this.itemType == 'polygone') {
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
     this.setStateOfChanges(true);
@@ -790,7 +791,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.storeBitmap();
       this.updateBitmap();
-      if(this.itemType == 'polygone') {
+      if(this.itemType == 'polygone' || this.itemType == 'polyline') {
         this.drawMapPreview();
       }
       this.setStateOfChanges(true);
@@ -808,7 +809,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.storeBitmap();
       this.updateBitmap();
-      if(this.itemType == 'polygone') {
+      if(this.itemType == 'polygone' || this.itemType == 'polyline') {
         this.drawMapPreview();
       }
       this.setStateOfChanges(true);
@@ -833,7 +834,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
     
     this.updateBitmap();
-    if(this.itemType == 'polygone') {
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
     this.setStateOfChanges(true);
@@ -851,7 +852,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.undoQuery.push(tmp);
     }
     this.updateBitmap();
-    if(this.itemType == 'polygone') {
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
     this.setStateOfChanges(true);
@@ -918,7 +919,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         if(imgData) {
           this.itemBitmap.pixelArr = imgData;
           this.drawBitmapWithGrid();
-          if(this.itemType == 'polygone') {
+          if(this.itemType == 'polygone' || this.itemType == 'polyline') {
             this.drawMapPreview();
           }
           if(this.limitColors) {
