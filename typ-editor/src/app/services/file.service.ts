@@ -344,12 +344,14 @@ export class FileService {
   }
 
   setFont(dayColor: Color, nightColor: Color, fontType: Fontdata, item: GraphicElement, itemType: string): void {
+    console.log(dayColor, nightColor);
     item.fontType = fontType;
     item.colFontColour.splice(0, item.colFontColour.length);
     item.colFontColour.push(dayColor);
     item.colFontColour.push(nightColor);
     item.extOptions = 0xFF & ((item.extOptions & 0xf8) + fontType);
     item.extOptions = 0xFF & ((item.extOptions & 0x7) + 0x18);
+    item.fontColType = 0x18;
     switch(itemType) {
       case 'polyline':
         const tmpPolyline: Polyline = this.getPolyline(item.type, item.subtype);
