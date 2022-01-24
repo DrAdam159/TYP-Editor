@@ -12,21 +12,21 @@
         <ng-template #thenBlock>
           <div class="demo-button-container">
             <button mat-raised-button (click)="addData()" class="demo-button">
-              <mat-icon>add</mat-icon>Add
+              <mat-icon class="btn-icon">add</mat-icon>Add
             </button>
             <button mat-raised-button (click)="addFontColors()" class="demo-button">
-              <mat-icon>add</mat-icon>Add Font Colors
+              <mat-icon class="btn-icon">add</mat-icon>Set Font Style
             </button> 
           </div>
         </ng-template>
         <ng-template #elseBlock>
           <div class="demo-button-container">
             <button mat-raised-button (click)="addData()" class="demo-button">
-              <mat-icon>add</mat-icon>Add
+              <mat-icon  class="btn-icon">add</mat-icon>Add
             </button>
-            <button mat-raised-button (click)="addFontColors()" class="demo-button">
-              <mat-icon>cancel</mat-icon>Remove Font Colors
-            </button> 
+            <!-- <button mat-raised-button (click)="addFontColors()" class="demo-button">
+              <mat-icon>cancel</mat-icon>Remove Font Style
+            </button>  -->
           </div>
         </ng-template>
         <mat-form-field appearance="standard">
@@ -80,6 +80,9 @@
   </div>
   <div class="item item-2" fxFlex="30%" fxFlexOffset.xs="0">
     <div *ngIf="hasFontColors">
+      <button mat-raised-button (click)="addFontColors()" class="remove-font-btn">
+        <mat-icon class="btn-icon">cancel</mat-icon>Remove Font Style
+      </button> 
       <mat-form-field class="color-picker">
         <mat-label>Set Day Color</mat-label>
         <mtx-color-picker [(ngModel)]="colorDay" (colorChange)="onColorChange()" required>

@@ -14,6 +14,7 @@
   
 .demo-button-container {
     padding-bottom: 16px;
+    margin-bottom: 0.4rem;
 }
   
 .demo-button + .demo-button {
@@ -30,11 +31,19 @@
 }
 
 .item-2 {
-    margin-top: 5rem;
+    margin-top: 1rem;
     padding-left: 5rem;
     padding-right: 1rem;
 }
 
 .color-picker {
     padding-bottom: 2rem;
+}
+
+.remove-font-btn {
+    margin-bottom: 2rem;
+}
+
+.btn-icon {
+    margin-right: 0.5rem;
 }
