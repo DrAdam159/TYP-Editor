@@ -30,10 +30,13 @@ export class EditorComponent implements OnInit {
 
   unsavedChanges: unsavedChanges;
 
+  selectedTab: number;
+
   constructor(private fileService: FileService, private dialogService: DialogService, private Activatedroute: ActivatedRoute, private router: Router) {
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";
+    this.selectedTab = 2;
     this.unsavedChanges = {iconDay: false, iconNight: false, description: false, type: false};
   }
 
@@ -42,6 +45,8 @@ export class EditorComponent implements OnInit {
       this.itemType = params.get('id') || "";
       this.typeID = params.get('id1') || "";
       this.subTypeID = params.get('id2') || "";
+      const tab: string = params.get('id3') || "0";
+      this.selectedTab = ~~tab;
 
       if(this.itemType && this.typeID && this.subTypeID) {
         switch(this.itemType) {

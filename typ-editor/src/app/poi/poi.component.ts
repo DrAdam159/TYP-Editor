@@ -37,8 +37,8 @@ export class PoiComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openEditor(poiItem: POI): void {
-    this.router.navigate(['editor',"poi", poiItem.type, poiItem.subtype ]);
+  openEditor(poiItem: POI, tabIndex: number): void {
+    this.router.navigate(['editor',"poi", poiItem.type, poiItem.subtype, tabIndex ]);
   }
 
   formatLabel(value: number): number {

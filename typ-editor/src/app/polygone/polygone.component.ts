@@ -37,8 +37,8 @@ export class PolygoneComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openEditor(polygoneItem: Polygon): void {
-    this.router.navigate(['editor',"polygone", polygoneItem.type, polygoneItem.subtype ]);
+  openEditor(polygoneItem: Polygon, tabIndex: number): void {
+    this.router.navigate(['editor',"polygone", polygoneItem.type, polygoneItem.subtype, tabIndex ]);
   }
 
   formatLabel(value: number): number {

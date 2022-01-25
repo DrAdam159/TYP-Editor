@@ -11,7 +11,7 @@ import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent},
-  {path: 'editor/:id/:id1/:id2', component: EditorComponent, canDeactivate: [CanDeactivateGuard]},
+  {path: 'editor/:id/:id1/:id2/:id3', component: EditorComponent, canDeactivate: [CanDeactivateGuard]},
   {path: 'poi', component: PoiComponent},
   {path: 'polyline', component: PolylineComponent},
   {path: 'polygone', component: PolygoneComponent},

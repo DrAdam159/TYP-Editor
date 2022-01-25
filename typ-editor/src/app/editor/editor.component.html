@@ -1,5 +1,5 @@
 <div class="editor">
-  <mat-tab-group> 
+  <mat-tab-group [(selectedIndex)]="selectedTab"> 
       <mat-tab label="Icon editor (Day)">
         <app-icon-editor [iconType]="'Day'" [notifier]="childNotifier" (unsavedChangesEvent)="setDayIconState($event)"></app-icon-editor>
       </mat-tab>

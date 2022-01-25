@@ -50,3 +50,8 @@ mat-slider {
 .remove-btn {
     margin-left: 1em;
 }
+
+mat-grid-tile div {
+    width: 100%;
+    text-align: right;
+}

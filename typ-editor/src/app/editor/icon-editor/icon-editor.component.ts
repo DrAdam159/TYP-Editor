@@ -516,7 +516,6 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         if(this.itemBitmap && this.mapPreviewCanvasContext) {
           if(this.context) {
             this.mapPreviewCanvasContext.canvas.width = this.itemBitmap.width *repeatNum *scaleNum;
-            console.log(this.itemBitmap.width *repeatNum *scaleNum);
             this.mapPreviewCanvasContext.canvas.height = this.itemBitmap.height *scaleNum;
             for(let i = 0; i < repeatNum; i++) {
               for(let y = 0; y < this.itemBitmap.height; y++) {
