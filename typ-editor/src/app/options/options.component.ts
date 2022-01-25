@@ -31,7 +31,7 @@ export class OptionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fileHeader = this.fileService.getHeader();
-    this.options.setValue({colorPalette: 'None', fid: this.fileHeader.familyID, pid: this.fileHeader.productCode});
+    this.options.setValue({colorPalette: '-1', fid: this.fileHeader.familyID, pid: this.fileHeader.productCode});
   }
 
   limitColors(): void {
