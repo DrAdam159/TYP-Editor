@@ -136,6 +136,22 @@ export class Bitmap {
         }
     }
 
+    getPaletteColors(palette: ColorPallet, colsToConvert: Array<Color>): Array<Color> {
+        const colList: Array<{oldColor: Color; newColor: Color}> = new Array();
+        const newCols: Array<Color> = new Array();
+        colsToConvert.forEach(oldColor => {
+            if(!(colList.some(e => e.oldColor.compareColors(oldColor)))) {
+               const newColor: Color = new Color('#' + palette.colors[this.findNearestColor(oldColor,palette)]);
+               colList.push({oldColor: oldColor, newColor: newColor});
+           }
+         });
+         colList.forEach(newCol => {
+            newCols.push(newCol.newColor)
+         });
+
+         return newCols;
+    }
+
     getInverseColor(currentColor: Color): Color {
         const r: number = 255 - currentColor.r;
         const g: number = 255 - currentColor.g;

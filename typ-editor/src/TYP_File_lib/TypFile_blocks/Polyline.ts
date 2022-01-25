@@ -8,6 +8,7 @@ import { Color } from "../Utils/Color";
 import { Bitmap } from "../Utils/Bitmap";
 import { buildMapFromSet } from "@angular/flex-layout/extended/typings/style/style-transforms";
 import { Text } from "./GeneralDataBlocks/Text";
+import { ColorPallet } from "../ColorPallets/ColorPallet";
 
 enum PolylineType {
     Day2 = 0,
@@ -426,6 +427,25 @@ export class Polyline extends GraphicElement{
       else {
          this.withExtOptions = false;
          this.options2 = Bit.set(this.options2, 0, 2); 
+      }
+   }
+
+   applyColorPalette(palette: ColorPallet): void {
+      const bm: Bitmap = new Bitmap(0,0);
+      if(this.bitmapDay) {
+         this.bitmapDay.colorTable = bm.getPaletteColors(palette, this.bitmapDay.colorTable);
+         if(this.bitmapNight) {
+            this.bitmapNight.colorTable = bm.getPaletteColors(palette, this.bitmapNight.colorTable);
+         }
+      }
+      else {
+         this.colDayColor = bm.getPaletteColors(palette, this.colDayColor);
+         if(this.polylineType == PolylineType.Day2_Night2 || 
+            this.polylineType == PolylineType.Day1_Night2 || 
+            this.polylineType == PolylineType.NoBorder_Day2_Night1 ||
+            this.polylineType == PolylineType.NoBorder_Day1_Night1) {
+            this.colNightColor = bm.getPaletteColors(palette, this.colNightColor);
+         }
       }
    }
 }

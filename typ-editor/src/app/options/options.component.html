@@ -21,10 +21,10 @@
                   </mat-expansion-panel-header>
               
                   <mat-radio-group [formControl]="colorPaletteControl" class="example-radio-group">
-                    <mat-radio-button color="primary" class="example-radio-button" value="None" (change)="limitColors()">None</mat-radio-button>
-                    <mat-radio-button color="primary" class="example-radio-button" value="Garmin16" (change)="limitColors()">Garmin 16</mat-radio-button>
-                    <mat-radio-button color="primary" class="example-radio-button" value="Garmin64" (change)="limitColors()">Garmin 64</mat-radio-button>
-                    <mat-radio-button color="primary" class="example-radio-button" value="Garmin256" (change)="limitColors()">Garmin 256</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-radio-button" value="-1" (change)="limitColors()">None</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-radio-button" value="0" (change)="limitColors()">Garmin 16</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-radio-button" value="1" (change)="limitColors()">Garmin 64</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-radio-button" value="2" (change)="limitColors()">Garmin 256</mat-radio-button>
                   </mat-radio-group>
                  
               

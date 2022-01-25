@@ -5,6 +5,9 @@ import { Polyline } from './TypFile_blocks/Polyline';
 import { POI } from './TypFile_blocks/POI';
 import { PolygonDraworderTableItem } from './TypFile_blocks/GeneralDataBlocks/PolygonDraworderTableItem';
 import { Polygon } from './TypFile_blocks/Polygon';
+import { Palettes } from './ColorPallets/palettes';
+import { ColorPallet } from './ColorPallets/ColorPallet';
+import { pallet16, pallet256, pallet64 } from './ColorPallets/GarminColorPallets';
 
 export class TypFile {
 
@@ -317,5 +320,30 @@ export class TypFile {
             }
         }
         this.header.PolygoneDraworderTableBlock.length = writer.getPosition() - this.header.PolygoneDraworderTableBlock.offset;
-     }
+    }
+
+    applyColorPalette(palleteType: Palettes): void {
+        let palette: ColorPallet;
+        switch(palleteType) {
+            case Palettes.Garmin16:
+                palette = pallet16;
+                break;
+            case Palettes.Garmin64:
+                palette = pallet64;
+                break;
+            case Palettes.Garmin256:
+                palette = pallet256;
+                break;
+        }
+
+        this.PolygonList.forEach(polygone => {
+            polygone.applyColorPalette(palette);
+        });
+        this.POIList.forEach(poi => {
+            poi.applyColorPalette(palette);
+        });
+        this.PolylineList.forEach(polyline => {
+            polyline.applyColorPalette(palette);
+        });
+    }
 }

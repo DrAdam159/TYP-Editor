@@ -1,3 +1,4 @@
+import { ColorPallet } from "../ColorPallets/ColorPallet";
 import { BinReaderWriter } from "../Utils/BinReaderWriter";
 import { Bit } from "../Utils/Bit";
 import { Bitmap } from "../Utils/Bitmap";
@@ -465,6 +466,22 @@ export class Polygon extends GraphicElement{
       else {
          this.withExtendedOptions = false;
          this.options = Bit.reset(this.options, 0, 5); 
+      }
+   }
+
+   applyColorPalette(palette: ColorPallet): void {
+      const bm: Bitmap = new Bitmap(0,0);
+      if(this.bitmapDay) {
+         this.bitmapDay.colorTable = bm.getPaletteColors(palette, this.bitmapDay.colorTable);
+         if(this.bitmapNight) {
+            this.bitmapNight.colorTable = bm.getPaletteColors(palette, this.bitmapNight.colorTable);
+         }
+      }
+      else {
+         this.colDayColor = bm.getPaletteColors(palette, this.colDayColor);
+         if(this.colorType == ColorType.Day1_Night1) {
+            this.colNightColor = bm.getPaletteColors(palette, this.colNightColor);
+         }
       }
    }
 }

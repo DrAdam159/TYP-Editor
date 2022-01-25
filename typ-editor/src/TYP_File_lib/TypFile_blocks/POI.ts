@@ -7,6 +7,7 @@ import { BinaryColor } from "./GeneralDataBlocks/BinaryColor";
 import { Bitmap } from "../Utils/Bitmap";
 import { Text } from "./GeneralDataBlocks/Text";
 import { Color } from "../Utils/Color";
+import { ColorPallet } from "../ColorPallets/ColorPallet";
 
 enum BitmapColorMode {
     POI_SIMPLE = 0,
@@ -221,6 +222,16 @@ export class POI extends GraphicElement{
       else {
          this.withExtendedOptions = false;
          this.options = Bit.set(this.options, 0, 3); 
+      }
+   }
+
+   applyColorPalette(palette: ColorPallet): void {
+      const bm: Bitmap = new Bitmap(0,0);
+      if(this.bitmapDay) {
+         this.bitmapDay.colorTable = bm.getPaletteColors(palette, this.bitmapDay.colorTable);
+         if(this.bitmapNight) {
+            this.bitmapNight.colorTable = bm.getPaletteColors(palette, this.bitmapNight.colorTable);
+         }
       }
    }
 }
