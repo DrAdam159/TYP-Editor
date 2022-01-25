@@ -464,7 +464,7 @@ export class Polygon extends GraphicElement{
       }
       else {
          this.withExtendedOptions = false;
-         this.options = Bit.set(this.options, 0, 5); 
+         this.options = Bit.reset(this.options, 0, 5); 
       }
    }
 }

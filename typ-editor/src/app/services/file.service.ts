@@ -343,27 +343,34 @@ export class FileService {
     this.updateFile();
   }
 
-  setFont(dayColor: Color, nightColor: Color, fontType: Fontdata, item: GraphicElement, itemType: string): void {
-    console.log(dayColor, nightColor);
-    item.fontType = fontType;
+  setFont(dayColor: Color, nightColor: Color, fontType: Fontdata, item: GraphicElement, itemType: string, hasFontColors: boolean): void {
     item.colFontColour.splice(0, item.colFontColour.length);
-    item.colFontColour.push(dayColor);
-    item.colFontColour.push(nightColor);
-    item.extOptions = 0xFF & ((item.extOptions & 0xf8) + fontType);
-    item.extOptions = 0xFF & ((item.extOptions & 0x7) + 0x18);
-    item.fontColType = 0x18;
+    if(hasFontColors) {
+      item.fontType = fontType;
+      item.colFontColour.push(dayColor);
+      item.colFontColour.push(nightColor);
+      item.extOptions = 0xFF & ((item.extOptions & 0xf8) + fontType);
+      item.extOptions = 0xFF & ((item.extOptions & 0x7) + 0x18);
+      item.fontColType = 0x18;
+    }
+    else {
+      item.fontType = 0;
+      item.extOptions = 0;
+    }
+    
+    console.log(itemType);
     switch(itemType) {
       case 'polyline':
         const tmpPolyline: Polyline = this.getPolyline(item.type, item.subtype);
-        tmpPolyline.setExtendetOptions(true);
+        tmpPolyline.setExtendetOptions(hasFontColors);
         break;
       case 'poi':
         const tmpPOI: POI = this.getPOI(item.type, item.subtype);
-        tmpPOI.setExtendetOptions(true);
+        tmpPOI.setExtendetOptions(hasFontColors);
         break;
       case 'polygone':
         const tmpPolygone = this.getPolygone(item.type, item.subtype);
-        tmpPolygone.setExtendetOptions(true);
+        tmpPolygone.setExtendetOptions(hasFontColors);
         break;
     }
   }

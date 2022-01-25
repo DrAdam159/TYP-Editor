@@ -216,13 +216,11 @@ export class IconEditorDescriptionComponent implements OnInit {
   }
 
   setFont(): void {
-    this.fileService.setFont(new Color(this.colorDay), new Color(this.colorNight),  ~~Fontdata[this.selectedType], this.drawableItem, this.itemType);
+    this.fileService.setFont(new Color(this.colorDay), new Color(this.colorNight),  ~~Fontdata[this.selectedType], this.drawableItem, this.itemType, this.hasFontColors);
   }
 
   saveChanges(): void {
-    if(this.hasFontColors) {
-      this.setFont();
-    }
+    this.setFont();
     
     this.fileService.updateFile();
     this.changeState(false);

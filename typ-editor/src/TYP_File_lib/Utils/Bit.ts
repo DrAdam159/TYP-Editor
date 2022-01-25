@@ -9,6 +9,9 @@ export class Bit {
 
     static set(toSet: number, value: number, bitPosition: number): number {
         return toSet |= value << bitPosition;
-        //console.log(toSet);
+    }
+
+    static reset(toSet: number, value: number, bitPosition: number): number {
+        return toSet &= ~(1 << bitPosition);
     }
 }
