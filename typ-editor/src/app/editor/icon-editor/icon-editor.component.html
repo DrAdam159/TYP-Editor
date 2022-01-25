@@ -96,11 +96,12 @@
     <div *ngIf="drawableItem" class="canvas-container">
       <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
-          <canvas #canvas class="canvas"></canvas>
+          <canvas #canvas class="canvas" (contextmenu)="onRightClick($event)"></canvas>
+          
         </ng-template>
         <ng-template #elseBlock>
           <div [ngClass]="hasNightIcon ? '' : 'hidden-canvas'">
-            <canvas #canvas class="canvas"></canvas>
+            <canvas #canvas class="canvas" (contextmenu)="onRightClick($event)"></canvas>
           </div>
           <div *ngIf="!hasNightIcon">
             <button mat-fab color="primary"  class="fab-main add-btn" [matMenuTriggerFor]="nightIconMenu">
@@ -212,6 +213,51 @@
   </div>
 </div>
 <canvas #canvas2 ></canvas>
+
+<div style="visibility: hidden; position: fixed;" 
+            [style.left]="menuTopLeftPosition.x" 
+            [style.top]="menuTopLeftPosition.y" 
+            [matMenuTriggerFor]="canvasOptions">
+</div> 
+
+<mat-menu  #canvasOptions="matMenu">
+  <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <div *ngIf="hasNightIcon; then thenBlock2 else elseBlock2"></div>
+          <ng-template #thenBlock2>
+            <button mat-menu-item>
+              <mat-icon>clear</mat-icon>
+              <span>Clear</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>dark_mode</mat-icon>
+              <span>Import Night Icon</span>
+            </button>
+          </ng-template>
+            
+          <ng-template #elseBlock2>
+            <button mat-menu-item>
+              <mat-icon>clear</mat-icon>
+              <span>Clear</span>
+            </button>
+            <button mat-menu-item disabled>
+              <mat-icon>dark_mode</mat-icon>
+              <span>Import Night Icon</span>
+            </button>
+          </ng-template>
+          
+        </ng-template>
+        <ng-template #elseBlock>
+          <button mat-menu-item>
+            <mat-icon>clear</mat-icon>
+            <span>Clear</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>light_mode</mat-icon>
+            <span>Import Day Icon</span>
+          </button>
+        </ng-template>
+</mat-menu>
 
 
 

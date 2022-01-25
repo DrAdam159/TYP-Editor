@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 import { Color } from 'src/TYP_File_lib/Utils/Color';
 import { saveAs } from "file-saver";
+import { MatMenuTrigger } from '@angular/material/menu';
 
 
 @Component({
@@ -43,6 +44,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('canvasMapPreview', {static: false}) 
   mapPreviewCanvas!: ElementRef<HTMLCanvasElement>;
   mapPreviewCanvasContext!: CanvasRenderingContext2D | null;
+
+  @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger!: MatMenuTrigger; 
+  menuTopLeftPosition =  {x: '0', y: '0'} 
 
   //kolikrat bude kazdy pixel zvetseny
   scaleNum: number;
@@ -156,23 +160,23 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             break;
           case 'Night':
             this.dayOrNightMode = false;
-            if(this.drawableItem.colNightColor.length != 0 || this.drawableItem.bitmapNight) {
-              switch(this.itemType) {
-                case 'polyline':
-                  this.hasNightIcon = true;
-                  break;
-                case 'polygone':
-                  if(this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID).hasNightIcon()) {
-                    this.hasNightIcon = true;
-                  }
-                  break;
-                case 'poi':
-                  this.hasNightIcon = true;
-                  break;
-              }
-            }
             this.itemBitmap = this.drawableItem.asBitmap(false);
             break;
+        }
+        if(this.drawableItem.colNightColor.length != 0 || this.drawableItem.bitmapNight) {
+          switch(this.itemType) {
+            case 'polyline':
+              this.hasNightIcon = true;
+              break;
+            case 'polygone':
+              if(this.fileService.getPolygone(~~this.typeID, ~~this.subTypeID).hasNightIcon()) {
+                this.hasNightIcon = true;
+              }
+              break;
+            case 'poi':
+              this.hasNightIcon = true;
+              break;
+          }
         }
         if(!this.dayOrNightMode && !this.hasNightIcon) {
           this.hideTools = true;
@@ -981,5 +985,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   changeMode(): void {
     this.darkMode = !this.darkMode;
+  }
+
+  onRightClick(event: MouseEvent): void {
+    event.preventDefault(); 
+    this.menuTopLeftPosition.x = event.clientX + 'px'; 
+    this.menuTopLeftPosition.y = event.clientY + 'px'; 
+    this.matMenuTrigger.openMenu();
   }
 }
