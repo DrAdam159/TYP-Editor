@@ -89,6 +89,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   darkMode: boolean;
 
   hideTools: boolean;
+
+  // Obsahuje barvy mimo Garmin paletu?
+  garminCols =  {garmin16: false, garmin64: false, garmin256: false, warning: false};
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
     this.iconType = "Day";
@@ -192,6 +195,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         }
       }
    });
+
+   this.checkForNonGarminColors();
   }
 
   ngAfterViewInit(): void {
@@ -233,6 +238,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
       this.setStateOfChanges(true);
     }
+    this.storeBitmap();
   }
 
   stopToolUse(): void {
@@ -823,6 +829,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     let clone = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
     clone.copyData(this.itemBitmap.pixelArr);
     this.undoQuery.push(clone);
+    this.checkForNonGarminColors();
   }
 
   undo(): void {
@@ -1032,6 +1039,22 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.color = this.colors[0];
     }
+  }
+
+  checkForNonGarminColors(): void {
+    const itemCols: Array<Color> = this.itemBitmap.getAllColors();
+
+    this.garminCols.garmin16 = this.itemBitmap.checkForNonGarminColors_palette16(itemCols);
+    this.garminCols.garmin64 = this.itemBitmap.checkForNonGarminColors_palette64(itemCols);
+    this.garminCols.garmin256 = this.itemBitmap.checkForNonGarminColors_palette256(itemCols);
+    if (this.garminCols.garmin16 || this.garminCols.garmin64 || this.garminCols.garmin256) {
+      this.garminCols.warning = true;
+    }
+    else {
+      this.garminCols.warning = false;
+    }
+
+    console.log('here');
   }
 }
 

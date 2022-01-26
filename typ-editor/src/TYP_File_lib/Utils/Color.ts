@@ -79,4 +79,15 @@ export class Color {
         return false;
 
     }
+
+    compareColorsNonAlpha(secondColor: Color): boolean {
+        if(this.r == secondColor.r &&
+            this.g == secondColor.g &&
+            this.b == secondColor.b 
+        ) {
+            return true;
+        }
+        return false;
+
+    }
 }

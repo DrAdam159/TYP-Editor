@@ -219,4 +219,33 @@ export class Bitmap {
         this.pixelArr = new Uint8ClampedArray(this.width * this.height * this.pixelOffset);
         this.pixelArr.fill(255);
     }
+
+    checkForNonGarminColors_palette16(cols: Array<Color>): boolean {
+        for(let col of cols) {
+            if (!pallet16.colors.find(paletteCol => col.compareColorsNonAlpha(new Color('#' + paletteCol)))) {
+              return true;
+            }
+        }
+        return false;
+    }
+
+    checkForNonGarminColors_palette64(cols: Array<Color>): boolean {
+        for(let col of cols) {
+            if (!pallet64.colors.find(paletteCol => col.compareColorsNonAlpha(new Color('#' + paletteCol)))) {
+              return true;
+            }
+        }
+        return false;
+
+    }
+
+    checkForNonGarminColors_palette256(cols: Array<Color>): boolean {
+        for(let col of cols) {
+            if (!pallet256.colors.find(paletteCol => col.compareColorsNonAlpha(new Color('#' + paletteCol)))) {
+              return true;
+            }
+        }
+        return false;
+
+    }
 }
