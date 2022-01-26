@@ -993,4 +993,30 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.menuTopLeftPosition.y = event.clientY + 'px'; 
     this.matMenuTrigger.openMenu();
   }
+
+  clearCanvas(): void {
+    this.itemBitmap.clearBitmap();
+    this.updateBitmap();
+    this.drawMapPreview();
+    this.setStateOfChanges(true);
+    if(this.limitColors) {
+      this.colors.splice(0, this.colors.length);
+      this.itemBitmap.getAllColors().forEach((col, index) => {
+        this.colors.push(col.toHex());
+      });
+      if(this.colors.length == 1) {
+        this.colors.push('#FFFFFF');
+      }
+      this.color = this.colors[0];
+    }
+    this.storeBitmap();
+  }
+
+  importNightIcon(): void {
+
+  }
+
+  importDayIcon(): void {
+    
+  }
 }

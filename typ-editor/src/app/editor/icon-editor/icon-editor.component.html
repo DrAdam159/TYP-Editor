@@ -225,7 +225,7 @@
         <ng-template #thenBlock>
           <div *ngIf="hasNightIcon; then thenBlock2 else elseBlock2"></div>
           <ng-template #thenBlock2>
-            <button mat-menu-item>
+            <button mat-menu-item (click) = "clearCanvas()">
               <mat-icon>clear</mat-icon>
               <span>Clear</span>
             </button>
@@ -236,7 +236,7 @@
           </ng-template>
             
           <ng-template #elseBlock2>
-            <button mat-menu-item>
+            <button mat-menu-item (click) = "clearCanvas()">
               <mat-icon>clear</mat-icon>
               <span>Clear</span>
             </button>
@@ -248,7 +248,7 @@
           
         </ng-template>
         <ng-template #elseBlock>
-          <button mat-menu-item>
+          <button mat-menu-item (click) = "clearCanvas()">
             <mat-icon>clear</mat-icon>
             <span>Clear</span>
           </button>
