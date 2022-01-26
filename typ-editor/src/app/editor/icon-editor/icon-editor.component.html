@@ -148,11 +148,30 @@
         </mat-form-field>
       </div>
     
-      <div *ngIf="limitColors" class="color-limit">
+      <!-- <div *ngIf="limitColors" class="color-limit">
         <mat-button-toggle-group [formControl]="colorOptions">
           <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal)">Color {{i}}</mat-button-toggle>
         </mat-button-toggle-group>
         <div [ngClass]="darkMode  ? 'dark-icon' : ''">Selected color: {{colorOptions.value}}</div>
+      </div> -->
+      <div class="color-limit">
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{'Colors:'+colors.length }}
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>palette</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-grid-list cols=4 rowHeight="1:1" [gutterSize]="'10px'">
+              <mat-grid-tile *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" 
+              (click) = "updateColorPicker(colorVal, i)" class="color-tile" [ngClass]="{'highlight-tile': highlightColorTile(i)}"> 
+              </mat-grid-tile>
+          </mat-grid-list>
+          </mat-expansion-panel> 
+        </mat-accordion>
       </div>
     </div>
 

@@ -77,7 +77,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   //omezeni poctu barev pro polygone a polyline
   limitColors: boolean;
   colors: Array<string>;
-  colorOptions: FormControl;
+  selectedColorIndex: number;
 
   dayOrNightMode: boolean;
   //ma nocni ikonku?
@@ -105,8 +105,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.y = 0;
     this.color = '#3f51b5';
     this.toolOptions = new FormControl();
-    this.colorOptions = new FormControl();
     this.changedPixels = new Array();
+    this.selectedColorIndex = 0;
 
     this.itemType = "";
     this.typeID = "";
@@ -184,7 +184,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         if(!this.dayOrNightMode && !this.hasNightIcon) {
           this.hideTools = true;
         }
-        if(this.limitColors) {
+        // if(this.limitColors) {
           this.itemBitmap.getAllColors().forEach((col, index) => {
             this.colors.push(col.toHex());
           });
@@ -192,7 +192,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             this.colors.push('#FFFFFF');
           }
           this.color = this.colors[0];
-        }
+        // }
       }
    });
 
@@ -219,22 +219,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
     this.context.fillStyle = this.color;
     if(this.limitColors) {
-      if(this.colorOptions.value) {
-        this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[this.colorOptions.value]));
-        this.updateBitmap();
-        if(this.itemType == 'polygone' || this.itemType == 'polyline') {
-          this.drawMapPreview();
-        }
-        this.colors[this.colorOptions.value] = this.color;
+      this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[this.selectedColorIndex]));
+      this.updateBitmap();
+      if(this.itemType == 'polygone' || this.itemType == 'polyline') {
+        this.drawMapPreview();
       }
-      else {
-        this.itemBitmap.replaceColor(new Color(this.color), new Color(this.colors[0]));
-        this.updateBitmap();
-        if(this.itemType == 'polygone' || this.itemType == 'polyline') {
-          this.drawMapPreview();
-        }
-        this.colors[0] = this.color;
-      }
+      this.colors[this.selectedColorIndex] = this.color;
 
       this.setStateOfChanges(true);
     }
@@ -887,8 +877,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  updateColorPicker(colorVal: string): void {
+  updateColorPicker(colorVal: string, index: number): void {
     this.color = colorVal;
+    this.selectedColorIndex = index;
   }
 
   drawUnscaledImage(): void {
@@ -1053,8 +1044,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     else {
       this.garminCols.warning = false;
     }
+  }
 
-    console.log('here');
+  highlightColorTile(colIndex: number): boolean {
+    if(this.selectedColorIndex == colIndex) {
+      return true;
+    }
+    return false;
   }
 }
 
