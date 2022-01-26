@@ -841,6 +841,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.drawMapPreview();
     }
     this.setStateOfChanges(true);
+    this.updateColorLimit();
   }
 
   redo(): void {
@@ -859,6 +860,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.drawMapPreview();
     }
     this.setStateOfChanges(true);
+    this.updateColorLimit();
   }
 
   saveChangesToFile(): void {
@@ -999,6 +1001,27 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.updateBitmap();
     this.drawMapPreview();
     this.setStateOfChanges(true);
+    this.updateColorLimit();
+    this.storeBitmap();
+  }
+
+  importNightIcon(): void {
+    this.itemBitmap = this.drawableItem.asBitmap(false);
+    this.updateBitmap();
+    this.drawMapPreview();
+    this.updateColorLimit();
+    this.storeBitmap();
+  }
+
+  importDayIcon(): void {
+    this.itemBitmap = this.drawableItem.asBitmap(true);
+    this.updateBitmap();
+    this.drawMapPreview();
+    this.updateColorLimit();
+    this.storeBitmap();
+  }
+
+  updateColorLimit(): void {
     if(this.limitColors) {
       this.colors.splice(0, this.colors.length);
       this.itemBitmap.getAllColors().forEach((col, index) => {
@@ -1009,14 +1032,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
       this.color = this.colors[0];
     }
-    this.storeBitmap();
-  }
-
-  importNightIcon(): void {
-
-  }
-
-  importDayIcon(): void {
-    
   }
 }
+
+

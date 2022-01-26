@@ -229,7 +229,7 @@
               <mat-icon>clear</mat-icon>
               <span>Clear</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click) = "importNightIcon()">
               <mat-icon>dark_mode</mat-icon>
               <span>Import Night Icon</span>
             </button>
@@ -252,7 +252,7 @@
             <mat-icon>clear</mat-icon>
             <span>Clear</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item (click) = "importDayIcon()">
             <mat-icon>light_mode</mat-icon>
             <span>Import Day Icon</span>
           </button>
