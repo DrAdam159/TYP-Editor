@@ -23,8 +23,10 @@
 }
 
 .item-2 {
-    background-color: #f3f1f5;
-    text-align:right;
+   background-color: #f3f1f5;
+   text-align:left;
+   /* padding-left: 2%;
+   padding-right: 2%; */
 }
 
 .item-3 {
@@ -107,7 +109,7 @@
 
 .color-limit {
     padding: 10px;
-    text-align:center;
+    text-align: left;
 }
 
 #undo_redo_btns {
@@ -135,7 +137,7 @@
 .map-preview {
     padding: 10px;
     padding-top: 3rem;
-    text-align:center; 
+    text-align:left; 
 }
 
 .example-headers-align .mat-expansion-panel-header-title,
@@ -159,6 +161,13 @@
 .highlight-tile {
     outline: red solid 2px;
 }
+
+.color-accordion {
+   max-width: 200px;
+   /* margin-left: 15%;
+   margin-right: 15%; */
+}
+
 
 
 
