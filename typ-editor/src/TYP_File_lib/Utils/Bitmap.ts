@@ -248,4 +248,20 @@ export class Bitmap {
         return false;
 
     }
+
+    scale(size: {newWidth: number, newHeight: number}): Bitmap{
+        const newBitmap = new Bitmap(size.newWidth, size.newHeight);
+        const x_scale: number = this.width / newBitmap.width
+        const y_scale: number = this.height / newBitmap.height
+
+        for(let x = 0; x < newBitmap.width; x++) { 
+            for(let y = 0; y < newBitmap.height; y++) { 
+                const xp = Math.floor(x * x_scale);
+                const yp = Math.floor(y * y_scale);
+                newBitmap.setPixel(x, y, this.getPixelColor(xp, yp));
+            }
+        }
+        
+        return newBitmap;
+    }
 }

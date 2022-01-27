@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 
 @Component({
@@ -16,7 +16,7 @@ export class ResizeComponent implements OnInit {
 
   newDimensions: {newWidth: number, newHeight: number};
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: {icon: Bitmap}, private formBuilder: FormBuilder) { 
+  constructor(@Inject(MAT_DIALOG_DATA) private data: {icon: Bitmap}, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<ResizeComponent>) { 
     this.icon = data.icon;
     this.newDimensions =  {newWidth: 0, newHeight: 0};
     this.descriptionForm = this.formBuilder.group({
@@ -47,8 +47,9 @@ export class ResizeComponent implements OnInit {
 
   onFormSubmit(): void {
     if (this.descriptionForm.valid) {
-      this.newDimensions.newHeight = this.descriptionForm.get('width')?.value;
-      this.newDimensions.newWidth = this.descriptionForm.get('height')?.value;
+      this.newDimensions.newWidth = this.descriptionForm.get('width')?.value;
+      this.newDimensions.newHeight = this.descriptionForm.get('height')?.value;
+      this.dialogRef.close(this.newDimensions);
 		} else {
       this.resetForm(this.descriptionForm);
       alert('Invalid data!');

@@ -208,8 +208,11 @@ export class FileService {
         break;
       case 'poi':
         if(newItem.bitmapDay) {
-          // console.log(bitmap.getAllColors());
-          // newItem.bitmapDay.colorTable = bitmap.getAllColors();
+          if(bitmap.width != newItem.bitmapDay.width || bitmap.height != newItem.bitmapDay.height) {
+            console.log('Resized icon');
+            newItem.bitmapDay.width = bitmap.width;
+            newItem.bitmapDay.height = bitmap.height;
+          }
           bitmap.updateColors(newItem.bitmapDay.colorTable);
           newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
           this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;

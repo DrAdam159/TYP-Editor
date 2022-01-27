@@ -9,7 +9,7 @@ import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 import { Color } from 'src/TYP_File_lib/Utils/Color';
 import { saveAs } from "file-saver";
 import { MatMenuTrigger } from '@angular/material/menu';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ResizeComponent } from './resize/resize.component';
 
 
@@ -1057,12 +1057,22 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   }
 
   resizeIcon(): void {
-    this.matDialog.open( ResizeComponent, {
+    const dialogRef = this.matDialog.open( ResizeComponent, {
       data: {
         icon: this.itemBitmap,
       },
       minWidth: '40vw',
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.scaleIcon(result);
+      }
+    });
+  }
+
+  scaleIcon(size: {newWidth: number, newHeight: number}): void {
+    this.itemBitmap = this.itemBitmap.scale(size);
+    this.updateBitmap();
   }
 }
 
