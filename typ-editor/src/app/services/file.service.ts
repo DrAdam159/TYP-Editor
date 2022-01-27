@@ -12,7 +12,7 @@ import { Type } from 'src/TYP_File_lib/IconTypes/Type';
 import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
 import { ColorPallet } from 'src/TYP_File_lib/ColorPallets/ColorPallet';
 import { pallet256, pallet64, pallet16 } from 'src/TYP_File_lib/ColorPallets/GarminColorPallets';
-import { Palettes } from 'src/TYP_File_lib/ColorPallets/palettes';
+import { Palettes } from 'src/TYP_File_lib/ColorPallets/Palettes';
 
 enum Fontdata {
   Default = 0x0,

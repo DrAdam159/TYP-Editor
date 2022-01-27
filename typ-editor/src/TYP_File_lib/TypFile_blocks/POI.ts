@@ -65,7 +65,7 @@ export class POI extends GraphicElement{
         this.withExtendedOptions = false;
     }
 
-    read(reader: BinReaderWriter): void {
+    read(reader: BinReaderWriter, codepage: number): void {
         this.options = reader.readUint8();
         this.width = reader.readUint8();
         this.height = reader.readUint8();
@@ -89,7 +89,7 @@ export class POI extends GraphicElement{
                this.bitmapNight = new PixMap(this.width, this.height, this.colsNight, this.colorModeNight, reader);
          }
         if(this.withString) {
-            this.text = new MultiText(reader);
+            this.text = new MultiText(reader, codepage);
         }
         else {
             this.text = new MultiText();

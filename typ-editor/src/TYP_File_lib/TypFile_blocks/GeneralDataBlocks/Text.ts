@@ -42,12 +42,12 @@ export class Text {
     language: LanguageCode;
     text: string;
 
-    constructor(reader?: BinReaderWriter) {
+    constructor(reader?: BinReaderWriter, codepage: number = 65001) {
         this.language = 0;
         this.text = "undefined";
         if(reader) {
             this.language = reader.readUint8();
-            this.text = reader.readStringWithUndefinedLen(0);
+            this.text = reader.readStringWithUndefinedLen(0, codepage);
         }
         /*else {
             this.language = 0;

@@ -133,6 +133,7 @@ export class Header {
         writer.writeUint8(this.creationDate.getMinutes());
         writer.writeUint8(this.creationDate.getSeconds());
 
+        this.Codepage = 65001;
         writer.writeUint16(this.Codepage);
 
         this.POIDataBlock.writeDataBlock(writer);

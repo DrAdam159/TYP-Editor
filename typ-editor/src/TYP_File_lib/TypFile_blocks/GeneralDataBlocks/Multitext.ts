@@ -48,7 +48,7 @@ interface KeyValuePair {
 export class MultiText {
     textArr: Array<KeyValuePair>;
 
-    constructor(reader?: BinReaderWriter) {
+    constructor(reader?: BinReaderWriter, codepage: number = 65001) {
         this.textArr = new Array();
         let t = new Text();
         if(reader){
@@ -61,7 +61,7 @@ export class MultiText {
                 len >>= 2;
              }
              while (len > 0) {
-                t = new Text(reader);
+                t = new Text(reader, codepage);
                 this.set(t);
                 len -= t.text.length + 2;
              }

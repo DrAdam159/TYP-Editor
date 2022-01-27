@@ -80,7 +80,7 @@ export class Polyline extends GraphicElement{
         this.withString = false;
     }
 
-    read(reader: BinReaderWriter): void {
+    read(reader: BinReaderWriter, codepage: number): void {
         this.options = reader.readUint8();
         this.options2 = reader.readUint8();
         this.polylineType = this.options & 0x7;

@@ -171,8 +171,11 @@ export class BinReaderWriter {
         this.position = offsetOrigin;
     }
 
-    readStringWithUndefinedLen(maxLen: number = 0): string {
+    readStringWithUndefinedLen(maxLen: number = 0, codepage: number): string {
         let utf8decoder = new TextDecoder('windows-1251');
+        if(codepage == 65001) {
+            utf8decoder = new TextDecoder();
+        }
         let len = maxLen > 0 ? maxLen : Number.MAX_SAFE_INTEGER;
         let list: Array<number> = new Array();
         let b: number;

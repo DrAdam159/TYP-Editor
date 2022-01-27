@@ -5,7 +5,7 @@ import { Polyline } from './TypFile_blocks/Polyline';
 import { POI } from './TypFile_blocks/POI';
 import { PolygonDraworderTableItem } from './TypFile_blocks/GeneralDataBlocks/PolygonDraworderTableItem';
 import { Polygon } from './TypFile_blocks/Polygon';
-import { Palettes } from './ColorPallets/palettes';
+import { Palettes } from './ColorPallets/Palettes';
 import { ColorPallet } from './ColorPallets/ColorPallet';
 import { pallet16, pallet256, pallet64 } from './ColorPallets/GarminColorPallets';
 
@@ -52,7 +52,7 @@ export class TypFile {
             for(let i = 0; i < this.PolylineTableItems.length; i++) {
                 reader.seek(this.PolylineTableItems[i].offset + this.header.PolylineDataBlock.offset);
                 let p = new Polyline(this.PolylineTableItems[i].type, this.PolylineTableItems[i].subType);
-                p.read(reader);
+                p.read(reader, this.header.Codepage);
                 this.PolylineList.push(p);
             }
         }
@@ -72,7 +72,7 @@ export class TypFile {
             for(let i = 0; i < this.POITableItems.length; i++) {
                 reader.seek(this.POITableItems[i].offset + this.header.POIDataBlock.offset);
                 let p = new POI(this.POITableItems[i].type, this.POITableItems[i].subType);
-                p.read(reader);
+                p.read(reader, this.header.Codepage);
                 this.POIList.push(p);
             }
         }
@@ -110,7 +110,7 @@ export class TypFile {
             for(let i = 0; i < this.PolygonTableItems.length; i++) {
                 reader.seek(this.PolygonTableItems[i].offset + this.header.PolygoneDataBlock.offset);
                 let p = new Polygon(this.PolygonTableItems[i].type, this.PolygonTableItems[i].subType);
-                p.read(reader);
+                p.read(reader, this.header.Codepage);
                 for (let j = 0; j < this.PolygonDraworderTableItems.length; j++) {
                     if (p.type == this.PolygonDraworderTableItems[j].type) 
                        for (let k = 0; k < this.PolygonDraworderTableItems[j].subTypes.length; k++)

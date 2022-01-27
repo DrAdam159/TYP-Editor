@@ -93,7 +93,7 @@ export class Polygon extends GraphicElement{
         this.withNightBitmap = false;
     }
 
-    read(reader: BinReaderWriter): void {
+    read(reader: BinReaderWriter, codepage: number): void {
         this.options = reader.readUint8();
         this.withString = Bit.isSet(this.options, 4);
         this.withExtendedOptions = Bit.isSet(this.options, 5);
@@ -187,7 +187,7 @@ export class Polygon extends GraphicElement{
          }
 
          if (this.withString) {
-            this.text = new MultiText(reader);
+            this.text = new MultiText(reader, codepage);
          }
          else {
             this.text = new MultiText();
