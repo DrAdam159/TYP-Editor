@@ -1072,6 +1072,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   scaleIcon(size: {newWidth: number, newHeight: number}): void {
     this.itemBitmap = this.itemBitmap.scale(size);
+    this.storeBitmap();
     this.updateBitmap();
   }
 }
