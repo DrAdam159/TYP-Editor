@@ -916,8 +916,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
     if (file) {
       img.onload = () => {
+        this.context?.clearRect(0, 0, this.myCanvas.nativeElement.width, this.myCanvas.nativeElement.height);
         this.context?.drawImage(img, 0, 0);
-        const imgData =  this.context?.getImageData(0, 0, img.width, img.height).data;
+        const imgData = this.context?.getImageData(0, 0, img.width, img.height).data;
     
         if(imgData) {
           this.itemBitmap.pixelArr = imgData;
