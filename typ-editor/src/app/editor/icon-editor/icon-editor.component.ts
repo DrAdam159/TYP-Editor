@@ -11,6 +11,7 @@ import { saveAs } from "file-saver";
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ResizeComponent } from './resize/resize.component';
+import { ResizePolylineComponent } from './resize-polyline/resize-polyline.component';
 
 
 @Component({
@@ -1057,6 +1058,17 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   }
 
   resizeIcon(): void {
+    switch(this.itemType) {
+      case 'poi':
+        this.resizePOIIcon();
+        break;
+      case 'polyline':
+        this.resizePolylineIcon();
+        break;
+    }
+  }
+
+  resizePOIIcon(): void {
     const dialogRef = this.matDialog.open( ResizeComponent, {
       data: {
         icon: this.itemBitmap,
@@ -1074,6 +1086,20 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = this.itemBitmap.scale(size);
     this.storeBitmap();
     this.updateBitmap();
+  }
+
+  resizePolylineIcon(): void {
+    const dialogRef = this.matDialog.open( ResizePolylineComponent, {
+      data: {
+        icon: this.itemBitmap,
+      },
+      minWidth: '40vw',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.scaleIcon(result);
+      }
+    });
   }
 }
 

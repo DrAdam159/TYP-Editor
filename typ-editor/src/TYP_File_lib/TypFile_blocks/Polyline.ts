@@ -448,4 +448,9 @@ export class Polyline extends GraphicElement{
          }
       }
    }
+
+   changeBitmapHeight(newHeight: number): void {
+      this.bitmapHeight = newHeight;
+      this.options = 0xFF && ((this.bitmapHeight << 3) | (this.options & 0x7));
+   }
 }

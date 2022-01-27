@@ -221,6 +221,12 @@ export class FileService {
         break;
       case 'polyline':
         if(newItem.bitmapDay) { 
+          if(bitmap.width != newItem.bitmapDay.width || bitmap.height != newItem.bitmapDay.height) {
+            console.log('Resized icon');
+            newItem.bitmapDay.width = bitmap.width;
+            newItem.bitmapDay.height = bitmap.height;
+            this.getPolyline(type, subType).changeBitmapHeight(bitmap.height);
+          }
           newItem.bitmapDay.colorTable = bitmap.getAllColors();
           newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
           this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
@@ -232,6 +238,11 @@ export class FileService {
           tmpPolyline.colDayColor = bitmap.getAllColors();
           tmpPolyline.createBitmap(true);
           tmpPolyline.setPolylineType();
+          if(tmpPolyline.bitmapDay) {
+            tmpPolyline.bitmapDay.width = bitmap.width;
+            tmpPolyline.bitmapDay.height = bitmap.height;
+            tmpPolyline.changeBitmapHeight(bitmap.height);
+          }
         }
         break;
     }

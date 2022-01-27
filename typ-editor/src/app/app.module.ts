@@ -60,6 +60,7 @@ import { GridSelectComponent } from './grid-select/grid-select.component';
 import { NgChartsModule } from 'ng2-charts';
 import { OptionsComponent } from './options/options.component';
 import { ResizeComponent } from './editor/icon-editor/resize/resize.component';
+import { ResizePolylineComponent } from './editor/icon-editor/resize-polyline/resize-polyline.component';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import { ResizeComponent } from './editor/icon-editor/resize/resize.component';
     AddPoiComponent,
     GridSelectComponent,
     OptionsComponent,
-    ResizeComponent
+    ResizeComponent,
+    ResizePolylineComponent
   ],
   imports: [
     BrowserModule,

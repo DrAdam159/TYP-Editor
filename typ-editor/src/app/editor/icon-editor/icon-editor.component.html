@@ -320,7 +320,7 @@
 </mat-menu>
 
 <mat-menu #menu2="matMenu">
-  <div *ngIf="itemType == 'poi'; then thenBlockResize else elseBlockResize"></div>
+  <div *ngIf="itemType == 'poi' || itemType == 'polyline'; then thenBlockResize else elseBlockResize"></div>
   <ng-template #thenBlockResize>
     <button mat-menu-item disabled (click) = "changeMode()">
       <mat-icon>dialpad</mat-icon>
