@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Resize POI:</h2>
+<mat-dialog-content class="mat-typography">
+
+  <form [formGroup]="descriptionForm" class="example-form" (ngSubmit)="onFormSubmit()">
+
+  <mat-form-field appearance="fill" class="size-input-width">
+    <mat-label>Width</mat-label>
+    <input matInput type="number" formControlName="width" placeholder="Ex. 12" min="1" (input) = "calculateAspectRatioWidth()">
+    <span matSuffix>px</span>
+  </mat-form-field>
+  X
+  <mat-form-field appearance="fill" class="size-input-height" >
+    <mat-label>Height</mat-label>
+    <input matInput type="number" formControlName="height" placeholder="Ex. 12" min="1" (input) = "calculateAspectRatioHeight()">
+    <span matSuffix>px</span>
+  </mat-form-field>
+  </form>
+   
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="onFormSubmit()">Apply</button>
+</mat-dialog-actions>
+

@@ -204,12 +204,12 @@
       <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
         <mat-icon color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">settings</mat-icon>
       </button>
-      <mat-menu #menu2="matMenu">
+      <!-- <mat-menu #menu2="matMenu">
         <button mat-menu-item (click) = "changeMode()">
           <mat-icon>dialpad</mat-icon>
           <span>Dark theme</span>
         </button>
-      </mat-menu>
+      </mat-menu> -->
     </div> 
   </div>
   <div class="item"  [ngClass]="darkMode  ? 'item-4-dark' : 'item-4'" fxFlex="90%"  fxFlexOffset.xs="0">
@@ -317,6 +317,30 @@
     </ng-template>
     <span>Garmin 256</span>
   </button>
+</mat-menu>
+
+<mat-menu #menu2="matMenu">
+  <div *ngIf="itemType == 'poi'; then thenBlockResize else elseBlockResize"></div>
+  <ng-template #thenBlockResize>
+    <button mat-menu-item disabled (click) = "changeMode()">
+      <mat-icon>dialpad</mat-icon>
+      <span>Dark theme</span>
+    </button>
+    <button mat-menu-item (click) = "resizeIcon()">
+      <mat-icon>aspect_ratio</mat-icon>
+      <span>Resize</span>
+    </button>
+  </ng-template>
+  <ng-template #elseBlockResize>
+    <button mat-menu-item disabled (click) = "changeMode()">
+      <mat-icon>dialpad</mat-icon>
+      <span>Dark theme</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>aspect_ratio</mat-icon>
+      <span>Resize</span>
+    </button>
+  </ng-template>
 </mat-menu>
 
 

@@ -59,6 +59,7 @@ import { AddPoiComponent } from './poi/add-poi/add-poi.component';
 import { GridSelectComponent } from './grid-select/grid-select.component';
 import { NgChartsModule } from 'ng2-charts';
 import { OptionsComponent } from './options/options.component';
+import { ResizeComponent } from './editor/icon-editor/resize/resize.component';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { OptionsComponent } from './options/options.component';
     AddPolygoneComponent,
     AddPoiComponent,
     GridSelectComponent,
-    OptionsComponent
+    OptionsComponent,
+    ResizeComponent
   ],
   imports: [
     BrowserModule,

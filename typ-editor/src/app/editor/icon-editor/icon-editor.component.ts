@@ -9,6 +9,8 @@ import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 import { Color } from 'src/TYP_File_lib/Utils/Color';
 import { saveAs } from "file-saver";
 import { MatMenuTrigger } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ResizeComponent } from './resize/resize.component';
 
 
 @Component({
@@ -93,7 +95,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   // Obsahuje barvy mimo Garmin paletu?
   garminCols =  {garmin16: false, garmin64: false, garmin256: false, warning: false};
   
-  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute) {
+  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) {
     this.iconType = "Day";
     this.scaleNum = 20;
     this.undoQuery = new Array();
@@ -1052,6 +1054,15 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       return true;
     }
     return false;
+  }
+
+  resizeIcon(): void {
+    this.matDialog.open( ResizeComponent, {
+      data: {
+        icon: this.itemBitmap,
+      },
+      minWidth: '40vw',
+    });
   }
 }
 
