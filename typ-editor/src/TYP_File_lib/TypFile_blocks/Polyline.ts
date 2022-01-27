@@ -453,4 +453,10 @@ export class Polyline extends GraphicElement{
       this.bitmapHeight = newHeight;
       this.options = 0xFF && ((this.bitmapHeight << 3) | (this.options & 0x7));
    }
+
+   changeBorderAndLine(newBorderWidth: number, newLineWidth: number): void {
+      this.borderWidth = newBorderWidth;
+      this.innerWidth = newLineWidth;
+      this.height = this.bitmapHeight > 0 ? this.bitmapHeight : this.innerWidth + 2 * this.borderWidth;
+   }
 }

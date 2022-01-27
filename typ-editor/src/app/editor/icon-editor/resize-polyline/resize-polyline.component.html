@@ -14,6 +14,21 @@
     <input matInput type="number" formControlName="height" placeholder="Ex. 12" min="1">
     <span matSuffix>px</span>
   </mat-form-field>
+
+  <div *ngIf="!withBitmap">
+    <mat-form-field appearance="fill" class="input" >
+      <mat-label>Border Width</mat-label>
+      <input matInput type="number" formControlName="borderWidth" placeholder="Ex. 12" min="1">
+      <span matSuffix>px</span>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="size-input-height" >
+      <mat-label>Line Width</mat-label>
+      <input matInput type="number" formControlName="lineWidth" placeholder="Ex. 12" min="1">
+      <span matSuffix>px</span>
+    </mat-form-field>
+  </div>
+  
   </form>
    
 </mat-dialog-content>

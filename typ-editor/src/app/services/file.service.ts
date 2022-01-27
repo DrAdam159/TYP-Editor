@@ -274,6 +274,11 @@ export class FileService {
         break;
       case 'poi':
         if(newItem.bitmapNight) {
+          if(bitmap.width != newItem.bitmapNight.width || bitmap.height != newItem.bitmapNight.height) {
+            console.log('Resized icon');
+            newItem.bitmapNight.width = bitmap.width;
+            newItem.bitmapNight.height = bitmap.height;
+          }
           bitmap.updateColors(newItem.bitmapNight.colorTable);
           newItem.bitmapNight.colorCount = newItem.bitmapNight.colorTable.length;
           this.getPOI(type, subType).bitmapNight = newItem.bitmapNight;
@@ -290,6 +295,12 @@ export class FileService {
         break;
       case 'polyline':
         if(newItem.bitmapNight) { 
+          if(bitmap.width != newItem.bitmapNight.width || bitmap.height != newItem.bitmapNight.height) {
+            console.log('Resized icon');
+            newItem.bitmapNight.width = bitmap.width;
+            newItem.bitmapNight.height = bitmap.height;
+            this.getPolyline(type, subType).changeBitmapHeight(bitmap.height);
+          }
           newItem.bitmapNight.colorTable = bitmap.getAllColors();
           newItem.bitmapNight.colorCount = newItem.bitmapNight.colorTable.length;
           const tmpPolyline: Polyline =  this.getPolyline(type, subType);
@@ -302,6 +313,11 @@ export class FileService {
           tmpPolyline.colNightColor = bitmap.getAllColors();
           tmpPolyline.createBitmap(false);
           tmpPolyline.setPolylineType();
+          if(tmpPolyline.bitmapNight) {
+            tmpPolyline.bitmapNight.width = bitmap.width;
+            tmpPolyline.bitmapNight.height = bitmap.height;
+            tmpPolyline.changeBitmapHeight(bitmap.height);
+          }
         }
         break;
     }

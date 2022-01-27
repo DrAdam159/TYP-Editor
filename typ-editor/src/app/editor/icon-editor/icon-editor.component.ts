@@ -1092,12 +1092,21 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     const dialogRef = this.matDialog.open( ResizePolylineComponent, {
       data: {
         icon: this.itemBitmap,
+        polyline: this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID),
       },
       minWidth: '40vw',
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.scaleIcon(result);
+        if(!result.withBitmap) {
+          console.log('no bitmap');
+          const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
+          tempPolyline.changeBorderAndLine(result.borderWidth, result.lineWidth);
+          this.itemBitmap = tempPolyline.asBitmap(this.dayOrNightMode);
+          this.storeBitmap();
+          this.updateBitmap();
+        }
       }
     });
   }
