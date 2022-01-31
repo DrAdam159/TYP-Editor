@@ -1085,7 +1085,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.scaleIcon(result);
+        if(result.rescaled) {
+          this.scaleIcon(result);
+        }
+        if(result.resized) {
+          this.scaleCanvas(result);
+        }
       }
     });
   }
@@ -1094,6 +1099,15 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.itemBitmap = this.itemBitmap.scale(size);
     this.storeBitmap();
     this.updateBitmap();
+  }
+
+  scaleCanvas(size: {newWidth: number, newHeight: number, newCanvasWidth: number, newCanvasHeight: number}): void {
+    
+    if(this.context) {
+      this.itemBitmap = this.itemBitmap.resize({newWidth: Math.round(size.newCanvasWidth / 20), newHeight: Math.round(size.newCanvasHeight / 20)});
+      this.storeBitmap();
+      this.updateBitmap();
+    }
   }
 
   resizePolylineIcon(): void {

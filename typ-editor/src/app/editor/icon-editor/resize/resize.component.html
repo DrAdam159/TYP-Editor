@@ -2,7 +2,8 @@
 <mat-dialog-content class="mat-typography">
 
   <form [formGroup]="descriptionForm" class="example-form" (ngSubmit)="onFormSubmit()">
-
+    Icon scale:
+    <br>
   <mat-form-field appearance="fill" class="size-input-width">
     <mat-label>Width</mat-label>
     <input matInput type="number" formControlName="width" placeholder="Ex. 12" min="1" (input) = "calculateAspectRatioWidth()">
@@ -14,6 +15,20 @@
     <input matInput type="number" formControlName="height" placeholder="Ex. 12" min="1" (input) = "calculateAspectRatioHeight()">
     <span matSuffix>px</span>
   </mat-form-field>
+  <br>
+  Canvas scale:
+  <br>
+<mat-form-field appearance="fill" class="size-input-width">
+  <mat-label>Width</mat-label>
+  <input matInput type="number" formControlName="canvasWidth" placeholder="Ex. 12" min="1" >
+  <span matSuffix>px</span>
+</mat-form-field>
+X
+<mat-form-field appearance="fill" class="size-input-height" >
+  <mat-label>Height</mat-label>
+  <input matInput type="number" formControlName="canvasHeight" placeholder="Ex. 12" min="1" >
+  <span matSuffix>px</span>
+</mat-form-field>
   </form>
    
 </mat-dialog-content>

@@ -264,4 +264,18 @@ export class Bitmap {
         
         return newBitmap;
     }
+
+    resize(size: {newWidth: number, newHeight: number}): Bitmap{
+        const newBitmap = new Bitmap(size.newWidth, size.newHeight);
+
+        for(let x = 0; x < newBitmap.width; x++) { 
+            for(let y = 0; y < newBitmap.height; y++) { 
+                if(x < this.width && y < this.height) {
+                    newBitmap.setPixel(x, y, this.getPixelColor(x, y));
+                }
+            }
+        }
+        
+        return newBitmap;
+    }
 }
