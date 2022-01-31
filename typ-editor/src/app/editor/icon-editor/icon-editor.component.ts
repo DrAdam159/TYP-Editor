@@ -453,6 +453,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.storeBitmap();
     this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
+    this.updateColorLimit();
     if(this.itemType == 'polygone' || this.itemType == 'polyline') {
       this.drawMapPreview();
     }
@@ -1024,16 +1025,23 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   }
 
   updateColorLimit(): void {
-    if(this.limitColors) {
+    //if(this.limitColors) {
       this.colors.splice(0, this.colors.length);
       this.itemBitmap.getAllColors().forEach((col, index) => {
         this.colors.push(col.toHex());
       });
+
+      // this.itemBitmap.getAllColors().forEach((col, index) => {
+      //   if(!(this.colors.some(e => e == col.toHex()))) {
+      //     this.colors.push(col.toHex());
+      //   }
+      // });
+      
       if(this.colors.length == 1) {
         this.colors.push('#FFFFFF');
       }
-      this.color = this.colors[0];
-    }
+      //this.color = this.colors[0];
+    //}
   }
 
   checkForNonGarminColors(): void {
