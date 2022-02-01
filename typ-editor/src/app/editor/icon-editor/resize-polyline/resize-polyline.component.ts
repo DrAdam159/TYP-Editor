@@ -17,7 +17,9 @@ export class ResizePolylineComponent implements OnInit {
 
   icon: Bitmap;
 
-  newDimensions: {newWidth: number, newHeight: number, withBitmap: boolean, borderWidth: number, lineWidth: number};
+  newDimensions: {newWidth: number, newHeight: number,
+     withBitmap: boolean, borderWidth: number, 
+     lineWidth: number, convertToBitmap: boolean};
 
   withBitmap: boolean;
 
@@ -27,7 +29,7 @@ export class ResizePolylineComponent implements OnInit {
   private dialogRef: MatDialogRef<ResizePolylineComponent>, private fileService: FileService) { 
     this.icon = data.icon;
     this.polyline = data.polyline;
-    this.newDimensions =  {newWidth: 0, newHeight: 0, withBitmap: false, borderWidth: 0, lineWidth: 0};
+    this.newDimensions =  {newWidth: 0, newHeight: 0, withBitmap: false, borderWidth: 0, lineWidth: 0, convertToBitmap: false};
     if(this.polyline.bitmapDay) {
       this.withBitmap = true;
       this.descriptionForm = this.formBuilder.group({
@@ -42,6 +44,7 @@ export class ResizePolylineComponent implements OnInit {
         height: [null, [Validators.required]],
         borderWidth: [null, [Validators.required]],
         lineWidth: [null, [Validators.required]],
+        createBitmap: [null, [Validators.required]],
       });
     }
     
@@ -53,7 +56,7 @@ export class ResizePolylineComponent implements OnInit {
     }
     else {
       this.descriptionForm.setValue({width: this.icon.width, height: this.icon.height,
-         borderWidth: this.polyline.borderWidth, lineWidth: this.polyline.innerWidth });
+         borderWidth: this.polyline.borderWidth, lineWidth: this.polyline.innerWidth, createBitmap: false });
     }
   }
 
@@ -61,21 +64,20 @@ export class ResizePolylineComponent implements OnInit {
 		form.reset();
 	}
 
+  changeBitmapState(): void {
+    this.newDimensions.convertToBitmap = !this.newDimensions.convertToBitmap;
+  }
+
   onFormSubmit(): void {
-    // if (this.descriptionForm.valid) {
-      this.newDimensions.newWidth = this.descriptionForm.get('width')?.value;
-      this.newDimensions.newHeight = this.descriptionForm.get('height')?.value;
-      this.newDimensions.withBitmap = this.withBitmap;
-      if(!this.withBitmap) {
-        this.newDimensions.borderWidth = this.descriptionForm.get('borderWidth')?.value;
-        this.newDimensions.lineWidth = this.descriptionForm.get('lineWidth')?.value;
-      }
-      this.dialogRef.close(this.newDimensions);
-		// } else {
-    //   this.resetForm(this.descriptionForm);
-    //   alert('Invalid data!');
-		// 	return;
-		// }
+    this.newDimensions.newWidth = this.descriptionForm.get('width')?.value;
+    this.newDimensions.newHeight = this.descriptionForm.get('height')?.value;
+    this.newDimensions.withBitmap = this.withBitmap;
+    if(!this.withBitmap) {
+      this.newDimensions.borderWidth = this.descriptionForm.get('borderWidth')?.value;
+      this.newDimensions.lineWidth = this.descriptionForm.get('lineWidth')?.value;
+    }
+    this.dialogRef.close(this.newDimensions);
+	
   }
 
 }
