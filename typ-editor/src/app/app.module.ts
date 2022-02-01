@@ -46,7 +46,8 @@ import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
-import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '@ng-matero/extensions';
+//import { MaterialExtensionsModule, MaterialExtensionsExperimentalModule } from '@ng-matero/extensions';
+import { MtxColorpickerModule } from '@ng-matero/extensions/colorpicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IconEditorComponent } from './editor/icon-editor/icon-editor.component';
 import { IconEditorDescriptionComponent } from './editor/icon-editor-description/icon-editor-description.component';
@@ -108,8 +109,9 @@ import { ResizePolylineComponent } from './editor/icon-editor/resize-polyline/re
     ReactiveFormsModule,
     FormsModule,
     MatFormFieldModule,
-    MaterialExtensionsModule,
-    MaterialExtensionsExperimentalModule,
+    /*MaterialExtensionsModule,
+    MaterialExtensionsExperimentalModule,*/
+    MtxColorpickerModule,
     MatInputModule,
     MatSelectModule,
     MatTableModule,
