@@ -142,7 +142,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           case 'polyline':
             this.drawableItem = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
             this.limitColors = true;
-            if(this.iconType == 'Night') {
+            if(this.iconType == 'Night' || !this.drawableItem.bitmapDay) {
               this.limitToolUse = true;
             }
             break;
@@ -1120,15 +1120,35 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.scaleIcon(result);
-        if(!result.withBitmap) {
-          console.log('no bitmap');
-          const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
-          tempPolyline.changeBorderAndLine(result.borderWidth, result.lineWidth);
-          this.itemBitmap = tempPolyline.asBitmap(this.dayOrNightMode);
-          this.storeBitmap();
-          this.updateBitmap();
+        // this.scaleIcon(result);
+        // if(!result.withBitmap) {
+        //   console.log('no bitmap');
+        //   const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
+        //   tempPolyline.changeBorderAndLine(result.borderWidth, result.lineWidth);
+        //   this.itemBitmap = tempPolyline.asBitmap(this.dayOrNightMode);
+        //   this.storeBitmap();
+        //   this.updateBitmap();
+        // }
+        if(result.withBitmap) {
+          this.scaleIcon(result);
         }
+        else {
+          if(result.convertToBitmap) {
+            this.scaleIcon(result);
+            //const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
+            //this.itemBitmap = tempPolyline.asBitmap(this.dayOrNightMode);
+            this.fileService.updatePolylineDay(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap, true);
+            this.itemBitmap = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID).asBitmap(this.dayOrNightMode);
+            this.limitToolUse = false;
+          }
+          else {
+            const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
+            tempPolyline.changeBorderAndLine(result.borderWidth, result.lineWidth);
+            this.itemBitmap = tempPolyline.asBitmap(this.dayOrNightMode);
+          }
+        }
+        this.storeBitmap();
+        this.updateBitmap()
       }
     });
   }

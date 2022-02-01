@@ -32,9 +32,9 @@ export class FileService {
 
   public notify = new BehaviorSubject<any>('');
   notifyObservable$ = this.notify.asObservable();
-  
 
-  constructor() { 
+
+  constructor() {
     this.fileName = "";
   }
 
@@ -59,7 +59,7 @@ export class FileService {
 
   createPolygone(type: string, draworder: number, languageCode: number, description: string, typeList: Array<Type>): Polygon {
     const typeValue = type.split('|');
-    const newText: Text = new Text();  
+    const newText: Text = new Text();
     newText.setValues(languageCode, description);
 
     //console.log(typeValue[1] + ' | ' + draworder + ' | '+ languageCode + ' | ' + description);
@@ -84,7 +84,7 @@ export class FileService {
 
   createPOI(type: string, languageCode: number, description: string, width: number, height: number, typeList: Array<Type>): POI {
     const typeValue = type.split('|');
-    const newText: Text = new Text();  
+    const newText: Text = new Text();
     newText.setValues(languageCode, description);
 
     const newPOI: POI = new POI(0,0);
@@ -108,7 +108,7 @@ export class FileService {
 
   createPolyline(type: string, languageCode: number, description: string, height: number, typeList: Array<Type>): Polyline {
     const typeValue = type.split('|');
-    const newText: Text = new Text();  
+    const newText: Text = new Text();
     newText.setValues(languageCode, description);
 
     const newPolyline: Polyline = new Polyline(0,0);
@@ -171,7 +171,7 @@ export class FileService {
           this.updateFile();
           return true;
         }
-        break; 
+        break;
     }
     return false;
   }
@@ -185,10 +185,10 @@ export class FileService {
     }
   }
 
-  updateFileItemDay(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
+  updateFileItemDay(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap, convertToBitmap: boolean = false): void {
     switch(itemType) {
       case 'polygone':
-        if(newItem.bitmapDay) { 
+        if(newItem.bitmapDay) {
           newItem.bitmapDay.colorTable = bitmap.getAllColors();
           this.getPolygone(type, subType).bitmapDay = newItem.bitmapDay;
           this.getPolygone(type, subType).colDayColor = bitmap.getAllColors();
@@ -205,6 +205,7 @@ export class FileService {
             tmpPolygone.createBitmap(true);
           }
         }
+        newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
         break;
       case 'poi':
         if(newItem.bitmapDay) {
@@ -218,44 +219,84 @@ export class FileService {
           this.getPOI(type, subType).bitmapDay = newItem.bitmapDay;
           this.getPOI(type, subType).bitmapDay?.updateBitsPerPixel();
         }
+        newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
         break;
       case 'polyline':
-        if(newItem.bitmapDay) { 
-          if(bitmap.width != newItem.bitmapDay.width || bitmap.height != newItem.bitmapDay.height) {
-            console.log('Resized icon');
-            newItem.bitmapDay.width = bitmap.width;
-            newItem.bitmapDay.height = bitmap.height;
-            this.getPolyline(type, subType).changeBitmapHeight(bitmap.height);
-          }
-          newItem.bitmapDay.colorTable = bitmap.getAllColors();
-          newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
-          this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
-          this.getPolyline(type, subType).setPolylineType();
-          this.getPolyline(type, subType).colDayColor = newItem.bitmapDay.colorTable;
-        }
-        else {
-          let tmpPolyline: Polyline = this.getPolyline(type, subType);
-          tmpPolyline.colDayColor = bitmap.getAllColors();
-          tmpPolyline.createBitmap(true);
-          tmpPolyline.setPolylineType();
-          if(tmpPolyline.bitmapDay) {
-            tmpPolyline.bitmapDay.width = bitmap.width;
-            tmpPolyline.bitmapDay.height = bitmap.height;
-            tmpPolyline.changeBitmapHeight(bitmap.height);
-          }
-        }
+        this.updatePolylineDay(itemType, type, subType, newItem, bitmap, convertToBitmap);
+        // if(newItem.bitmapDay) {
+        //   if(bitmap.width != newItem.bitmapDay.width || bitmap.height != newItem.bitmapDay.height) {
+        //     console.log('Resized icon');
+        //     newItem.bitmapDay.width = bitmap.width;
+        //     newItem.bitmapDay.height = bitmap.height;
+        //     this.getPolyline(type, subType).changeBitmapHeight(bitmap.height);
+        //   }
+        //   newItem.bitmapDay.colorTable = bitmap.getAllColors();
+        //   newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
+        //   this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
+        //   this.getPolyline(type, subType).setPolylineType();
+        //   this.getPolyline(type, subType).colDayColor = newItem.bitmapDay.colorTable;
+        // }
+        // else {
+        //   let tmpPolyline: Polyline = this.getPolyline(type, subType);
+        //   tmpPolyline.colDayColor = bitmap.getAllColors();
+        //   tmpPolyline.createBitmap(true);
+        //   tmpPolyline.setPolylineType();
+        //   if(tmpPolyline.bitmapDay) {
+        //     tmpPolyline.bitmapDay.width = bitmap.width;
+        //     tmpPolyline.bitmapDay.height = bitmap.height;
+        //     tmpPolyline.changeBitmapHeight(bitmap.height);
+        //   }
+        // }
         break;
     }
-    newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
-    console.log(this.getPolygone(type, subType));
+
     this.updateFile();
+  }
+
+  updatePolylineDay(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap, convertToBitmap: boolean): void {
+    if(newItem.bitmapDay) {
+      if(bitmap.width != newItem.bitmapDay.width || bitmap.height != newItem.bitmapDay.height) {
+        console.log('Resized icon');
+        newItem.bitmapDay.width = bitmap.width;
+        newItem.bitmapDay.height = bitmap.height;
+        this.getPolyline(type, subType).changeBitmapHeight(bitmap.height);
+      }
+      newItem.bitmapDay.colorTable = bitmap.getAllColors();
+      newItem.bitmapDay.colorCount = newItem.bitmapDay.colorTable.length;
+      this.getPolyline(type, subType).bitmapDay = newItem.bitmapDay;
+      this.getPolyline(type, subType).setPolylineType();
+      this.getPolyline(type, subType).colDayColor = newItem.bitmapDay.colorTable;
+    }
+    else {
+      if(convertToBitmap) {
+        let tmpPolyline: Polyline = this.getPolyline(type, subType);
+        tmpPolyline.colDayColor = bitmap.getAllColors();
+        tmpPolyline.createBitmap(true);
+        tmpPolyline.setPolylineType();
+        if(tmpPolyline.bitmapDay) {
+          tmpPolyline.bitmapDay.width = bitmap.width;
+          tmpPolyline.bitmapDay.height = bitmap.height;
+          tmpPolyline.changeBitmapHeight(bitmap.height);
+        }
+      }
+      else {
+        console.log('here');
+        let tmpPolyline: Polyline = this.getPolyline(type, subType);
+        //tmpPolyline.colDayColor = bitmap.getAllColors();
+        tmpPolyline.setDayColors(bitmap.getAllColors());
+        tmpPolyline.setPolylineType();
+        console.log(tmpPolyline);
+      }
+
+    }
+    newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
   }
 
   updateFileItemNight(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap): void {
     console.log('saving night icon');
     switch(itemType) {
       case 'polygone':
-        if(newItem.bitmapNight) { 
+        if(newItem.bitmapNight) {
           newItem.bitmapNight.colorTable = bitmap.getAllColors();
           this.getPolygone(type, subType).bitmapNight = newItem.bitmapNight;
           this.getPolygone(type, subType).colNightColor = bitmap.getAllColors();
@@ -294,7 +335,7 @@ export class FileService {
         }
         break;
       case 'polyline':
-        if(newItem.bitmapNight) { 
+        if(newItem.bitmapNight) {
           if(bitmap.width != newItem.bitmapNight.width || bitmap.height != newItem.bitmapNight.height) {
             console.log('Resized icon');
             newItem.bitmapNight.width = bitmap.width;
@@ -388,7 +429,7 @@ export class FileService {
       item.fontType = 0;
       item.extOptions = 0;
     }
-    
+
     console.log(itemType);
     switch(itemType) {
       case 'polyline':
@@ -512,7 +553,7 @@ export class FileService {
   }
 
   getBLOB(): Blob {
-    if(!this.typFile) {  
+    if(!this.typFile) {
       if(!(this.getFile())) {
         return new Blob;
       }

@@ -356,6 +356,22 @@ export class Polyline extends GraphicElement{
                break;
          }
       }
+      else {
+         switch(this.colDayColor.length) {
+            case 1:
+               this.polylineType =  PolylineType.NoBorder_Day1;
+               if(this.colNightColor.length != 0) {
+                  this.polylineType =  PolylineType.NoBorder_Day1_Night1;
+               }
+               break;
+            case 2: 
+               this.polylineType =  PolylineType.Day2;
+               if(this.colNightColor.length != 0) {
+                  this.polylineType =  PolylineType.Day2_Night2
+               }
+               break;
+         }
+      }
       this.options = 0xFF & ((this.options & 0xF8) | this.polylineType);
       //bitmap height
       this.options = 0xFF & ((this.bitmapHeight << 3) | (this.options & 0x7));
@@ -458,5 +474,10 @@ export class Polyline extends GraphicElement{
       this.borderWidth = newBorderWidth;
       this.innerWidth = newLineWidth;
       this.height = this.bitmapHeight > 0 ? this.bitmapHeight : this.innerWidth + 2 * this.borderWidth;
+   }
+
+   setDayColors(newCols: Array<Color>): void {
+      this.colDayColor = newCols;
+      this.colDayColor.reverse();
    }
 }
