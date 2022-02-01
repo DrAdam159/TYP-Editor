@@ -28,6 +28,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -122,7 +123,8 @@ import { ResizePolylineComponent } from './editor/icon-editor/resize-polyline/re
     MatSlideToggleModule,
     MatExpansionModule,
     MatRadioModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
