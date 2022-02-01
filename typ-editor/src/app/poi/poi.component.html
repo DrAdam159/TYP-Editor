@@ -42,58 +42,59 @@
     </div>
 </div>
 
-<div *ngIf="delete; then thenBlock else elseBlock"></div>
-    <ng-template #thenBlock>
-        <mat-grid-list cols={{gridCols}} rowHeight="1:1"  [gutterSize]="'10px'">
-            <mat-grid-tile *ngFor="let poi of poiList" (click)="select(poi)" [ngClass]="{'highlight-tile': highlightTile(poi)}">
-                <div *ngIf="delete">
-                    <mat-grid-tile-header class="delete-icon">
-                        <mat-icon>delete_forever</mat-icon>
-                    </mat-grid-tile-header>
-                </div>
-                <app-bitmap-canvas [drawableItem]="poi" [scaleValue]="bitmapScale" [darken]= "highlightTile(poi)"></app-bitmap-canvas>
-                <mat-grid-tile-footer>{{poi.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </ng-template>
-    <ng-template #elseBlock>
-        <mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
-            <mat-grid-tile *ngFor="let poi of poiList">
-                <app-bitmap-canvas [drawableItem]="poi" [scaleValue]="bitmapScale" [darken]="false" (click)="openEditor(poi, 0)"></app-bitmap-canvas>
-                <mat-grid-tile-footer>
-                    {{poi.text.textArr[0].value | uppercase}}
-                    <div class="menu-icon">
-                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                            <mat-icon class="menu-icon">more_vert</mat-icon>
-                          </button>
-                    </div>        
-                      <mat-menu #menu="matMenu">
-                        <button mat-menu-item  (click)="switchToDelete()">
-                          <mat-icon>delete</mat-icon>
-                          <span>Remove Icon</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(poi, 0)">
-                          <mat-icon>wb_sunny</mat-icon>
-                          <span>Edit Day Icon</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(poi, 1)">
-                          <mat-icon>dark_mode</mat-icon>
-                          <span>Edit Night Icon</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(poi, 2)">
-                            <mat-icon>text_fields</mat-icon>
-                            <span>Edit Description</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(poi, 3)">
-                            <mat-icon>location_on</mat-icon>
-                            <span>Edit Type</span>
-                        </button>
-                    </mat-menu>
-                </mat-grid-tile-footer>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </ng-template>
-
+<div class="icon-grid"> 
+    <div *ngIf="delete; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <mat-grid-list cols={{gridCols}} rowHeight="1:1"  [gutterSize]="'10px'">
+                <mat-grid-tile *ngFor="let poi of poiList" (click)="select(poi)" [ngClass]="{'highlight-tile': highlightTile(poi)}">
+                    <div *ngIf="delete">
+                        <mat-grid-tile-header class="delete-icon">
+                            <mat-icon>delete_forever</mat-icon>
+                        </mat-grid-tile-header>
+                    </div>
+                    <app-bitmap-canvas [drawableItem]="poi" [scaleValue]="bitmapScale" [darken]= "highlightTile(poi)"></app-bitmap-canvas>
+                    <mat-grid-tile-footer>{{poi.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </ng-template>
+        <ng-template #elseBlock>
+            <mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
+                <mat-grid-tile *ngFor="let poi of poiList">
+                    <app-bitmap-canvas [drawableItem]="poi" [scaleValue]="bitmapScale" [darken]="false" (click)="openEditor(poi, 0)"></app-bitmap-canvas>
+                    <mat-grid-tile-footer>
+                        {{poi.text.textArr[0].value | uppercase}}
+                        <div class="menu-icon">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <mat-icon class="menu-icon">more_vert</mat-icon>
+                            </button>
+                        </div>        
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item  (click)="switchToDelete()">
+                            <mat-icon>delete</mat-icon>
+                            <span>Remove Icon</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(poi, 0)">
+                            <mat-icon>wb_sunny</mat-icon>
+                            <span>Edit Day Icon</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(poi, 1)">
+                            <mat-icon>dark_mode</mat-icon>
+                            <span>Edit Night Icon</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(poi, 2)">
+                                <mat-icon>text_fields</mat-icon>
+                                <span>Edit Description</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(poi, 3)">
+                                <mat-icon>location_on</mat-icon>
+                                <span>Edit Type</span>
+                            </button>
+                        </mat-menu>
+                    </mat-grid-tile-footer>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </ng-template>
+</div>
 <button mat-fab color="primary"  class="fab-main" [matMenuTriggerFor]="menu">
     <mat-icon>add</mat-icon>
 </button>

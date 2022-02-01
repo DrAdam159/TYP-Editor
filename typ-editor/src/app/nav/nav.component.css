@@ -29,3 +29,7 @@ mat-icon {
   color: #673ab7;
   background: rgba(0, 0, 0, 0.04);
 }
+
+mat-sidenav-content {
+  overflow: hidden;
+}

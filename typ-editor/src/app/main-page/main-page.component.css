@@ -56,3 +56,9 @@ h5 {
     padding-bottom: 0px;
     margin-right: 0.5em;
 }
+
+.icon-grid {
+    display: block;
+    overflow: auto;
+    max-height: 100%;
+}

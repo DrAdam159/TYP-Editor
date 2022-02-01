@@ -41,59 +41,59 @@
         </mat-slider>
     </div>
 </div>
-
-<div *ngIf="delete; then thenBlock else elseBlock"></div>
-    <ng-template #thenBlock>
-        <mat-grid-list cols={{gridCols}} rowHeight="1:1"  [gutterSize]="'10px'">
-            <mat-grid-tile *ngFor="let polyline of polylineList" (click)="select(polyline)" [ngClass]="{'highlight-tile': highlightTile(polyline)}">
-                <div *ngIf="delete">
-                    <mat-grid-tile-header class="delete-icon">
-                        <mat-icon>delete_forever</mat-icon>
-                    </mat-grid-tile-header>
-                </div>
-                <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]= "highlightTile(polyline)"></app-bitmap-canvas>
-                <mat-grid-tile-footer>{{polyline.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </ng-template>
-    <ng-template #elseBlock>
-        <mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
-            <mat-grid-tile *ngFor="let polyline of polylineList" >
-                <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]="false" (click)="openEditor(polyline, 0)"></app-bitmap-canvas>
-                <mat-grid-tile-footer>
-                    {{polyline.text.textArr[0].value | uppercase}}
-                    <div class="menu-icon">
-                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                            <mat-icon class="menu-icon">more_vert</mat-icon>
-                          </button>
-                    </div>        
-                      <mat-menu #menu="matMenu">
-                        <button mat-menu-item  (click)="switchToDelete()">
-                          <mat-icon>delete</mat-icon>
-                          <span>Remove Icon</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(polyline, 0)">
-                          <mat-icon>wb_sunny</mat-icon>
-                          <span>Edit Day Icon</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(polyline, 1)">
-                          <mat-icon>dark_mode</mat-icon>
-                          <span>Edit Night Icon</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(polyline, 2)">
-                            <mat-icon>text_fields</mat-icon>
-                            <span>Edit Description</span>
-                        </button>
-                        <button mat-menu-item (click)="openEditor(polyline, 3)">
-                            <mat-icon>location_on</mat-icon>
-                            <span>Edit Type</span>
-                        </button>
-                    </mat-menu>
-                </mat-grid-tile-footer>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </ng-template>
-
+<div class="icon-grid"> 
+    <div *ngIf="delete; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <mat-grid-list cols={{gridCols}} rowHeight="1:1"  [gutterSize]="'10px'">
+                <mat-grid-tile *ngFor="let polyline of polylineList" (click)="select(polyline)" [ngClass]="{'highlight-tile': highlightTile(polyline)}">
+                    <div *ngIf="delete">
+                        <mat-grid-tile-header class="delete-icon">
+                            <mat-icon>delete_forever</mat-icon>
+                        </mat-grid-tile-header>
+                    </div>
+                    <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]= "highlightTile(polyline)"></app-bitmap-canvas>
+                    <mat-grid-tile-footer>{{polyline.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </ng-template>
+        <ng-template #elseBlock>
+            <mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
+                <mat-grid-tile *ngFor="let polyline of polylineList" >
+                    <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]="false" (click)="openEditor(polyline, 0)"></app-bitmap-canvas>
+                    <mat-grid-tile-footer>
+                        {{polyline.text.textArr[0].value | uppercase}}
+                        <div class="menu-icon">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <mat-icon class="menu-icon">more_vert</mat-icon>
+                            </button>
+                        </div>        
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item  (click)="switchToDelete()">
+                            <mat-icon>delete</mat-icon>
+                            <span>Remove Icon</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(polyline, 0)">
+                            <mat-icon>wb_sunny</mat-icon>
+                            <span>Edit Day Icon</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(polyline, 1)">
+                            <mat-icon>dark_mode</mat-icon>
+                            <span>Edit Night Icon</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(polyline, 2)">
+                                <mat-icon>text_fields</mat-icon>
+                                <span>Edit Description</span>
+                            </button>
+                            <button mat-menu-item (click)="openEditor(polyline, 3)">
+                                <mat-icon>location_on</mat-icon>
+                                <span>Edit Type</span>
+                            </button>
+                        </mat-menu>
+                    </mat-grid-tile-footer>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </ng-template>
+</div>  
 <button mat-fab color="primary"  class="fab-main" [matMenuTriggerFor]="menu">
     <mat-icon>add</mat-icon>
 </button>

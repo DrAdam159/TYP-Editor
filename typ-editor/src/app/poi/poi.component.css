@@ -55,3 +55,9 @@ mat-grid-tile div {
     width: 100%;
     text-align: right;
 }
+
+.icon-grid {
+    display: block;
+    overflow: auto;
+    max-height: 90%;
+}

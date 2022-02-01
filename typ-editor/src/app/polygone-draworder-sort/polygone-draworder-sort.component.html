@@ -47,31 +47,32 @@
     </div>
   </div>
 </div> -->
-<div cdkDropListGroup>
-  <div *ngFor="let draworderList of draworders">
-    <div class="container"
-        fxLayout
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="0px"
-        fxLayoutGap.xs="0"
-    >
-    <div class="item item-5" fxFlex="100%"  fxFlexOffset.xs="0">
-      <h2>Draworder {{draworderList.draworderValue}}</h2>
-      <div
-        cdkDropList
-        cdkDropListOrientation="horizontal"
-        [cdkDropListData]="draworderList.items"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        
-         <div *ngFor="let polygone of draworderList.items">
-            <app-bitmap-canvas  [drawableItem]="polygone" [scaleValue]="bitmapScale"  cdkDrag class="example-box"></app-bitmap-canvas>
+<div class="icon-grid"> 
+  <div cdkDropListGroup>
+    <div *ngFor="let draworderList of draworders">
+      <div class="container"
+          fxLayout
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxLayoutGap="0px"
+          fxLayoutGap.xs="0"
+      >
+      <div class="item item-5" fxFlex="100%"  fxFlexOffset.xs="0">
+        <h2>Draworder {{draworderList.draworderValue}}</h2>
+        <div
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          [cdkDropListData]="draworderList.items"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          
+          <div *ngFor="let polygone of draworderList.items">
+              <app-bitmap-canvas  [drawableItem]="polygone" [scaleValue]="bitmapScale"  cdkDrag class="example-box"></app-bitmap-canvas>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 
