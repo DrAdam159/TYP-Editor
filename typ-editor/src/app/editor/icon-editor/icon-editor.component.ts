@@ -958,13 +958,25 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   addNightIconInverse(): void {
     this.hasNightIcon = true;
     this.hideTools = false;
+    this.itemBitmap.inverseColors();
+    this.updateBitmap();
+    this.drawMapPreview();
+    if(this.limitColors) {
+      this.colors.splice(0, this.colors.length);
+      this.itemBitmap.getAllColors().forEach((col, index) => {
+        this.colors.push(col.toHex());
+      });
+      if(this.colors.length == 1) {
+        this.colors.push('#FFFFFF');
+      }
+      this.color = this.colors[0];
+    }
     this.setStateOfChanges(true);
   }
 
   addNightIconSameAsDay(): void {
     this.hasNightIcon = true;
     this.hideTools = false;
-    this.itemBitmap.inverseColors();
     this.updateBitmap();
     this.drawMapPreview();
     if(this.limitColors) {
@@ -1137,7 +1149,15 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             this.scaleIcon(result);
             //const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
             //this.itemBitmap = tempPolyline.asBitmap(this.dayOrNightMode);
-            this.fileService.updatePolylineDay(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap, true);
+            switch(this.iconType) {
+              case 'Day':
+                this.fileService.updatePolylineDay(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap, true);
+                break;
+              case 'Night':
+                this.fileService.updatePolylineNight(this.itemType, ~~this.typeID, ~~this.subTypeID, this.drawableItem, this.itemBitmap, true);
+                break;
+            }
+           
             this.itemBitmap = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID).asBitmap(this.dayOrNightMode);
             this.limitToolUse = false;
           }

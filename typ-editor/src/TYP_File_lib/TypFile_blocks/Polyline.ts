@@ -234,7 +234,7 @@ export class Polyline extends GraphicElement{
             bmp = tmp.asBitmap();
             if(!dayOrNightBMP && (this.polylineType == PolylineType.Day2 || 
                this.polylineType == PolylineType.NoBorder_Day1) ) {
-               bmp.inverseColors();
+               //bmp.inverseColors();
             }
           }
                
@@ -251,7 +251,6 @@ export class Polyline extends GraphicElement{
                   col = bBorder ? this.colNightColor[1] : this.colNightColor[0];
                }
                else {
-                  //col = new Color(255,255,255,255);
                   col = bBorder ? this.colDayColor[1] : this.colDayColor[0];
                }
             }
@@ -259,9 +258,9 @@ export class Polyline extends GraphicElement{
                bmp.setPixel(x, y, col);
             }    
        }
-       if(!dayOrNightBMP) {
-         bmp.inverseColors();
-      }
+      //  if(!dayOrNightBMP) {
+      //    bmp.inverseColors();
+      // }
     }
     return bmp;
    }
@@ -479,5 +478,10 @@ export class Polyline extends GraphicElement{
    setDayColors(newCols: Array<Color>): void {
       this.colDayColor = newCols;
       this.colDayColor.reverse();
+   }
+
+   setNightColors(newCols: Array<Color>): void {
+      this.colNightColor = newCols;
+      this.colNightColor.reverse();
    }
 }
