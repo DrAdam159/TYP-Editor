@@ -247,12 +247,12 @@ export class Polygon extends GraphicElement{
          else {
             if(this.bitmapDay) {
                const tmpNightBitmap: Bitmap = this.bitmapDay.asBitmap();
-               tmpNightBitmap.inverseColors();
+               //tmpNightBitmap.inverseColors();
                return tmpNightBitmap;
             }
             else {
                const tmpNightBitmap: Bitmap = this.getDummyXPixMap(BitmapColorMode.POLY1TR, true).asBitmap();
-               tmpNightBitmap.inverseColors();
+               //tmpNightBitmap.inverseColors();
                return tmpNightBitmap;
             }
          }

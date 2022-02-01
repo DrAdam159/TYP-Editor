@@ -161,7 +161,7 @@ export class POI extends GraphicElement{
             tmp.invertBits();
          }
          const newBitmap: Bitmap = tmp.asBitmap();
-         newBitmap.inverseColors();
+         //newBitmap.inverseColors();
          return newBitmap;
       }
       return new Bitmap(this.width, this.height);
