@@ -5,8 +5,16 @@ export class DataBlockWithSize{
     length!: number;
     recordSize!: number;
 
-    constructor(reader: BinReaderWriter) {
-        this.readDataBlockWithSize(reader);
+    constructor(reader?: BinReaderWriter) {
+        if(reader) {
+            this.readDataBlockWithSize(reader);
+        }
+        else {
+            this.offset = 0;
+            this.length = 0;
+            this.recordSize = 0;
+        }
+        
     }
 
     readDataBlockWithSize(reader: BinReaderWriter): void {

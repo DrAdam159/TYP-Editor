@@ -64,7 +64,7 @@ export class MainPageComponent implements OnInit {
       if (res.refresh) {
         this.load();
       }
-   })
+   });
   }
 
   load(): void {

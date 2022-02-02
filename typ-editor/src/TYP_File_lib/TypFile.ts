@@ -23,11 +23,25 @@ export class TypFile {
     PolygonDraworderTableItems!: Array<PolygonDraworderTableItem>;
     PolygonList!: Array<Polygon>;
 
-    constructor(view: DataView) {
-        this.header = new Header(view);
-        this.decodePolylineData(view);
-        this.decodePOIData(view);
-        this.decodePolygoneData(view);
+    constructor(view?: DataView) {
+        if(view) {
+            this.header = new Header(view);
+            this.decodePolylineData(view);
+            this.decodePOIData(view);
+            this.decodePolygoneData(view);
+        }
+        else {
+            this.header = new Header();
+
+            this.PolylineTableItems = new Array<TableItem>();
+            this.PolylineList = new Array<Polyline>();
+            this.POITableItems = new Array<TableItem>();
+            this.POIList = new Array<POI>();
+            this.PolygonTableItems = new Array<TableItem>();
+            this.PolygonDraworderTableItems = new Array<PolygonDraworderTableItem>();
+            this.PolygonList = new Array<Polygon>();
+        }
+        
     }
 
     isEmpty(): boolean {

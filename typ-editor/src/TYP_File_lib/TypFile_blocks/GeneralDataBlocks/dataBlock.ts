@@ -4,8 +4,15 @@ export class DataBlock {
     offset!: number;
     length!: number;
 
-    constructor(reader: BinReaderWriter) {
-        this.readDataBlock(reader);
+    constructor(reader?: BinReaderWriter) {
+        if(reader) {
+            this.readDataBlock(reader);
+        }
+        else {
+            this.offset = 0;
+            this.length = 0;
+        }
+        
     }
 
     readDataBlock(reader: BinReaderWriter): void {

@@ -44,6 +44,14 @@ export class FileService {
     }
   }
 
+  createFile(fileName: string, pid: number, fid: number): void {
+    this.typFile = new TypFile();
+    this.typFile.header.setPID(pid);
+    this.typFile.header.setFID(fid);
+    this.fileName = fileName;
+    this.updateFile();
+  }
+
   setFile(typFile: TypFile, fileName: string, buffer: ArrayBuffer): void {
     this.typFile = typFile;
     this.fileName = fileName;

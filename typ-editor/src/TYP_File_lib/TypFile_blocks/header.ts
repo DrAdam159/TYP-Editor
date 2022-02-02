@@ -4,7 +4,7 @@ import { BinReaderWriter } from '../Utils/BinReaderWriter';
 import { OffsetValuesHeader } from './GeneralDataBlocks/offsetValues';
 
 export class Header {
-    reader: BinReaderWriter;
+    reader!: BinReaderWriter;
 
     headerLen!: number;
     unknown_0x01!: number;
@@ -44,9 +44,30 @@ export class Header {
     NT_unknown_0x9C!: Array<number>;
     NT_unknown_0xA4!: Array<number>;
 
-    constructor(view: DataView) {
-        this.reader = new BinReaderWriter(view);
-        this.read(view);
+    constructor(view?: DataView) {
+        if(view) {
+            this.reader = new BinReaderWriter(view);
+            this.read(view);
+        }
+        else {
+            this.headerLen = 91;
+            this.garminTYPSignature = 'GARMIN TYP';
+            this.creationDate = new Date();
+            this.Codepage = 65001;
+
+            this.POIDataBlock = new DataBlock();
+            this.PolylineDataBlock = new DataBlock();
+            this.PolygoneDataBlock = new DataBlock();
+            this.POITableBlock = new DataBlockWithSize();
+            this.PolylineTableBlock = new DataBlockWithSize();
+            this.PolygoneTableBlock = new DataBlockWithSize();
+            this.PolygoneDraworderTableBlock = new DataBlockWithSize();
+            this.ExtraPOITableBlock = new DataBlockWithSize();
+            this.NT_POIDataBlock = new DataBlock();
+            this.NT_PointLabelblock = new DataBlock();  
+            this.NT_LabelblockTable1 = new DataBlock();
+            this.NT_LabelblockTable2 = new DataBlock();
+        }
     }
 
     read(view: DataView): void {
@@ -173,5 +194,13 @@ export class Header {
 
             }
         }
+    }
+
+    setPID(newPID: number): void {
+        this.productCode = newPID;
+    }
+
+    setFID(newFID: number): void {
+        this.familyID = newFID;
     }
 }
