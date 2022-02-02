@@ -278,4 +278,17 @@ export class Bitmap {
         
         return newBitmap;
     }
+
+    movePixels(offset: {x: number, y: number}): void {
+        const newBitmap = new Bitmap(this.width, this.height);
+        for(let x = 0; x < this.width; x++) { 
+            for(let y = 0; y < this.height; y++) { 
+                if((x + offset.x < this.width && x + offset.x >= 0) && 
+                (y + offset.y < this.height && y + offset.y >= 0)) {
+                    newBitmap.setPixel(x + offset.x, y + offset.y, this.getPixelColor(x,y));
+                }
+            }
+        }
+        this.pixelArr = newBitmap.pixelArr; 
+    }
 }

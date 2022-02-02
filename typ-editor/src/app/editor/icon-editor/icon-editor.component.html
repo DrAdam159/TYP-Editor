@@ -65,6 +65,10 @@
         #tooltip="matTooltip" matTooltip="Invert Colors" [matTooltipPosition]="'right'"  >
           <mat-icon>invert_colors</mat-icon>
         </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="drag" aria-label="Text align right" (click) = "dragIcon()"
+        #tooltip="matTooltip" matTooltip="Drag Icon" [matTooltipPosition]="'right'"  >
+          <mat-icon>pan_tool</mat-icon>
+        </mat-button-toggle>
         <mat-button-toggle value="limit" aria-label="Text align right" [matMenuTriggerFor]="menu"
         #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'"  >
           <div *ngIf="garminCols.warning; then thenBlock else elseBlock"></div>

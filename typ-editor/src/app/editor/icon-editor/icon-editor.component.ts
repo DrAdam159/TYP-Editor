@@ -77,6 +77,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   //zmenene pixely k ulozeni do bitmapy
   changedPixels: Array<{x: number, y: number}>;
 
+  //nove startovni souradnice po posunu ikonky
+  newIconPosition: {x: number, y: number};
+
   //omezeni poctu barev pro polygone a polyline
   limitColors: boolean;
   colors: Array<string>;
@@ -109,6 +112,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.color = '#3f51b5';
     this.toolOptions = new FormControl();
     this.changedPixels = new Array();
+    this.newIconPosition = {x: 0, y: 0};
     this.selectedColorIndex = 0;
 
     this.itemType = "";
@@ -292,6 +296,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.captureEventOnBtnRelease(canvasEl);
   }
 
+  dragIcon(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.captureMouseMoveEventOnClick(canvasEl, 'drag');
+    this.captureEventOnBtnReleaseForDrag(canvasEl);
+  }
+
   flipVertically(): void {
     this.stopToolUse();
     this.flipImageVertically();
@@ -375,6 +386,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
           case 'circle':
             this.drawCircle({x: this.lineStartX, y: this.lineStartY}, currentPos);
             break;
+          case 'drag':
+            this.dragIconToPosition({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            break;
         }
       });
   }
@@ -403,6 +417,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.mouseUpSub = fromEvent(canvasEl, 'mouseup').subscribe((res) => {
       
       this.storeChanges();
+    });
+  }
+
+  private captureEventOnBtnReleaseForDrag(canvasEl: HTMLCanvasElement) {
+    this.mouseUpSub = fromEvent(canvasEl, 'mouseup').subscribe((res) => {
+      
+      this.moveIconPixels();
     });
   }
 
@@ -459,6 +480,17 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     }
     this.lineStart = false;
     this.setStateOfChanges(true);
+  }
+
+  moveIconPixels(): void {
+    this.itemBitmap.movePixels(this.newIconPosition);
+    this.storeBitmap();
+    this.updateBitmap();
+    if(this.itemType == 'polygone' || this.itemType == 'polyline') {
+      this.drawMapPreview();
+    }
+    this.lineStart = false;
+    this.setStateOfChanges(true)
   }
 
   updateBitmap(): void{
@@ -708,7 +740,29 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.drawColorCell2((centerCoordinates.x - r) * this.scaleNum, (centerCoordinates.y - d) * this.scaleNum);
       this.drawColorCell2((centerCoordinates.x - r) * this.scaleNum, (centerCoordinates.y + d) * this.scaleNum);
     }
-  }  
+  }
+  
+  dragIconToPosition(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+    if(this.itemBitmap && this.context) {
+      let curCoordinates = this.convertCoordinates(currentPos);
+      let prevCoordinates = this.convertCoordinates(prevPos);
+      // const offsetX: number = curCoordinates.x -prevCoordinates.x;
+      // const offsetY: number = curCoordinates.y - prevCoordinates.y;
+      this.newIconPosition.x = curCoordinates.x -prevCoordinates.x;
+      this.newIconPosition.y = curCoordinates.y -prevCoordinates.y;
+      this.context.clearRect(0, 0, this.myCanvas.nativeElement.width, this.myCanvas.nativeElement.height);
+      for(let y = 0; y < this.itemBitmap.height; y++) {
+        for(let x = 0; x < this.itemBitmap.width; x++) {
+          this.context.beginPath();
+          this.context.fillStyle =  this.itemBitmap.getPixelColor(x, y).toRgba();
+          this.context.fillRect((x+ this.newIconPosition.x) *this.scaleNum, (y+ this.newIconPosition.y) *this.scaleNum, this.scaleNum, this.scaleNum);
+          this.context.stroke();
+        }
+      }
+      this.drawGrid(this.itemBitmap.width *this.scaleNum, this.itemBitmap.height*this.scaleNum);
+      
+    }
+  }
 
   flipImageVertically(): void {
     let bitmapCopy: Bitmap = new Bitmap(this.itemBitmap.width, this.itemBitmap.height);
@@ -1146,7 +1200,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         }
         else {
           if(result.convertToBitmap) {
-            this.scaleIcon(result);
+            
             //const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
             //this.itemBitmap = tempPolyline.asBitmap(this.dayOrNightMode);
             switch(this.iconType) {
@@ -1160,6 +1214,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
            
             this.itemBitmap = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID).asBitmap(this.dayOrNightMode);
             this.limitToolUse = false;
+            this.scaleIcon(result);
           }
           else {
             const tempPolyline = this.fileService.getPolyline(~~this.typeID, ~~this.subTypeID);
