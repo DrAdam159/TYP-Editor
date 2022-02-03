@@ -166,6 +166,10 @@
    max-width: 200px;
 }
 
+.highlight-tile-default {
+    outline: black solid 1px;
+}
+
 /* mat-button-toggle-group {
     flex-wrap: wrap;
 } */

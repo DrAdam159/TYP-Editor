@@ -143,16 +143,10 @@
     <div *ngIf="!hideTools">
       <div class="color-limit">
         <mat-form-field>
-          <!-- <mat-label [ngClass]="darkMode  ? 'dark-icon' : ''">Color picker</mat-label>
-          <mtx-color-picker [(ngModel)]="color" (colorChange)="setColor()" required>
-          </mtx-color-picker>
-          <mat-icon matSuffix color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">palette</mat-icon>
-          <mat-hint [ngClass]="darkMode  ? 'dark-icon' : ''">Choose your favorite color</mat-hint>
-          <mat-error [ngClass]="darkMode  ? 'dark-icon' : ''">Please enter the color</mat-error> -->
           <mat-label>Color picker</mat-label>
-          <input matInput [(ngModel)]="color" [mtxColorpicker]="picker" (colorChange)="setColor()">
-          <mtx-colorpicker-toggle matSuffix [for]="picker"></mtx-colorpicker-toggle>
-          <mtx-colorpicker #picker></mtx-colorpicker>
+          <input matInput [(ngModel)]="color" [mtxColorpicker]="picker" (colorChange)="setColor()" [style.color]="color">
+          <mtx-colorpicker-toggle matSuffix [for]="picker" [style.color]="color"></mtx-colorpicker-toggle>
+          <mtx-colorpicker #picker [style.color]="color" ></mtx-colorpicker>
           <mat-hint>Choose your favorite color</mat-hint>
           <mat-error>Please enter the color</mat-error>
         </mat-form-field>
@@ -177,7 +171,7 @@
             </mat-expansion-panel-header>
             <mat-grid-list cols=4 rowHeight="1:1" [gutterSize]="'10px'">
               <mat-grid-tile *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" 
-              (click) = "updateColorPicker(colorVal, i)" class="color-tile" [ngClass]="{'highlight-tile': highlightColorTile(i)}"> 
+              (click) = "updateColorPicker(colorVal, i)" class="color-tile" [ngClass]="{'highlight-tile': highlightColorTile(i), 'highlight-tile-default': !highlightColorTile(i)}"> 
               </mat-grid-tile>
           </mat-grid-list>
           </mat-expansion-panel> 
