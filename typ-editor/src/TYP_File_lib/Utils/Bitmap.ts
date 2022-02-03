@@ -193,7 +193,6 @@ export class Bitmap {
     replaceColor(newColor: Color, oldColor: Color): void {
         // newColor.a = 255;
         // oldColor.a = 255;
-        console.log(newColor, oldColor);
         for(let x = 0; x < this.width; x++) {
             for(let y = 0; y < this.height; y++) { 
                 if(this.getPixelColor(x, y).compareColors(oldColor)) {
