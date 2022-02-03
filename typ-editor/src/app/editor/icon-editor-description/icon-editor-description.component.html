@@ -24,9 +24,6 @@
             <button mat-raised-button (click)="addData()" class="demo-button">
               <mat-icon  class="btn-icon">add</mat-icon>Add
             </button>
-            <!-- <button mat-raised-button (click)="addFontColors()" class="demo-button">
-              <mat-icon>cancel</mat-icon>Remove Font Style
-            </button>  -->
           </div>
         </ng-template>
         <mat-form-field appearance="standard">
@@ -84,21 +81,33 @@
         <mat-icon class="btn-icon">cancel</mat-icon>Remove Font Style
       </button> 
       <mat-form-field class="color-picker">
-        <mat-label>Set Day Color</mat-label>
+        <!-- <mat-label>Set Day Color</mat-label>
         <mtx-color-picker [(ngModel)]="colorDay" (colorChange)="onColorChange()" required>
         </mtx-color-picker>
         <mat-icon matSuffix color="primary" >palette</mat-icon>
         <mat-hint >Choose your favorite color</mat-hint>
-        <mat-error >Please enter the color</mat-error>
+        <mat-error >Please enter the color</mat-error> -->
+        <mat-label>Set Day Color</mat-label>
+          <input matInput [(ngModel)]="colorDay" [mtxColorpicker]="picker" (colorChange)="onColorChange()"  [style.color]="colorDay">
+          <mtx-colorpicker-toggle matSuffix [for]="picker" [style.color]="colorDay"></mtx-colorpicker-toggle>
+          <mtx-colorpicker #picker [style.color]="colorDay" ></mtx-colorpicker>
+          <mat-hint>Choose your favorite color</mat-hint>
+        <mat-error>Please enter the color</mat-error>
       </mat-form-field>
 
       <mat-form-field class="color-picker">
-        <mat-label>Set Night Color</mat-label>
+        <!-- <mat-label>Set Night Color</mat-label>
         <mtx-color-picker [(ngModel)]="colorNight" (colorChange)="onColorChange()" required>
         </mtx-color-picker>
         <mat-icon matSuffix color="primary" >palette</mat-icon>
         <mat-hint >Choose your favorite color</mat-hint>
-        <mat-error >Please enter the color</mat-error>
+        <mat-error >Please enter the color</mat-error> -->
+        <mat-label>Set Night Color</mat-label>
+          <input matInput [(ngModel)]="colorNight" [mtxColorpicker]="picker2" (colorChange)="onColorChange()" [style.color]="colorNight">
+          <mtx-colorpicker-toggle matSuffix [for]="picker2" [style.color]="colorNight"></mtx-colorpicker-toggle>
+          <mtx-colorpicker #picker2 [style.color]="colorNight" ></mtx-colorpicker>
+          <mat-hint>Choose your favorite color</mat-hint>
+        <mat-error>Please enter the color</mat-error>
       </mat-form-field>
 
       <mat-form-field  class="example-full-width" appearance="fill">
