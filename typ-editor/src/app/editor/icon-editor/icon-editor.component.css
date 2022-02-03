@@ -171,8 +171,9 @@
 }
 
 /* mat-button-toggle-group {
-    flex-wrap: wrap;
+    max-height: 400px;
 } */
+
 
 
 

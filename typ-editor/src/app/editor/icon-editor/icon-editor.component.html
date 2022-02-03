@@ -5,14 +5,10 @@
      fxLayoutGap="0px"
      fxLayoutGap.xs="0"
 >
-  <div class="item " [ngClass]="darkMode  ? 'item-1-dark' : 'item-1'" fxFlex="10%">
+  <div class="item " [ngClass]="darkMode  ? 'item-1-dark' : 'item-1'" fxFlex="10%" >
     <div *ngIf="!hideTools">
-      <mat-button-toggle-group [formControl]="toolOptions" vertical >
+      <mat-button-toggle-group appearance="standard" [formControl]="toolOptions" vertical >
       
-        <!-- <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null"  [ngStyle]="{'pointer-events': limitToolUse ? 'none': 'auto'}" value="line" aria-label="Text align center" (click) = "useLine()"
-        #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
-          <mat-icon>minimize</mat-icon>
-        </mat-button-toggle> -->
         <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useBrush()"
         #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
           <mat-icon>brush</mat-icon>
@@ -78,21 +74,6 @@
           <ng-template #elseBlock>
             <mat-icon>palette</mat-icon>
           </ng-template>
-          <!-- <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon> -->
-          <!-- <mat-menu #menu="matMenu">
-            <button mat-menu-item (click) = "findNearestColor('Garmin16')">
-              <mat-icon>color_lens</mat-icon>
-              <span>Garmin 16</span>
-            </button>
-            <button mat-menu-item (click) = "findNearestColor('Garmin64')">
-              <mat-icon>color_lens</mat-icon>
-              <span>Garmin 64</span>
-            </button>
-            <button mat-menu-item (click) = "findNearestColor('Garmin256')">
-              <mat-icon>color_lens</mat-icon>
-              <span>Garmin 256</span>
-            </button>
-          </mat-menu> -->
         </mat-button-toggle>
         <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "stopToolUse()"
         #tooltip="matTooltip" matTooltip="No Tool" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
@@ -208,12 +189,6 @@
       <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
         <mat-icon color="primary" [ngClass]="darkMode  ? 'dark-icon' : ''">settings</mat-icon>
       </button>
-      <!-- <mat-menu #menu2="matMenu">
-        <button mat-menu-item (click) = "changeMode()">
-          <mat-icon>dialpad</mat-icon>
-          <span>Dark theme</span>
-        </button>
-      </mat-menu> -->
     </div> 
   </div>
   <div class="item"  [ngClass]="darkMode  ? 'item-4-dark' : 'item-4'" fxFlex="90%"  fxFlexOffset.xs="0">
@@ -288,8 +263,6 @@
           </button>
         </ng-template>
 </mat-menu>
-
-<!-- <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div> -->
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click) = "findNearestColor('Garmin16')">
     <div *ngIf="garminCols.garmin16; then thenBlockGarmin16 else elseBlockGarmin16"></div>
