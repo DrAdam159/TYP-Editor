@@ -32,7 +32,7 @@ export class BinaryColor {
                 let red = (halfByteTable[7 * i + 4] | (halfByteTable[7 * i + 5] << 4));
                 let alpha = halfByteTable[7 * i + 6];
                 alpha = (255 * alpha) / 15;  
-                colorList.push(new Color(red, green, blue, alpha));
+                colorList.push(new Color(red, green, blue, ~alpha & 0xff));
             }
         }
         return colorList; 

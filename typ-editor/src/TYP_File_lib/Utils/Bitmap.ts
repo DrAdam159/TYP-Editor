@@ -29,6 +29,19 @@ export class Bitmap {
         this.pixelArr[idx + 3] = color.a; 
     }
 
+    setPixelWithAplha(x: number, y: number, color: Color): void {
+        let idx = this.width * y * this.pixelOffset + x * this.pixelOffset;
+
+        const newAlpha: number = 255 - ((255 - this.pixelArr[idx + 3]) * (255 - color.a) / 255)
+        const newRed: number = (this.pixelArr[idx + 0] * (255 - color.a) + color.r * color.a) / 255
+        const newGreen: number = (this.pixelArr[idx + 1] * (255 - color.a) + color.g * color.a) / 255
+        const newBlue: number  = (this.pixelArr[idx + 2] * (255 - color.a) + color.b * color.a) / 255
+        this.pixelArr[idx + 0] = newRed;   
+        this.pixelArr[idx + 1] = newGreen;   
+        this.pixelArr[idx + 2] = newBlue;  
+        this.pixelArr[idx + 3] = newAlpha; 
+    }
+
     getImageData(): ImageData {
         return new ImageData(this.pixelArr, this.width, this.height);
     }
@@ -178,8 +191,9 @@ export class Bitmap {
     }
 
     replaceColor(newColor: Color, oldColor: Color): void {
-        newColor.a = 255;
-        oldColor.a = 255
+        // newColor.a = 255;
+        // oldColor.a = 255;
+        console.log(newColor, oldColor);
         for(let x = 0; x < this.width; x++) {
             for(let y = 0; y < this.height; y++) { 
                 if(this.getPixelColor(x, y).compareColors(oldColor)) {

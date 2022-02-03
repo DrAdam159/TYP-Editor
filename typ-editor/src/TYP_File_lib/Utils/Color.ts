@@ -1,15 +1,16 @@
 export const RGB_COLOR_REGEX = /\((\d+),\s*(\d+),\s*(\d+)(,\s*(\d*.\d*))?\)/;
 
 export class Color {
-    public r!: number;
-    public g!: number;
-    public b!: number;
-    public a!: number;
+    public r: number;
+    public g: number;
+    public b: number;
+    public a: number;
 
-    /*constructor()
-    constructor(colorStr?: string)
-    constructor(r?: string|number, g?: number, b?: number)*/
     constructor(r?: string|number, g?: number, b?: number, a?: number) {
+        this.r = 0;
+        this.g = 0;
+        this.b = 0;
+        this.a = 0;
         if (typeof r === 'string') {
             r = r.trim();
             if (r.indexOf('#') === 0) {
@@ -17,6 +18,13 @@ export class Color {
                 this.r = parseInt(r.substr(0, 2), 16);
                 this.g = parseInt(r.substr(2, 2), 16);
                 this.b = parseInt(r.substr(4, 2), 16);
+                // console.log(r.length);
+                if(r.length == 8) {
+                    this.a = parseInt(r.substr(6, 2), 16);
+                }
+                else {
+                    this.a = 255;
+                }
             } else if (r.indexOf('rgb') === 0) {
                 const res = RGB_COLOR_REGEX.exec(r);
                 if(res !== null) {
@@ -32,7 +40,12 @@ export class Color {
                 this.r = r;
                 this.g = g;
                 this.b = b;
-                this.a = a || 255;
+                if(a !== undefined){
+                    this.a = a;
+                }
+                else {
+                    this.a = 255;
+                }
             }
         }
     }
@@ -56,6 +69,14 @@ export class Color {
         }
         else {
             hexCode += this.b.toString(16);
+        }
+        if(this.a) {
+            if(this.a == 0) {
+                hexCode += this.a.toString(16) + '0';
+            }
+            else {
+                hexCode += this.a.toString(16);
+            }
         }
         return hexCode;
     }
