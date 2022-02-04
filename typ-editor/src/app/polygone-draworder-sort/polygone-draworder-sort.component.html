@@ -64,9 +64,9 @@
           cdkDropListOrientation="horizontal"
           [cdkDropListData]="draworderList.items"
           class="example-list"
-          (cdkDropListDropped)="drop($event)">
+          (cdkDropListDropped)="drop($event)" fxLayout="row wrap">
           
-          <div *ngFor="let polygone of draworderList.items">
+          <div *ngFor="let polygone of draworderList.items" >
               <app-bitmap-canvas  [drawableItem]="polygone" [scaleValue]="bitmapScale"  cdkDrag class="example-box"></app-bitmap-canvas>
           </div>
         </div>
