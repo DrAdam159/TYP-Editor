@@ -59,7 +59,10 @@
         <ng-template #elseBlock>
             <mat-grid-list cols={{gridCols}} rowHeight="1:1" [gutterSize]="'10px'">
                 <mat-grid-tile *ngFor="let polyline of polylineList" >
-                    <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]="false" (click)="openEditor(polyline, 0)"></app-bitmap-canvas>
+                    <div (click)="openEditor(polyline, 0)" class="tile-content">
+                        <app-bitmap-canvas [drawableItem]="polyline" [scaleValue]="bitmapScale" [darken]="false" ></app-bitmap-canvas>
+                    </div>
+                
                     <mat-grid-tile-footer>
                         {{polyline.text.textArr[0].value | uppercase}}
                         <div class="menu-icon">

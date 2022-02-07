@@ -62,6 +62,10 @@ mat-grid-tile div {
     max-height: 90%;
 }
 
+.tile-content{
+    height: 100%;
+}
+
 
 
 

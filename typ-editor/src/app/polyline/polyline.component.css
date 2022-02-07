@@ -61,3 +61,8 @@ mat-grid-tile div {
     overflow: auto;
     max-height: 90%;
 }
+
+.tile-content{
+    height: 100%;
+    padding-top: 5rem;
+}
