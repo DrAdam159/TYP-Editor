@@ -144,7 +144,7 @@ export class Polyline extends GraphicElement{
            this.bitmapDay.constructor2(color, reader);
         }
         if(this.withString) {
-           this.text = new MultiText(reader);
+           this.text = new MultiText(reader, codepage);
         }
         else {
            this.text = new MultiText();
