@@ -170,11 +170,10 @@
     outline: black solid 1px;
 }
 
-/* mat-button-toggle-group {
-    max-height: 400px;
-} */
 
-
+mat-button-toggle-group {
+    width: 98px;
+}
 
 
 

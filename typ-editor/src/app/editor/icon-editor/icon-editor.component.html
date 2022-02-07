@@ -7,7 +7,7 @@
 >
   <div class="item " [ngClass]="darkMode  ? 'item-1-dark' : 'item-1'" fxFlex="10%" >
     <div *ngIf="!hideTools">
-      <mat-button-toggle-group appearance="standard" [formControl]="toolOptions" vertical >
+      <mat-button-toggle-group appearance="standard" [formControl]="toolOptions" vertical fxLayout="row wrap">
       
         <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''"  value="line" aria-label="Text align center" (click) = "useBrush()"
         #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
