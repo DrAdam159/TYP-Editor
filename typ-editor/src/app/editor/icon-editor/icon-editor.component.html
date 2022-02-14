@@ -80,8 +80,24 @@
           <mat-icon>cancel</mat-icon>
         </mat-button-toggle>
       </mat-button-toggle-group>
+      <mat-button-toggle-group appearance="standard" vertical fxLayout="row wrap" class="mat-button-toggle-group-tools mat-button-toggle-group-undo-redo">
+        <mat-button-toggle (click) = "undo()" #tooltip="matTooltip" matTooltip="Undo Action" [matTooltipPosition]="'right'" >
+          <mat-icon>undo</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle (click) = "redo()"  #tooltip="matTooltip" matTooltip="Redo Action" [matTooltipPosition]="'right'" >
+          <mat-icon>redo</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      <input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
+      <mat-button-toggle-group appearance="standard" vertical fxLayout="row wrap" class="mat-button-toggle-group-tools mat-button-toggle-group-undo-redo">
+        <mat-button-toggle (click) = "downloadCanvas()" #tooltip="matTooltip" matTooltip="Download Canvas" [matTooltipPosition]="'right'">
+          <mat-icon>file_download</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle  (click)="fileUpload.click()"  #tooltip="matTooltip" matTooltip="Upload Image" [matTooltipPosition]="'right'">
+          <mat-icon>file_upload</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
-    
   </div>
 
   <div class="item " [ngClass]="darkMode  ? 'item-3-dark' : 'item-3'" fxFlex>
@@ -191,7 +207,7 @@
       </button>
     </div> 
   </div>
-  <div class="item"  [ngClass]="darkMode  ? 'item-4-dark' : 'item-4'" fxFlex="90%"  fxFlexOffset.xs="0">
+  <!-- <div class="item"  [ngClass]="darkMode  ? 'item-4-dark' : 'item-4'" fxFlex="90%"  fxFlexOffset.xs="0">
     <div *ngIf="!hideTools">
       <button mat-stroked-button color="primary" (click) = "undo()"
     #tooltip="matTooltip" matTooltip="Undo Action" [matTooltipPosition]="'below'" >
@@ -215,7 +231,7 @@
       <mat-icon >file_upload</mat-icon>
     </button>
     </div>
-  </div>
+  </div> -->
 </div>
 <canvas #canvas2 ></canvas>
 
@@ -299,20 +315,20 @@
 <mat-menu #menu2="matMenu">
   <div *ngIf="itemType == 'poi' || itemType == 'polyline'; then thenBlockResize else elseBlockResize"></div>
   <ng-template #thenBlockResize>
-    <button mat-menu-item disabled (click) = "changeMode()">
+    <!-- <button mat-menu-item disabled (click) = "changeMode()">
       <mat-icon>dialpad</mat-icon>
       <span>Dark theme</span>
-    </button>
+    </button> -->
     <button mat-menu-item (click) = "resizeIcon()">
       <mat-icon>aspect_ratio</mat-icon>
       <span>Resize</span>
     </button>
   </ng-template>
   <ng-template #elseBlockResize>
-    <button mat-menu-item disabled (click) = "changeMode()">
+    <!-- <button mat-menu-item disabled (click) = "changeMode()">
       <mat-icon>dialpad</mat-icon>
       <span>Dark theme</span>
-    </button>
+    </button> -->
     <button mat-menu-item disabled>
       <mat-icon>aspect_ratio</mat-icon>
       <span>Resize</span>

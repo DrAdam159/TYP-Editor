@@ -41,7 +41,9 @@
 
 .item-5 {
     background-color: #f3f1f5;
-    text-align:center;
+    text-align:left;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
 }
 
 .item-1-dark {
@@ -173,6 +175,10 @@
 
 .mat-button-toggle-group-tools {
     width: 98px;
+}
+
+.mat-button-toggle-group-undo-redo {
+    margin-top: 10px;
 }
 
 
