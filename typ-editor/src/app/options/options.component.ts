@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
 import { FileService } from '../services/file.service';
@@ -22,7 +23,8 @@ export class OptionsComponent implements OnInit {
 
   fileHeader!: Header;
 
-  constructor(fb: FormBuilder, private fileService: FileService, private router: Router) { 
+  constructor(fb: FormBuilder, private fileService: FileService, private router: Router, private titleService: Title) { 
+    this.titleService.setTitle('Settings');
     this.options = fb.group({
       colorPalette: this.colorPaletteControl,
       fid: this.fidControl,

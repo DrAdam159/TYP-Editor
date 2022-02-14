@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
 import { FileService } from '../services/file.service';
 import {CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { Title } from '@angular/platform-browser';
 
 interface Draworder {
   draworderValue: number;
@@ -25,7 +26,8 @@ export class PolygoneDraworderSortComponent implements OnInit {
 
   draworders: Array<Draworder>;
 
-  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
+  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router, private titleService: Title) { 
+    this.titleService.setTitle('DrawOrder');
     if(this.fileService.getPolygoneList()) {
       this.polygoneList = this.fileService.getPolygoneList();
       const half = Math.ceil(this.polygoneList.length / 2);

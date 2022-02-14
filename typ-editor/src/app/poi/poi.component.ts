@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
@@ -23,8 +24,9 @@ export class PoiComponent implements OnInit {
   delete: boolean;
   selectedItems: Array<GraphicElement>;
 
-  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
-   if(this.fileService.getPOIList()) {
+  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router, private titleService: Title) { 
+    this.titleService.setTitle('POIs');
+    if(this.fileService.getPOIList()) {
       this.poiList = this.fileService.getPOIList();
     }
     this.scaleValue = 40;

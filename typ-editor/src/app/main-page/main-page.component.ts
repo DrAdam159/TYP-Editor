@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
@@ -25,7 +26,8 @@ export class MainPageComponent implements OnInit {
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService, private titleService: Title) {
+    this.titleService.setTitle('Main Page');
     if(this.fileService.getFileName() != '') {
       this.fileHeader = this.fileService.getHeader();
       this.fileName = this.fileService.getFileName();

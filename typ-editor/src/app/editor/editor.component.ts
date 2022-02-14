@@ -1,4 +1,5 @@
 import { Component, OnInit} from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
@@ -32,7 +33,8 @@ export class EditorComponent implements OnInit {
 
   selectedTab: number;
 
-  constructor(private fileService: FileService, private dialogService: DialogService, private Activatedroute: ActivatedRoute, private router: Router) {
+  constructor(private fileService: FileService, private dialogService: DialogService, private Activatedroute: ActivatedRoute, private router: Router, private titleService: Title) {
+    this.titleService.setTitle('Editor');
     this.itemType = "";
     this.typeID = "";
     this.subTypeID = "";

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
@@ -23,7 +24,8 @@ export class PolygoneComponent implements OnInit {
   delete: boolean;
   selectedItems: Array<GraphicElement>;
 
-  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
+  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router, private titleService: Title) { 
+    this.titleService.setTitle('Polygones');
     if(this.fileService.getPolygoneList()) {
       this.polygoneList = this.fileService.getPolygoneList();
     }

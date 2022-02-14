@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
@@ -23,7 +24,8 @@ export class PolylineComponent implements OnInit {
   delete: boolean;
   selectedItems: Array<GraphicElement>;
 
-  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router) { 
+  constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router, private titleService: Title) { 
+    this.titleService.setTitle('Polylines');
     if(this.fileService.getPOIList()) {
       this.polylineList = this.fileService.getPolylineList();
     }
