@@ -110,7 +110,7 @@ export class AddPoiComponent implements OnInit {
       }
       else {
         this.dialogRef.close();
-        this.router.navigate(['editor',"poi", newPOI.type, newPOI.subtype ]);
+        this.router.navigate(['poi/editor',"poi", newPOI.type, newPOI.subtype, 0 ]);
       } 
     }
     else {

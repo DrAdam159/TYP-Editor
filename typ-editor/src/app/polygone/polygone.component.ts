@@ -38,7 +38,7 @@ export class PolygoneComponent implements OnInit {
   }
 
   openEditor(polygoneItem: Polygon, tabIndex: number): void {
-    this.router.navigate(['editor',"polygone", polygoneItem.type, polygoneItem.subtype, tabIndex ]);
+    this.router.navigate(['polygone/editor',"polygone", polygoneItem.type, polygoneItem.subtype, tabIndex ]);
   }
 
   formatLabel(value: number): number {

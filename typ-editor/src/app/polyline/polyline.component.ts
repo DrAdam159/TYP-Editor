@@ -43,7 +43,7 @@ export class PolylineComponent implements OnInit {
   }
 
   openEditor(polylineItem: Polyline, tabIndex: number): void {
-    this.router.navigate(['editor',"polyline", polylineItem.type, polylineItem.subtype, tabIndex  ]);
+    this.router.navigate(['polyline/editor',"polyline", polylineItem.type, polylineItem.subtype, tabIndex  ]);
   }
 
   formatLabel(value: number): number {

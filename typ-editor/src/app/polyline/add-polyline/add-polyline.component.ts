@@ -109,7 +109,7 @@ export class AddPolylineComponent implements OnInit {
       }
       else {
         this.dialogRef.close();
-        this.router.navigate(['editor',"polyline", newPolyline.type, newPolyline.subtype ]);
+        this.router.navigate(['polyline/editor',"polyline", newPolyline.type, newPolyline.subtype, 0 ]);
       } 
     }
     else {

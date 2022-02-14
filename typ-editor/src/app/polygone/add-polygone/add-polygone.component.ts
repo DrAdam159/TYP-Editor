@@ -109,7 +109,7 @@ export class AddPolygoneComponent implements OnInit {
       }
       else {
         this.dialogRef.close();
-        this.router.navigate(['editor',"polygone", newPolygone.type, newPolygone.subtype ]);
+        this.router.navigate(['polygone/editor',"polygone", newPolygone.type, newPolygone.subtype, 0 ]);
       } 
     }
     else {
