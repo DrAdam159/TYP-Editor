@@ -18,6 +18,7 @@ export class OptionsComponent implements OnInit {
   colorPaletteControl = new FormControl('None');
   fidControl = new FormControl(0);
   pidControl = new FormControl(0);
+  panelStates: {palette: boolean, fid: boolean, pid: boolean};
 
   fileHeader!: Header;
 
@@ -27,6 +28,7 @@ export class OptionsComponent implements OnInit {
       fid: this.fidControl,
       pid: this.pidControl
     });
+    this.panelStates = {palette: false, fid: false, pid: false};
   }
 
   ngOnInit(): void {
@@ -47,4 +49,13 @@ export class OptionsComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  switchPalettePanelState(state: boolean): void {
+    this.panelStates.palette = state;
+  }
+  switchFIDPanelState(state: boolean): void {
+    this.panelStates.fid = state;
+  }
+  switchPIDPanelState(state: boolean): void {
+    this.panelStates.pid = state;
+  }
 }

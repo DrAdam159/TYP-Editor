@@ -5,11 +5,15 @@
         fxLayoutWrap="wrap">
         <div class="item item-1" fxFlex="70%">
             <div class="example-action-buttons">
-                <button mat-button (click)="accordion.openAll()">Expand All</button>
+              <div *ngIf="this.panelStates.palette || this.panelStates.pid || this.panelStates.fid">
                 <button mat-button (click)="accordion.closeAll()">Collapse All</button>
               </div>
+              <div *ngIf="!this.panelStates.palette && !this.panelStates.pid && !this.panelStates.fid">
+                <button mat-button (click)="accordion.openAll()">Expand All</button>
+              </div>
+              </div>
               <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel>
+                <mat-expansion-panel (opened)="switchPalettePanelState(true)" (closed)="switchPalettePanelState(false)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       Limit Color Palette
@@ -29,7 +33,7 @@
                  
               
                 </mat-expansion-panel>
-                <mat-expansion-panel >
+                <mat-expansion-panel (opened)="switchFIDPanelState(true)" (closed)="switchFIDPanelState(false)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       FID
@@ -44,7 +48,7 @@
                     <input matInput type="number" [formControl]="fidControl" placeholder="Ex. 12" min="0">
                   </mat-form-field>
                 </mat-expansion-panel>
-                <mat-expansion-panel >
+                <mat-expansion-panel (opened)="switchPIDPanelState(true)" (closed)="switchPIDPanelState(false)">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         PID
