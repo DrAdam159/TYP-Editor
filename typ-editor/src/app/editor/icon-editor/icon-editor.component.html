@@ -91,10 +91,10 @@
       <input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
       <mat-button-toggle-group appearance="standard" vertical fxLayout="row wrap" class="mat-button-toggle-group-tools mat-button-toggle-group-undo-redo">
         <mat-button-toggle (click) = "downloadCanvas()" #tooltip="matTooltip" matTooltip="Download Canvas" [matTooltipPosition]="'right'">
-          <mat-icon>file_download</mat-icon>
+          <mat-icon>save_alt</mat-icon>
         </mat-button-toggle>
         <mat-button-toggle  (click)="fileUpload.click()"  #tooltip="matTooltip" matTooltip="Upload Image" [matTooltipPosition]="'right'">
-          <mat-icon>file_upload</mat-icon>
+          <mat-icon>image</mat-icon>
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
