@@ -49,7 +49,7 @@ export class PolygonDraworderTableItem {
       if (0xFF < this.type)               
          for (let i = 0; i < this.subTypes.length; i++) {
             let bidx = (this.subTypes[i] / 8) | 0;        // Byte-Index (0..)
-            b[bidx] |= 0xFF & (0x01 << 0xFFFFFFFF & (this.subTypes[i] % 8));
+            b[bidx] |= 0xFF & (0x01 << (0xFFFFFFFF & (this.subTypes[i] % 8)));
          }
 
       writer.writeBytes(b);
