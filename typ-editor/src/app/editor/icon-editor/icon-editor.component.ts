@@ -98,6 +98,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   // Obsahuje barvy mimo Garmin paletu?
   garminCols =  {garmin16: false, garmin64: false, garmin256: false, warning: false};
+
+  textCanvas: HTMLCanvasElement = document.createElement('canvas');
+  textCanvasCtx: CanvasRenderingContext2D | null = this.textCanvas.getContext("2d");
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) {
     this.iconType = "Day";
@@ -208,6 +211,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.myCanvas.nativeElement.getContext('2d');
+    // this.textCanvas = document.createElement('canvas');
+    // this.textCanvasCtx = this.textCanvas.getContext("2d");
     this.drawBitmapWithGrid();
     this.storeBitmap();
     this.mapPreviewCanvasContext = this.mapPreviewCanvas.nativeElement.getContext('2d');
@@ -303,6 +308,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.captureEventOnBtnReleaseForDrag(canvasEl);
   }
 
+  insertText(): void {
+    this.stopToolUse();
+    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+    this.captureMouseMoveEventOnClick(canvasEl, 'textDrag');
+    //this.captureEventOnBtnReleaseForDrag(canvasEl);
+  }
+
   flipVertically(): void {
     this.stopToolUse();
     this.flipImageVertically();
@@ -331,6 +343,11 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.captureMouseMoveEventOnClick(canvasEl, 'brush');
     this.captureEventOnBtnRelease(canvasEl);
   }
+
+  // insertText(): void {
+  //   this.stopToolUse();
+  //   this.insertTextToCanvas();
+  // }
 
   private captureMouseMoveEventOnClick(canvasEl: HTMLCanvasElement, tool: String) {
     this.mouseSub = fromEvent(canvasEl, 'mousedown')
@@ -388,6 +405,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             break;
           case 'drag':
             this.dragIconToPosition({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            break;
+          case 'textDrag':
+            this.insertTextToCanvas({x: this.lineStartX, y: this.lineStartY}, currentPos);
             break;
         }
       });
@@ -1226,6 +1246,37 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         this.updateBitmap()
       }
     });
+  }
+
+  insertTextToCanvas(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
+    let curCoordinates = this.convertCoordinates(currentPos);
+    // let prevCoordinates = this.convertCoordinates(prevPos);
+    // this.newIconPosition.x = curCoordinates.x -prevCoordinates.x;
+    // this.newIconPosition.y = curCoordinates.y -prevCoordinates.y;
+  
+    // const textCanvas: HTMLCanvasElement = document.createElement('canvas');
+    // const textCanvasCtx: CanvasRenderingContext2D | null = textCanvas.getContext("2d");
+    if(this.textCanvasCtx && this.context) {
+      this.textCanvasCtx.clearRect(0, 0, this.textCanvas.width, this.textCanvas.height);
+      this.updateBitmap();
+      this.textCanvasCtx.font = "10px Arial";
+      // textCanvasCtx.fillText("T E X T", 1, 10);
+      this.textCanvasCtx.fillText("T E X T", curCoordinates.x, curCoordinates.y);
+
+      const unscaledBitmap = this.textCanvasCtx.getImageData(0, 0, this.textCanvas.width, this.textCanvas.height).data;
+      const upscaleValue: number = 20;
+      for (let x = 0; x < this.textCanvas.width; x++){
+        for (let y = 0; y < this.textCanvas.height; y++){
+           const i = (y * this.textCanvas.width + x) *4;
+           const r = unscaledBitmap[i];
+           const g = unscaledBitmap[i+1];
+           const b = unscaledBitmap[i+2];
+           const a = unscaledBitmap[i+3];
+          this.context.fillStyle = "rgba("+r+","+g+","+b+","+(a)+")";
+          this.context.fillRect(x*upscaleValue,y*upscaleValue,upscaleValue,upscaleValue);
+        }
+      }
+    }
   }
 }
 
