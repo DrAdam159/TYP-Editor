@@ -98,7 +98,7 @@ export class BinReaderWriter {
         return (list[0] | list[1] << 8 | list[2] << 16 | list[2] << 24);
     }
 
-    readString(len: number): string {
+    readString(len: number, codepage: number = 65001): string {
         if (this.buffLen < len) {
             return '';
         }
