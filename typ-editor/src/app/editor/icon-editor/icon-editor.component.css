@@ -185,6 +185,14 @@ mat-button-toggle:nth-child(2) {
     border-top: none !important;
 }
 
+.text-accordion-content {
+    text-align: center;
+}
+
+.text-accordion-content-input {
+    max-width: 140px;
+}
+
   
 
 

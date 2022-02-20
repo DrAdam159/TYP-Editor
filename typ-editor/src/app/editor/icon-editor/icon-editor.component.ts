@@ -101,6 +101,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
   textCanvas: HTMLCanvasElement = document.createElement('canvas');
   textCanvasCtx: CanvasRenderingContext2D | null = this.textCanvas.getContext("2d");
+  inputText: string = '';
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) {
     this.iconType = "Day";
@@ -1260,8 +1261,13 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.textCanvasCtx.clearRect(0, 0, this.textCanvas.width, this.textCanvas.height);
       this.updateBitmap();
       this.textCanvasCtx.font = "10px Arial";
-      // textCanvasCtx.fillText("T E X T", 1, 10);
-      this.textCanvasCtx.fillText("T E X T", curCoordinates.x, curCoordinates.y);
+      if(this.inputText != '') {
+        this.textCanvasCtx.fillText(this.inputText, curCoordinates.x, curCoordinates.y);
+      }
+      else {
+        this.textCanvasCtx.fillText("T E X T", curCoordinates.x, curCoordinates.y);
+      }
+      
 
       const unscaledBitmap = this.textCanvasCtx.getImageData(0, 0, this.textCanvas.width, this.textCanvas.height).data;
       const upscaleValue: number = 20;
