@@ -17,10 +17,6 @@
         #tooltip="matTooltip" matTooltip="Line" [matTooltipPosition]="'right'" >
           <mat-icon>minimize</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="fill" aria-label="Text align right" (click) = "useFill()"
-        #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'"  >
-          <mat-icon>format_color_fill</mat-icon>
-        </mat-button-toggle>
         <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="filled rectangle" aria-label="Text align right" (click) = "useFilledRectangle()"
         #tooltip="matTooltip" matTooltip="Filled Rectangle" [matTooltipPosition]="'right'" >
           <mat-icon>rectangle</mat-icon>
@@ -49,21 +45,25 @@
         #tooltip="matTooltip" matTooltip="Rotate Left" [matTooltipPosition]="'right'"  >
           <mat-icon>rotate_left</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()"
-        #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'"  >
-          <mat-icon>colorize</mat-icon>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="drag" aria-label="Text align right" (click) = "dragIcon()"
+        #tooltip="matTooltip" matTooltip="Drag Icon" [matTooltipPosition]="'right'"  >
+          <mat-icon>pan_tool</mat-icon>
         </mat-button-toggle>
         <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="eraser" aria-label="Text align right" (click) = "erase()"
         #tooltip="matTooltip" matTooltip="Erase" [matTooltipPosition]="'right'"  >
           <mat-icon>auto_fix_high</mat-icon>
         </mat-button-toggle>
+        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="fill" aria-label="Text align right" (click) = "useFill()"
+        #tooltip="matTooltip" matTooltip="Fill" [matTooltipPosition]="'right'"  >
+          <mat-icon>format_color_fill</mat-icon>
+        </mat-button-toggle>
         <mat-button-toggle value="inverse" aria-label="Text align right" (click) = "inverseColors()"
         #tooltip="matTooltip" matTooltip="Invert Colors" [matTooltipPosition]="'right'"  >
           <mat-icon>invert_colors</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" value="drag" aria-label="Text align right" (click) = "dragIcon()"
-        #tooltip="matTooltip" matTooltip="Drag Icon" [matTooltipPosition]="'right'"  >
-          <mat-icon>pan_tool</mat-icon>
+        <mat-button-toggle value="color dropper" aria-label="Text align right" (click) = "getColor()"
+        #tooltip="matTooltip" matTooltip="Color Dropper" [matTooltipPosition]="'right'"  >
+          <mat-icon>colorize</mat-icon>
         </mat-button-toggle>
         <mat-button-toggle value="limit" aria-label="Text align right" [matMenuTriggerFor]="menu"
         #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'"  >
