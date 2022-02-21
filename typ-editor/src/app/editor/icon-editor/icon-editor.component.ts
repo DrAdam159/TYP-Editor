@@ -102,6 +102,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   textCanvas: HTMLCanvasElement = document.createElement('canvas');
   textCanvasCtx: CanvasRenderingContext2D | null = this.textCanvas.getContext("2d");
   inputText: string = '';
+  panelOpenState: boolean = false;
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) {
     this.iconType = "Day";
@@ -408,7 +409,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
             this.dragIconToPosition({x: this.lineStartX, y: this.lineStartY}, currentPos);
             break;
           case 'textDrag':
-            this.insertTextToCanvas({x: this.lineStartX, y: this.lineStartY}, currentPos);
+            this.insertTextToCanvas(currentPos);
             break;
         }
       });
@@ -1249,23 +1250,19 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  insertTextToCanvas(prevPos: { x: number; y: number }, currentPos: { x: number; y: number }): void {
-    let curCoordinates = this.convertCoordinates(currentPos);
-    // let prevCoordinates = this.convertCoordinates(prevPos);
-    // this.newIconPosition.x = curCoordinates.x -prevCoordinates.x;
-    // this.newIconPosition.y = curCoordinates.y -prevCoordinates.y;
+  insertTextToCanvas(currentPos: { x: number; y: number } = {x: 20, y: 200}): void {
+    const textCoordinates = this.convertCoordinates(currentPos);
   
-    // const textCanvas: HTMLCanvasElement = document.createElement('canvas');
-    // const textCanvasCtx: CanvasRenderingContext2D | null = textCanvas.getContext("2d");
     if(this.textCanvasCtx && this.context) {
       this.textCanvasCtx.clearRect(0, 0, this.textCanvas.width, this.textCanvas.height);
       this.updateBitmap();
+      this.textCanvasCtx.fillStyle = this.color;
       this.textCanvasCtx.font = "10px Arial";
       if(this.inputText != '') {
-        this.textCanvasCtx.fillText(this.inputText, curCoordinates.x, curCoordinates.y);
+        this.textCanvasCtx.fillText(this.inputText, textCoordinates.x, textCoordinates.y);
       }
       else {
-        this.textCanvasCtx.fillText("T E X T", curCoordinates.x, curCoordinates.y);
+        this.textCanvasCtx.fillText("T E X T", textCoordinates.x, textCoordinates.y);
       }
       
 
@@ -1278,10 +1275,41 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
            const g = unscaledBitmap[i+1];
            const b = unscaledBitmap[i+2];
            const a = unscaledBitmap[i+3];
-          this.context.fillStyle = "rgba("+r+","+g+","+b+","+(a)+")";
-          this.context.fillRect(x*upscaleValue,y*upscaleValue,upscaleValue,upscaleValue);
+           if(a != 0) {
+            this.context.fillStyle = "rgba("+r+","+g+","+b+","+(a)+")";
+            this.context.fillRect(x*upscaleValue,y*upscaleValue,upscaleValue,upscaleValue);
+          }
         }
       }
+    }
+  }
+
+  toggleTextPanel(): void {
+    this.panelOpenState = !this.panelOpenState;
+  }
+
+  applyTextToBitmap(): void {
+    if(this.textCanvasCtx && this.itemBitmap) {
+      const unscaledBitmap = this.textCanvasCtx.getImageData(0, 0, this.textCanvas.width, this.textCanvas.height).data;
+      for (let x = 0; x < this.textCanvas.width; x++){
+        for (let y = 0; y < this.textCanvas.height; y++){
+            const i = (y * this.textCanvas.width + x) *4;
+            const r = unscaledBitmap[i];
+            const g = unscaledBitmap[i+1];
+            const b = unscaledBitmap[i+2];
+            const a = unscaledBitmap[i+3];
+            if(a != 0 && x <= this.itemBitmap.width && y <= this.itemBitmap.height) {
+              this.itemBitmap.setPixel(x, y, new Color(r,g,b));
+          }
+        }
+      }
+      this.stopToolUse();
+      this.storeBitmap();
+      this.updateBitmap();
+      if(this.itemType == 'polygone' || this.itemType == 'polyline') {
+        this.drawMapPreview();
+      }
+      this.setStateOfChanges(true);
     }
   }
 }

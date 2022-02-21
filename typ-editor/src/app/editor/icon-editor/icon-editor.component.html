@@ -75,8 +75,8 @@
             <mat-icon>palette</mat-icon>
           </ng-template>
         </mat-button-toggle>
-        <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "insertText()"
-        #tooltip="matTooltip" matTooltip="Insert Text" [matTooltipPosition]="'right'"  [ngClass]="darkMode  ? 'mat-button-toggle-dark' : ''">
+        <mat-button-toggle value="no tool" [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" aria-label="Text align right" (click) = "toggleTextPanel()"
+        #tooltip="matTooltip" matTooltip="Insert Text" [matTooltipPosition]="'right'"  >
           <mat-icon>text_fields</mat-icon>
         </mat-button-toggle>
       </mat-button-toggle-group>
@@ -176,8 +176,8 @@
       </div>
 
       <div class="color-limit">
-        <mat-accordion class="example-headers-align" multi>
-          <mat-expansion-panel class="color-accordion">
+        <mat-accordion class="example-headers-align" multi >
+          <mat-expansion-panel class="color-accordion" [expanded]="panelOpenState" (click) = "insertText()" [disabled]="limitToolUse" >
             <mat-expansion-panel-header>
               <mat-panel-title>
                 {{'Text'}}
@@ -194,12 +194,12 @@
           <div class="text-accordion-content">
             <mat-form-field appearance="fill" class="text-accordion-content-input">
               <mat-label>Type text</mat-label>
-              <input matInput type="text" [(ngModel)]="inputText" >
+              <input matInput type="text" [(ngModel)]="inputText" (input) = "insertTextToCanvas()">
               <button *ngIf="inputText" matSuffix mat-icon-button aria-label="Clear" (click)="inputText=''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <button mat-raised-button color="primary">Apply Text</button>
+            <button mat-raised-button color="primary" (click) = applyTextToBitmap()>Apply Text</button>
           </div>
           
           </mat-expansion-panel> 
