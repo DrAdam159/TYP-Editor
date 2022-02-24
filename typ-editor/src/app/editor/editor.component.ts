@@ -89,14 +89,14 @@ export class EditorComponent implements OnInit {
     this.unsavedChanges.type = state;
   }
 
-  canDeactivate(): Observable<boolean> | boolean {
-    // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
+  async canDeactivate(): Promise<boolean | Observable<boolean>> {
     if (!this.unsavedChanges.iconDay && !this.unsavedChanges.iconNight 
         && !this.unsavedChanges.type && !this.unsavedChanges.description) {
       return true;
     }
-    // Otherwise ask the user with the dialog service and return its
-    // observable which resolves to true or false when the user decides
-    return this.dialogService.confirm('Discard changes?');
+    
+    //return this.dialogService.confirm('Discard changes?');
+    const result = await this.dialogService.openDialog();
+    return result;
   }
 }
