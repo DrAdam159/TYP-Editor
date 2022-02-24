@@ -14,6 +14,7 @@ import { ResizeComponent } from './resize/resize.component';
 import { ResizePolylineComponent } from './resize-polyline/resize-polyline.component';
 import { SelectTextureComponent } from './select-texture/select-texture.component';
 import { Effects } from 'src/app/bitmap-canvas/effects';
+import { SelectColorFilterComponent } from './select-color-filter/select-color-filter.component';
 
 
 @Component({
@@ -1376,11 +1377,33 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         this.setStateOfChanges(true);
       }
     });
-
   }
 
   selectColorFilter(): void {
-
+    const dialogRef = this.matDialog.open( SelectColorFilterComponent, {
+      data: {
+        icon: this.drawableItem,
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != undefined) {
+        switch(result) {
+          case Effects.GrayScale:
+            this.itemBitmap.grayScaleFilter();
+            break;
+          case Effects.Inverse:
+            this.itemBitmap.inverseColors();
+            break;
+          default:
+            console.log('undefined effect');
+        }
+        if(this.itemType == 'polygone' || this.itemType == 'polyline') {
+          this.drawMapPreview();
+        }
+        this.updateBitmap();
+        this.setStateOfChanges(true);
+      }
+    });
   }
 }
 

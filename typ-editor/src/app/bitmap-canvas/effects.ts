@@ -5,4 +5,6 @@ export enum Effects{
     Horizontal,
     Vertical,
     Diamond,
+    GrayScale,
+    Inverse
 }

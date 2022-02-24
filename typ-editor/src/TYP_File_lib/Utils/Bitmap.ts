@@ -381,4 +381,27 @@ export class Bitmap {
         this.drawDiagonalLinesLeft(patternColor, step);
         this.drawDiagonalLinesRight(patternColor, step);
     }
+
+    grayScaleFilter(): void {
+        let colList: Array<{oldColor: Color; newColor: Color}> = new Array();
+        for(let x = 0; x < this.width; x++) {
+            for(let y = 0; y < this.height; y++) {
+
+                let oldColor: Color = this.getPixelColor(x, y);
+
+                if(!(colList.some(e => e.oldColor.compareColors(oldColor)))) {
+                    let newColor: Color = this.getGrayScaleColor(oldColor);
+                    colList.push({oldColor: oldColor, newColor: newColor});
+                }
+                let newColor: Color = colList.find(e => e.oldColor.compareColors(oldColor))?.newColor || new Color(255,255,255);
+                this.setPixel(x, y, newColor);
+            }
+        }
+    }
+
+    getGrayScaleColor(currentColor: Color): Color {
+        const val: number = Math.floor(0.2126 * currentColor.r + 0.7152 * currentColor.g + 0.0722 * currentColor.b)
+
+        return new Color(val, val, val);
+    }
 }

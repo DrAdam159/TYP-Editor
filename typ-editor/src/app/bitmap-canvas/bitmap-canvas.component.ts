@@ -105,6 +105,12 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
         case Effects.Diamond:
           this.drawDiamond();
           break;
+        case Effects.GrayScale:
+          this.applyGrayScale();
+          break;
+        case Effects.Inverse:
+          this.applyInverseColors();
+          break;
       }
     }
   }
@@ -191,6 +197,44 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
   drawDiamond(): void {
     this.drawDiagonalLeft(8);
     this.drawDiagonalRight(8);
+  }
+
+  applyInverseColors(): void {
+    this.context = this.myCanvas.nativeElement.getContext('2d');
+    if(this.context) {
+      const bmp = this.drawableItem.asBitmap(true);
+      bmp.inverseColors();
+      this.context.canvas.width = bmp.width * this.scaleValue;
+      this.context.canvas.height = bmp.height * this.scaleValue;
+
+      for(let y = 0; y < bmp.height; y++) {
+        for(let x = 0; x < bmp.width; x++) {
+          this.context.beginPath();
+          this.context.fillStyle =  bmp.getPixelColor(x, y).toRgba();
+          this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
+        }
+      }
+    }
+  }
+
+  applyGrayScale(): void {
+    this.context = this.myCanvas.nativeElement.getContext('2d');
+    if(this.context) {
+      const bmp = this.drawableItem.asBitmap(true);
+      bmp.grayScaleFilter();
+      this.context.canvas.width = bmp.width * this.scaleValue;
+      this.context.canvas.height = bmp.height * this.scaleValue;
+
+      for(let y = 0; y < bmp.height; y++) {
+        for(let x = 0; x < bmp.width; x++) {
+          this.context.beginPath();
+          this.context.fillStyle =  bmp.getPixelColor(x, y).toRgba();
+          this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
+        }
+      }
+    }
   }
 
 
