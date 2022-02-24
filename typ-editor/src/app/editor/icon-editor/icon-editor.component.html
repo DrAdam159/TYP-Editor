@@ -79,6 +79,15 @@
         #tooltip="matTooltip" matTooltip="Insert Text" [matTooltipPosition]="'right'"  >
           <mat-icon>text_fields</mat-icon>
         </mat-button-toggle>
+        <mat-button-toggle value="no tool" [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" aria-label="Text align right" (click) = "selectTexture()"
+        #tooltip="matTooltip" matTooltip="Apply Texture" [matTooltipPosition]="'right'"  >
+          <mat-icon>texture</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "selectColorFilter()"
+        #tooltip="matTooltip" matTooltip="Apply Color Filter " [matTooltipPosition]="'right'"  >
+          <mat-icon>blur_linear</mat-icon>
+        </mat-button-toggle>
+
       </mat-button-toggle-group>
       <mat-button-toggle-group appearance="standard" vertical fxLayout="row wrap" class="mat-button-toggle-group-tools mat-button-toggle-group-undo-redo">
         <mat-button-toggle (click) = "undo()" #tooltip="matTooltip" matTooltip="Undo Action" [matTooltipPosition]="'right'" >

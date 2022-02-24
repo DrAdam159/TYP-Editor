@@ -304,4 +304,14 @@ export class Bitmap {
         }
         this.pixelArr = newBitmap.pixelArr; 
     }
+
+    drawChessBoard(patternColor: Color): void {
+        for(let x = 0; x < this.width; x++) {
+            for(let y = 0; y < this.height; y++) { 
+                if ( (x + y) % 2 == 0) {
+                    this.setPixel(x, y, patternColor);
+                }
+            }
+        }
+    }
 }

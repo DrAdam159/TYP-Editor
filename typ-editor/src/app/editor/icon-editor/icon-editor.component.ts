@@ -12,6 +12,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ResizeComponent } from './resize/resize.component';
 import { ResizePolylineComponent } from './resize-polyline/resize-polyline.component';
+import { SelectTextureComponent } from './select-texture/select-texture.component';
+import { Effects } from 'src/app/bitmap-canvas/effects';
 
 
 @Component({
@@ -1333,6 +1335,38 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.stopToolUse();
       this.panelOpenState = false;
     }
+  }
+
+  selectTexture(): void {
+    const dialogRef = this.matDialog.open( SelectTextureComponent, {
+      data: {
+        icon: this.drawableItem,
+        patternColor: this.color
+      },
+     /* minWidth: '40vw',*/
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != undefined) {
+        switch(result) {
+          case Effects.ChessBoard:
+            console.log('ChessBoard');
+            this.itemBitmap.drawChessBoard(new Color(this.color));
+            break;
+          default:
+            console.log('undefined effect');
+        }
+        if(this.itemType == 'polygone' || this.itemType == 'polyline') {
+          this.drawMapPreview();
+        }
+        this.updateBitmap();
+        this.setStateOfChanges(true);
+      }
+    });
+
+  }
+
+  selectColorFilter(): void {
+
   }
 }
 

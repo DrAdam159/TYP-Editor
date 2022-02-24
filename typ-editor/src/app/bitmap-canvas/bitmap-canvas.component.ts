@@ -1,5 +1,6 @@
 import { Component, ElementRef, AfterViewInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
+import { Effects } from './effects';
 
 @Component({
   selector: 'app-bitmap-canvas',
@@ -11,6 +12,8 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
   @Input() drawableItem!: GraphicElement;
   @Input() scaleValue!: number;
   @Input() darken!: boolean;
+  @Input() effect!: Effects;
+  @Input() effectColor!: string;
 
   darkened: boolean;
 
@@ -28,6 +31,7 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
       if(changes['scaleValue'].previousValue != undefined) {
         if(changes['scaleValue'].currentValue != changes['scaleValue'].previousValue) {
           this.drawIcon();
+          this.applyEffect();
         }
       }
     }
@@ -49,6 +53,7 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.drawIcon();
+    this.applyEffect();
   }
 
   drawIcon(): void {
@@ -76,6 +81,37 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
     if(this.context) {
       this.context.fillStyle = "rgba(0, 0, 0, 0.7)";
       this.context.fillRect(0, 0, 700, 500);
+    }
+  }
+
+  applyEffect(): void {
+    if(this.effect != undefined) {
+      switch(+this.effect) {
+        case Effects.ChessBoard:
+          this.drawChestBoard();
+          break;
+      }
+    }
+  }
+
+  drawChestBoard(): void {
+    this.context = this.myCanvas.nativeElement.getContext('2d');
+    if(this.context) {
+      const bmp = this.drawableItem.asBitmap(true);
+      this.context.canvas.width = bmp.width * this.scaleValue;
+      this.context.canvas.height = bmp.height * this.scaleValue;
+      for(let y = 0; y < bmp.height; y++) {
+        for(let x = 0; x < bmp.width; x++) {
+          if ( (x + y) % 2 == 0){
+            this.context.fillStyle =  this.effectColor;
+          }
+          else {
+            this.context.fillStyle =  bmp.getPixelColor(x, y).toRgba();
+          }
+          this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
+        }
+      }
     }
   }
 
