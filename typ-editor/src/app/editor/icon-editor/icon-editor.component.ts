@@ -102,7 +102,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   textCanvas: HTMLCanvasElement = document.createElement('canvas');
   textCanvasCtx: CanvasRenderingContext2D | null = this.textCanvas.getContext("2d");
   inputText: string = '';
+  inputTextSize: number  = 10;
   panelOpenState: boolean = false;
+  textToolActive: boolean = false;
+  textCoordinates: {x: number, y: number} = {x: 20, y: 200};
   
   constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) {
     this.iconType = "Day";
@@ -242,6 +245,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
 
       this.setStateOfChanges(true);
     }
+    if(this.textToolActive) {
+      this.insertTextToCanvas();
+    }
     this.storeBitmap();
   }
 
@@ -253,6 +259,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     if(this.mouseUpSub) {
       this.mouseUpSub.unsubscribe();
     }
+    this.textToolActive = false;
   }
 
   useBrush(): void {
@@ -311,10 +318,18 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   }
 
   insertText(): void {
-    this.stopToolUse();
-    const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
-    this.captureMouseMoveEventOnClick(canvasEl, 'textDrag');
-    //this.captureEventOnBtnReleaseForDrag(canvasEl);
+    if(!this.textToolActive) {
+      this.stopToolUse();
+      this.textToolActive = true;
+      this.panelOpenState = true;
+      const canvasEl: HTMLCanvasElement = this.myCanvas?.nativeElement;
+      this.captureMouseMoveEventOnClick(canvasEl, 'textDrag');
+    }
+    else {
+      this.stopToolUse();
+      this.updateBitmap();
+      this.panelOpenState = false;
+    }
   }
 
   flipVertically(): void {
@@ -345,11 +360,6 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     this.captureMouseMoveEventOnClick(canvasEl, 'brush');
     this.captureEventOnBtnRelease(canvasEl);
   }
-
-  // insertText(): void {
-  //   this.stopToolUse();
-  //   this.insertTextToCanvas();
-  // }
 
   private captureMouseMoveEventOnClick(canvasEl: HTMLCanvasElement, tool: String) {
     this.mouseSub = fromEvent(canvasEl, 'mousedown')
@@ -1250,14 +1260,21 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  insertTextToCanvas(currentPos: { x: number; y: number } = {x: 20, y: 200}): void {
+  insertTextToCanvas(currentPos: { x: number; y: number } = {x: this.textCoordinates.x, y: this.textCoordinates.y}): void {
+    this.panelOpenState = true;
+    this.textCoordinates = currentPos;
     const textCoordinates = this.convertCoordinates(currentPos);
-  
     if(this.textCanvasCtx && this.context) {
       this.textCanvasCtx.clearRect(0, 0, this.textCanvas.width, this.textCanvas.height);
       this.updateBitmap();
       this.textCanvasCtx.fillStyle = this.color;
-      this.textCanvasCtx.font = "10px Arial";
+      if(this.inputTextSize >= 10) {
+        this.textCanvasCtx.font = this.inputTextSize + "px Arial";
+      }
+      else {
+        this.textCanvasCtx.font = "10px Arial";
+      }
+      
       if(this.inputText != '') {
         this.textCanvasCtx.fillText(this.inputText, textCoordinates.x, textCoordinates.y);
       }
@@ -1271,12 +1288,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       for (let x = 0; x < this.textCanvas.width; x++){
         for (let y = 0; y < this.textCanvas.height; y++){
            const i = (y * this.textCanvas.width + x) *4;
-           const r = unscaledBitmap[i];
-           const g = unscaledBitmap[i+1];
-           const b = unscaledBitmap[i+2];
+          //  const r = unscaledBitmap[i];
+          //  const g = unscaledBitmap[i+1];
+          //  const b = unscaledBitmap[i+2];
            const a = unscaledBitmap[i+3];
            if(a != 0) {
-            this.context.fillStyle = "rgba("+r+","+g+","+b+","+(a)+")";
+            this.context.fillStyle = this.color; //"rgba("+r+","+g+","+b+","+(255)+")"
             this.context.fillRect(x*upscaleValue,y*upscaleValue,upscaleValue,upscaleValue);
           }
         }
@@ -1285,7 +1302,10 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   }
 
   toggleTextPanel(): void {
-    this.panelOpenState = !this.panelOpenState;
+    // this.panelOpenState = !this.panelOpenState;
+    this.panelOpenState = true;
+    this.insertText();
+    //this.textToolActive = this.panelOpenState;
   }
 
   applyTextToBitmap(): void {
@@ -1294,12 +1314,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       for (let x = 0; x < this.textCanvas.width; x++){
         for (let y = 0; y < this.textCanvas.height; y++){
             const i = (y * this.textCanvas.width + x) *4;
-            const r = unscaledBitmap[i];
-            const g = unscaledBitmap[i+1];
-            const b = unscaledBitmap[i+2];
+            // const r = unscaledBitmap[i];
+            // const g = unscaledBitmap[i+1];
+            // const b = unscaledBitmap[i+2];
             const a = unscaledBitmap[i+3];
             if(a != 0 && x <= this.itemBitmap.width && y <= this.itemBitmap.height) {
-              this.itemBitmap.setPixel(x, y, new Color(r,g,b));
+              this.itemBitmap.setPixel(x, y, new Color(this.color));
           }
         }
       }
@@ -1310,6 +1330,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
         this.drawMapPreview();
       }
       this.setStateOfChanges(true);
+      this.stopToolUse();
+      this.panelOpenState = false;
     }
   }
 }

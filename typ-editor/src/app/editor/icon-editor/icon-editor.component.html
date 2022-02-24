@@ -177,8 +177,8 @@
 
       <div class="color-limit">
         <mat-accordion class="example-headers-align" multi >
-          <mat-expansion-panel class="color-accordion" [expanded]="panelOpenState" (click) = "insertText()" [disabled]="limitToolUse" >
-            <mat-expansion-panel-header>
+          <mat-expansion-panel class="color-accordion" [expanded]="panelOpenState"  [disabled]="limitToolUse" >
+            <mat-expansion-panel-header (click) = "insertText()">
               <mat-panel-title>
                 {{'Text'}}
               </mat-panel-title>
@@ -186,12 +186,14 @@
                 <mat-icon>text_fields</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <!-- <mat-grid-list cols=4 rowHeight="1:1" [gutterSize]="'10px'">
-              <mat-grid-tile *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" 
-              (click) = "updateColorPicker(colorVal, i)" class="color-tile" [ngClass]="{'highlight-tile': highlightColorTile(i), 'highlight-tile-default': !highlightColorTile(i)}"> 
-              </mat-grid-tile>
-          </mat-grid-list> -->
+            
           <div class="text-accordion-content">
+            <mat-form-field appearance="fill" class="text-accordion-content-input">
+              <mat-label>Font size</mat-label>
+              <input matInput type="number" placeholder="Ex. 12"  min="10"  [(ngModel)]="inputTextSize" (input) = "insertTextToCanvas()">
+              <span matSuffix>px</span>
+              <mat-error *ngIf="inputTextSize < 10">Min size: 10px</mat-error>
+            </mat-form-field>
             <mat-form-field appearance="fill" class="text-accordion-content-input">
               <mat-label>Type text</mat-label>
               <input matInput type="text" [(ngModel)]="inputText" (input) = "insertTextToCanvas()">
@@ -200,6 +202,7 @@
               </button>
             </mat-form-field>
             <button mat-raised-button color="primary" (click) = applyTextToBitmap()>Apply Text</button>
+            <!-- <button mat-raised-button color="warn" (click) = applyTextToBitmap()>Cancel</button> -->
           </div>
           
           </mat-expansion-panel> 
