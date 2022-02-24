@@ -29,6 +29,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -66,6 +67,7 @@ import { ResizePolylineComponent } from './editor/icon-editor/resize-polyline/re
 import { FileNewComponent } from './file-new/file-new.component';
 import { FileNewDialogComponent } from './file-new/file-new-dialog/file-new-dialog.component';
 import { ConfirmationDialogComponent } from './editor/confirmation-dialog/confirmation-dialog.component';
+import { SelectTextureComponent } from './editor/icon-editor/select-texture/select-texture.component';
 
 
 @NgModule({
@@ -95,7 +97,8 @@ import { ConfirmationDialogComponent } from './editor/confirmation-dialog/confir
     ResizePolylineComponent,
     FileNewComponent,
     FileNewDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SelectTextureComponent
   ],
   imports: [
     BrowserModule,
@@ -132,7 +135,8 @@ import { ConfirmationDialogComponent } from './editor/confirmation-dialog/confir
     MatExpansionModule,
     MatRadioModule,
     MatBadgeModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

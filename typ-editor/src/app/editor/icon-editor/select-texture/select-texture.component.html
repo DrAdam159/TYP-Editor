@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Select Texture:</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-slider
+            thumbLabel
+            (change)="updateGrid()"
+            tickInterval="1000"
+            step="1"
+            min="10"
+            max="70"
+            [(ngModel)]="scaleValue"
+            color="primary"
+            aria-label="units">
+    </mat-slider>
+      
+      <mat-card class="example-card" (click)="select(effectResult.ChessBoard)" [ngClass]="{'highlight-tile': highlightTile(effectResult.ChessBoard)}">
+        <mat-card-title-group>
+          <mat-card-title>Chess Pattern</mat-card-title>
+          <mat-card-subtitle>Extra large</mat-card-subtitle>
+          <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
+                            [darken]= "false" [effect]= "effectResult.ChessBoard"  [effectColor]= "patternColor">
+          </app-bitmap-canvas>
+        </mat-card-title-group>
+        <mat-card-content>
+          {{longText}}
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example-card" (click)="select(effectResult.DiagonalRight)" [ngClass]="{'highlight-tile': highlightTile(effectResult.DiagonalRight)}">
+        <mat-card-title-group>
+          <mat-card-title>Chess Pattern</mat-card-title>
+          <mat-card-subtitle>Extra large</mat-card-subtitle>
+          <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
+                            [darken]= "false" [effect]= "effectResult.ChessBoard"  [effectColor]= "patternColor">
+          </app-bitmap-canvas>
+        </mat-card-title-group>
+        <mat-card-content>
+          {{longText}}
+        </mat-card-content>
+      </mat-card>
+  
+   
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click) = "applyEffect()">Apply</button>
+</mat-dialog-actions>
