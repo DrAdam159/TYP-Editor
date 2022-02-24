@@ -6,3 +6,7 @@
 .highlight-tile {
   outline: red solid 2px;
 }
+
+mat-dialog-content {
+  padding-top: 1rem;
+}
