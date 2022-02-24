@@ -68,6 +68,7 @@ import { FileNewComponent } from './file-new/file-new.component';
 import { FileNewDialogComponent } from './file-new/file-new-dialog/file-new-dialog.component';
 import { ConfirmationDialogComponent } from './editor/confirmation-dialog/confirmation-dialog.component';
 import { SelectTextureComponent } from './editor/icon-editor/select-texture/select-texture.component';
+import { SelectColorFilterComponent } from './editor/icon-editor/select-color-filter/select-color-filter.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { SelectTextureComponent } from './editor/icon-editor/select-texture/sele
     FileNewComponent,
     FileNewDialogComponent,
     ConfirmationDialogComponent,
-    SelectTextureComponent
+    SelectTextureComponent,
+    SelectColorFilterComponent
   ],
   imports: [
     BrowserModule,
