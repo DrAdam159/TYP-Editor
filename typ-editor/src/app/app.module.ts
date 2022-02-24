@@ -65,6 +65,7 @@ import { ResizeComponent } from './editor/icon-editor/resize/resize.component';
 import { ResizePolylineComponent } from './editor/icon-editor/resize-polyline/resize-polyline.component';
 import { FileNewComponent } from './file-new/file-new.component';
 import { FileNewDialogComponent } from './file-new/file-new-dialog/file-new-dialog.component';
+import { ConfirmationDialogComponent } from './editor/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -93,7 +94,8 @@ import { FileNewDialogComponent } from './file-new/file-new-dialog/file-new-dial
     ResizeComponent,
     ResizePolylineComponent,
     FileNewComponent,
-    FileNewDialogComponent
+    FileNewDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
