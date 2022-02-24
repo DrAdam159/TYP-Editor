@@ -314,4 +314,71 @@ export class Bitmap {
             }
         }
     }
+
+    drawHorizontalLines(patternColor: Color): void {
+        for(let x = 0; x < this.width; x++) {
+            for(let y = 0; y < this.height; y++) { 
+                if (x % 2 == 0) {
+                    this.setPixel(x, y, patternColor);
+                }
+            }
+        }
+    }
+
+    drawVerticalLines(patternColor: Color): void {
+        for(let x = 0; x < this.width; x++) {
+            for(let y = 0; y < this.height; y++) { 
+                if (y % 2 == 0) {
+                    this.setPixel(x, y, patternColor);
+                }
+            }
+        }
+    }
+
+    drawDiagonalLinesLeft(patternColor: Color, step: number): void {
+        for(let x = 0; x < this.height; x+=step) { 
+            for (let y = 0; y < this.width; y++) {
+                if(y < this.width && x < this.height) {
+                    if((y + x) < this.height) {
+                        this.setPixel(y, y + x, patternColor);
+                    } 
+                }
+            }
+            
+            for (let y = 0; y < this.width; y++) {
+                if(y < this.width && x < this.height) {
+                    if((y + x) < this.width) {
+                        this.setPixel(y + x, y, patternColor);
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    drawDiagonalLinesRight(patternColor: Color, step: number): void {
+        for(let x = 0; x < this.height; x+=step) { 
+            for (let y = 0; y < this.width; y++) {
+                if(y < this.width && x < this.height) {
+                    if((y + x) < this.height) {
+                        this.setPixel(this.width - y -1, y + x, patternColor);
+                    } 
+                }
+            }
+            
+            for (let y = 0; y < this.width; y++) {
+                if(y < this.width && x < this.height) {
+                    if((this.width - x -y -1) >= 0) {
+                        this.setPixel(this.width - x -y -1, y, patternColor);
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    drawDiamond(patternColor: Color, step: number): void {
+        this.drawDiagonalLinesLeft(patternColor, step);
+        this.drawDiagonalLinesRight(patternColor, step);
+    }
 }

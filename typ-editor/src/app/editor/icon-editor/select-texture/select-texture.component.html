@@ -15,26 +15,72 @@
       <mat-card class="example-card" (click)="select(effectResult.ChessBoard)" [ngClass]="{'highlight-tile': highlightTile(effectResult.ChessBoard)}">
         <mat-card-title-group>
           <mat-card-title>Chess Pattern</mat-card-title>
-          <mat-card-subtitle>Extra large</mat-card-subtitle>
+          <mat-card-subtitle>Chess Board</mat-card-subtitle>
           <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
                             [darken]= "false" [effect]= "effectResult.ChessBoard"  [effectColor]= "patternColor">
           </app-bitmap-canvas>
         </mat-card-title-group>
         <mat-card-content>
-          {{longText}}
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example-card" (click)="select(effectResult.Horizontal)" [ngClass]="{'highlight-tile': highlightTile(effectResult.Horizontal)}">
+        <mat-card-title-group>
+          <mat-card-title>Line Pattern</mat-card-title>
+          <mat-card-subtitle>Horizontal</mat-card-subtitle>
+          <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
+                            [darken]= "false" [effect]= "effectResult.Horizontal"  [effectColor]= "patternColor">
+          </app-bitmap-canvas>
+        </mat-card-title-group>
+        <mat-card-content>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example-card" (click)="select(effectResult.Vertical)" [ngClass]="{'highlight-tile': highlightTile(effectResult.Vertical)}">
+        <mat-card-title-group>
+          <mat-card-title>Line Pattern</mat-card-title>
+          <mat-card-subtitle>Vertical large</mat-card-subtitle>
+          <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
+                            [darken]= "false" [effect]= "effectResult.Vertical"  [effectColor]= "patternColor">
+          </app-bitmap-canvas>
+        </mat-card-title-group>
+        <mat-card-content>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example-card" (click)="select(effectResult.DiagonalLeft)" [ngClass]="{'highlight-tile': highlightTile(effectResult.DiagonalLeft)}">
+        <mat-card-title-group>
+          <mat-card-title>Diagonal Pattern</mat-card-title>
+          <mat-card-subtitle>Left</mat-card-subtitle>
+          <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
+                            [darken]= "false" [effect]= "effectResult.DiagonalLeft"  [effectColor]= "patternColor">
+          </app-bitmap-canvas>
+        </mat-card-title-group>
+        <mat-card-content>
         </mat-card-content>
       </mat-card>
 
       <mat-card class="example-card" (click)="select(effectResult.DiagonalRight)" [ngClass]="{'highlight-tile': highlightTile(effectResult.DiagonalRight)}">
         <mat-card-title-group>
-          <mat-card-title>Chess Pattern</mat-card-title>
-          <mat-card-subtitle>Extra large</mat-card-subtitle>
+          <mat-card-title>Diagonal Pattern</mat-card-title>
+          <mat-card-subtitle>Right</mat-card-subtitle>
           <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
-                            [darken]= "false" [effect]= "effectResult.ChessBoard"  [effectColor]= "patternColor">
+                            [darken]= "false" [effect]= "effectResult.DiagonalRight"  [effectColor]= "patternColor">
           </app-bitmap-canvas>
         </mat-card-title-group>
         <mat-card-content>
-          {{longText}}
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example-card" (click)="select(effectResult.Diamond)" [ngClass]="{'highlight-tile': highlightTile(effectResult.Diamond)}">
+        <mat-card-title-group>
+          <mat-card-title>Diamond Pattern</mat-card-title>
+          <mat-card-subtitle>Diamond Shape</mat-card-subtitle>
+          <app-bitmap-canvas [drawableItem]="icon" [scaleValue]="bitmapScale" 
+                            [darken]= "false" [effect]= "effectResult.Diamond"  [effectColor]= "patternColor">
+          </app-bitmap-canvas>
+        </mat-card-title-group>
+        <mat-card-content>
         </mat-card-content>
       </mat-card>
   

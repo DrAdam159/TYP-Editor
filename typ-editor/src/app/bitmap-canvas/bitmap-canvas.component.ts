@@ -90,29 +90,107 @@ export class BitmapCanvasComponent implements AfterViewInit, OnChanges {
         case Effects.ChessBoard:
           this.drawChestBoard();
           break;
+        case Effects.Horizontal:
+          this.drawHorizontal();
+          break;
+        case Effects.Vertical:
+          this.drawVertical();
+          break;
+        case Effects.DiagonalLeft:
+          this.drawDiagonalLeft();
+          break;
+        case Effects.DiagonalRight:
+          this.drawDiagonalRight();
+          break;
+        case Effects.Diamond:
+          this.drawDiamond();
+          break;
       }
     }
   }
 
   drawChestBoard(): void {
-    this.context = this.myCanvas.nativeElement.getContext('2d');
     if(this.context) {
       const bmp = this.drawableItem.asBitmap(true);
-      this.context.canvas.width = bmp.width * this.scaleValue;
-      this.context.canvas.height = bmp.height * this.scaleValue;
       for(let y = 0; y < bmp.height; y++) {
         for(let x = 0; x < bmp.width; x++) {
-          if ( (x + y) % 2 == 0){
+          if ( (x + y) % 2 == 0) {
             this.context.fillStyle =  this.effectColor;
+            this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
+            this.context.stroke();
           }
-          else {
-            this.context.fillStyle =  bmp.getPixelColor(x, y).toRgba();
-          }
-          this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
-          this.context.stroke();
         }
       }
     }
+  }
+
+  drawHorizontal(): void {
+    if(this.context) {
+      const bmp = this.drawableItem.asBitmap(true);
+      for(let y = 0; y < bmp.height; y++) {
+        for(let x = 0; x < bmp.width; x++) {
+          if (x % 2 == 0) {
+            this.context.fillStyle =  this.effectColor;
+            this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
+            this.context.stroke();
+          }
+        }
+      }
+    }
+  }
+
+  drawVertical(): void {
+    if(this.context) {
+      const bmp = this.drawableItem.asBitmap(true);
+      for(let y = 0; y < bmp.height; y++) {
+        for(let x = 0; x < bmp.width; x++) {
+          if (y % 2 == 0) {
+            this.context.fillStyle =  this.effectColor;
+            this.context.fillRect(x *this.scaleValue, y *this.scaleValue, this.scaleValue, this.scaleValue);
+            this.context.stroke();
+          }
+        }
+      }
+    }
+  }
+
+  drawDiagonalLeft(step: number = 4): void {
+    if(this.context) {
+      const bmp = this.drawableItem.asBitmap(true);
+      this.context.fillStyle =  this.effectColor;
+      for (let x = 0; x < bmp.height; x+=step) {
+        for(let y = 0; y < bmp.width; y++) {
+          this.context.fillRect((y) *this.scaleValue, (y + x) *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
+        }
+        for(let y = 0; y < bmp.width; y++) {
+          this.context.fillRect((y + x) *this.scaleValue, (y) *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
+        }
+      }  
+    }
+  }
+
+  drawDiagonalRight(step: number = 4): void {
+    if(this.context) {
+      const bmp = this.drawableItem.asBitmap(true);
+      this.context.fillStyle = this.effectColor;
+      for (let x = 0; x < bmp.height; x+=step) {
+        for(let y = 0; y < bmp.width; y++) {
+          this.context.fillRect((bmp.width - y -1) *this.scaleValue, (y + x) *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
+        }
+        for(let y = 0; y < bmp.width; y++) {
+          this.context.fillRect((bmp.width - x -y -1) *this.scaleValue, (y) *this.scaleValue, this.scaleValue, this.scaleValue);
+          this.context.stroke();
+        }
+      }  
+    }
+  }
+
+  drawDiamond(): void {
+    this.drawDiagonalLeft(8);
+    this.drawDiagonalRight(8);
   }
 
 

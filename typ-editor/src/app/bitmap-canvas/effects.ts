@@ -1,5 +1,8 @@
 export enum Effects{
     ChessBoard,
     DiagonalRight,
-    DiagonalLeft
+    DiagonalLeft,
+    Horizontal,
+    Vertical,
+    Diamond,
 }

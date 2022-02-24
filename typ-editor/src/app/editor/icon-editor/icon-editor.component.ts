@@ -1349,8 +1349,22 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       if(result != undefined) {
         switch(result) {
           case Effects.ChessBoard:
-            console.log('ChessBoard');
             this.itemBitmap.drawChessBoard(new Color(this.color));
+            break;
+          case Effects.Horizontal:
+            this.itemBitmap.drawHorizontalLines(new Color(this.color));
+            break;
+          case Effects.Vertical:
+            this.itemBitmap.drawVerticalLines(new Color(this.color));
+            break;
+          case Effects.DiagonalLeft:
+            this.itemBitmap.drawDiagonalLinesLeft(new Color(this.color), 4);
+            break;
+          case Effects.DiagonalRight:
+            this.itemBitmap.drawDiagonalLinesRight(new Color(this.color), 4);
+            break;
+          case Effects.Diamond:
+            this.itemBitmap.drawDiamond(new Color(this.color), 8);
             break;
           default:
             console.log('undefined effect');
