@@ -6,7 +6,9 @@
     margin-top: 10px;
     margin-left: 1em;
     margin-right: 1em;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+    max-height: 500px;
+    max-width: 1300px;
  }
 
  canvas {
@@ -22,6 +24,13 @@
 .item-1 {
     background-color: white;
     text-align:center;
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.item-2 {
+    background-color: white;
+    text-align:center;
 }
 
 .item-4 {
@@ -30,8 +39,7 @@
 }
 
 .item-6 {
-    color: 
-    black;
+    color: black;
     text-transform: uppercase;
 }
 
@@ -61,4 +69,12 @@ h5 {
     display: block;
     overflow: auto;
     max-height: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+.caption-h1 {
+    padding-top: 1rem;
 }

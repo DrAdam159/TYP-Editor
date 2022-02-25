@@ -1,33 +1,59 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { MtxProgressType } from '@ng-matero/extensions/progress';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
 import { FileService } from '../services/file.service';
+
+export interface Icon {
+  iconType: string;
+  totalCount: number;
+  nightIconCount: number;
+  bitmapCount: number;
+}
 
 @Component({
   selector: 'main-page-header',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
+
 export class MainPageComponent implements OnInit {
 
   loadedFile: boolean;
 
   fileHeader!: Header;
   fileName: string;
+  fileSize: string;
 
   poiCount: number;
   polylineCount: number;
   polygoneCount: number;
+
+  creationDate: string;
+
+  displayedColumns: string[] = ['iconType', 'totalCount', 'nightIconCount', 'bitmapCount'];
+  tableData: Array<Icon>;
+  
 
   public pieChartOptions: ChartConfiguration['options'];
   public pieChartData: ChartData<'pie', number[], string | string[]>;
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
 
+  public doughnutChartLabels: string[] = [ 'Used Space', 'Empty Space'];
+  public doughnutChartData: ChartData<'doughnut'> = {
+    labels: this.doughnutChartLabels,
+    datasets: [
+      { data: [ 5, 100] },
+    ]
+  };
+  public doughnutChartType: ChartType = 'doughnut';
+
   constructor(private fileService: FileService, private titleService: Title) {
     this.titleService.setTitle('Main Page');
+    this.tableData = new Array();
     if(this.fileService.getFileName() != '') {
       this.fileHeader = this.fileService.getHeader();
       this.fileName = this.fileService.getFileName();
@@ -35,6 +61,9 @@ export class MainPageComponent implements OnInit {
       this.polylineCount = this.fileService.getPolylineList().length;
       this.polygoneCount = this.fileService.getPolygoneList().length;
       this.loadedFile = true;
+      this.fileSize = (this.fileService.getFileSize() / (1024)).toFixed(2);
+      this.fillTableData();
+      this.creationDate = this.fileHeader.creationDate.toLocaleString();
     }
     else {
       this.loadedFile = false;
@@ -42,6 +71,8 @@ export class MainPageComponent implements OnInit {
       this.poiCount = 0;
       this.polylineCount = 0;
       this.polygoneCount = 0;
+      this.fileSize = "0";
+      this.creationDate = "";
     }
       // Pie
     this.pieChartOptions = {
@@ -83,6 +114,54 @@ export class MainPageComponent implements OnInit {
         data: [ this.poiCount, this.polygoneCount, this.polylineCount ]
       } ]
     };
+  }
+
+  fillTableData(): void {
+    this.polylineStats();
+    this.polygoneStats();
+    this.poiStats();
+  }
+
+  polylineStats(): void {
+    let nightCount = 0;
+    let bitmapCount = 0;
+    this.fileService.getPolylineList().forEach(element => {
+      if(element.bitmapDay) {
+        bitmapCount++;
+      }
+      if(element.bitmapNight || element.colNightColor.length != 0) {
+        nightCount++;
+      }
+    });
+    this.tableData.push({iconType: 'Polyline', totalCount: this.polylineCount, nightIconCount: nightCount, bitmapCount: bitmapCount});
+  }
+
+  polygoneStats(): void {
+    let nightCount = 0;
+    let bitmapCount = 0;
+    this.fileService.getPolygoneList().forEach(element => {
+      if(element.bitmapDay) {
+        bitmapCount++;
+      }
+      if(element.bitmapNight || element.colNightColor.length != 0) {
+        nightCount++;
+      }
+    });
+    this.tableData.push({iconType: 'Polygone', totalCount: this.polygoneCount, nightIconCount: nightCount, bitmapCount: bitmapCount});
+  }
+
+  poiStats(): void {
+    let nightCount = 0;
+    let bitmapCount = 0;
+    this.fileService.getPolygoneList().forEach(element => {
+      if(element.bitmapDay) {
+        bitmapCount++;
+      }
+      if(element.bitmapNight || element.colNightColor.length != 0) {
+        nightCount++;
+      }
+    });
+    this.tableData.push({iconType: 'POI', totalCount: this.poiCount, nightIconCount: nightCount, bitmapCount: this.poiCount});
   }
 
 }

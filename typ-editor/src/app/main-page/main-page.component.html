@@ -5,7 +5,10 @@
         fxLayoutAlign="start"
         fxLayoutWrap="wrap">
         <div class="item item-1" fxFlex="100%">
-            <h1>File Info:</h1>
+            <h1>
+                <mat-icon class="text-icon">bar_chart</mat-icon>
+                File DashBoard
+            </h1>
         </div>
     </div>
 
@@ -14,25 +17,37 @@
         fxLayout.xs="column"
         fxLayoutAlign="space-between"
         >
-        <div fxFlex="40%" class="item-6 item-1">
+        <div fxFlex="30%" class="item-6 item-1">
             <div
             fxLayout.xs="column"
             fxLayout="row wrap"
             fxLayoutAlign="space-around"
             fxFlex="100%">
-            <div class="item item-1" fxFlex="100%">
+            <div class="item item-2" fxFlex="100%">
                 <mat-icon class="icon">info</mat-icon>
             </div>
             <div class="item item-4" fxFlex="100%">
                 <h5>
                     <mat-icon class="text-icon">calendar_today</mat-icon>
-                    Created at: {{fileHeader.creationDate | json}}
+                    Created at: {{creationDate}}
+                </h5>
+            </div>
+            <div class="item item-4" fxFlex="100%">
+                <h5>
+                    <mat-icon class="text-icon">code</mat-icon>
+                    CodePage: {{fileHeader.Codepage | json}}
+                </h5>
+            </div>
+            <div class="item item-4" fxFlex="100%">
+                <h5>
+                    <mat-icon class="text-icon">badge</mat-icon>
+                    Family ID: {{fileHeader.familyID}}
                 </h5>
             </div>
             <div class="item item-7" fxFlex="100%">
                 <h5>
                     <mat-icon class="text-icon">vpn_key</mat-icon>
-                    CodePage: {{fileHeader.Codepage | json}}
+                    Product Code: {{fileHeader.productCode}}
                 </h5>
             </div>
         </div>
@@ -41,8 +56,13 @@
             fxLayout.xs="column"
             fxLayout="row wrap"
             fxLayoutAlign="space-around"
-            fxFlex="60%">
-            <div class="item item-1" fxFlex="100%"><h1>{{fileName}}</h1></div>
+            fxFlex="30%">
+            <div class="item item-1" fxFlex="100%">
+                <h1 class="caption-h1">
+                    <mat-icon class="text-icon">badge</mat-icon>
+                    {{fileName}}
+                </h1>
+            </div>
             <div class="item item-1" fxFlex="100%">
                 <div class="chart">
                 <canvas baseChart
@@ -53,8 +73,66 @@
                 </canvas>
                 </div>
             </div>
+            
+        </div>
+        <div
+            fxLayout.xs="column"
+            fxLayout="row wrap"
+            fxLayoutAlign="space-around"
+            fxFlex="60%">
+            <div class="item item-1" fxFlex="100%">
+                <h1 class="caption-h1">
+                    <mat-icon class="text-icon">save</mat-icon>
+                    FILE SIZE:
+                    {{' ' + fileSize + 'KB'}}
+                </h1>
+                <!-- <div class="item item-4" fxFlex="100%">
+                    <div style="max-width: 120px">
+                        <canvas baseChart
+                          [data]="doughnutChartData"
+                  
+                          [type]="doughnutChartType">
+                        </canvas>
+                      </div>
+                </div> -->
+            </div>
+            <div class="item item-1" fxFlex="100%">
+                <table mat-table [dataSource]="tableData" class="mat-elevation-z0">
+                  
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="iconType">
+                      <th mat-header-cell *matHeaderCellDef> Icon Type </th>
+                      <td mat-cell *matCellDef="let element"> {{element.iconType}} </td>
+                    </ng-container>
+                  
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="totalCount">
+                      <th mat-header-cell *matHeaderCellDef> Total Count </th>
+                      <td mat-cell *matCellDef="let element"> {{element.totalCount}} </td>
+                    </ng-container>
+                  
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="nightIconCount">
+                      <th mat-header-cell *matHeaderCellDef> With Night Icon </th>
+                      <td mat-cell *matCellDef="let element"> {{element.nightIconCount}} </td>
+                    </ng-container>
+                  
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="bitmapCount">
+                      <th mat-header-cell *matHeaderCellDef> With Bitmap </th>
+                      <td mat-cell *matCellDef="let element"> {{element.bitmapCount}} </td>
+                    </ng-container>
+
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  
+            </div>
+            
         </div>
     </div>
+    
 </div>
 
 
