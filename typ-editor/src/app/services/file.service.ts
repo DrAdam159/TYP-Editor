@@ -29,6 +29,7 @@ export class FileService {
 
   fileName: string;
   typFile!: TypFile;
+  fileSize: number;
 
   public notify = new BehaviorSubject<any>('');
   notifyObservable$ = this.notify.asObservable();
@@ -36,6 +37,7 @@ export class FileService {
 
   constructor() {
     this.fileName = "";
+    this.fileSize = 0;
   }
 
   public notifyOther(data: any) {
@@ -55,8 +57,10 @@ export class FileService {
   setFile(typFile: TypFile, fileName: string, buffer: ArrayBuffer): void {
     this.typFile = typFile;
     this.fileName = fileName;
+    this.fileSize = buffer.byteLength;
     localStorage.setItem('file', this.arrayBufferToBase64(buffer));
     localStorage.setItem('filename', fileName);
+    localStorage.setItem('filesize', this.fileSize.toString());
   }
 
   updateFile(): void {
@@ -474,6 +478,15 @@ export class FileService {
     }
     this.fileName = localStorage.getItem('filename') || "";
     return this.fileName;
+  }
+
+  getFileSize(): number {
+    if(this.fileSize) {
+      return this.fileSize;
+    }
+    const size = localStorage.getItem('filesize') || "";
+    this.fileSize = ~~size;
+    return this.fileSize;
   }
 
   getPolylineList(): Array<Polyline> {
