@@ -34,26 +34,29 @@ export class FileUploadComponent implements OnInit {
 
     if (this.fileToUpload) {
       this.fileName = this.fileToUpload.name;
+      const fileExtension = this.fileName.split('.').pop()?.toLowerCase()
+      // console.log(fileExtension);
+      if(fileExtension == "typ" ) {
+        var reader = new FileReader();
+        //cteni pomoci readAsArrayBuffer, aby na binarni data nebyl aplikovan encoding
+        reader.readAsArrayBuffer(this.fileToUpload);
 
-      var reader = new FileReader();
-      //cteni pomoci readAsArrayBuffer, aby na binarni data nebyl aplikovan encoding
-      reader.readAsArrayBuffer(this.fileToUpload);
+        reader.onload = () => {
+          var buffer = reader.result as ArrayBuffer;
+          var view = new DataView(buffer);
+          console.log(buffer);
+          
 
-      reader.onload = () => {
-        var buffer = reader.result as ArrayBuffer;
-        var view = new DataView(buffer);
-        console.log(buffer);
-        
+          this.typFile = new TypFile(view);
+          this.fileService.setFile(this.typFile, this.fileName, buffer);
+          this.refreshAnotherComponent();
+          this.router.navigate(['']);
+        };
 
-        this.typFile = new TypFile(view);
-        this.fileService.setFile(this.typFile, this.fileName, buffer);
-        this.refreshAnotherComponent();
-        this.router.navigate(['']);
-      };
-
-      reader.onerror = () => {
-        console.log(reader.error);
-      };
+        reader.onerror = () => {
+          console.log(reader.error);
+        };
+      }
     }
     
   }
