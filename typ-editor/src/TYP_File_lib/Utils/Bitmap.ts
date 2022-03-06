@@ -90,9 +90,9 @@ export class Bitmap {
 
     getDistance(currentColor: Color, matchColor: Color): number {
 
-        let redDifference: number = currentColor.r - matchColor.r;
-        let greenDifference: number = currentColor.g - matchColor.g; 
-        let blueDifference: number = currentColor.b - matchColor.b; 
+        const redDifference: number = currentColor.r - matchColor.r;
+        const greenDifference: number = currentColor.g - matchColor.g; 
+        const blueDifference: number = currentColor.b - matchColor.b; 
 
         return redDifference * redDifference +
                 greenDifference * greenDifference + 
@@ -100,7 +100,7 @@ export class Bitmap {
     }
 
     findNearestColor(color: Color, pallet: ColorPallet): number {
-        let shortestDistance: number = 99999999;
+        let shortestDistance: number = Number.MAX_SAFE_INTEGER;
         let index: number = -1;
 
         for(let i = 0; i < pallet.colors.length; i++) {
