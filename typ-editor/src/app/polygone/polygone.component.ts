@@ -29,7 +29,7 @@ export class PolygoneComponent implements OnInit {
     if(this.fileService.getPolygoneList()) {
       this.polygoneList = this.fileService.getPolygoneList();
     }
-    this.scaleValue = 40;
+    this.scaleValue = 25;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
     this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
     this.delete = false;

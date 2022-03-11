@@ -29,7 +29,7 @@ export class PoiComponent implements OnInit {
     if(this.fileService.getPOIList()) {
       this.poiList = this.fileService.getPOIList();
     }
-    this.scaleValue = 40;
+    this.scaleValue = 25;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
     this.bitmapScale = (25 / 100 * this.scaleValue) | 0;
     this.delete = false;
