@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -24,6 +24,11 @@ export class PolylineComponent implements OnInit {
   delete: boolean;
   selectedItems: Array<GraphicElement>;
 
+  // @ViewChild('iconGrid')
+  // myIdentifier!: ElementRef;
+
+  tileHeight: string;
+
   constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router, private titleService: Title) { 
     this.titleService.setTitle('Polylines');
     if(this.fileService.getPOIList()) {
@@ -32,9 +37,23 @@ export class PolylineComponent implements OnInit {
     this.scaleValue = 25;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
     this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
+    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 25) + 'px';
     this.delete = false;
     this.selectedItems = new Array();
   }
+
+  // ngAfterViewInit(): void {
+  //   const width = this.myIdentifier.nativeElement.offsetWidth;
+  //   const height = this.myIdentifier.nativeElement.offsetHeight;
+  //   console.log('Width:' + width);
+  //   console.log('Height: ' + height);
+  //   this.tileHeight = (height / this.gridCols + 50) + 'px';
+  // }
+
+  onResize() {
+    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 25) + 'px';
+  }
+  
 
   ngOnInit(): void {
     this.fileService.notifyObservable$.subscribe(res => {

@@ -68,5 +68,5 @@ mat-grid-tile div {
 
 .tile-content{
     height: 100%;
-    padding-top: calc(100% - 50px);
+    padding-top: calc(100% - 25px);
 }

@@ -24,6 +24,8 @@ export class PoiComponent implements OnInit {
   delete: boolean;
   selectedItems: Array<GraphicElement>;
 
+  tileHeight: string;
+
   constructor(private fileService: FileService, private matDialog: MatDialog, private router: Router, private titleService: Title) { 
     this.titleService.setTitle('POIs');
     if(this.fileService.getPOIList()) {
@@ -32,8 +34,13 @@ export class PoiComponent implements OnInit {
     this.scaleValue = 25;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
     this.bitmapScale = (25 / 100 * this.scaleValue) | 0;
+    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 25) + 'px';
     this.delete = false;
     this.selectedItems = new Array();
+  }
+
+  onResize() {
+    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 25) + 'px';
   }
 
   ngOnInit(): void {
