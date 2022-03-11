@@ -1405,6 +1405,17 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  getInverseColor(colorToInvert: string): string {
+    const currentColor = new Color(colorToInvert);
+    currentColor.r = 255 - currentColor.r;
+    currentColor.g = 255 - currentColor.g;
+    currentColor.b = 255 - currentColor.b;
+  
+    return currentColor.toHex();
+  }
 }
+
+
 
 

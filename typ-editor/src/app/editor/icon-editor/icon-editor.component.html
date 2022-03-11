@@ -150,7 +150,7 @@
       <div class="color-limit">
         <mat-form-field>
           <mat-label>Color picker</mat-label>
-          <input matInput [(ngModel)]="color" [mtxColorpicker]="picker" (colorChange)="setColor()" [style.color]="color">
+          <input matInput [(ngModel)]="color" [mtxColorpicker]="picker" (colorChange)="setColor()" >
           <mtx-colorpicker-toggle matSuffix [for]="picker" [style.color]="color"></mtx-colorpicker-toggle>
           <mtx-colorpicker #picker [style.color]="color" ></mtx-colorpicker>
           <mat-hint>Choose your favorite color</mat-hint>
@@ -160,7 +160,7 @@
     
       <div *ngIf="limitColors" class="color-limit">
         <mat-button-toggle-group>
-          <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" value={{i}} (click) = "updateColorPicker(colorVal, i)">Color {{i}}</mat-button-toggle>
+          <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" [style.color]="getInverseColor(colorVal)" value={{i}} (click) = "updateColorPicker(colorVal, i)">Color {{i}}</mat-button-toggle>
         </mat-button-toggle-group>
         <div [ngClass]="darkMode  ? 'dark-icon' : ''">Selected color: {{selectedColorIndex}}</div>
       </div>
