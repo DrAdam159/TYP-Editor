@@ -70,6 +70,9 @@ export class TypFile {
                 this.PolylineList.push(p);
             }
         }
+        else {
+            this.PolylineList = new Array<Polyline>();
+        }
     }
 
     decodePOIData(view: DataView) {
@@ -89,6 +92,9 @@ export class TypFile {
                 p.read(reader, this.header.Codepage);
                 this.POIList.push(p);
             }
+        }
+        else {
+            this.POIList = new Array<POI>();
         }
     }
 
@@ -136,6 +142,9 @@ export class TypFile {
                  }
                 this.PolygonList.push(p);
             }
+        }
+        else {
+            this.PolygonList = new Array<Polygon>();
         }
     }
 
@@ -301,10 +310,7 @@ export class TypFile {
                     return a.key - b.key;
                 });
             }
-        }
-
-        
-        console.log(tempDrawOrderList);            
+        }           
 
         this.header.PolygoneDraworderTableBlock.recordSize = 5;
         this.header.PolygoneDraworderTableBlock.offset = writer.getPosition();
