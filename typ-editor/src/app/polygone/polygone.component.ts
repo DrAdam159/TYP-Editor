@@ -33,8 +33,8 @@ export class PolygoneComponent implements OnInit {
     }
     this.scaleValue = 25;
     this.gridCols = (3 / this.scaleValue * 100) | 0;
-    this.bitmapScale = (20 / 100 * this.scaleValue) | 0;
-    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 25) + 'px';
+    this.bitmapScale = (15 / 100 * this.scaleValue) | 0;
+    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 50) + 'px';
     this.delete = false;
     this.selectedItems = new Array();
   }
@@ -43,7 +43,7 @@ export class PolygoneComponent implements OnInit {
   }
 
   onResize() {
-    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 25) + 'px';
+    this.tileHeight = ((window.innerWidth - 200)  / this.gridCols + 50) + 'px';
   }
 
   openEditor(polygoneItem: Polygon, tabIndex: number): void {
