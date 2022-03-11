@@ -1,10 +1,10 @@
 <div class="editor">
   
   <mat-tab-group [(selectedIndex)]="selectedTab"> 
-      <mat-tab label="Icon editor (Day)">
+      <mat-tab label="Day Icon">
         <app-icon-editor [iconType]="'Day'" [notifier]="childNotifier" (unsavedChangesEvent)="setDayIconState($event)"></app-icon-editor>
       </mat-tab>
-      <mat-tab label="Icon editor (Night)">
+      <mat-tab label="Night Icon">
         <app-icon-editor [iconType]="'Night'" [notifier]="childNotifier" (unsavedChangesEvent)="setNightIconState($event)"></app-icon-editor>
       </mat-tab>
       <mat-tab label="Description editor"> 
