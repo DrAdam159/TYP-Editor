@@ -4,14 +4,14 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
-import { KeyValuePair } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Multitext';
+import { KeyValuePair, LanguageCode } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Multitext';
 import { FileService } from '../services/file.service';
 
 
 export interface ItemData {
   type: string;
   icon: GraphicElement;
-  description: KeyValuePair[];
+  description: Map<string, string>;
 }
 
 
@@ -21,7 +21,7 @@ export interface ItemData {
   styleUrls: ['./icon-descriptions.component.css']
 })
 export class IconDescriptionsComponent implements AfterViewInit {
-  displayedColumns: string[] = ['type', 'icon', 'description'];
+  displayedColumns: string[] /*= ['type', 'icon', 'description']*/;
   dataSource: MatTableDataSource<ItemData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -29,19 +29,22 @@ export class IconDescriptionsComponent implements AfterViewInit {
 
   file: TypFile;
   bitmapScale: number;
+  languages: string[];
+  languageCodes: number[];
 
   constructor(private fileService: FileService) {
-    // Create 100 users
-    //const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-
-    // Assign the data to the data source for the table to render
-    //this.dataSource = new MatTableDataSource(users);
 
     this.file = this.fileService.getFile();
-    this.bitmapScale = 5;
+    this.bitmapScale = 2;
+
+    this.languages = this.fileService.getLanguages();
+    this.languageCodes = this.fileService.getLanguageCodes();
 
     const tableData = this.getTableData();
     this.dataSource = new MatTableDataSource(tableData);
+
+    // this.languages = this.getLanguages();
+    this.displayedColumns = ['type', 'icon'].concat(this.languages);
   }
 
   ngAfterViewInit() {
@@ -60,31 +63,47 @@ export class IconDescriptionsComponent implements AfterViewInit {
 
   getTableData(): ItemData[] {
     const data = new Array<ItemData>();
-    this.file.POIList.forEach(element => {
-      data.push({
-        type: element.type + " | " + element.subtype,
-        icon: element,
-        description: element.text.textArr
-      });
-    });
 
-    this.file.PolygonList.forEach(element => {
-      data.push({
-        type: element.type + " | " + element.subtype,
-        icon: element,
-        description: element.text.textArr
+    this.file.PolygonList.forEach(polygone => {
+      const map = new Map();
+      polygone.text.textArr.forEach(element => {
+        map.set(LanguageCode[element.key], element.value);
       });
-    });
-
-    this.file.PolylineList.forEach(element => {
       data.push({
-        type: element.type + " | " + element.subtype,
-        icon: element,
-        description: element.text.textArr
+        type: polygone.type + " | " + polygone.subtype,
+        icon: polygone,
+        description: map 
       });
-    });
+    }); 
 
+    this.file.POIList.forEach(poi => {
+      const map = new Map();
+      poi.text.textArr.forEach(element => {
+        map.set(LanguageCode[element.key], element.value);
+      });
+      data.push({
+        type: poi.type + " | " + poi.subtype,
+        icon: poi,
+        description: map 
+      });
+    });  
+
+    this.file.PolylineList.forEach(polyline => {
+      const map = new Map();
+      polyline.text.textArr.forEach(element => {
+        map.set(LanguageCode[element.key], element.value);
+      });
+      data.push({
+        type: polyline.type + " | " + polyline.subtype,
+        icon: polyline,
+        description: map 
+      });
+    });  
     return data;
+  }
+
+  getSmth(language: string): string {
+    return language;
   }
 
 }
