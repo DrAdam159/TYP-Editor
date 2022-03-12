@@ -8,6 +8,7 @@ import { PolygoneComponent } from './polygone/polygone.component';
 import { PolygoneDraworderSortComponent } from './polygone-draworder-sort/polygone-draworder-sort.component';
 import { OptionsComponent } from './options/options.component';
 import { CanDeactivateGuard } from './guards/can-deactivate.guard';
+import { IconDescriptionsComponent } from './icon-descriptions/icon-descriptions.component';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'polyline', component: PolylineComponent},
   {path: 'polygone', component: PolygoneComponent},
   {path: 'draworder', component: PolygoneDraworderSortComponent},
+  {path: 'descriptions', component: IconDescriptionsComponent},
   {path: 'options', component: OptionsComponent}
 ];
 

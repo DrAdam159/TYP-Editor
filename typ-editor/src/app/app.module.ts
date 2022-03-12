@@ -30,6 +30,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -69,6 +70,7 @@ import { FileNewDialogComponent } from './file-new/file-new-dialog/file-new-dial
 import { ConfirmationDialogComponent } from './editor/confirmation-dialog/confirmation-dialog.component';
 import { SelectTextureComponent } from './editor/icon-editor/select-texture/select-texture.component';
 import { SelectColorFilterComponent } from './editor/icon-editor/select-color-filter/select-color-filter.component';
+import { IconDescriptionsComponent } from './icon-descriptions/icon-descriptions.component';
 
 
 @NgModule({
@@ -100,7 +102,8 @@ import { SelectColorFilterComponent } from './editor/icon-editor/select-color-fi
     FileNewDialogComponent,
     ConfirmationDialogComponent,
     SelectTextureComponent,
-    SelectColorFilterComponent
+    SelectColorFilterComponent,
+    IconDescriptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -138,7 +141,8 @@ import { SelectColorFilterComponent } from './editor/icon-editor/select-color-fi
     MatRadioModule,
     MatBadgeModule,
     MatCheckboxModule,
-    MatCardModule
+    MatCardModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
