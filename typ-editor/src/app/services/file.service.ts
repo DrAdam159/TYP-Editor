@@ -13,6 +13,7 @@ import { Text } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Text';
 import { ColorPallet } from 'src/TYP_File_lib/ColorPallets/ColorPallet';
 import { pallet256, pallet64, pallet16 } from 'src/TYP_File_lib/ColorPallets/GarminColorPallets';
 import { Palettes } from 'src/TYP_File_lib/ColorPallets/Palettes';
+import { LanguageCode } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Multitext';
 
 enum Fontdata {
   Default = 0x0,
@@ -536,6 +537,69 @@ export class FileService {
       this.getFile();
     }
     return this.typFile.POIList.find(x => x.type === type && x.subtype == subType) || new POI(0,0);
+  }
+
+  getLanguages(): string[] {
+    const languageCodes = this.getLanguageCodes();
+    const data = new Array<string>();
+    // this.typFile.POIList.forEach(element => {
+    //   element.text.textArr.forEach(text => {
+    //     if(!(languageCodes.some(e => e === text.key))) {
+    //       languageCodes.push(text.key);
+    //     }
+    //   });
+    // });
+
+    // this.typFile.PolygonList.forEach(element => {
+    //   element.text.textArr.forEach(text => {
+    //     if(!(languageCodes.some(e => e === text.key))) {
+    //       languageCodes.push(text.key);
+    //     }
+    //   });
+    // });
+
+    // this.typFile.PolylineList.forEach(element => {
+    //   element.text.textArr.forEach(text => {
+    //     if(!(languageCodes.some(e => e === text.key))) {
+    //       languageCodes.push(text.key);
+    //     }
+    //   });
+    // });
+
+    languageCodes.forEach(element => {
+      data.push(LanguageCode[element]);
+    });
+
+    return data;
+  }
+
+  getLanguageCodes(): number[] {
+    const languageCodes = new Array<number>();
+    this.typFile.POIList.forEach(element => {
+      element.text.textArr.forEach(text => {
+        if(!(languageCodes.some(e => e === text.key))) {
+          languageCodes.push(text.key);
+        }
+      });
+    });
+
+    this.typFile.PolygonList.forEach(element => {
+      element.text.textArr.forEach(text => {
+        if(!(languageCodes.some(e => e === text.key))) {
+          languageCodes.push(text.key);
+        }
+      });
+    });
+
+    this.typFile.PolylineList.forEach(element => {
+      element.text.textArr.forEach(text => {
+        if(!(languageCodes.some(e => e === text.key))) {
+          languageCodes.push(text.key);
+        }
+      });
+    });
+
+    return languageCodes;
   }
 
   arrayBufferToBase64( buffer: ArrayBuffer ) {
