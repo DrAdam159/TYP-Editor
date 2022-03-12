@@ -1,7 +1,7 @@
 import { BinReaderWriter } from "src/TYP_File_lib/Utils/BinReaderWriter";
 import { Text } from "./Text";
 
-enum LanguageCode {
+export enum LanguageCode {
     unspecified = 0x00,
     french = 0x01,
     german = 0x02,
@@ -39,7 +39,7 @@ enum LanguageCode {
     bulgarian = 0x22
  }
 
-interface KeyValuePair {
+export interface KeyValuePair {
     key: LanguageCode;
     value: string;
 }
