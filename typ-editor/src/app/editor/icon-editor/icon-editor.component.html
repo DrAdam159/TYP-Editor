@@ -75,15 +75,15 @@
             <mat-icon>palette</mat-icon>
           </ng-template>
         </mat-button-toggle>
-        <mat-button-toggle value="no tool" [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" aria-label="Text align right" (click) = "toggleTextPanel()"
+        <mat-button-toggle value="text" [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" aria-label="Text align right" (click) = "toggleTextPanel()"
         #tooltip="matTooltip" matTooltip="Insert Text" [matTooltipPosition]="'right'"  >
           <mat-icon>text_fields</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle value="no tool" [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" aria-label="Text align right" (click) = "selectTexture()"
+        <mat-button-toggle value="texture" [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" aria-label="Text align right" (click) = "selectTexture()"
         #tooltip="matTooltip" matTooltip="Apply Texture" [matTooltipPosition]="'right'"  >
           <mat-icon>texture</mat-icon>
         </mat-button-toggle>
-        <mat-button-toggle value="no tool" aria-label="Text align right" (click) = "selectColorFilter()"
+        <mat-button-toggle value="color" aria-label="Text align right" (click) = "selectColorFilter()"
         #tooltip="matTooltip" matTooltip="Apply Color Filter " [matTooltipPosition]="'right'"  >
           <mat-icon>blur_linear</mat-icon>
         </mat-button-toggle>

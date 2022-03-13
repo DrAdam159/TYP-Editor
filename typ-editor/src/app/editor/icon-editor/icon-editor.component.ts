@@ -263,6 +263,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.mouseUpSub.unsubscribe();
     }
     this.textToolActive = false;
+    this.panelOpenState = false;
   }
 
   useBrush(): void {
@@ -321,6 +322,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   }
 
   insertText(): void {
+    this.toolOptions.setValue("text");
     if(!this.textToolActive) {
       this.stopToolUse();
       this.textToolActive = true;
@@ -973,6 +975,9 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   updateColorPicker(colorVal: string, index: number): void {
     this.color = colorVal;
     this.selectedColorIndex = index;
+    if(this.textToolActive) {
+      this.insertTextToCanvas();
+    }
   }
 
   drawUnscaledImage(): void {
@@ -1335,6 +1340,7 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
       this.setStateOfChanges(true);
       this.stopToolUse();
       this.panelOpenState = false;
+      this.toolOptions.setValue("");
     }
   }
 
