@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { MtxProgressType } from '@ng-matero/extensions/progress';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
@@ -35,6 +36,7 @@ export class MainPageComponent implements OnInit {
 
   displayedColumns: string[] = ['iconType', 'totalCount', 'nightIconCount', 'bitmapCount'];
   tableData: Array<Icon>;
+  dataSource: MatTableDataSource<Icon>;
   
 
   public pieChartOptions: ChartConfiguration['options'];
@@ -62,8 +64,9 @@ export class MainPageComponent implements OnInit {
       this.polygoneCount = this.fileService.getPolygoneList().length;
       this.loadedFile = true;
       this.fileSize = (this.fileService.getFileSize() / (1024)).toFixed(2);
-      this.fillTableData();
       this.creationDate = this.fileHeader.creationDate.toLocaleString();
+      this.fillTableData();
+      this.dataSource = new MatTableDataSource(this.tableData);
     }
     else {
       this.loadedFile = false;
@@ -73,6 +76,7 @@ export class MainPageComponent implements OnInit {
       this.polygoneCount = 0;
       this.fileSize = "0";
       this.creationDate = "";
+      this.dataSource = new MatTableDataSource(this.tableData);
     }
       // Pie
     this.pieChartOptions = {
@@ -107,6 +111,9 @@ export class MainPageComponent implements OnInit {
     this.poiCount = this.fileService.getPOIList().length;
     this.polylineCount = this.fileService.getPolylineList().length;
     this.polygoneCount = this.fileService.getPolygoneList().length;
+    this.fileSize = (this.fileService.getFileSize() / (1024)).toFixed(2);
+    this.creationDate = this.fileHeader.creationDate.toLocaleString();
+    this.updateTableData();
 
     this.pieChartData = {
       labels: [  'POIs', 'Polygones', 'Polylines' ],
@@ -114,6 +121,12 @@ export class MainPageComponent implements OnInit {
         data: [ this.poiCount, this.polygoneCount, this.polylineCount ]
       } ]
     };
+  }
+
+  updateTableData(): void {
+    this.tableData.splice(0, this.tableData.length);
+    this.fillTableData();
+    this.dataSource = new MatTableDataSource([...this.tableData]);
   }
 
   fillTableData(): void {
