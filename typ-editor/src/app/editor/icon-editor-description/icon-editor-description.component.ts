@@ -175,6 +175,7 @@ export class IconEditorDescriptionComponent implements OnInit {
 
    this.fileService.notifyObservable$.subscribe(res => {
     if (res.refresh) {
+      console.log('update table');
        this.updateTableData();
     }
   })
@@ -190,7 +191,7 @@ export class IconEditorDescriptionComponent implements OnInit {
     this.tableData.splice(0, this.tableData.length);
     this.createTableData();
     this.dataSource = new MatTableDataSource([...this.tableData]);
-    this.table.renderRows();
+    //this.table.renderRows();
     this.changeState(true);
   }
 
