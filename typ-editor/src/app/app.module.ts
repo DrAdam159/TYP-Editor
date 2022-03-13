@@ -72,6 +72,7 @@ import { ConfirmationDialogComponent } from './editor/confirmation-dialog/confir
 import { SelectTextureComponent } from './editor/icon-editor/select-texture/select-texture.component';
 import { SelectColorFilterComponent } from './editor/icon-editor/select-color-filter/select-color-filter.component';
 import { IconDescriptionsComponent } from './icon-descriptions/icon-descriptions.component';
+import { EditDescriptionComponent } from './icon-descriptions/edit-description/edit-description.component';
 
 
 @NgModule({
@@ -104,7 +105,8 @@ import { IconDescriptionsComponent } from './icon-descriptions/icon-descriptions
     ConfirmationDialogComponent,
     SelectTextureComponent,
     SelectColorFilterComponent,
-    IconDescriptionsComponent
+    IconDescriptionsComponent,
+    EditDescriptionComponent
   ],
   imports: [
     BrowserModule,
