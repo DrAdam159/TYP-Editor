@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Title } from '@angular/platform-browser';
 import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { KeyValuePair, LanguageCode } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Multitext';
@@ -14,6 +15,7 @@ export interface ItemData {
   type: string;
   icon: GraphicElement;
   description: Map<string, string>;
+  iconScale: number;
 }
 
 
@@ -35,10 +37,12 @@ export class IconDescriptionsComponent implements AfterViewInit {
   languageCodes: number[];
   tableData: ItemData[];
 
-  constructor(private fileService: FileService, private matDialog: MatDialog) {
+  constructor(private fileService: FileService, private matDialog: MatDialog, private titleService: Title) {
+
+    this.titleService.setTitle('Descriptions');
 
     this.file = this.fileService.getFile();
-    this.bitmapScale = 2;
+    this.bitmapScale = 1;
 
     this.languages = this.fileService.getLanguages();
     this.languageCodes = this.fileService.getLanguageCodes();
@@ -75,7 +79,8 @@ export class IconDescriptionsComponent implements AfterViewInit {
       data.push({
         type: polygone.type + " | " + polygone.subtype,
         icon: polygone,
-        description: map 
+        description: map,
+        iconScale: 1 
       });
     }); 
 
@@ -87,7 +92,8 @@ export class IconDescriptionsComponent implements AfterViewInit {
       data.push({
         type: poi.type + " | " + poi.subtype,
         icon: poi,
-        description: map 
+        description: map,
+        iconScale: 2  
       });
     });  
 
@@ -99,7 +105,8 @@ export class IconDescriptionsComponent implements AfterViewInit {
       data.push({
         type: polyline.type + " | " + polyline.subtype,
         icon: polyline,
-        description: map 
+        description: map,
+        iconScale: 2  
       });
     });  
     return data;
@@ -114,7 +121,8 @@ export class IconDescriptionsComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.tableData = this.getTableData();
-      this.dataSource = new MatTableDataSource(this.tableData);
+      this.dataSource = new MatTableDataSource([...this.tableData]);
+      this.dataSource.paginator = this.paginator;
     });
   }
 

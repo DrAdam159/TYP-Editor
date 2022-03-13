@@ -15,7 +15,7 @@
         <ng-container matColumnDef="icon">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Icon </th>
             <td mat-cell *matCellDef="let row"> 
-                <app-bitmap-canvas  [drawableItem]="row.icon" [scaleValue]="bitmapScale"></app-bitmap-canvas>
+                <app-bitmap-canvas  [drawableItem]="row.icon" [scaleValue]="row.iconScale"></app-bitmap-canvas>
             </td>
         </ng-container>
 
@@ -40,7 +40,7 @@
         </tr>
         </table>
     
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator>
     </div>
 </div>
 
