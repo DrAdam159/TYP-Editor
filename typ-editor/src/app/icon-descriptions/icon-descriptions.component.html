@@ -18,19 +18,14 @@
                 <app-bitmap-canvas  [drawableItem]="row.icon" [scaleValue]="bitmapScale"></app-bitmap-canvas>
             </td>
         </ng-container>
-    
-        <!-- <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-            <td mat-cell *matCellDef="let row"> {{row.description | json}} </td>
-        </ng-container> -->
 
         <ng-container *ngFor="let language of languages" matColumnDef={{language}}>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{language}} </th>
             <td mat-cell *matCellDef="let row">
                 <div *ngIf="!row.description.get(language)">
-                    <a href="">none</a>
+                    <a (click)="editDescription(row.icon, language)">none</a>
                 </div>
-                <a href="">{{row.description.get(language)}}</a>
+                <a (click)="editDescription(row.icon, language)">{{row.description.get(language)}}</a>
             </td>
         </ng-container>
 

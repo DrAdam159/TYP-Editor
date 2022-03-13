@@ -16,5 +16,10 @@ table {
 }
 
 td, th {
-    width: 25%;
+    width: 15%;
+}
+
+a {
+    text-decoration: underline;
+    cursor: pointer;
 }

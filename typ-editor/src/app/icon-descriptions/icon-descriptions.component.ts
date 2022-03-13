@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +7,7 @@ import { TypFile } from 'src/TYP_File_lib/TypFile';
 import { GraphicElement } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/GraphicElement';
 import { KeyValuePair, LanguageCode } from 'src/TYP_File_lib/TypFile_blocks/GeneralDataBlocks/Multitext';
 import { FileService } from '../services/file.service';
+import { EditDescriptionComponent } from './edit-description/edit-description.component';
 
 
 export interface ItemData {
@@ -31,8 +33,9 @@ export class IconDescriptionsComponent implements AfterViewInit {
   bitmapScale: number;
   languages: string[];
   languageCodes: number[];
+  tableData: ItemData[];
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService, private matDialog: MatDialog) {
 
     this.file = this.fileService.getFile();
     this.bitmapScale = 2;
@@ -40,8 +43,8 @@ export class IconDescriptionsComponent implements AfterViewInit {
     this.languages = this.fileService.getLanguages();
     this.languageCodes = this.fileService.getLanguageCodes();
 
-    const tableData = this.getTableData();
-    this.dataSource = new MatTableDataSource(tableData);
+    this.tableData = this.getTableData();
+    this.dataSource = new MatTableDataSource(this.tableData);
 
     // this.languages = this.getLanguages();
     this.displayedColumns = ['type', 'icon'].concat(this.languages);
@@ -102,8 +105,17 @@ export class IconDescriptionsComponent implements AfterViewInit {
     return data;
   }
 
-  getSmth(language: string): string {
-    return language;
+  editDescription(item: GraphicElement, language: string): void {
+    const dialogRef = this.matDialog.open( EditDescriptionComponent, {
+      data: {
+        item: item,
+        language: language,
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.tableData = this.getTableData();
+      this.dataSource = new MatTableDataSource(this.tableData);
+    });
   }
 
 }
