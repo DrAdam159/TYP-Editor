@@ -738,20 +738,35 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
                             (curCoordinates.y - centerCoordinates.y) * (curCoordinates.y - centerCoordinates.y)
     );
 
-    let top = Math.floor(centerCoordinates.y - radius),
-        bottom =  Math.ceil(centerCoordinates.y + radius),
-        left   = Math.floor(centerCoordinates.x - radius),
-        right  =  Math.ceil(centerCoordinates.x + radius);
+    // let top = Math.floor(centerCoordinates.y - radius),
+    //     bottom =  Math.ceil(centerCoordinates.y + radius),
+    //     left   = Math.floor(centerCoordinates.x - radius),
+    //     right  =  Math.ceil(centerCoordinates.x + radius);
+
+    // this.changedPixels.splice(0, this.changedPixels.length);
+    // this.updateBitmap();
+
+    // for (let y = top; y <= bottom; y++) {
+    //     for (let x = left; x <= right; x++) {
+    //         if (this.inside_circle(centerCoordinates, { x: x, y: y }, radius)) {
+    //           this.drawColorCell2(x * this.scaleNum, y * this.scaleNum);
+    //         }
+    //     }
+    // }
 
     this.changedPixels.splice(0, this.changedPixels.length);
     this.updateBitmap();
 
+    const top = Math.floor(centerCoordinates.y - radius),
+         bottom =  Math.ceil(centerCoordinates.y + radius);
     for (let y = top; y <= bottom; y++) {
-        for (let x = left; x <= right; x++) {
-            if (this.inside_circle(centerCoordinates, { x: x, y: y }, radius)) {
-              this.drawColorCell2(x * this.scaleNum, y * this.scaleNum);
-            }
-        }
+      const dy  = y - centerCoordinates.y;
+      const dx  = Math.sqrt(radius*radius - dy*dy);
+      const left  = Math.ceil(centerCoordinates.x - dx),
+          right = Math.floor(centerCoordinates.x + dx);
+      for (let x = left; x <= right; x++) {
+        this.drawColorCell2(x * this.scaleNum, y * this.scaleNum);
+      }
     }
   }  
 
