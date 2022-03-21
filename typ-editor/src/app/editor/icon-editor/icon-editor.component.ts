@@ -15,6 +15,7 @@ import { ResizePolylineComponent } from './resize-polyline/resize-polyline.compo
 import { SelectTextureComponent } from './select-texture/select-texture.component';
 import { Effects } from 'src/app/bitmap-canvas/effects';
 import { SelectColorFilterComponent } from './select-color-filter/select-color-filter.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -110,7 +111,8 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
   textToolActive: boolean = false;
   textCoordinates: {x: number, y: number} = {x: 20, y: 200};
   
-  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, private matDialog: MatDialog) {
+  constructor(private fileService: FileService, private Activatedroute: ActivatedRoute, 
+    private matDialog: MatDialog, private snackBar: MatSnackBar) {
     this.iconType = "Day";
     this.scaleNum = 20;
     this.undoQuery = new Array();
@@ -1434,6 +1436,12 @@ export class IconEditorComponent implements OnInit, AfterViewInit {
     currentColor.b = 255 - currentColor.b;
   
     return currentColor.toHex();
+  }
+
+  isToolActive(message: string, action: string): void {
+    if(!this.mouseSub || this.mouseSub.closed) {
+      this.snackBar.open(message, action);
+    }
   }
 }
 

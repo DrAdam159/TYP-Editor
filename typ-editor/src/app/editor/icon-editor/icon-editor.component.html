@@ -113,7 +113,7 @@
     <div *ngIf="drawableItem" class="canvas-container">
       <div *ngIf="dayOrNightMode; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
-          <canvas #canvas class="canvas" (contextmenu)="onRightClick($event)"></canvas>
+          <canvas #canvas class="canvas" (contextmenu)="onRightClick($event)" (click)="isToolActive('NO ACTIVE TOOL', 'CLOSE')"></canvas>
           
         </ng-template>
         <ng-template #elseBlock>
