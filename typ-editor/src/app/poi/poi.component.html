@@ -53,7 +53,12 @@
                         </mat-grid-tile-header>
                     </div>
                     <app-bitmap-canvas [drawableItem]="poi" [scaleValue]="bitmapScale" [darken]= "highlightTile(poi)"></app-bitmap-canvas>
-                    <mat-grid-tile-footer>{{poi.text.textArr[0].value | uppercase}}</mat-grid-tile-footer>
+                    <mat-grid-tile-footer>
+                        <div class="icon-text">
+                            {{poi.text.textArr[0].value | uppercase}}
+                        </div>
+                        
+                    </mat-grid-tile-footer>
                 </mat-grid-tile>
             </mat-grid-list>
         </ng-template>
@@ -64,12 +69,15 @@
                         <app-bitmap-canvas [drawableItem]="poi" [scaleValue]="bitmapScale" [darken]="false"></app-bitmap-canvas>
                     </div>
                     <mat-grid-tile-footer>
-                        {{poi.text.textArr[0].value | uppercase}}
-                        <div class="menu-icon">
-                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                <mat-icon class="menu-icon">more_vert</mat-icon>
-                            </button>
-                        </div>        
+                        <div class="icon-text">
+                            {{poi.text.textArr[0].value | uppercase}}
+                        </div>
+                        
+                        
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon >more_vert</mat-icon>
+                        </button>
+                              
                         <mat-menu #menu="matMenu">
                             <button mat-menu-item  (click)="switchToDelete()">
                             <mat-icon>delete</mat-icon>

@@ -158,14 +158,16 @@
         </mat-form-field>
       </div>
     
-      <div *ngIf="limitColors" class="color-limit">
-        <mat-button-toggle-group>
+      <div *ngIf="limitColors" class="color-limit" >
+        <mat-button-toggle-group matTooltip="Polygones can only have 2 colors.
+         Switch between these two colors to modify bitmap color." [matTooltipPosition]="'above'" >
           <mat-button-toggle *ngFor="let colorVal of colors; index as i" [style.background-color]="colorVal" [style.color]="getInverseColor(colorVal)" value={{i}} (click) = "updateColorPicker(colorVal, i)">Color {{i}}</mat-button-toggle>
         </mat-button-toggle-group>
         <div [ngClass]="darkMode  ? 'dark-icon' : ''">Selected color: {{selectedColorIndex}}</div>
       </div>
       <div class="color-limit">
-        <mat-accordion class="example-headers-align" multi>
+        <mat-accordion class="example-headers-align" multi matTooltip="List of all bitmap colors.
+         Click on a tile to select certain color as active." [matTooltipPosition]="'above'">
           <mat-expansion-panel class="color-accordion">
             <mat-expansion-panel-header>
               <mat-panel-title>

@@ -8,6 +8,12 @@ mat-grid-tile {
     cursor: pointer;
 }
 
+.icon-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;  
+}
+
 .highlight-tile {
     outline: red solid 2px;
 }
@@ -57,7 +63,6 @@ mat-slider {
 
 mat-grid-tile div {
     width: 100%;
-    text-align: right;
 }
 
 .icon-grid {
