@@ -32,6 +32,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { PolylineComponent } from './polyline/polyline.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -146,7 +147,8 @@ import { EditDescriptionComponent } from './icon-descriptions/edit-description/e
     MatCheckboxModule,
     MatCardModule,
     MatPaginatorModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
