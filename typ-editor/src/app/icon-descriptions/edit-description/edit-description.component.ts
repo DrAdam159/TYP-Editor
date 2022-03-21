@@ -35,7 +35,7 @@ export class EditDescriptionComponent implements OnInit {
       this.descriptionForm.setValue({description: description.value});
     }
     else {
-      this.descriptionForm.setValue({description: 'none'});
+      this.descriptionForm.setValue({description: ''});
     }
     
   }

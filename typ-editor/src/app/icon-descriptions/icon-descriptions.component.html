@@ -23,7 +23,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{language}} </th>
             <td mat-cell *matCellDef="let row">
                 <div *ngIf="!row.description.get(language)">
-                    <a (click)="editDescription(row.icon, language)">none</a>
+                    <!-- <a (click)="editDescription(row.icon, language)">none</a> -->
+                    <button mat-icon-button color="primary" (click)="editDescription(row.icon, language)">
+                        <mat-icon>add</mat-icon>
+                    </button>
                 </div>
                 <a (click)="editDescription(row.icon, language)">{{row.description.get(language)}}</a>
             </td>
