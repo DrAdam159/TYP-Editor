@@ -31,7 +31,9 @@
 
 .item-3 {
     background-color: #f3f1f5;
-    text-align:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .item-4 {
