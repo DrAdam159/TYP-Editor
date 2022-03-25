@@ -82,7 +82,7 @@ mat-slider {
 .icon-grid {
   display: block;
   overflow: auto;
-  max-height: 90%;
+  height: calc(100% - 140px);
 }
 
 .highlight-tile-default {

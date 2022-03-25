@@ -69,7 +69,7 @@ mat-grid-tile div {
 .icon-grid {
     display: block;
     overflow: auto;
-    max-height: 90%;
+    height: calc(100% - 120px);
 }
 
 .tile-content{
