@@ -13,11 +13,11 @@
       <mat-tab label="Type editor"> 
         <app-icon-editor-type [notifier]="childNotifier" (unsavedChangesEvent)="setTypeState($event)"></app-icon-editor-type>
       </mat-tab>
-      <mat-tab label="Raw data"> 
+      <!-- <mat-tab label="Raw data"> 
         <pre>
           {{drawableItem | json}}
         </pre>
-      </mat-tab>
+      </mat-tab> -->
   </mat-tab-group>
 
   <button mat-raised-button class="fab-main save-btn" color="primary" (click) = "saveChangesToFile()">
