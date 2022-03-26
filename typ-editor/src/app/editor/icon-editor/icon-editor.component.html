@@ -186,10 +186,10 @@
         </mat-accordion>
       </div>
 
-      <div class="color-limit">
+      <div *ngIf="panelOpenState" class="color-limit">
         <mat-accordion class="example-headers-align" multi >
           <mat-expansion-panel class="color-accordion" [expanded]="panelOpenState"  [disabled]="limitToolUse" >
-            <mat-expansion-panel-header (click) = "insertText()">
+            <mat-expansion-panel-header>
               <mat-panel-title>
                 {{'Text'}}
               </mat-panel-title>
@@ -197,7 +197,8 @@
                 <mat-icon>text_fields</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
-            
+          
+          <!-- <div *ngIf="panelOpenState"></div> -->
           <div class="text-accordion-content">
             <mat-form-field appearance="fill" class="text-accordion-content-input">
               <mat-label>Font size</mat-label>
