@@ -67,13 +67,14 @@
         </mat-button-toggle>
         <mat-button-toggle value="limit" aria-label="Text align right" [matMenuTriggerFor]="menu"
         #tooltip="matTooltip" matTooltip="Limit Colors" [matTooltipPosition]="'right'"  >
-          <div *ngIf="garminCols.warning; then thenBlock else elseBlock"></div>
+          <mat-icon>palette</mat-icon>
+          <!-- <div *ngIf="garminCols.warning; then thenBlock else elseBlock"></div>
           <ng-template #thenBlock>
             <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
           </ng-template>
           <ng-template #elseBlock>
             <mat-icon>palette</mat-icon>
-          </ng-template>
+          </ng-template> -->
         </mat-button-toggle>
         <mat-button-toggle value="text" [disabled]="limitToolUse ? 'disabled': null" [ngClass]="limitToolUse ? 'disabled-btn' : ''" aria-label="Text align right" (click) = "toggleTextPanel()"
         #tooltip="matTooltip" matTooltip="Insert Text" [matTooltipPosition]="'right'"  >
@@ -186,6 +187,62 @@
         </mat-accordion>
       </div>
 
+      <div class="color-limit">
+        <mat-accordion class="example-headers-align" multi >
+          <mat-expansion-panel class="color-accordion">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{'Garmin Palettes'}}
+              </mat-panel-title>
+              <mat-panel-description>
+                <!-- <div *ngIf="garminCols.warning; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                  <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
+                </ng-template>
+                <ng-template #elseBlock>
+                  <mat-icon>palette</mat-icon>
+                </ng-template> -->
+                <mat-icon>palette</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+          
+          <div class="text-accordion-content">
+            <button mat-menu-item (click) = "findNearestColor('Garmin16')">
+              <div *ngIf="garminCols.garmin16; then thenBlockGarmin16 else elseBlockGarmin16"></div>
+              <ng-template #thenBlockGarmin16>
+                <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
+              </ng-template>
+              <ng-template #elseBlockGarmin16>
+                <mat-icon>palette</mat-icon>
+              </ng-template>
+              <span>Garmin 16</span>
+            </button>
+            <button mat-menu-item (click) = "findNearestColor('Garmin64')">
+              <div *ngIf="garminCols.garmin64; then thenBlockGarmin64 else elseBlockGarmin64"></div>
+              <ng-template #thenBlockGarmin64>
+                <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
+              </ng-template>
+              <ng-template #elseBlockGarmin64>
+                <mat-icon>palette</mat-icon>
+              </ng-template>
+              <span>Garmin 64</span>
+            </button>
+            <button mat-menu-item (click) = "findNearestColor('Garmin256')">
+              <div *ngIf="garminCols.garmin256; then thenBlockGarmin256 else elseBlockGarmin256"></div>
+              <ng-template #thenBlockGarmin256>
+                <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
+              </ng-template>
+              <ng-template #elseBlockGarmin256>
+                <mat-icon>palette</mat-icon>
+              </ng-template>
+              <span>Garmin 256</span>
+            </button>
+          </div>
+          
+          </mat-expansion-panel> 
+        </mat-accordion>
+      </div>
+      
       <div *ngIf="panelOpenState" class="color-limit">
         <mat-accordion class="example-headers-align" multi >
           <mat-expansion-panel class="color-accordion" [expanded]="panelOpenState"  [disabled]="limitToolUse" >
@@ -220,6 +277,7 @@
           </mat-expansion-panel> 
         </mat-accordion>
       </div>
+
     </div>
 
     <div *ngIf="drawableItem" class="map-preview">
@@ -327,33 +385,36 @@
 </mat-menu>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click) = "findNearestColor('Garmin16')">
-    <div *ngIf="garminCols.garmin16; then thenBlockGarmin16 else elseBlockGarmin16"></div>
+    <mat-icon>palette</mat-icon>
+    <!-- <div *ngIf="garminCols.garmin16; then thenBlockGarmin16 else elseBlockGarmin16"></div>
     <ng-template #thenBlockGarmin16>
       <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
     </ng-template>
     <ng-template #elseBlockGarmin16>
       <mat-icon>palette</mat-icon>
-    </ng-template>
+    </ng-template> -->
     <span>Garmin 16</span>
   </button>
   <button mat-menu-item (click) = "findNearestColor('Garmin64')">
-    <div *ngIf="garminCols.garmin64; then thenBlockGarmin64 else elseBlockGarmin64"></div>
+    <mat-icon>palette</mat-icon>
+    <!-- <div *ngIf="garminCols.garmin64; then thenBlockGarmin64 else elseBlockGarmin64"></div>
     <ng-template #thenBlockGarmin64>
       <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
     </ng-template>
     <ng-template #elseBlockGarmin64>
       <mat-icon>palette</mat-icon>
-    </ng-template>
+    </ng-template> -->
     <span>Garmin 64</span>
   </button>
   <button mat-menu-item (click) = "findNearestColor('Garmin256')">
-    <div *ngIf="garminCols.garmin256; then thenBlockGarmin256 else elseBlockGarmin256"></div>
+    <mat-icon>palette</mat-icon>
+    <!-- <div *ngIf="garminCols.garmin256; then thenBlockGarmin256 else elseBlockGarmin256"></div>
     <ng-template #thenBlockGarmin256>
       <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
     </ng-template>
     <ng-template #elseBlockGarmin256>
       <mat-icon>palette</mat-icon>
-    </ng-template>
+    </ng-template> -->
     <span>Garmin 256</span>
   </button>
 </mat-menu>
