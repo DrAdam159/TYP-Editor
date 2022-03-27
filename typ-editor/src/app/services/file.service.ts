@@ -95,13 +95,20 @@ export class FileService {
     return {} as Polygon;
   }
 
-  createPOI(type: string, languageCode: number, description: string, width: number, height: number, typeList: Array<Type>): POI {
+  createPOI(type: string, languageCode: number, description: string, width: number, height: number, typeList: Array<Type>, bitmap?: Bitmap): POI {
     const typeValue = type.split('|');
     const newText: Text = new Text();
     newText.setValues(languageCode, description);
 
     const newPOI: POI = new POI(0,0);
     newPOI.createNew(newText, width, height);
+    if(bitmap && newPOI.bitmapDay) {
+      bitmap.updateColors(newPOI.bitmapDay.colorTable);
+      newPOI.bitmapDay.colorCount = newPOI.bitmapDay.colorTable.length;
+      newPOI.bitmapDay = newPOI.bitmapDay;
+      newPOI.bitmapDay.updateBitsPerPixel();
+      newPOI.bitmapDay?.data.convertBitmapToData(bitmap, newPOI.bitmapDay.colorTable);
+    }
 
     if(typeList.find(element => element.description === typeValue[0])) {
       newPOI.type = ~~typeValue[1];
@@ -113,7 +120,7 @@ export class FileService {
       }
       this.typFile.POIList.push(newPOI);
       this.updateFile();
-      return newPOI;;
+      return newPOI;
     }
 
     return {} as POI;
