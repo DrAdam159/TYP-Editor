@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FileService } from 'src/app/services/file.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Polyline } from 'src/TYP_File_lib/TypFile_blocks/Polyline';
+import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 
 enum LanguageCode {
   unspecified = 0x00,
@@ -62,10 +63,18 @@ export class AddPolylineComponent implements OnInit {
 
   descriptionForm: FormGroup;
 
+  bitmapFromImage: boolean;
+
+  fileName: string;
+
+  bitmap!: Bitmap;
+
   constructor(private fileService: FileService, private formBuilder: FormBuilder, private router: Router, private dialogRef: MatDialogRef<AddPolylineComponent>) { 
     this.typeList = new Array();
     this.filteredTypes = new Observable();
     this.languageList = new Array();
+    this.bitmapFromImage = false;
+    this.fileName = "Select Image"
     this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
 
     this.descriptionForm = this.formBuilder.group({
@@ -73,6 +82,7 @@ export class AddPolylineComponent implements OnInit {
       language: [null, [Validators.required]],
       description: ['', [Validators.required]],
       height: [null, [Validators.required]],
+      createBitmap: [],
     });
   }
 
@@ -100,7 +110,14 @@ export class AddPolylineComponent implements OnInit {
       const languageCode: number = ~~LanguageCode[this.descriptionForm.get('language')?.value];
       const height: number = this.descriptionForm.get('height')?.value;
 
-      const newPolyline: Polyline = this.fileService.createPolyline(type, languageCode, description, height, this.typeList);
+      //const newPolyline: Polyline = this.fileService.createPolyline(type, languageCode, description, height, this.typeList);
+      let newPolyline: Polyline;
+      if(this.bitmapFromImage && this.bitmap.getAllColors().length <= 2) {
+        newPolyline = this.fileService.createPolyline(type, languageCode, description, height, this.typeList, this.bitmap);
+      }
+      else {
+        newPolyline = this.fileService.createPolyline(type, languageCode, description, height,this.typeList);
+      }
   
       if(newPolyline
         && Object.keys(newPolyline).length === 0
@@ -122,5 +139,47 @@ export class AddPolylineComponent implements OnInit {
   resetForm(form: FormGroup) {
 		form.reset();
 	}
+
+  changeBitmapState(): void {
+    this.bitmapFromImage = !this.bitmapFromImage;
+  }
+
+  handleFileInput(event: any): void {
+    const file: File = event.target.files[0];
+    const img = new Image();
+    const imgCanvas: HTMLCanvasElement = document.createElement('canvas');
+    const imgCanvasCtx: CanvasRenderingContext2D | null = imgCanvas.getContext("2d");
+    
+    if (file) {
+      img.onload = () => {
+        imgCanvasCtx?.drawImage(img, 0, 0);
+        const imgData = imgCanvasCtx?.getImageData(0, 0, img.width, img.height).data;
+    
+        if(imgData) {
+          this.bitmap = new Bitmap(img.width, img.height);
+          this.bitmap.pixelArr = imgData;
+          if(this.bitmap.getAllColors().length > 2) {
+            alert('Too many colors! Select image with up to two colors.');
+            return;
+          }
+          this.fileName = file.name;
+          this.descriptionForm.patchValue({height: img.height});
+        }
+      }
+
+      var reader = new FileReader();
+
+      reader.onload = () => {
+        img.src = reader.result as string;
+        
+      };
+
+      reader.readAsDataURL(file)
+
+      reader.onerror = () => {
+        console.log(reader.error);
+      };
+    }
+  }
 
 }

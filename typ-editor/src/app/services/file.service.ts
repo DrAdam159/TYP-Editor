@@ -137,13 +137,25 @@ export class FileService {
     return {} as POI;
   }
 
-  createPolyline(type: string, languageCode: number, description: string, height: number, typeList: Array<Type>): Polyline {
+  createPolyline(type: string, languageCode: number, description: string, height: number, typeList: Array<Type>, bitmap?: Bitmap): Polyline {
     const typeValue = type.split('|');
     const newText: Text = new Text();
     newText.setValues(languageCode, description);
 
     const newPolyline: Polyline = new Polyline(0,0);
     newPolyline.createNew(newText, height);
+
+    if(bitmap) {
+      newPolyline.colDayColor = bitmap.getAllColors();
+      newPolyline.createBitmap(true);
+      newPolyline.setPolylineType();
+      if(newPolyline.bitmapDay) {
+        newPolyline.bitmapDay.width = 32;
+        newPolyline.bitmapDay.height = bitmap.height;
+        newPolyline.changeBitmapHeight(bitmap.height);
+        newPolyline.bitmapDay.data.convertBitmapToData(bitmap, newPolyline.bitmapDay.colorTable);
+      }   
+    }
 
     if(typeList.find(element => element.description === typeValue[0])) {
       newPolyline.type = ~~typeValue[1];
