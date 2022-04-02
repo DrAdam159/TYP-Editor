@@ -208,9 +208,9 @@
           
           <div class="text-accordion-content">
             <button mat-menu-item (click) = "findNearestColor('Garmin16')">
-              <div *ngIf="garminCols.garmin16; then thenBlockGarmin16 else elseBlockGarmin16"></div>
+              <div *ngIf="!garminCols.garmin16; then thenBlockGarmin16 else elseBlockGarmin16"></div>
               <ng-template #thenBlockGarmin16>
-                <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
+                <mat-icon matBadge=&check; matBadgeColor="accent">palette</mat-icon>
               </ng-template>
               <ng-template #elseBlockGarmin16>
                 <mat-icon>palette</mat-icon>
@@ -218,9 +218,9 @@
               <span>Garmin 16</span>
             </button>
             <button mat-menu-item (click) = "findNearestColor('Garmin64')">
-              <div *ngIf="garminCols.garmin64; then thenBlockGarmin64 else elseBlockGarmin64"></div>
+              <div *ngIf="!garminCols.garmin64; then thenBlockGarmin64 else elseBlockGarmin64"></div>
               <ng-template #thenBlockGarmin64>
-                <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
+                <mat-icon matBadge=&check; matBadgeColor="accent">palette</mat-icon>
               </ng-template>
               <ng-template #elseBlockGarmin64>
                 <mat-icon>palette</mat-icon>
@@ -228,9 +228,9 @@
               <span>Garmin 64</span>
             </button>
             <button mat-menu-item (click) = "findNearestColor('Garmin256')">
-              <div *ngIf="garminCols.garmin256; then thenBlockGarmin256 else elseBlockGarmin256"></div>
+              <div *ngIf="!garminCols.garmin256; then thenBlockGarmin256 else elseBlockGarmin256"></div>
               <ng-template #thenBlockGarmin256>
-                <mat-icon matBadge="!" matBadgeColor="warn">palette</mat-icon>
+                <mat-icon matBadge=&check; matBadgeColor="accent">palette</mat-icon>
               </ng-template>
               <ng-template #elseBlockGarmin256>
                 <mat-icon>palette</mat-icon>
