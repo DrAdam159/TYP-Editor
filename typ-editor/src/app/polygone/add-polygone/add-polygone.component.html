@@ -1,3 +1,4 @@
+<input type="file" class="file-input" (change)="handleFileInput($event)" #fileUpload>
 <h2 mat-dialog-title>Create New Polygone:</h2>
 <mat-dialog-content class="mat-typography">
 
@@ -36,7 +37,16 @@
           <input formControlName="description" matInput #message maxlength="256" placeholder="Parking..." >
           <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
       </mat-form-field>
+      <br>
+      <mat-checkbox color="primary" formControlName="createBitmap" (change)="changeBitmapState()">Create icon from image</mat-checkbox>
       </form>
+
+      <div *ngIf="bitmapFromImage">
+        <button mat-stroked-button  class="btn" (click)="fileUpload.click()">
+          <mat-icon>add</mat-icon>
+          {{fileName}}
+        </button>
+      </div>
    
 </mat-dialog-content>
 <mat-dialog-actions align="end">

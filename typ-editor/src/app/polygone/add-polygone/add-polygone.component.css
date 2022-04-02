@@ -31,3 +31,11 @@
 .item-5 {
     text-align: center;
 }
+
+.btn {
+  margin-top: 1rem;
+}
+
+.file-input {
+  display: none;
+}

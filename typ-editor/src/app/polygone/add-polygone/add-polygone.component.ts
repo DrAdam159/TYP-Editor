@@ -8,6 +8,7 @@ import { FileService } from 'src/app/services/file.service';
 import { polygoneTypes } from 'src/TYP_File_lib/IconTypes/PolygoneTypes';
 import { Polygon } from 'src/TYP_File_lib/TypFile_blocks/Polygon';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Bitmap } from 'src/TYP_File_lib/Utils/Bitmap';
 
 enum LanguageCode {
   unspecified = 0x00,
@@ -61,18 +62,27 @@ export class AddPolygoneComponent implements OnInit {
 
   descriptionForm: FormGroup;
 
+  bitmapFromImage: boolean;
+
+  fileName: string;
+
+  bitmap!: Bitmap;
+
 
   constructor(private fileService: FileService, private formBuilder: FormBuilder, private router: Router, private dialogRef: MatDialogRef<AddPolygoneComponent>) { 
     this.typeList = new Array();
     this.filteredTypes = new Observable();
     this.languageList = new Array();
+    this.bitmapFromImage = false;
+    this.fileName = "Select Image"
     this.languageList = Object.keys(LanguageCode).filter(key => isNaN(Number(key)));
 
     this.descriptionForm = this.formBuilder.group({
       type: ['', [Validators.required]],
       draworder: [null, [Validators.required]],
       language: [null, [Validators.required]],
-      description: ['', [Validators.required]]
+      description: ['', [Validators.required]],
+      createBitmap: [],
     });
   }
 
@@ -99,9 +109,15 @@ export class AddPolygoneComponent implements OnInit {
       const draworder = this.descriptionForm.get('draworder')?.value;
       const description = this.descriptionForm.get('description')?.value;
       const languageCode: number = ~~LanguageCode[this.descriptionForm.get('language')?.value];
-
-      const newPolygone: Polygon = this.fileService.createPolygone(type, draworder, languageCode, description, this.typeList);
       
+      let newPolygone: Polygon
+      if(this.bitmapFromImage && this.bitmap.getAllColors().length <= 2) {
+        newPolygone = this.fileService.createPolygone(type, draworder, languageCode, description, this.typeList, this.bitmap);
+      }
+      else {
+        newPolygone = this.fileService.createPolygone(type, draworder, languageCode, description, this.typeList);
+      }
+
       if(newPolygone 
         && Object.keys(newPolygone).length === 0
         && Object.getPrototypeOf(newPolygone) === Object.prototype) {
@@ -122,5 +138,46 @@ export class AddPolygoneComponent implements OnInit {
   resetForm(form: FormGroup) {
 		form.reset();
 	}
+
+  changeBitmapState(): void {
+    this.bitmapFromImage = !this.bitmapFromImage;
+  }
+
+  handleFileInput(event: any): void {
+    const file: File = event.target.files[0];
+    const img = new Image();
+    const imgCanvas: HTMLCanvasElement = document.createElement('canvas');
+    const imgCanvasCtx: CanvasRenderingContext2D | null = imgCanvas.getContext("2d");
+    
+    if (file) {
+      img.onload = () => {
+        imgCanvasCtx?.drawImage(img, 0, 0);
+        const imgData = imgCanvasCtx?.getImageData(0, 0, img.width, img.height).data;
+    
+        if(imgData) {
+          this.bitmap = new Bitmap(img.width, img.height);
+          this.bitmap.pixelArr = imgData;
+          if(this.bitmap.getAllColors().length > 2) {
+            alert('Too many colors! Select image with up to two colors.');
+            return;
+          }
+          this.fileName = file.name;
+        }
+      }
+
+      var reader = new FileReader();
+
+      reader.onload = () => {
+        img.src = reader.result as string;
+        
+      };
+
+      reader.readAsDataURL(file)
+
+      reader.onerror = () => {
+        console.log(reader.error);
+      };
+    }
+  }
 
 }

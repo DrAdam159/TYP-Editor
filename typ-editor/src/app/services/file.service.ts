@@ -70,15 +70,22 @@ export class FileService {
     console.log("saving");
   }
 
-  createPolygone(type: string, draworder: number, languageCode: number, description: string, typeList: Array<Type>): Polygon {
+  createPolygone(type: string, draworder: number, languageCode: number, description: string, typeList: Array<Type>, bitmap?: Bitmap): Polygon {
     const typeValue = type.split('|');
     const newText: Text = new Text();
     newText.setValues(languageCode, description);
 
-    //console.log(typeValue[1] + ' | ' + draworder + ' | '+ languageCode + ' | ' + description);
-
     const newPolygone: Polygon = new Polygon(0,0);
     newPolygone.createNew(draworder, newText);
+    if(bitmap) {
+      newPolygone.createBitmap(true);
+      if(newPolygone.bitmapDay) {
+        newPolygone.bitmapDay.colorTable = bitmap.getAllColors();
+        newPolygone.colDayColor = bitmap.getAllColors();
+        newPolygone.updateColorType();
+        newPolygone.bitmapDay.data.convertBitmapToData(bitmap, newPolygone.bitmapDay.colorTable);
+      }   
+    }
 
     if(typeList.find(element => element.description === typeValue[0])) {
       newPolygone.type = ~~typeValue[1];
@@ -103,11 +110,15 @@ export class FileService {
     const newPOI: POI = new POI(0,0);
     newPOI.createNew(newText, width, height);
     if(bitmap && newPOI.bitmapDay) {
+      if(bitmap.getAllColors().length > 255) {
+        bitmap.applyColorPallet('Garmin256');
+      }
       bitmap.updateColors(newPOI.bitmapDay.colorTable);
       newPOI.bitmapDay.colorCount = newPOI.bitmapDay.colorTable.length;
-      newPOI.bitmapDay = newPOI.bitmapDay;
+      console.log(newPOI.bitmapDay.colorCount);
+     // newPOI.bitmapDay = newPOI.bitmapDay;
       newPOI.bitmapDay.updateBitsPerPixel();
-      newPOI.bitmapDay?.data.convertBitmapToData(bitmap, newPOI.bitmapDay.colorTable);
+      newPOI.bitmapDay.data.convertBitmapToData(bitmap, newPOI.bitmapDay.colorTable);
     }
 
     if(typeList.find(element => element.description === typeValue[0])) {
