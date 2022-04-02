@@ -62,13 +62,15 @@ export class PolygoneDraworderSortComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      this.updateDraworder();
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+      this.updateDraworder();
+      this.fileService.updateFile();
+      //console.log(this.draworders);
     }
   }
 
@@ -79,7 +81,7 @@ export class PolygoneDraworderSortComponent implements OnInit {
 
     this.draworders.sort(function(a, b) {
       return a.draworderValue - b.draworderValue;
-  });
+    });
   }
 
   insertDraworderItem(item: Polygon): void {
