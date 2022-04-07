@@ -1,9 +1,20 @@
-.table-container {
-    display: block;
-    overflow: auto;
-    max-height: 90%;
-    padding: 1rem;
-    max-width: 80%;
+@media only screen and (max-width: 1000px) {
+    .table-container {
+        display: block;
+        overflow: auto;
+        max-height: 90%;
+        padding: 1rem;
+    }    
+}
+
+@media only screen and (min-width: 1000px) {
+    .table-container {
+        display: block;
+        overflow: auto;
+        max-height: 90%;
+        padding: 1rem;
+        max-width: 90%;
+    }    
 }
 
 table {
