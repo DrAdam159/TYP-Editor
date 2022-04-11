@@ -28,7 +28,7 @@ mat-slider {
 
 .item {
     color: #ffffff;
-    padding: 1em 1em;
+    padding: 0.5em 1em;
     text-transform: uppercase;
 }
 
@@ -77,4 +77,5 @@ mat-grid-tile div {
     /*padding-top: 40%;*/
     padding-top: calc(100% - 50px);
 }
+
 
