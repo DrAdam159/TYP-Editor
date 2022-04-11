@@ -20,6 +20,9 @@
     margin-top: 10px;
     margin-left: 1em;
     margin-right: 1em;
+    display: block;
+    overflow: auto;
+    height: 80%;
  }
 
  .item {
@@ -60,10 +63,4 @@
 
 .save-icon {
   margin-right: 0.5em;
-}
-
-.icon-grid {
-  display: block;
-  overflow: auto;
-  max-height: 100%;
 }
