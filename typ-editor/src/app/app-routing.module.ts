@@ -11,7 +11,7 @@ import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 import { IconDescriptionsComponent } from './icon-descriptions/icon-descriptions.component';
 
 const routes: Routes = [
-  {path: '', component: MainPageComponent},
+  {path: 'https://dradam159.github.io/TYP-Editor/', component: MainPageComponent},
   {path: 'home', component: MainPageComponent},
   {path: 'editor/:id/:id1/:id2/:id3', component: EditorComponent, canDeactivate: [CanDeactivateGuard]},
   {path: 'poi/editor/:id/:id1/:id2/:id3', component: EditorComponent, canDeactivate: [CanDeactivateGuard]},
