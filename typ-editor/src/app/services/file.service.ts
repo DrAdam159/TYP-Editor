@@ -47,6 +47,12 @@ export class FileService {
     }
   }
 
+ /**
+  * Metoda pro vytvoreni prazdneho souboru
+  * @param fileName - jmeno noveho souboru
+  * @param pid - product code 
+  * @param fid - family id
+  */
   createFile(fileName: string, pid: number, fid: number): void {
     this.typFile = new TypFile();
     this.typFile.header.setPID(pid);
@@ -55,6 +61,12 @@ export class FileService {
     this.updateFile();
   }
 
+  /**
+   * Metoda pro nahrani noveho souboru do aplikace
+   * @param typFile - nove nahrany soubor
+   * @param fileName - jmeno nahraneho souboru 
+   * @param buffer - pole bytu souboru
+   */
   setFile(typFile: TypFile, fileName: string, buffer: ArrayBuffer): void {
     this.typFile = typFile;
     this.fileName = fileName;
@@ -64,12 +76,25 @@ export class FileService {
     localStorage.setItem('filesize', this.fileSize.toString());
   }
 
+  /**
+   * Metoda pro aktualizaci dat souboru v ramci Local Storage
+   */
   updateFile(): void {
     localStorage.setItem('file', this.arrayBufferToBase64(this.typFile.getEncodedBuffer()));
     localStorage.setItem('filename', this.fileName);
     //console.log("saving");
   }
 
+  /**
+   * Metoda pro vytvoreni noveho prvku Polygone
+   * @param type - identifikator prvku
+   * @param draworder - uroven vykresleni prvku 
+   * @param languageCode - kodove oznaceni jazyku popisku
+   * @param description - popisek prvku
+   * @param typeList - pole prvku klic hodnota, kde ciselne oznaceni reprezentuje kod popisku a samotny popisek
+   * @param bitmap - bitmapa, ktera se ma novemu prvku nastavit
+   * @returns - nove vytvoreny prvek
+   */
   createPolygone(type: string, draworder: number, languageCode: number, description: string, typeList: Array<Type>, bitmap?: Bitmap): Polygon {
     const typeValue = type.split('|');
     const newText: Text = new Text();
@@ -102,6 +127,17 @@ export class FileService {
     return {} as Polygon;
   }
 
+  /**
+   * Metoda pro vytvoreni noveho prvku POI
+   * @param type - identifikator prvku
+   * @param languageCode - kodove oznaceni jazyku popisku
+   * @param description - popisek prvku
+   * @param width - sirka prvku
+   * @param height - vyska prvku
+   * @param typeList - pole prvku klic hodnota, kde ciselne oznaceni reprezentuje kod popisku a samotny popisek
+   * @param bitmap - bitmapa, ktera se ma novemu prvku nastavit
+   * @returns - nove vytvoreny prvek
+   */
   createPOI(type: string, languageCode: number, description: string, width: number, height: number, typeList: Array<Type>, bitmap?: Bitmap): POI {
     const typeValue = type.split('|');
     const newText: Text = new Text();
@@ -137,6 +173,16 @@ export class FileService {
     return {} as POI;
   }
 
+  /**
+   * Metoda pro vytvoreni noveho prvku Polyline
+   * @param type - identifikator prvku
+   * @param languageCode - kodove oznaceni jazyku popisku
+   * @param description - popisek prvku
+   * @param height - vyska prvku
+   * @param typeList - pole prvku klic hodnota, kde ciselne oznaceni reprezentuje kod popisku a samotny popisek
+   * @param bitmap - bitmapa, ktera se ma novemu prvku nastavit
+   * @returns - nove vytvoreny prvek
+   */
   createPolyline(type: string, languageCode: number, description: string, height: number, typeList: Array<Type>, bitmap?: Bitmap): Polyline {
     const typeValue = type.split('|');
     const newText: Text = new Text();
@@ -173,6 +219,14 @@ export class FileService {
     return {} as Polyline;
   }
 
+  /**
+   * Metoda pro aktualizaci popisku prvku
+   * @param inputValue - novy popisek ve formatu popisek|typ
+   * @param item - prvek, kteremu bude aktualizovan popisek
+   * @param typeList - pole prvku klic hodnota, kde ciselne oznaceni reprezentuje kod popisku a samotny popisek
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygone
+   * @returns 
+   */
   updateItemDescription(inputValue: string, item: GraphicElement, typeList: Array<Type>, itemType: string): boolean {
     const parsedInput = inputValue.split('|');
     switch(itemType) {
@@ -219,6 +273,15 @@ export class FileService {
     return false;
   }
 
+  /**
+   * Metoda pro aktualizaci dat prvku po editaci ikony prvku
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygone
+   * @param type - identifikator prvku
+   * @param subType - identifikator prvku
+   * @param newItem - editovany prvek
+   * @param bitmap - bitmapa ikony prvku
+   * @param dayOrNight - jedna se o denni nebo nocni ikonu?
+   */
   updateFileItem(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap, dayOrNight: boolean): void {
     if(dayOrNight){
       this.updateFileItemDay(itemType, type, subType, newItem, bitmap);
@@ -228,6 +291,15 @@ export class FileService {
     }
   }
 
+  /**
+    * Metoda pro aktualizaci dat prvku po editaci denni ikony prvku
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygone
+   * @param type - identifikator prvku
+   * @param subType - identifikator prvku
+   * @param newItem - editovany prvek
+   * @param bitmap - bitmapa ikony prvku
+   * @param convertToBitmap - je potreba prevest ikonu prvku na bitmapu?
+   */
   updateFileItemDay(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap, convertToBitmap: boolean = false): void {
     switch(itemType) {
       case 'polygone':
@@ -308,6 +380,15 @@ export class FileService {
     newItem.bitmapDay?.data.convertBitmapToData(bitmap, newItem.bitmapDay.colorTable);
   }
 
+  /**
+   * Metoda pro aktualizaci dat prvku po editaci nocni ikony prvku
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygone
+   * @param type - identifikator prvku
+   * @param subType - identifikator prvku
+   * @param newItem - editovany prvek
+   * @param bitmap - bitmapa ikony prvku
+   * @param convertToBitmap - je potreba prevest ikonu prvku na bitmapu?
+   */
   updateFileItemNight(itemType: string, type: number, subType: number, newItem: GraphicElement, bitmap: Bitmap, convertToBitmap: boolean = false): void {
     //console.log('saving night icon');
     switch(itemType) {
@@ -395,6 +476,12 @@ export class FileService {
     newItem.bitmapNight?.data.convertBitmapToData(bitmap, newItem.bitmapNight.colorTable);
   }
 
+  /**
+   * Metoda pro spojeni prvku z jineho TYP souboru
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygone
+   * @param items - pole prvku ke spojeni
+   * @param fileToMerge - soubor, ze ktereho se prvky pripojuji
+   */
   mergeItems(itemType: string, items: Array<GraphicElement>, fileToMerge: TypFile): void {
     switch(itemType) {
       case 'polyline':
@@ -422,6 +509,11 @@ export class FileService {
     this.updateFile();
   }
 
+  /**
+   * Metoda pro odstraneni prvku ze souboru
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygone
+   * @param items - prvky k odstraneni
+   */
   deleteItems(itemType: string, items: Array<GraphicElement>): void {
     switch(itemType) {
       case 'polyline':
@@ -443,6 +535,15 @@ export class FileService {
     this.updateFile();
   }
 
+  /**
+   * Metoda pro nastaveni fontu a barvy fontu prvku
+   * @param dayColor - barva pro denni reprezentaci fontu
+   * @param nightColor - barva pro nocni reprezentaci fontu
+   * @param fontType - typ fontu
+   * @param item - editovany prvek
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygon
+   * @param hasFontColors - je zapotrebi pridat nastaveni fontu nebo jej odebrat?
+   */
   setFont(dayColor: Color, nightColor: Color, fontType: Fontdata, item: GraphicElement, itemType: string, hasFontColors: boolean): void {
     item.colFontColour.splice(0, item.colFontColour.length);
     if(hasFontColors) {
@@ -475,6 +576,11 @@ export class FileService {
     }
   }
 
+  /**
+   * Metoda pro odebrani fontu prvku
+   * @param itemType - o jaky prvek se jedna - POI / Polyline / Polygon
+   * @param item - editovany prvek
+   */
   removeFont(itemType: string, item: GraphicElement): void {
     switch(itemType) {
       case 'polyline':
@@ -489,10 +595,18 @@ export class FileService {
     }
   }
 
+  /**
+   * Metoda pro omezeni barev ikony dle preddefinovanych Garmin palet
+   * @param paletteType - typ barvne palety
+   */
   limitColorPallete(paletteType: Palettes): void {
     this.typFile.applyColorPalette(paletteType);
   }
 
+  /**
+   * Metoda pro ziskani aktualne nahraneho TYP souboru do aplikce
+   * @returns - aktualne nahrany soubor
+   */
   getFile(): TypFile {
     if(this.typFile) {
       return this.typFile;
@@ -503,6 +617,10 @@ export class FileService {
     return this.typFile;
   }
 
+  /**
+   * Metoda pro ziskani jmena aktualne nahraneho souboru
+   * @returns - jmeno souboru
+   */
   getFileName(): string {
     if(this.fileName) {
       return this.fileName;
@@ -511,6 +629,10 @@ export class FileService {
     return this.fileName;
   }
 
+  /**
+   * Metoda pro ziskani velikosti aktualne nahraneho souboru
+   * @returns - velikost souboru v bytech
+   */
   getFileSize(): number {
     if(this.fileSize) {
       return this.fileSize;
@@ -520,6 +642,10 @@ export class FileService {
     return this.fileSize;
   }
 
+  /**
+   * Metoda pro ziskani vsech prvku Polyline z aktualniho souboru
+   * @returns - list vsech Polyline prvku
+   */
   getPolylineList(): Array<Polyline> {
     if(!this.typFile) {
       this.getFile();
@@ -527,6 +653,10 @@ export class FileService {
     return this.typFile.PolylineList;
   }
 
+  /**
+   * Metoda pro ziskani vsech prvku POI z aktualniho souboru
+   * @returns - list vsech POI prvku
+   */
   getPOIList(): Array<POI> {
     if(!this.typFile) {
       this.getFile();
@@ -534,6 +664,10 @@ export class FileService {
     return this.typFile.POIList;
   }
 
+  /**
+   * Metoda pro ziskani vsech prvku Polygone z aktualniho souboru
+   * @returns - list vsech Polygone prvku
+   */
   getPolygoneList(): Array<Polygon> {
     if(!this.typFile) {
       this.getFile();
@@ -541,6 +675,10 @@ export class FileService {
     return this.typFile.PolygonList;
   }
 
+  /**
+   * Metoda pro ziskani hlavicky aktualne nahraneho souboru
+   * @returns - hlavicka souboru
+   */
   getHeader(): Header {
     if(!this.typFile) {
       this.getFile();
@@ -548,6 +686,12 @@ export class FileService {
     return this.typFile.header;
   }
 
+  /**
+   * Metoda pro ziskani konkretniho prvku Polyline
+   * @param type - identifikator prvku
+   * @param subType - identifikator prvku
+   * @returns - hledany prvek, pokud byl nalezen
+   */
   getPolyline(type: number, subType: number): Polyline {
     if(!this.typFile) {
       this.getFile();
@@ -555,6 +699,12 @@ export class FileService {
     return this.typFile.PolylineList.find(x => x.type === type && x.subtype == subType) || new Polyline(0,0);
   }
 
+  /**
+   * Metoda pro ziskani konkretniho prvku Polygone
+   * @param type - identifikator prvku
+   * @param subType - identifikator prvku
+   * @returns - hledany prvek, pokud byl nalezen
+   */
   getPolygone(type: number, subType: number): Polygon {
     if(!this.typFile) {
       this.getFile();
@@ -562,6 +712,12 @@ export class FileService {
     return this.typFile.PolygonList.find(x => x.type === type && x.subtype == subType) || new Polygon(0,0);
   }
 
+  /**
+   * Metoda pro ziskani konkretniho prvku POI
+   * @param type - identifikator prvku
+   * @param subType - identifikator prvku
+   * @returns - hledany prvek, pokud byl nalezen
+   */
   getPOI(type: number, subType: number): POI {
     if(!this.typFile) {
       this.getFile();
@@ -569,6 +725,10 @@ export class FileService {
     return this.typFile.POIList.find(x => x.type === type && x.subtype == subType) || new POI(0,0);
   }
 
+  /**
+   * Metoda pro ziskani vsech jazyku, ktere jsou pouzity pro popisky prvku
+   * @returns - pole nalezenych jazyku
+   */
   getLanguages(): string[] {
     const languageCodes = this.getLanguageCodes();
     const data = new Array<string>();
@@ -603,6 +763,10 @@ export class FileService {
     return data;
   }
 
+  /**
+   * Metoda pro ziskani vsech kodu jazyku, ktere jsou pouzity pro popisky prvku
+   * @returns - pole kodu jazyku
+   */
   getLanguageCodes(): number[] {
     const languageCodes = new Array<number>();
     this.typFile.POIList.forEach(element => {
@@ -632,6 +796,11 @@ export class FileService {
     return languageCodes;
   }
 
+  /**
+   * Metoda pro prevod bufferu bytu na znaky pomoci Base64
+   * @param buffer - pole bytu
+   * @returns - zakodovane pole
+   */
   arrayBufferToBase64( buffer: ArrayBuffer ) {
     let binary = '';
     const bytes = new Uint8Array( buffer );
@@ -642,6 +811,11 @@ export class FileService {
     return window.btoa( binary );
   }
 
+  /**
+   * Metoda pro prevod pole znaku na pole bytu
+   * @param base64 - data pro prevod
+   * @returns - prevedena data jako pole bytu
+   */
   base64ToArrayBuffer(base64: string) {
     var binary_string = window.atob(base64);
     var len = binary_string.length;
@@ -652,6 +826,10 @@ export class FileService {
     return bytes.buffer;
   }
 
+  /**
+   * Metoda pro zapis dat zeditovaneho souboru
+   * @returns - data souboru jako pole bytu
+   */
   getBLOB(): Blob {
     if(!this.typFile) {
       if(!(this.getFile())) {
