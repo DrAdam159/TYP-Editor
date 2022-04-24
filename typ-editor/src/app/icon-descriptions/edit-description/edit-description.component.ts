@@ -56,7 +56,7 @@ export class EditDescriptionComponent implements OnInit {
       tempText.setValues(parseInt(enumKey), description);
       this.item.text.set(tempText);
       this.fileService.updateFile();
-      console.log(this.item.text);
+      //console.log(this.item.text);
     } else {
       this.resetForm(this.descriptionForm);
       alert('Invalid data!');

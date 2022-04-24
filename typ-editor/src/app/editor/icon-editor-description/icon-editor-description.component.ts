@@ -175,7 +175,7 @@ export class IconEditorDescriptionComponent implements OnInit {
 
    this.fileService.notifyObservable$.subscribe(res => {
     if (res.refresh) {
-      console.log('update table');
+      //console.log('update table');
        this.updateTableData();
     }
   })

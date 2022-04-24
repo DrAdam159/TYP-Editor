@@ -58,13 +58,13 @@ export class GridSelectComponent implements OnInit {
 
   select(item: GraphicElement): void {
     if(this.selectedItems.find(x => x.type === item.type && x.subtype == item.subtype)) {
-      console.log('remove');
+      //console.log('remove');
       this.selectedItems = this.selectedItems.filter(x => x.type + '' + x.subtype  != item.type + '' + x.subtype);
     }
     else {
       this.selectedItems.push(item);
     }  
-    console.log(this.selectedItems);
+    //console.log(this.selectedItems);
   }
 
   mergeItems(): void{

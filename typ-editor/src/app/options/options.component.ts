@@ -45,7 +45,7 @@ export class OptionsComponent implements OnInit {
   saveChangesToFile(): void {
     this.fileHeader.productCode = this.options.get('pid')?.value;
     this.fileHeader.familyID = this.options.get('fid')?.value;
-    console.log(~~this.options.get('colorPalette')?.value);
+    //console.log(~~this.options.get('colorPalette')?.value);
     this.fileService.limitColorPallete(~~this.options.get('colorPalette')?.value);
     this.fileService.updateFile();
     this.router.navigate(['']);
