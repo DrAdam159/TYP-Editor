@@ -9,30 +9,32 @@
       <mat-icon>home</mat-icon>
       Main Page
     </a>
-    <a mat-list-item routerLink="/polyline" routerLinkActive="list-item-active">
-      <mat-icon>route</mat-icon>
-      Polylines
-    </a>
-    <a mat-list-item routerLink="/poi" routerLinkActive="list-item-active">
-      <mat-icon>place</mat-icon>
-      POIs
-    </a>
-    <a mat-list-item routerLink="/polygone" routerLinkActive="list-item-active">
-      <mat-icon>map</mat-icon>
-      Polygones
-    </a>
-    <a mat-list-item routerLink="/draworder" routerLinkActive="list-item-active">
-      <mat-icon>flip_to_front</mat-icon>
-      Draworder
-    </a>
-    <a mat-list-item routerLink="/descriptions" routerLinkActive="list-item-active">
-      <mat-icon>description</mat-icon>
-      Descriptions
-    </a>
-    <a mat-list-item routerLink="/options" routerLinkActive="list-item-active">
-      <mat-icon>settings</mat-icon>
-      Settings
-    </a>
+    <div *ngIf="disabledLink()">
+      <a mat-list-item routerLink="/polyline" routerLinkActive="list-item-active">
+        <mat-icon>route</mat-icon>
+        Polylines
+      </a>
+      <a mat-list-item routerLink="/poi" routerLinkActive="list-item-active">
+        <mat-icon>place</mat-icon>
+        POIs
+      </a>
+      <a mat-list-item routerLink="/polygone" routerLinkActive="list-item-active">
+        <mat-icon>map</mat-icon>
+        Polygones
+      </a>
+      <a mat-list-item routerLink="/draworder" routerLinkActive="list-item-active">
+        <mat-icon>flip_to_front</mat-icon>
+        Draworder
+      </a>
+      <a mat-list-item routerLink="/descriptions" routerLinkActive="list-item-active">
+        <mat-icon>description</mat-icon>
+        Descriptions
+      </a>
+      <a mat-list-item routerLink="/options" routerLinkActive="list-item-active">
+        <mat-icon>settings</mat-icon>
+        Settings
+      </a>
+    </div>  
   </mat-nav-list>
   </mat-sidenav>
   
