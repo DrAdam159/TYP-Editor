@@ -74,6 +74,7 @@ import { SelectTextureComponent } from './editor/icon-editor/select-texture/sele
 import { SelectColorFilterComponent } from './editor/icon-editor/select-color-filter/select-color-filter.component';
 import { IconDescriptionsComponent } from './icon-descriptions/icon-descriptions.component';
 import { EditDescriptionComponent } from './icon-descriptions/edit-description/edit-description.component';
+import { NoFileDialogComponent } from './main-page/no-file-dialog/no-file-dialog.component';
 
 
 @NgModule({
@@ -107,7 +108,8 @@ import { EditDescriptionComponent } from './icon-descriptions/edit-description/e
     SelectTextureComponent,
     SelectColorFilterComponent,
     IconDescriptionsComponent,
-    EditDescriptionComponent
+    EditDescriptionComponent,
+    NoFileDialogComponent
   ],
   imports: [
     BrowserModule,

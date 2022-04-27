@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { MtxProgressType } from '@ng-matero/extensions/progress';
@@ -6,6 +7,7 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Header } from 'src/TYP_File_lib/TypFile_blocks/Header';
 import { FileService } from '../services/file.service';
+import { NoFileDialogComponent } from './no-file-dialog/no-file-dialog.component';
 
 export interface Icon {
   iconType: string;
@@ -53,7 +55,7 @@ export class MainPageComponent implements OnInit {
   };
   public doughnutChartType: ChartType = 'doughnut';
 
-  constructor(private fileService: FileService, private titleService: Title) {
+  constructor(private fileService: FileService, private titleService: Title, public dialog: MatDialog) {
     this.titleService.setTitle('Main Page');
     this.tableData = new Array();
     if(this.fileService.getFileName() != '') {
@@ -102,6 +104,10 @@ export class MainPageComponent implements OnInit {
         this.load();
       }
    });
+   
+   if(!this.fileService.isUploaded()) {
+      this.dialog.open(NoFileDialogComponent);
+   }
   }
 
   load(): void {
