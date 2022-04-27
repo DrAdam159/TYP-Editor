@@ -617,6 +617,13 @@ export class FileService {
     return this.typFile;
   }
 
+  isUploaded(): boolean {
+    if(this.typFile.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Metoda pro ziskani jmena aktualne nahraneho souboru
    * @returns - jmeno souboru
